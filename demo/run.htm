@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Witness Specification Runner</title>
+</head>
+<body>
+    <h1>Witness Specification Runner</h1>
+    <div>
+        <button data-bind="click: runAll, enable: canRunAll">Run All</button>
+    </div>
+    <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
+    
+    <!--<script src="../build/output/witness.js" type="text/javascript"></script>-->
+    <script src="../src/Array.js" type="text/javascript"></script>
+    <script src="../src/jquery.tmpl.js" type="text/javascript"></script>
+    <script src="../src/knockout-1.1.2.js" type="text/javascript"></script>
+    <script src="../src/Witness.js" type="text/javascript"></script>
+    <script src="../src/Witness.util.js" type="text/javascript"></script>
+    <script src="../src/Witness.steps.js" type="text/javascript"></script>
+    <script type="text/javascript"> Witness.defineDSL(window); </script>
+
+    <!-- Put your specs here -->
+    <script src="specs/example.js" type="text/javascript"></script>
+
+    <script id="specification" type="text/html">
+    <li>
+        <span>${name}</span>
+        <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
+    </li>
+    </script>
+    <script id="scenario" type="text/html">
+    <li><span>${name}</span> <span data-bind="text: status"></span></li>
+    </script>
+</body>
+</html>

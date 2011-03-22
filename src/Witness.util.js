@@ -4,7 +4,9 @@
         lift: lift,
         liftAssertion: liftAssertion,
         sequence: sequence,
-        async: async
+        async: async,
+        runFunctionSequence: runFunctionSequence,
+        parseFunctionName: parseFunctionName
     };
 
     function lift(originalFunction) {
@@ -72,10 +74,27 @@
         return action;
     }
 
+    function runFunctionSequence(objects, getRunFunction, callback) {
+        var go = objects.reduceRight(
+                function (callback, obj) {
+                    return function () {
+                        getRunFunction(obj).call(obj, callback);
+                    }
+                },
+                callback
+            );
+        go();
+    }
+
     function async(func) {
         if (typeof func !== "function") throw new TypeError("function required.");
         setMetadata(func, "async", true);
         return func;
+    }
+
+    function parseFunctionName(func) {
+        return func.toString()
+                   .match(/function\s+(.*)\s*\(/)[1];
     }
 
     // store additional metadata in an object added to a function.

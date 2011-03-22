@@ -1,11 +1,11 @@
 ﻿/// <reference path="Witness.js" />
 /// <reference path="Witness.util.js" />
 
-Witness.defineAsyncStep("wait", function (delayInMilliseconds) {
+Witness.defineAsyncStep(function wait(delayInMilliseconds) {
     setTimeout(this.done, delayInMilliseconds)
 });
 
-Witness.defineStep("click", function click(selector) {
+Witness.defineStep(function click(selector) {
     $(selector).click();
 });
 
