@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Witness Tests</title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+    
+    <script src="Array.js" type="text/javascript"></script>
+    <script src="Witness.js" type="text/javascript"></script>
+    <script src="Witness.util.js" type="text/javascript"></script>
+
+    <script>
+        $(function () {
+            QUnit.testStart = function () {
+                Witness.namedSteps = {};
+                Witness.regexSteps = [];
+            };
+
+            module("Utility Functions");
+
+            test("lift a function", function () {
+                var called = false;
+                var step = Witness.util.lift(function () { called = true; });
+                var action = step();
+                var successCalled = false;
+
+                action(function success() { successCalled = true; }, function error() { });
+
+                ok(typeof action === "function", "action is a function");
+                ok(called, "Invoking action calls original function");
+                ok(successCalled, "Success callback is called");
+            });
+
+            test("lift a function that throws", function () {
+                var step = Witness.util.lift(function () { throw new Error("test"); });
+                var action = step();
+                var error;
+
+                action(function success() { }, function errorCallback(e) {
+                    error = e;
+                });
+
+                equal(error.message, "test");
+            });
+
+            test("running an async action", function () {
+                function asyncFunction() {
+                    setTimeout(this.done, 1);
+                }
+
+                var step = Witness.util.lift(Witness.util.async(asyncFunction));
+                var action = step();
+
+                stop(1000); // testing async - stop tests until we complete.
+                action(function () {
+                    ok(true, "done callback called");
+                    start(); // resume tests
+                }, function (e) { });
+            });
+
+            test("running an async action that explicitly calls fail callback", function () {
+                function asyncFunction() {
+                    setTimeout(function () { this.fail("test"); } .bind(this), 1);
+                }
+
+                var step = Witness.util.lift(Witness.util.async(asyncFunction));
+                var action = step();
+
+                stop(200); // testing async - stop tests until we complete.
+                action(function () { }, function (e) {
+                    equal(e, "test", "error callback called");
+                    start(); // resume tests
+                });
+            });
+
+            test("async function", function () {
+                var asyncFunction = Witness.util.async(function () { });
+                equal(asyncFunction.witnessMetadata.async, true, "has metadata added to mark it as async.");
+            });
+
+            test("sequence where all actions complete successfully", function () {
+                var action1 = Witness.util.lift(function () { action1.called = true; });
+                var action2 = Witness.util.lift(function () { action2.called = true; });
+                var action3 = Witness.util.lift(function () { action3.called = true; });
+                var sequence = Witness.util.sequence([action1(), action2(), action3()]);
+                var done = false;
+
+                sequence(function () { done = true }, function (e) { });
+
+                ok(action1.called, "action1 called");
+                ok(action2.called, "action2 called");
+                ok(action3.called, "action3 called");
+                ok(done, "done called");
+            });
+
+            test("sequence where 2nd action fails", function () {
+                var action1 = Witness.util.lift(function () { action1.called = true; });
+                var action2 = Witness.util.lift(function () { throw new Error("test"); });
+                var action3 = Witness.util.lift(function () { action3.called = true; });
+                var sequence = Witness.util.sequence([action1(), action2(), action3()]);
+                var done = false;
+                var error;
+                sequence(function () { done = true }, function (e) { error = e });
+
+                ok(action1.called, "action1 called");
+                equal(error.message, "test", "Got error message from action2.");
+                ok(!action3.called, "action3 not called");
+                ok(!done, "done not called");
+            });
+
+            module("Core Functions");
+
+            test("builder created by `given`", function () {
+                var given = Witness.given([]);
+                equal(typeof given.when, "function", "has `when` function");
+                equal(typeof given.then, "function", "has `then` function");
+            });
+
+            test("calling describe with a scenario builder", function () {
+                var mockScenarioBuilder = {
+                    buildScenario: function (name) {
+                        return { name: name };
+                    }
+                };
+                var spec = Witness.describe("spec name", {
+                    "scenario name": mockScenarioBuilder
+                });
+
+                ok(spec instanceof Witness.Specification, "creates a Specification");
+                equal(spec.name, "spec name", "with name property");
+                equal(spec.scenarios[0].name, "scenario name", "containing a scenario added with the given name");
+            });
+
+            test("`given when then` creates a scenario builder", function () {
+                var context = function () { },
+                    action = function () { },
+                    assertion = function () { return true };
+
+                var build = Witness.given(context).when(action).then(assertion);
+
+                equal(typeof build, "function", "builder is a function");
+                var scenario = build("scenario name");
+                equal(scenario.name, "scenario name", "scenario name is assigned");
+
+            });
+
+            module("steps");
+
+            test("defineStep with function", function () {
+                Witness.defineStep(function testStep() { });
+                ok(Witness.namedSteps.testStep().witnessMetadata.action, "function is lifted into an action");
+            });
+
+            test("defineStep with regex and function", function () {
+                var clicked;
+                Witness.defineStep(/click (.*)/, function click(id) { clicked = id; });
+
+                ok(typeof Witness.regexSteps[0].regexp, "RegExp", "step regexp assigned");
+                ok(Witness.regexSteps[0].getAction().witnessMetadata.action, "function is lifted into an action");
+
+                Witness.getAction("click button")(function done() { }, function fail() { });
+                equal(clicked, "button", "Can get action by string matching the regex");
+            });
+
+            test("Witness.init", function () {
+                Witness.defineStep(function setValue(id, value) { });
+
+                var target = {};
+                Witness.init(target);
+
+                equal(typeof target.setValue, "function", "Adds named function to target");
+            });
+
+
+            module("Scenario");
+
+            test("run", function () {
+                var pageLoaded;
+                Witness.defineStep(/load page (.*)/, function (url) { pageLoaded = url; });
+                var contextA = Witness.util.lift(function () { contextA.called = true; });
+                var actionA = Witness.util.lift(function () { actionA.called = true; });
+                var failingAssertion = Witness.util.liftAssertion(function () { failingAssertion.called = true; return false; });
+                var passingAssertion = Witness.util.liftAssertion(function () { passingAssertion.called = true; return true; });
+
+                var scenario = new Witness.Scenario("test",
+                    [contextA(), "load page /test"],
+                    [actionA()],
+                    [failingAssertion(), passingAssertion()]
+                );
+
+                stop(200);
+                scenario.run(function (result) {
+                    equal(result.status, "failed", "scenario fails when any assertion fails");
+                    equal(pageLoaded, "/test", "test page loaded");
+                    ok(contextA.called, "contextA called");
+                    ok(actionA.called, "actionA called");
+                    ok(failingAssertion.called, "failing assertion called");
+                    ok(passingAssertion.called, "passing assertion called");
+                    start();
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1 id="qunit-header">Witness Tests</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
