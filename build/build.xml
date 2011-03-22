@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<root>
+  <output path="output\witness.js">
+    <input path="..\src\Array.js"/>
+    <input path="..\src\Witness.js"/>
+    <input path="..\src\Witness.util.js"/>
+    <input path="..\src\Witness.steps.js"/>
+  </output>
+</root>

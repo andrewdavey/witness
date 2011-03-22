@@ -1,0 +1,4 @@
+# This keeps the output directory in the repository (so not to break the build script).
+# But ignore all files in it.
+
+[^.]*
