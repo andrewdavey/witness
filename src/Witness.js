@@ -152,7 +152,10 @@
             setStatus("running");
             var runActions = Witness.util.sequence(this.contexts.concat(this.actions).map(stringToAction));
             var assertions = this.assertions;
-            runActions(
+            var context = {
+                cleanUps: []
+            };
+            runActions.call(context,
                 function runAssertions() {
                     var run = assertions.reduceRight(function (next, assertion) {
                         return function (assertionResults) {
@@ -167,18 +170,25 @@
                     function finish(assertionResults) {
                         if (assertionResults.every(function (r) { return r === true; })) {
                             setStatus("passed");
+                            cleanUp();
                             callback({ status: "passed", assertions: assertionResults });
                         } else {
                             setStatus("failed");
+                            cleanUp();
                             callback({ status: "failed", assertions: assertionResults });
                         }
                     }
                 },
                 function (e) {
                     setStatus("failed");
+                    cleanUp();
                     callback({ status: "An action failed." });
                 }
             );
+
+            function cleanUp() {
+                context.cleanUps.forEach(function (f) { f(); });
+            }
 
             function stringToAction(item) {
                 if (typeof item === "string") {

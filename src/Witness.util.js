@@ -17,10 +17,12 @@
                 if (!fail) throw new Error("Error callback required.");
 
                 if (getMetadata(originalFunction, "async")) {
-                    originalFunction.apply({ done: done, fail: fail }, capturedArguments);
+                    this.done = done;
+                    this.fail = fail;
+                    originalFunction.apply(this, capturedArguments);
                 } else {
                     try {
-                        originalFunction.apply({}, capturedArguments);
+                        originalFunction.apply(this, capturedArguments);
                         done();
                     } catch (e) {
                         fail(e);
@@ -60,11 +62,12 @@
             throw new TypeError("Functions must be actions. Make sure you have actually invoked your step functions e.g. `sendMessage()` instead of just `sendMessage`.");
 
         var action = function (done, fail) {
+            var context = this;
             // build the sequence of functions.
             // e.g. [a,b,c] -> function() { a(function() { b(function() { c(done, fail) }, fail) }, fail) }
             var go = actions.reduceRight(
                 function (acc, action) {
-                    return function () { action(acc, fail) };
+                    return function () { action.call(context, acc, fail) };
                 },
                 done
             );

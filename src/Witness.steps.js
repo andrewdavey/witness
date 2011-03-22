@@ -12,8 +12,7 @@ Witness.defineStep(function click(selector) {
 Witness.defineAsyncStep(function loadPage(url) {
     if (!this.iframe) {
         this.iframe = createIFrame();
-        // TODO: Add cleanUp.
-        //this.cleanUp.push(function () { document.body.removeChild(this.iframe); }.bind(this));
+        this.cleanUps.push(function () { document.body.removeChild(this.iframe); }.bind(this));
     }
 
     var context = this;
