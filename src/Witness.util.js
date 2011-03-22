@@ -20,7 +20,7 @@
                     originalFunction.apply({ done: done, fail: fail }, capturedArguments);
                 } else {
                     try {
-                        originalFunction.apply(null, capturedArguments);
+                        originalFunction.apply({}, capturedArguments);
                         done();
                     } catch (e) {
                         fail(e);
