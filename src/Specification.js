@@ -8,8 +8,9 @@
         this.scenarios.forEach(function (scenario) { scenario.reset(); });
     };
 
-    Witness_Specification.prototype.runAll = function (callback) {
-        Witness.util.runFunctionSequence(this.scenarios, function (scenario) { return scenario.run }, callback);
+    Witness_Specification.prototype.run = function (context, done, fail) {
+        var tryAll = new Witness.Steps.TryAll(this.scenarios);
+        tryAll.run(context, done, fail);
     };
 
     return Witness_Specification;

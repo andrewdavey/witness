@@ -1,6 +1,6 @@
 ﻿// Asynchronously running step.
 // The wrapped function must call this.done or this.fail to allow next step to run.
-Witness.AsyncStep = (function () {
+Witness.Steps.AsyncStep = (function () {
 
     function Witness_AsyncStep(func, args) {
         this.func = func; // the function to call.
@@ -9,12 +9,15 @@ Witness.AsyncStep = (function () {
 
     Witness_AsyncStep.prototype.run = function (context, done, fail) {
         try {
-            context.done = done;
-            context.fail = fail;
+            context.done = function () { cleanUp(); done(); };
+            context.fail = function () { cleanUp(); fail(); };
             this.func.apply(context, this.args);
+
         } catch (e) { // in case the func throws before going async.
+            cleanUp();
             fail(e);
-        } finally {
+        }
+        function cleanUp() {
             delete context.done;
             delete context.fail;
         }

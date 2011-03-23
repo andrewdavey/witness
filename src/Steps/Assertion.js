@@ -1,5 +1,5 @@
 ﻿// Assertion step expects the wrapped function to return a boolean value.
-Witness.Assertion = (function () {
+Witness.Steps.Assertion = (function () {
 
     function Witness_Assertion(func, args) {
         this.func = func;

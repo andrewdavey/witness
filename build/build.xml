@@ -3,8 +3,21 @@
     <output path="output\witness.js">
         <input path="..\src\Polyfill\Function.js"/>
         <input path="..\src\Polyfill\Array.js"/>
+        
         <input path="..\src\Witness.js"/>
         <input path="..\src\Witness.util.js"/>
         <input path="..\src\Witness.steps.js"/>
+
+        <input path="..\src\Steps\Assertion.js"/>
+        <input path="..\src\Steps\AsyncStep.js"/>
+        <input path="..\src\Steps\Sequence.js"/>
+        <input path="..\src\Steps\Step.js"/>
+        <input path="..\src\Steps\TryAll.js"/>
+
+        <input path="..\src\Dsl\dsl.js"/>
+        <input path="..\src\Dsl\defineSteps.js"/>
+        <input path="..\src\Dsl\specifiations.js"/>
+        
+        <input path="..\src\init.js"/>
     </output>
 </root>

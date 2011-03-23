@@ -1,6 +1,8 @@
-defineAssertion(function messageShouldBeDisplayed(message) {
-    return $("#message").text() == message;
-});
+//defineAssertion(function messageShouldBeDisplayed(message) {
+//    return $("#message").text() == message;
+//});
+
+
 
 describe("example 1", {
     "scenario 1":
@@ -12,7 +14,7 @@ describe("example 1", {
             click("#hello")
         ).
         then(
-            messageShouldBeDisplayed("Hello, John")
+            //messageShouldBeDisplayed("Hello, John")
         )
 });
 

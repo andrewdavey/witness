@@ -1,26 +1,26 @@
 ﻿// Runs an array of steps in order, but if any fail it continues on to the next.
 // This is useful when wanting to run all AssertionSteps, which are independent of each other.
-Witness.TryAppStep = (function () {
+Witness.Steps.TryAll = (function () {
 
-    function Witness_TryAllStep(steps) {
-        this.steps = step;
+    function Witness_TryAll(steps) {
+        this.steps = steps;
     }
 
-    Witness_TryAllStep.prototype.run = function (context, done, fail) {
+    Witness_TryAll.prototype.run = function (context, done, fail) {
         var results = [],
             anyFailed = false;
 
-        var tryAll = actions.reduceRight(
-            function (next, action) {
+        var tryAll = this.steps.reduceRight(
+            function (next, step) {
                 return function () {
-                    action.run(
+                    step.run(
                         context,
                         function actionDone(result) {
-                            results.push({ action: action });
+                            results.push({ step: step });
                             next();
                         },
                         function actionFailed(error) {
-                            results.push({ action: action, error: error });
+                            results.push({ step: step, error: error });
                             anyFailed = true;
                             next();
                         }
@@ -40,5 +40,5 @@ Witness.TryAppStep = (function () {
         }
     };
 
-    return Witness_TryAllStep;
+    return Witness_TryAll;
 })();

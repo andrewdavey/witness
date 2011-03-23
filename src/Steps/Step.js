@@ -1,5 +1,5 @@
 ﻿// Synchronously running step.
-Witness.Step = (function () {
+Witness.Steps.Step = (function () {
 
     function Witness_Step(func, args) {
         this.func = func; // the function to call.

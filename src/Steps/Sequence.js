@@ -1,12 +1,12 @@
 ﻿// Runs an array of steps in order.
 // If any step fails then the sequence fails and stops running.
-Witness.SequenceStep = (function () {
+Witness.Steps.Sequence = (function () {
 
-    function Witness_StepSequence(steps) {
-        this.steps = step;
+    function Witness_Sequence(steps) {
+        this.steps = steps;
     };
 
-    Witness_StepSequence.prototype.run = function (context, done, fail) {
+    Witness_Sequence.prototype.run = function (context, done, fail) {
         /*  Take the step array: [a,b,c]
             And build this nested function:
             function() {
@@ -37,6 +37,6 @@ Witness.SequenceStep = (function () {
         runSequence();
     }
 
-    return Witness_StepSequence;
+    return Witness_Sequence;
 
 })();
