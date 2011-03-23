@@ -6,7 +6,8 @@
         sequence: sequence,
         async: async,
         runFunctionSequence: runFunctionSequence,
-        parseFunctionName: parseFunctionName
+        parseFunctionName: parseFunctionName,
+        getMetadata: getMetadata
     };
 
     function lift(originalFunction) {
@@ -36,11 +37,12 @@
 
     function liftAssertion(assertion) {
         return function () {
+            var args = arguments;
             var action = function (resultCallback) {
                 if (!resultCallback) throw new Error("resultCallback required.");
 
                 try {
-                    var result = assertion();
+                    var result = assertion.apply(this, args);
                     if (typeof result === "undefined") {
                         resultCallback(new Error("Assertion did not return a value."));
                     } else if (result) {
@@ -53,6 +55,7 @@
                 }
             }
             setMetadata(action, "action", true);
+            setMetadata(action, "assertion", true);
             return action;
         }
     }

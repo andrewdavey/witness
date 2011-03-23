@@ -76,7 +76,7 @@
 
     defineAssertion: function (assertFunction) {
         var name = Witness.util.parseFunctionName(assertFunction);
-        window[name] = Witness.util.liftAssertion(a);
+        window[name] = Witness.util.liftAssertion(assertFunction);
     },
 
     describe: function Witness_describe(specificationName, scenarioBuilders) {
@@ -115,116 +115,7 @@
                 return new Witness.Scenario(scenarioName, contexts, actions, assertions);
             };
         }
-    },
-
-    Specification: (function () {
-        function Witness_Specification(name, scenarios) {
-            this.name = name;
-            this.scenarios = scenarios;
-        }
-
-        Witness_Specification.prototype.reset = function () {
-            this.scenarios.forEach(function (scenario) { scenario.reset(); });
-        };
-
-        Witness_Specification.prototype.runAll = function (callback) {
-            Witness.util.runFunctionSequence(this.scenarios, function (scenario) { return scenario.run }, callback);
-        };
-
-        return Witness_Specification;
-    })(),
-
-    Scenario: (function () {
-        function Witness_Scenario(name, contexts, actions, assertions) {
-            this.name = name;
-            this.contexts = contexts;
-            this.actions = actions;
-            this.assertions = assertions;
-            this.status = ko.observable("notrun");
-        }
-
-        Witness_Scenario.prototype.reset = function Witness_Scenario_reset() {
-            this.status("notrun");
-        };
-
-        Witness_Scenario.prototype.run = function Witness_Scenario_run(callback) {
-            var setStatus = this.status;
-            setStatus("running");
-            var runActions = Witness.util.sequence(this.contexts.concat(this.actions).map(stringToAction));
-            var assertions = this.assertions;
-            var context = {
-                cleanUps: []
-            };
-            runActions.call(context,
-                function runAssertions() {
-                    var run = assertions.reduceRight(function (next, assertion) {
-                        return function (assertionResults) {
-                            assertion(function (result) {
-                                assertionResults.push(result);
-                                next(assertionResults);
-                            });
-                        }
-                    }, finish);
-                    run([]);
-
-                    function finish(assertionResults) {
-                        if (assertionResults.every(function (r) { return r === true; })) {
-                            setStatus("passed");
-                            cleanUp();
-                            callback({ status: "passed", assertions: assertionResults });
-                        } else {
-                            setStatus("failed");
-                            cleanUp();
-                            callback({ status: "failed", assertions: assertionResults });
-                        }
-                    }
-                },
-                function (e) {
-                    setStatus("failed");
-                    cleanUp();
-                    callback({ status: "An action failed." });
-                }
-            );
-
-            function cleanUp() {
-                context.cleanUps.forEach(function (f) { f(); });
-            }
-
-            function stringToAction(item) {
-                if (typeof item === "string") {
-                    return Witness.getAction(item);
-                } else {
-                    return item;
-                }
-            }
-        };
-
-        return Witness_Scenario;
-    })(),
-
-    Runner: (function () {
-        function Witness_Runner(specifications) {
-            this.specifications = specifications;
-            this.canRunAll = ko.observable(true);
-        }
-
-        Witness_Runner.prototype.reset = function () {
-            this.specifications.forEach(function (spec) { spec.reset(); });
-        };
-
-        Witness_Runner.prototype.runAll = function (callback) {
-            if (!this.canRunAll()) return; // Probably already running!
-
-            this.reset();
-            this.canRunAll(false);
-            Witness.util.runFunctionSequence(this.specifications, function (spec) { return spec.runAll }, function () {
-                this.canRunAll(true);
-                callback();
-            } .bind(this));
-        };
-
-        return Witness_Runner;
-    })()
+    }
 };
 
 Witness.go(window);
