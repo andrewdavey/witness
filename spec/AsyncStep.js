@@ -1,55 +1,33 @@
-﻿describe("Step", [
-    given(function stepWithFunction() {
-        this.step = new Witness.Steps.Step(function () { });
+﻿describe("AsyncStep", [
+    given(function AsyncStepWithFunctionThatCallsDone() {
+        this.step = new Witness.Steps.AsyncStep(function () { this.done(); });
         this.contextUsedByStep = {};
     }).
-    when(async(function callRun() {
-        var done = this.done;
-        var fail = this.fail;
+    when(function callRun() {
+        var done = this.done,
+            fail = this.fail;
+
         this.step.run(
             this.contextUsedByStep,
-            function stepDone() {
+            function () {
                 this.doneCalled = true;
                 this.thisInDone = this;
-                done();
             },
-            function (e) {
-                fail(e);
-            }
+            function (e) { fail(e); }
         );
-    })).
+    }).
     then(
         function doneCallbackIsCalled() {
             return this.contextUsedByStep.doneCalled;
         },
         function thisInDoneIsTheContext() {
             return this.contextUsedByStep.thisInDone === this.contextUsedByStep;
-        },
-        function statusIsPassed() {
-            return this.step.status() === "passed";
         }
     ),
 
-    given(function newStep() {
-        this.step = new Witness.Steps.Step(function(){});
-    }).
-    then(function statusIsNotrun() {
-        return this.step.status() === "notrun";
-    }),
-
-    given(function stepThatHasRun() {
-        this.step = new Witness.Steps.Step(function () { });
-        this.step.run({}, function () { }, function () { });
-    }).
-    when(function callReset() {
-        this.step.reset();
-    }).
-    then(function statusIsNotrun() {
-        return this.step.status() === "notrun";
-    }),
-
+    
     given(function stepWithFunctionThatThrows() {
-        this.step = new Witness.Steps.Step(function () { throw new Error("failed"); });
+        this.step = new Witness.Steps.AsyncStep(function () { this.fail("failed"); });
         this.contextUsedByStep = {};
     }).
     when(async(function callRun() {
@@ -76,7 +54,7 @@
             return this.contextUsedByStep.thisInFailCallback === this.contextUsedByStep;
         },
         function errorIsPassedToFailCallback() {
-            return this.contextUsedByStep.error.message === "failed";
+            return this.contextUsedByStep.error === "failed";
         }
     )
 ]);

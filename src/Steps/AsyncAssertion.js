@@ -4,6 +4,7 @@ Witness.Steps.AsyncAssertion = (function () {
     function Witness_AsyncAssertion(func, args) {
         this.func = func; // the function to call.
         this.args = args || []; // the arguments to call the function with.
+        this.description = Witness.util.createStepDescription(func, args);
     }
 
     Witness_AsyncAssertion.prototype.run = function (context, done, fail) {

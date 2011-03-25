@@ -5,12 +5,13 @@ Witness.Steps.AsyncStep = (function () {
     function Witness_AsyncStep(func, args) {
         this.func = func; // the function to call.
         this.args = args || []; // the arguments to call the function with.
+        this.description = Witness.util.createStepDescription(func, args);
     }
 
     Witness_AsyncStep.prototype.run = function (context, done, fail) {
         try {
-            context.done = function () { cleanUp(); done(); };
-            context.fail = function () { cleanUp(); fail(); };
+            context.done = function () { cleanUp(); done.apply(context); };
+            context.fail = function () { cleanUp(); fail.apply(context, arguments); };
             this.func.apply(context, this.args);
 
         } catch (e) { // in case the func throws before going async.

@@ -6,7 +6,20 @@
     },
 
     expandCasing: function (text) {
-        return text.replace(/([a-z])([A-Z])/g, function (_,a,b) { return a + " " + b.toLowerCase(); });
+        return text.replace(/([a-z])([A-Z])/g, function (_, a, b) { return a + " " + b.toLowerCase(); });
+    },
+
+    createStepDescription: function (func, args) {
+        var funcName = this.parseFunctionName(func);
+        if (funcName) {
+            var description = this.expandCasing(funcName);
+            if (args && args.length) {
+                description += " (" + args.map(JSON.stringify).join(", ") + ")";
+            }
+            return description;
+        } else {
+            return "<un-named>";
+        }
     }
 
 };

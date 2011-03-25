@@ -1,6 +1,5 @@
 ﻿Witness.Scenario = (function () {
-    function Witness_Scenario(name, contexts, actions, assertions) {
-        this.name = name;
+    function Witness_Scenario(contexts, actions, assertions) {
         this.contexts = contexts;
         this.actions = actions;
         this.assertions = assertions;

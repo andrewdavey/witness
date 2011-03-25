@@ -5,14 +5,7 @@ Witness.Steps.Assertion = (function () {
         this.func = func;
         this.args = args || [];
         this.status = ko.observable("pending");
-
-        var funcName = Witness.util.parseFunctionName(func);
-        if (funcName) {
-            this.description = Witness.util.expandCasing(Witness.util.parseFunctionName(func)) +
-            " (" + this.args.map(JSON.stringify).join(", ") + ")";
-        } else {
-            this.description = "";
-        }
+        this.description = Witness.util.createStepDescription(func, args);
     }
 
     Witness_Assertion.prototype.run = function (context, done, fail) {
