@@ -18,7 +18,7 @@
     };
 
     target.given = function Witness_given() {
-        var contexts = convertToSteps(arguments);
+        var contexts = convertAll(arguments, convertToStep);
         var actions;
 
         return {
@@ -27,14 +27,14 @@
         };
 
         function when() {
-            actions = convertToSteps(arguments);
+            actions = convertAll(arguments, convertToStep);
             return {
                 then: then // Declares assertions to run.
             };
         }
 
         function then() {
-            var assertions = convertToSteps(arguments);
+            var assertions = convertAll(arguments, convertToAssertion);
             return function scenarioBuilder(scenarioName) {
                 return new Witness.Scenario(
                     scenarioName,
@@ -45,14 +45,31 @@
             };
         }
 
-        function convertToSteps(args) {
+        function convertAll(args, convert) {
             var array = args ? Array.prototype.slice.apply(args) : [];
-            return array.map(convertToStep);
+            return array.map(convert);
         }
 
         function convertToStep(item) {
-            if (item.run) return item; // Already a step
-            if (typeof item === "string") return Witness.findMatchingStep(item);
+            if (item.run)
+                return item; // Already a step
+
+            if (typeof item === "function")
+                return item.async ? new Witness.Steps.AsyncStep(item) : new Witness.Steps.Step(item);
+
+            if (typeof item === "string") 
+                return Witness.findMatchingStep(item);
+        }
+
+        function convertToAssertion(item) {
+            if (item.run)
+                return item; // Already a step
+
+            if (typeof item === "function")
+                return item.async ? new Witness.Steps.AsyncAssertion(item) : new Witness.Steps.Assertion(item);
+
+            if (typeof item === "string")
+                return Witness.findMatchingStep(item);
         }
     };
 

@@ -1,11 +1,12 @@
-//defineAssertion(function messageShouldBeDisplayed(message) {
-//    return $("#message").text() == message;
-//});
 
+defineAssertions([
+    function messageShouldBeDisplayed(message) {
+        return $("#message").text() == message;
+    }
+]);
 
-
-describe("example 1", {
-    "scenario 1":
+describe("Say Hello Page", {
+    "Click hello to John Smith":
         given(
             loadPage("app.htm")
         ).
@@ -14,11 +15,18 @@ describe("example 1", {
             click("#hello")
         ).
         then(
-            //messageShouldBeDisplayed("Hello, John")
+            messageShouldBeDisplayed("Hello, John")
+        ),
+
+    "Click hello with a missing name":
+        given(
+            loadPage("app.htm")
+        ).
+        when(
+            input({ "#name": "" }),
+            click("#hello")
+        ).
+        then(
+            messageShouldBeDisplayed("Enter your name.")
         )
 });
-
-//describe("example 2", {
-//    "scenario 1": given().when(wait(500)).then(),
-//    "scenario 2": given().when(wait(500)).then()
-//});
