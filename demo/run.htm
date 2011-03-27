@@ -2,6 +2,25 @@
 <html>
 <head>
     <title>Witness Specification Runner</title>
+    <style type="text/css">
+        td { vertical-align: top; }
+        ul { margin: 0; padding: 0 }
+        li { list-style-type: none; margin: 0 }
+        .scenario {
+            border-bottom: 1px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+    .notrun {
+        color: #888;
+    }
+    .passed {
+        color: #080;
+    }
+    .failed {
+        color: #800;
+    }
+    </style>
 </head>
 <body>
     <h1>Witness Specification Runner</h1>
@@ -48,14 +67,34 @@
     </li>
     </script>
     <script id="scenario" type="text/html">
-    <li>
-        <span>${name}</span>
-        <ul data-bind="template: { name: 'assertion', foreach: assertions }">
-        </ul>
+    <li class="scenario">
+        <table>
+            <tr>
+                <td>Given</td>
+                <td>
+                    <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>                
+                </td>
+            </tr>
+            <tr data-bind="visible: actions.length">
+                <td>When</td>
+                <td>
+                    <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Then</td>
+                <td>
+                    <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
+                </td>
+            </tr>
+        </table>
     </li>
     </script>
+    <script id="step" type="text/html">
+    <li class="${status}">${description}</li>
+    </script>
     <script id="assertion" type="text/html">
-    <li>${description}  <span data-bind="text: status"></span></li>
+    <li class="${status}">${description}  <span data-bind="text: status"></span></li>
     </script>
 </body>
 </html>

@@ -61,19 +61,33 @@
     </script>
     <script id="scenario" type="text/html">
     <li>
-        <p>Given:</p>
-        <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>
-        <p data-bind="visible: actions.length">When:</p>
-        <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
-        <p>Then:</p>
-        <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
+        <table>
+            <tr>
+                <td>Given</td>
+                <td>
+                    <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>                
+                </td>
+            </tr>
+            <tr data-bind="visible: actions.length">
+                <td>When</td>
+                <td>
+                    <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Then</td>
+                <td>
+                    <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
+                </td>
+            </tr>
+        </table>
     </li>
     </script>
     <script id="step" type="text/html">
     <li class="${status}">${description}</li>
     </script>
     <script id="assertion" type="text/html">
-    <li class="${status}">${description}  <span data-bind="text: status"></span></li>
+    <li class="${status}">${description}</li>
     </script>
 </body>
 </html>
