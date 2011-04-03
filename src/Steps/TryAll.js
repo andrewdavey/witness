@@ -7,7 +7,7 @@ Witness.Steps.TryAll = (function () {
     }
 
     Witness_TryAll.prototype.run = function (context, done, fail) {
-        var results = [],
+        var errors = [],
             anyFailed = false;
 
         var tryAll = this.steps.reduceRight(
@@ -16,11 +16,10 @@ Witness.Steps.TryAll = (function () {
                     step.run(
                         context,
                         function actionDone(result) {
-                            results.push({ step: step });
                             next();
                         },
                         function actionFailed(error) {
-                            results.push({ step: step, error: error });
+                            errors.push(error);
                             anyFailed = true;
                             next();
                         }
@@ -33,12 +32,16 @@ Witness.Steps.TryAll = (function () {
 
         function callDoneOrFail() {
             if (anyFailed) {
-                fail(results);
+                fail(errors);
             } else {
-                done(results);
+                done();
             }
         }
     };
+
+    Witness_TryAll.prototype.reset = function Witness_TryAll_reset() {
+        this.steps.forEach(function (step) { step.reset(); });
+    }
 
     return Witness_TryAll;
 })();

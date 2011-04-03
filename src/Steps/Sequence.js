@@ -6,7 +6,7 @@ Witness.Steps.Sequence = (function () {
         this.steps = steps;
     };
 
-    Witness_Sequence.prototype.run = function (context, done, fail) {
+    Witness_Sequence.prototype.run = function Witness_Sequence_run(context, done, fail) {
         /*  Take the step array: [a,b,c]
             And build this nested function:
             function() {
@@ -35,6 +35,10 @@ Witness.Steps.Sequence = (function () {
             done
         );
         runSequence();
+    }
+
+    Witness_Sequence.prototype.reset = function Witness_Sequence_reset() {
+        this.steps.forEach(function(step) { step.reset(); });
     }
 
     return Witness_Sequence;

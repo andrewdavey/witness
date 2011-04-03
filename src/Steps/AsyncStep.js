@@ -12,8 +12,16 @@ Witness.Steps.AsyncStep = (function () {
     Witness_AsyncStep.prototype.run = function (context, done, fail) {
         try {
             var status = this.status;
-            context.done = function () { cleanUp(); status("passed"); done.apply(context); };
-            context.fail = function () { cleanUp(); status("failed"); fail.apply(context, arguments); };
+            context.done = function () {
+                cleanUp();
+                status("passed");
+                done.apply(context);
+            };
+            context.fail = function () {
+                cleanUp();
+                status("failed");
+                fail.apply(context, arguments);
+            };
             this.func.apply(context, this.args);
 
         } catch (e) { // in case the func throws before going async.
@@ -24,6 +32,10 @@ Witness.Steps.AsyncStep = (function () {
             delete context.done;
             delete context.fail;
         }
+    };
+
+    Witness_AsyncStep.prototype.reset = function Witness_AsyncStep_reset() {
+        this.status("notrun");
     };
 
     return Witness_AsyncStep;

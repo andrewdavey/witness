@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Witness Runner</title>
+    <style type="text/css">
+    * { margin: 0; padding: 0 }
+    html { height: 100%; }
+    body {
+        height: 100%;
+        font-family: Calibri;
+        font-size: 62.5%;
+    }
+    #specifications {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40em;
+        bottom: 0;
+        overflow-y: scroll;
+    }
+    #specifications-inner {
+        padding: 1em;
+    }
+    #iframe-container {
+        position: absolute;
+        left: 40em;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #eee;
+    }
+    .specification h2 {
+        font-size: 1.8em;
+        margin-bottom: .2em;
+    }
+    .scenario {
+        margin-bottom: 2em;
+    }
+    .scenario p {
+        font-size: 1.6em;
+    }
+    .and-when {
+        padding-left: .9em;
+    }       
+    .and-then {
+        padding-left: .8em;
+    }
+    .passed { color: #080; }
+    .failed { color: #800; font-weight: bold; }
+    .pending { color: #888; }
+    </style>
+</head>
+<body>
+    <div id="specifications">
+        <div id="specifications-inner">
+        <h1>Witness Test Runner</h1>
+        <div class="specification">
+            <h2>Describe Login Page</h2>
+            <div class="scenario">
+                <p class="passed"><span class="keyword">Given</span> load page /login</p>
+                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
+                <p class="and-when passed">and click Login</p>
+                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
+                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
+            </div>
+            <div class="scenario">
+                <p class="passed"><span class="keyword">Given</span> load page /login</p>
+                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
+                <p class="and-when passed">and click Login</p>
+                <p class="passed"><span class="keyword">Then</span> /dashboard page is loaded</p>
+                <p class="passed"><span class="and-then">and</span> page title is "Hello John"</p>
+            </div>
+            <div class="scenario">
+                <p class="passed"><span class="keyword">Given</span> load page /login</p>
+                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
+                <p class="and-when passed">and click Login</p>
+                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
+                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
+            </div>
+            <div class="scenario">
+                <p class="pending"><span class="keyword">Given</span> load page /login</p>
+                <p class="pending"><span class="keyword">When</span> input { username: John, Password: test }</p>
+                <p class="and-when pending">and click Login</p>
+                <p class="pending"><span class="keyword">Then</span> /dashboard page is loaded</p>
+                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
+            </div>
+        </div>
+        <div class="specification">
+            <h2>Describe Dashboard</h2>
+            <div class="scenario">
+                <p class="passed"><span class="keyword">Given</span> load page /login</p>
+                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
+                <p class="and-when passed">and click Login</p>
+                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
+                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div id="iframe-container"></div>
+
+    <script src="lib/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            
+        });
+    </script>
+</body>
+</html>

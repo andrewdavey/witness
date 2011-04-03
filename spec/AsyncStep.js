@@ -25,7 +25,7 @@
         }
     ),
 
-    
+
     given(function stepWithFunctionThatThrows() {
         this.step = new Witness.Steps.AsyncStep(function () { this.fail("failed"); });
         this.contextUsedByStep = {};
@@ -56,5 +56,17 @@
         function errorIsPassedToFailCallback() {
             return this.contextUsedByStep.error === "failed";
         }
-    )
+    ),
+
+    given(function asyncStepThatHasRun() {
+        this.step = new Witness.Steps.AsyncStep(function () { this.done(); });
+        this.step.run({}, function () { }, function () { });
+    }).
+    when(function callReset() {
+        this.step.reset();
+    }).
+    then(function statusIsNotrun() {
+        return this.step.status() === "notrun";
+    })
+
 ]);

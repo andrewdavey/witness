@@ -4,27 +4,28 @@
         this.actions = actions;
         this.assertions = assertions;
         this.status = ko.observable("notrun");
+
+        this.sequence = new Witness.Steps.Sequence(
+            contexts
+            .concat(actions)
+            .concat(new Witness.Steps.TryAll(assertions))
+        );
     }
 
     Witness_Scenario.prototype.reset = function Witness_Scenario_reset() {
         this.status("notrun");
+        this.sequence.reset();
     };
 
     Witness_Scenario.prototype.run = function Witness_Scenario_run(_, done, fail) {
         var setStatus = this.status;
         setStatus("running");
 
-        var sequence = new Witness.Steps.Sequence(
-            this.contexts
-            .concat(this.actions)
-            .concat(new Witness.Steps.TryAll(this.assertions))
-        );
-
         var context = {
             cleanUps: []
         };
 
-        sequence.run(context, sequenceDone, sequenceFail);
+        this.sequence.run(context, sequenceDone, sequenceFail);
 
         function sequenceDone() {
             setStatus("passed");
