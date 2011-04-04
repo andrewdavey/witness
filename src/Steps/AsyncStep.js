@@ -1,4 +1,7 @@
-﻿// Asynchronously running step.
+﻿/// <reference path="namespace.js" />
+/// <reference path="../util.js" />
+
+// Asynchronously running step.
 // The wrapped function must call this.done or this.fail to allow next step to run.
 Witness.Steps.AsyncStep = (function () {
 

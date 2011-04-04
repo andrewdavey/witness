@@ -4,9 +4,9 @@
         <input path="..\src\Polyfill\Function.js"/>
         <input path="..\src\Polyfill\Array.js"/>
         
-        <input path="..\src\Witness.js"/>
-        <input path="..\src\Witness.util.js"/>
-        <input path="..\src\Witness.steps.js"/>
+        <input path="..\src\namespace.js"/>
+        <input path="..\src\stepMatchers.js"/>
+        <input path="..\src\util.js"/>
 
         <input path="..\src\Steps\Assertion.js"/>
         <input path="..\src\Steps\AsyncStep.js"/>
@@ -14,9 +14,14 @@
         <input path="..\src\Steps\Step.js"/>
         <input path="..\src\Steps\TryAll.js"/>
 
-        <input path="..\src\Dsl\dsl.js"/>
-        <input path="..\src\Dsl\defineSteps.js"/>
-        <input path="..\src\Dsl\specifiations.js"/>
+        <input path="..\src\dsl\dsl.js"/>
+        <input path="..\src\dsl\defineSteps.js"/>
+        <input path="..\src\dsl\specifiations.js"/>
+        <input path="..\src\dsl\web.js"/>
+
+        <input path="..\src\Scenario.js"/>
+        <input path="..\src\Specification.js"/>
+        <input path="..\src\Runner.js"/>
         
         <input path="..\src\init.js"/>
     </output>

@@ -1,1 +1,2 @@
-﻿Witness.Steps = {};
+﻿/// <reference path="../namespace.js" />
+Witness.Steps = {};

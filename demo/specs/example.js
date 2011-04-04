@@ -6,7 +6,7 @@ defineAssertions([
 
 describe("Say Hello Page", [
     given(
-        loadPage("app.htm")
+        loadPage("/witness/demo/app.htm")
     ).
     when(
         input({ "#name": "John" }),
@@ -17,7 +17,7 @@ describe("Say Hello Page", [
     ),
 
     given(
-        loadPage("app.htm")
+        loadPage("/witness/demo/app.htm")
     ).
     when(
         input({ "#name": "" }),

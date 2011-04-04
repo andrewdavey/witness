@@ -1,0 +1,17 @@
+﻿body {
+    font-family: Calibri, Tahoma, Arial, sans-serif;
+}
+
+.specification h2 {
+    font-weight: bold;
+    padding-top: 1em;
+}
+
+.scenario {
+    margin-bottom: 1em;
+}
+
+th, td {
+    vertical-align: top;
+    padding-left: .2em;
+}

@@ -4,10 +4,10 @@ Witness.dsl.initialize(Witness.dsl.target);
 
 jQuery(window.document).ready(function () {
     setTimeout(function () {
-        var runner = Witness.createRunner();
+
+        Witness.theRunner = new Witness.Runner();
         // Data bind the UI to the runner.
-        ko.applyBindings(runner);
-        // gogogogogogo!
-        runner.run();
+        ko.applyBindings(Witness.theRunner);
+
     }, 1);
 });

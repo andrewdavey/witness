@@ -2,7 +2,7 @@
 
     target.describe = function Witness_describe(specificationName, scenarios) {
         var specification = new Witness.Specification(specificationName, scenarios);
-        Witness.addSpecification(specification);
+        Witness.theRunner.addSpecification(specification);
         return specification;
     };
 
@@ -44,7 +44,7 @@
                 return item.async ? new Witness.Steps.AsyncStep(item) : new Witness.Steps.Step(item);
 
             if (typeof item === "string")
-                return Witness.findMatchingStep(item);
+                return Witness.steps.findMatchingStep(item);
         }
 
         function convertToAssertion(item) {
@@ -55,7 +55,7 @@
                 return item.async ? new Witness.Steps.AsyncAssertion(item) : new Witness.Steps.Assertion(item);
 
             if (typeof item === "string")
-                return Witness.findMatchingStep(item);
+                return Witness.steps.findMatchingStep(item);
         }
     };
 

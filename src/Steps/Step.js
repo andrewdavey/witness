@@ -1,4 +1,7 @@
-﻿// Synchronously running step.
+﻿/// <reference path="namespace.js" />
+/// <reference path="../util.js" />
+
+// Synchronously running step.
 Witness.Steps.Step = (function () {
 
     function Witness_Step(func, args) {

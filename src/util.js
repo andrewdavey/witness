@@ -1,8 +1,12 @@
-﻿Witness.util = {
+﻿/// <reference path="namespace.js" />
+
+Witness.util = {
 
     parseFunctionName: function Witness_util_parseFunctionName(func) {
-        return func.toString()
-                   .match(/function\s+(.*)\s*\(/)[1];
+        var match = func.toString()
+                    .match(/function\s+(.*)\s*\(/);
+        if (match) return match[1];
+        return "<un-named>";
     },
 
     expandCasing: function (text) {
@@ -14,7 +18,7 @@
         if (funcName) {
             var description = this.expandCasing(funcName);
             if (args && args.length) {
-                description += " (" + args.map(JSON.stringify).join(", ") + ")";
+                description += " " + args.map(JSON.stringify).join(", ");
             }
             return description;
         } else {

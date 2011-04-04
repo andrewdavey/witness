@@ -1,4 +1,7 @@
-﻿// Asynchronously running assertion.
+﻿/// <reference path="namespace.js" />
+/// <reference path="../util.js" />
+
+// Asynchronously running assertion.
 Witness.Steps.AsyncAssertion = (function () {
 
     function Witness_AsyncAssertion(func, args) {

@@ -1,4 +1,7 @@
-﻿// Assertion step expects the wrapped function to return a boolean value.
+﻿/// <reference path="namespace.js" />
+/// <reference path="../util.js" />
+
+// Assertion step expects the wrapped function to return a boolean value.
 Witness.Steps.Assertion = (function () {
 
     function Witness_Assertion(func, args) {

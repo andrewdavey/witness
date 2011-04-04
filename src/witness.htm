@@ -1,109 +1,71 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Witness Runner</title>
+    <title>Witness Specification Runner</title>
+    <link href="styles/reset.css" rel="stylesheet" type="text/css" />
+    <link href="styles/runner.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
-    * { margin: 0; padding: 0 }
-    html { height: 100%; }
-    body {
-        height: 100%;
-        font-family: Calibri;
-        font-size: 62.5%;
+    .notrun {
+        color: #888;
     }
-    #specifications {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 40em;
-        bottom: 0;
-        overflow-y: scroll;
+    .passed {
+        color: #080;
     }
-    #specifications-inner {
-        padding: 1em;
+    .failed {
+        color: #800;
     }
-    #iframe-container {
-        position: absolute;
-        left: 40em;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #eee;
-    }
-    .specification h2 {
-        font-size: 1.8em;
-        margin-bottom: .2em;
-    }
-    .scenario {
-        margin-bottom: 2em;
-    }
-    .scenario p {
-        font-size: 1.6em;
-    }
-    .and-when {
-        padding-left: .9em;
-    }       
-    .and-then {
-        padding-left: .8em;
-    }
-    .passed { color: #080; }
-    .failed { color: #800; font-weight: bold; }
-    .pending { color: #888; }
     </style>
 </head>
 <body>
-    <div id="specifications">
-        <div id="specifications-inner">
-        <h1>Witness Test Runner</h1>
-        <div class="specification">
-            <h2>Describe Login Page</h2>
-            <div class="scenario">
-                <p class="passed"><span class="keyword">Given</span> load page /login</p>
-                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
-                <p class="and-when passed">and click Login</p>
-                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
-                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
-            </div>
-            <div class="scenario">
-                <p class="passed"><span class="keyword">Given</span> load page /login</p>
-                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
-                <p class="and-when passed">and click Login</p>
-                <p class="passed"><span class="keyword">Then</span> /dashboard page is loaded</p>
-                <p class="passed"><span class="and-then">and</span> page title is "Hello John"</p>
-            </div>
-            <div class="scenario">
-                <p class="passed"><span class="keyword">Given</span> load page /login</p>
-                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
-                <p class="and-when passed">and click Login</p>
-                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
-                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
-            </div>
-            <div class="scenario">
-                <p class="pending"><span class="keyword">Given</span> load page /login</p>
-                <p class="pending"><span class="keyword">When</span> input { username: John, Password: test }</p>
-                <p class="and-when pending">and click Login</p>
-                <p class="pending"><span class="keyword">Then</span> /dashboard page is loaded</p>
-                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
-            </div>
-        </div>
-        <div class="specification">
-            <h2>Describe Dashboard</h2>
-            <div class="scenario">
-                <p class="passed"><span class="keyword">Given</span> load page /login</p>
-                <p class="passed"><span class="keyword">When</span> input { username: John, Password: test }</p>
-                <p class="and-when passed">and click Login</p>
-                <p class="failed"><span class="keyword">Then</span> /dashboard page is loaded</p>
-                <p class="pending"><span class="and-then">and</span> page title is "Hello John"</p>
-            </div>
-        </div>
-        </div>
+    
+    <h1>Witness Specification Runner</h1>
+    <div>
+        <button data-bind="click: run, enable: canRun">Run All</button>
     </div>
-    <div id="iframe-container"></div>
+    <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
+
 
     <script src="lib/jquery.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            
-        });
+    <script src="lib/jquery.tmpl.js" type="text/javascript"></script>
+    <script src="lib/knockout-1.1.2.js" type="text/javascript"></script>
+    <script src="../build/witness-raw.js" type="text/javascript"></script>
+
+    <!-- HTML Templates -->
+    <script id="specification" type="text/html">
+    <li class="specification">
+        <h2>Describe ${name}</h2>
+        <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
+    </li>
+    </script>
+    <script id="scenario" type="text/html">
+    <li class="scenario">
+        <table>
+            <tr>
+                <td>Given</td>
+                <td>
+                    <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>                
+                </td>
+            </tr>
+            <tr data-bind="visible: actions.length">
+                <td>When</td>
+                <td>
+                    <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Then</td>
+                <td>
+                    <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
+                </td>
+            </tr>
+        </table>
+    </li>
+    </script>
+    <script id="step" type="text/html">
+    <li class="${status}">${description}</li>
+    </script>
+    <script id="assertion" type="text/html">
+    <li class="${status}">${description}</li>
     </script>
 </body>
 </html>

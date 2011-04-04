@@ -1,4 +1,6 @@
-﻿// Runs an array of steps in order, but if any fail it continues on to the next.
+﻿/// <reference path="namespace.js" />
+
+// Runs an array of steps in order, but if any fail it continues on to the next.
 // This is useful when wanting to run all AssertionSteps, which are independent of each other.
 Witness.Steps.TryAll = (function () {
 

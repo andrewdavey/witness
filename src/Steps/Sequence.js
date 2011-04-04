@@ -1,4 +1,6 @@
-﻿// Runs an array of steps in order.
+﻿/// <reference path="namespace.js" />
+
+// Runs an array of steps in order.
 // If any step fails then the sequence fails and stops running.
 Witness.Steps.Sequence = (function () {
 

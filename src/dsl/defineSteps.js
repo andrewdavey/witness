@@ -1,4 +1,9 @@
-﻿Witness.dsl.addInitializer(function (target) {
+﻿/// <reference path="../namespace.js" />
+/// <reference path="../stepMatchers.js" />
+/// <reference path="../util.js" />
+/// <reference path="dsl.js" />
+
+Witness.dsl.addInitializer(function (target) {
 
     target.defineStep = function (regExp, func) {
         if (typeof regExp === "function") {
@@ -8,7 +13,7 @@
         var type = func.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
         var step = define(type, func);
         if (regExp) {
-            Witness.addStepMatcher(regExp, func);
+            Witness.stepMatchers.addStepMatcher(regExp, func);
         }
         return step;
     };
@@ -22,7 +27,7 @@
             if (item.regExp) {
                 var stepType = item.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
                 var step = define(stepType, item);
-                Witness.addStepMatcher(item.regExp, step);
+                Witness.stepMatchers.addStepMatcher(item.regExp, step);
             } else {
                 var name = Witness.util.parseFunctionName(item);
                 var stepType = item.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
@@ -39,7 +44,7 @@
         var type = func.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
         var step = define(type, func);
         if (regExp) {
-            Witness.addStepMatcher(regExp, func);
+            Witness.stepMatchers.addStepMatcher(regExp, func);
         }
         return step;
     };
@@ -53,7 +58,7 @@
             if (item.regExp) {
                 var stepType = item.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
                 var step = define(stepType, item);
-                Witness.addStepMatcher(item.regExp, step);
+                Witness.stepMatchers.addStepMatcher(item.regExp, step);
             } else {
                 var name = Witness.util.parseFunctionName(item);
                 var stepType = item.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
