@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
 <root>
-    <output path="output\witness.js">
-        <input path="..\src\Polyfill\Function.js"/>
-        <input path="..\src\Polyfill\Array.js"/>
-        
+    <output path="output\scripts\witness.js">
         <input path="..\src\namespace.js"/>
         <input path="..\src\stepMatchers.js"/>
         <input path="..\src\util.js"/>
+        <input path="..\src\knockout.extensions.js"/>
+        
+        <input path="..\src\Polyfill\Function.js"/>
+        <input path="..\src\Polyfill\Array.js"/>
 
+        <input path="..\src\Steps\namespace.js"/>
         <input path="..\src\Steps\Assertion.js"/>
+        <input path="..\src\Steps\AsyncAssertion.js"/>
         <input path="..\src\Steps\AsyncStep.js"/>
         <input path="..\src\Steps\Sequence.js"/>
         <input path="..\src\Steps\Step.js"/>
@@ -16,7 +19,7 @@
 
         <input path="..\src\dsl\dsl.js"/>
         <input path="..\src\dsl\defineSteps.js"/>
-        <input path="..\src\dsl\specifiations.js"/>
+        <input path="..\src\dsl\specifications.js"/>
         <input path="..\src\dsl\web.js"/>
 
         <input path="..\src\Scenario.js"/>
