@@ -1,1 +1,0 @@
-tools\ajaxmin.exe -JS -clobber -xml build.xml

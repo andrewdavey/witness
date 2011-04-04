@@ -16,13 +16,11 @@
     <script type="text/javascript">
         $(function () {
             $("#hello").click(function () {
-                $("#message").text("Hello, " + $("#name").val());
-
-//                if ($("#name").val()) {
-//                    $("#message").text("Hello, " + $("#name").val());
-//                } else {
-//                    $("#message").text("Enter your name.");
-//                }
+                if ($("#name").val()) {
+                    $("#message").text("Hello, " + $("#name").val());
+                } else {
+                    $("#message").text("Enter your name.");
+                }
             });
         });
     </script>
