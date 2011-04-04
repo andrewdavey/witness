@@ -22,7 +22,7 @@
             if (!this.iframe) {
                 var iframe = this.iframe = createIFrame();
                 this.cleanUps.push(function () {
-                    document.body.removeChild(iframe);
+                    document.getElementById("output").removeChild(iframe);
                 });
             }
 
@@ -40,7 +40,7 @@
 
             function createIFrame() {
                 var iframe = document.createElement("iframe");
-                document.body.appendChild(iframe);
+                document.getElementById("output").appendChild(iframe);
                 return iframe;
             }
         })

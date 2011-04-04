@@ -4,26 +4,23 @@
     <title>Witness Specification Runner</title>
     <link href="styles/reset.css" rel="stylesheet" type="text/css" />
     <link href="styles/runner.css" rel="stylesheet" type="text/css" />
-    <style type="text/css">
-    .notrun {
-        color: #888;
-    }
-    .passed {
-        color: #080;
-    }
-    .failed {
-        color: #800;
-    }
-    </style>
 </head>
 <body>
     
-    <h1>Witness Specification Runner</h1>
-    <div>
-        <button data-bind="click: run, enable: canRun">Run All</button>
+    <div id="header">
+        <h1>Witness Specification Runner</h1>
+        <div>
+            <button data-bind="click: run, enable: canRun">Run All</button>
+        </div>
     </div>
-    <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
 
+    <div id="specifications">
+        <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
+    </div>
+
+    <div id="output">
+    
+    </div>
 
     <script src="lib/jquery.js" type="text/javascript"></script>
     <script src="lib/jquery.tmpl.js" type="text/javascript"></script>
@@ -41,19 +38,19 @@
     <li class="scenario">
         <table>
             <tr>
-                <td>Given</td>
+                <td class="keyword">Given</td>
                 <td>
                     <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>                
                 </td>
             </tr>
             <tr data-bind="visible: actions.length">
-                <td>When</td>
+                <td class="keyword">When</td>
                 <td>
                     <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
                 </td>
             </tr>
             <tr>
-                <td>Then</td>
+                <td class="keyword">Then</td>
                 <td>
                     <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
                 </td>

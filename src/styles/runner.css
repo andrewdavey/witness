@@ -1,17 +1,66 @@
-﻿body {
+﻿html {
+    height: 100%;
+    background-color: #073642;
+}
+
+body {
     font-family: Calibri, Tahoma, Arial, sans-serif;
+    font-size: 62.5%;
+    height: 100%;
+    position: relative;
+}
+
+#header {
+    height: 3em;
+}
+
+#specifications {
+    position: absolute;
+    top: 3em;
+    bottom: 0;
+    left: 0;
+    width: 40em;
+    overflow-y: scroll;
+}
+
+#output {
+    position: absolute;
+    left: 40em;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .specification h2 {
+    color: #829496;
     font-weight: bold;
+    font-size: 1.8em;
     padding-top: 1em;
 }
 
 .scenario {
     margin-bottom: 1em;
 }
+.scenario:hover {
+    background-color: #002b36;
+}
+
+.keyword {
+    color: #586e75;
+}
 
 th, td {
     vertical-align: top;
     padding-left: .2em;
+    font-size: 1.6em;
+}
+
+.notrun {
+    color: #586e75;
+}
+.passed {
+    color: #2aa198;
+}
+.failed {
+    color: #d30102;
 }
