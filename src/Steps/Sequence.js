@@ -40,7 +40,7 @@ Witness.Steps.Sequence = (function () {
     }
 
     Witness_Sequence.prototype.reset = function Witness_Sequence_reset() {
-        this.steps.forEach(function(step) { step.reset(); });
+        this.steps.forEach(function (step) { step.reset(); });
     }
 
     return Witness_Sequence;

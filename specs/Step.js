@@ -33,8 +33,8 @@
     given(function newStep() {
         this.step = new Witness.Steps.Step(function(){});
     }).
-    then(function statusIsNotrun() {
-        return this.step.status() === "notrun";
+    then(function statusIspending() {
+        return this.step.status() === "pending";
     }),
 
     given(function stepThatHasRun() {
@@ -44,8 +44,8 @@
     when(function callReset() {
         this.step.reset();
     }).
-    then(function statusIsNotrun() {
-        return this.step.status() === "notrun";
+    then(function statusIspending() {
+        return this.step.status() === "pending";
     }),
 
     given(function stepWithFunctionThatThrows() {

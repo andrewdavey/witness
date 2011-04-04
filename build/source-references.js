@@ -2,6 +2,7 @@
     'src/namespace.js',
     'src/stepMatchers.js',
     'src/util.js',
+    'src/knockout.extensions.js',
 
     'src/Polyfill/Function.js',
     'src/Polyfill/Array.js',

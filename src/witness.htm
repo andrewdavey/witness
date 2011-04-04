@@ -6,20 +6,21 @@
     <link href="styles/runner.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    
-    <div id="header">
-        <h1>Witness Specification Runner</h1>
-        <div>
-            <button data-bind="click: run, enable: canRun">Run All</button>
-        </div>
-    </div>
 
-    <div id="specifications">
+    <div id="specifications" data-bind="css: { 'hide-passed': hidePassed }">
+        <div id="toolbar">
+            <h1>
+                Specifications
+                <span class="pass-count" data-bind="visible: passCount"><span data-bind="visible: failCount()===0">All </span><span data-bind="text: passCount"></span> Passed</span>
+                <span class="fail-count" data-bind="visible: failCount"><span data-bind="visible: passCount()===0">All </span><span data-bind="text: failCount"></span> Failed</span>
+            </h1>
+            <button data-bind="click: run, enable: canRun">Run All</button>
+            <input type="checkbox" data-bind="checked: hidePassed" id="hide-passed" /><label for="hide-passed">Hide Passed</label>
+        </div>
         <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
     </div>
 
     <div id="output">
-    
     </div>
 
     <script src="lib/jquery.js" type="text/javascript"></script>
@@ -30,39 +31,48 @@
     <!-- HTML Templates -->
     <script id="specification" type="text/html">
     <li class="specification">
-        <h2>Describe ${name}</h2>
+        <h2>${name}</h2>
+        <p>
+            <span class="pass-count" data-bind="visible: passCount">
+                <span data-bind="visible: failCount()===0">All </span>
+                <span data-bind="text: passCount"></span>
+                Passed
+            </span>
+            <span class="fail-count" data-bind="visible: failCount">
+                <span data-bind="visible: passCount()===0">All </span>
+                <span data-bind="text: failCount"></span> 
+                Failed
+            </span>
+        </p>
         <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
     </li>
     </script>
     <script id="scenario" type="text/html">
-    <li class="scenario">
-        <table>
-            <tr>
-                <td class="keyword">Given</td>
-                <td>
-                    <ul data-bind="template: { name: 'step', foreach: contexts }"></ul>                
-                </td>
-            </tr>
-            <tr data-bind="visible: actions.length">
-                <td class="keyword">When</td>
-                <td>
-                    <ul data-bind="visible: actions.length, template: { name: 'step', foreach: actions }"></ul>
-                </td>
-            </tr>
-            <tr>
-                <td class="keyword">Then</td>
-                <td>
-                    <ul data-bind="template: { name: 'assertion', foreach: assertions }"></ul>
-                </td>
-            </tr>
-        </table>
+    <li class="scenario" data-bind="click: select, css: { selected: selected, 'failed-scenario': status()=='failed', 'passed-scenario': status()=='passed', 'pending-scenario': status()=='pending' }">
+        <table data-bind="template: { name: 'context-row', foreach: contexts }"></table>
+        <table data-bind="template: { name: 'action-row', foreach: actions }"></table>
+        <table data-bind="template: { name: 'assertion-row', foreach: assertions }"></table>
+        <p data-bind="visible: selected, text: error"></p>
     </li>
     </script>
-    <script id="step" type="text/html">
-    <li class="${status}">${description}</li>
+    <script id="context-row" type="text/html">
+    <tr class="step context ${status}">
+        {{if first}}<th>Given</th>{{else}}<th class="and">and</th>{{/if}}
+        <td>${description}</td>
+    </tr>
     </script>
-    <script id="assertion" type="text/html">
-    <li class="${status}">${description}</li>
+    <script id="action-row" type="text/html">
+    <tr class="step action ${status}">
+        {{if first}}<th>When</th>{{else}}<th class="and">and</th>{{/if}}
+        <td>${description}</td>
+    </tr>
     </script>
+    <script id="assertion-row" type="text/html">
+    <tr class="step context ${status}">
+        {{if first}}<th>Then</th>{{else}}<th class="and">and</th>{{/if}}
+        <td>${description}</td>
+    </tr>
+    </script>
+
 </body>
 </html>

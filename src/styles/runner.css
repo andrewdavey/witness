@@ -1,6 +1,7 @@
 ﻿html {
     height: 100%;
     background-color: #073642;
+    color: #829496;
 }
 
 body {
@@ -10,17 +11,44 @@ body {
     position: relative;
 }
 
-#header {
-    height: 3em;
+#toolbar {
+    padding: 0 .8em;
+    font-size: 1.4em;
+}
+#toolbar h1 {
+    color: #829496;
+    font-size: 1.3em;
+    padding: .2em 0;
+}
+#toolbar button {
+    padding: .2em .4em;
+    margin-right: 1em;
 }
 
 #specifications {
     position: absolute;
-    top: 3em;
+    top: 0;
     bottom: 0;
     left: 0;
     width: 40em;
+    border-right: 1px solid #829496;
+}
+#specifications > ul {
+    padding: 1em;    
+    top: 6em;
+    bottom: 0;
+    right: 0;
+    left: 0;
     overflow-y: scroll;
+    position: absolute;
+    border-top: 1px solid #829496;
+}
+
+.pass-count {
+    color: #080;
+}
+.fail-count {
+    color: #d30102;
 }
 
 #output {
@@ -31,22 +59,40 @@ body {
     bottom: 0;
 }
 
+.specification {
+    padding-bottom: 1.5em;
+}
 .specification h2 {
     color: #829496;
     font-weight: bold;
     font-size: 1.8em;
-    padding-top: 1em;
 }
 
-.scenario {
-    margin-bottom: 1em;
+li.scenario {
+    padding: .5em 0;
 }
-.scenario:hover {
+li.scenario:hover {
     background-color: #002b36;
 }
+li.scenario.selected {
+    background-color: #eee8d5;
+}
+li.failed-scenario {
+    border: .2em solid #d30102;
+}
 
-.keyword {
-    color: #586e75;
+.hide-passed .passed-scenario {
+    display: none;
+}
+
+iframe.scenario {
+    width: 100%;
+    background-color: #fff;
+    height: 100%;
+}
+
+.and {
+    text-align: right;
 }
 
 th, td {
@@ -55,11 +101,15 @@ th, td {
     font-size: 1.6em;
 }
 
-.notrun {
-    color: #586e75;
+p {
+    font-size: 1.6em;
+}
+
+.pending {
+    color: #cb4b16;
 }
 .passed {
-    color: #2aa198;
+    color: #080;
 }
 .failed {
     color: #d30102;

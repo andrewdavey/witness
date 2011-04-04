@@ -65,8 +65,8 @@
     when(function callReset() {
         this.step.reset();
     }).
-    then(function statusIsNotrun() {
-        return this.step.status() === "notrun";
+    then(function statusIspending() {
+        return this.step.status() === "pending";
     })
 
 ]);

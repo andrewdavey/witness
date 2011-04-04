@@ -10,7 +10,7 @@ Witness.util = {
     },
 
     expandCasing: function (text) {
-        return text.replace(/([a-z])([A-Z])/g, function (_, a, b) { return a + " " + b.toLowerCase(); });
+        return text.replace(/([a-z0-9])([A-Z])/g, function (_, a, b) { return a + " " + b.toLowerCase(); });
     },
 
     createStepDescription: function (func, args) {

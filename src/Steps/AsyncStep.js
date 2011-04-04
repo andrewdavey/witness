@@ -9,7 +9,7 @@ Witness.Steps.AsyncStep = (function () {
         this.func = func; // the function to call.
         this.args = args || []; // the arguments to call the function with.
         this.description = Witness.util.createStepDescription(func, args);
-        this.status = ko.observable("notrun");
+        this.status = ko.observable("pending");
     }
 
     Witness_AsyncStep.prototype.run = function (context, done, fail) {
@@ -38,7 +38,7 @@ Witness.Steps.AsyncStep = (function () {
     };
 
     Witness_AsyncStep.prototype.reset = function Witness_AsyncStep_reset() {
-        this.status("notrun");
+        this.status("pending");
     };
 
     return Witness_AsyncStep;
