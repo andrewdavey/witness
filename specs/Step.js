@@ -30,12 +30,16 @@
         }
     ),
 
-    given(function newStep() {
-        this.step = new Witness.Steps.Step(function(){});
+    given(function newStepNamedExample() {
+        this.step = new Witness.Steps.Step(function () { }, [], "example");
     }).
-    then(function statusIspending() {
-        return this.step.status() === "pending";
-    }),
+    then(
+        function statusIsPending() {
+            return this.step.status() === "pending";
+        }, function descriptionIsExample() {
+            return this.step.description === "example";
+        }
+    ),
 
     given(function stepThatHasRun() {
         this.step = new Witness.Steps.Step(function () { });

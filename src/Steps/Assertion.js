@@ -4,11 +4,11 @@
 // Assertion step expects the wrapped function to return a boolean value.
 Witness.Steps.Assertion = (function () {
 
-    function Witness_Assertion(func, args) {
+    function Witness_Assertion(func, args, description) {
         this.func = func;
         this.args = args || [];
+        this.description = Witness.util.createStepDescription(description, args);
         this.status = ko.observable("pending");
-        this.description = Witness.util.createStepDescription(func, args);
     }
 
     Witness_Assertion.prototype.run = function (context, done, fail) {
@@ -16,10 +16,10 @@ Witness.Steps.Assertion = (function () {
             var result = this.func.apply(context, this.args);
             if (result) {
                 this.status("passed");
-                done(this);
+                done.call(context);
             } else {
                 this.status("failed");
-                fail(this);
+                fail.call(context, "assertion failed");
             }
         } catch (e) {
             this.status("failed");

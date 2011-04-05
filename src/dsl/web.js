@@ -1,12 +1,8 @@
 ﻿Witness.dsl.addInitializer(function () {
 
-    defineSteps([
+    defineSteps({
 
-        async(function wait(delayInMilliseconds) {
-            setTimeout(this.done, delayInMilliseconds)
-        }),
-
-        function input(obj) {
+        input: function (obj) {
             for (var selector in obj) {
                 if (obj.hasOwnProperty(selector)) {
                     jQuery(selector, this.document).val(obj[selector]);
@@ -14,13 +10,18 @@
             }
         },
 
-        function click(selector) {
+        click: function (selector) {
             jQuery(selector, this.document).click();
         },
 
-        async(function loadPage(url) {
+        wait: async(function (delayInMilliseconds) {
+            setTimeout(this.done, delayInMilliseconds)
+        }),
+
+        loadPage: async(function (url) {
             var context = this,
                 iframe = this.getIFrame();
+
             jQuery(iframe).one("load", function () {
                 jQuery(iframe).contents().ready(function () {
                     window.$$ = function (selector) { return jQuery(selector, context.document); };
@@ -30,9 +31,10 @@
                     context.done();
                 });
             });
+
             iframe.src = url;
         })
 
-    ]);
+    });
 
 });

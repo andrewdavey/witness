@@ -1,4 +1,6 @@
-﻿Witness.dsl.addInitializer(function (target) {
+﻿/// <reference path="../util.js" />
+
+Witness.dsl.addInitializer(function (target) {
 
     target.describe = function Witness_describe(specificationName, scenarios) {
         var specification = new Witness.Specification(specificationName, scenarios);
@@ -40,8 +42,10 @@
             if (item.run)
                 return item; // Already a step
 
-            if (typeof item === "function")
-                return item.async ? new Witness.Steps.AsyncStep(item) : new Witness.Steps.Step(item);
+            if (typeof item === "function") {
+                var description = Witness.util.parseFunctionName(item);
+                return item.async ? new Witness.Steps.AsyncStep(item, [], description) : new Witness.Steps.Step(item, [], description);
+            }
 
             if (typeof item === "string")
                 return Witness.steps.findMatchingStep(item);
@@ -51,8 +55,10 @@
             if (item.run)
                 return item; // Already a step
 
-            if (typeof item === "function")
-                return item.async ? new Witness.Steps.AsyncAssertion(item) : new Witness.Steps.Assertion(item);
+            if (typeof item === "function") {
+                var description = Witness.util.parseFunctionName(item);
+                return item.async ? new Witness.Steps.AsyncAssertion(item, [], description) : new Witness.Steps.Assertion(item, [], description);
+            }
 
             if (typeof item === "string")
                 return Witness.steps.findMatchingStep(item);

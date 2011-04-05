@@ -4,10 +4,10 @@
 // Synchronously running step.
 Witness.Steps.Step = (function () {
 
-    function Witness_Step(func, args) {
+    function Witness_Step(func, args, name) {
         this.func = func; // the function to call.
         this.args = args || []; // the arguments to call the function with.
-        this.description = Witness.util.createStepDescription(func, args);
+        this.description = Witness.util.createStepDescription(name, args);
         this.status = ko.observable("pending");
     }
 

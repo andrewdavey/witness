@@ -3,74 +3,46 @@
 /// <reference path="../util.js" />
 /// <reference path="dsl.js" />
 
-Witness.dsl.addInitializer(function (target) {
+Witness.dsl.defineStepInitializer = function (target) {
 
-    target.defineStep = function (regExp, func) {
-        if (typeof regExp === "function") {
-            func = regExp;
-            regExp = null;
-        }
-        var type = func.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
-        var step = define(type, func);
-        if (regExp) {
-            Witness.stepMatchers.addStepMatcher(regExp, func);
-        }
-        return step;
-    };
+    target.stepMatchers = []; // array of { regex, step } objects.
 
-    target.defineSteps = function Witness_defineSteps(array) {
-        // Allow calling this function with multiple arguments instead of an array.
-        // We'll convert them into a regular array.
-        if (!(array instanceof Array)) array = Array.prototype.slice.apply(arguments);
-
-        array.forEach(function (item) {
-            if (item.regExp) {
-                var stepType = item.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
-                var step = define(stepType, item);
-                Witness.stepMatchers.addStepMatcher(item.regExp, step);
-            } else {
-                var name = Witness.util.parseFunctionName(item);
-                var stepType = item.async ? Witness.Steps.AsyncStep : Witness.Steps.Step;
-                target[name] = define(stepType, item);
+    target.findStep = function (text) {
+        for (var i = 0, n = target.stepMatchers.length; i < n; i++) {
+            var matcher = target.stepMatchers[i];
+            var match = matcher.regExp.exec(text);
+            if (match) {
+                var args = match.slice(1); // skip the first match item which is just the whole string.
+                var step = matcher.step.apply(undefined, args);
+                step.description = text;
+                return step;
             }
-        });
+        }
+        throw new Error("Cannot find step definition for '" + text + "'.");
     };
 
-    target.defineAssertion = function (regExp, func) {
-        if (typeof regExp === "function") {
-            func = regExp;
-            regExp = null;
-        }
-        var type = func.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
-        var step = define(type, func);
-        if (regExp) {
-            Witness.stepMatchers.addStepMatcher(regExp, func);
-        }
-        return step;
+    target.defineStep = function Witness_defineStep(name, func) {
+        define(name, func, false);
     };
 
-    target.defineAssertions = function Witness_defineAssertions(array) {
-        // Allow calling this function with multiple arguments instead of an array.
-        // We'll convert them into a regular array.
-        if (!(array instanceof Array)) array = Array.prototype.slice.apply(arguments);
-
-        array.forEach(function (item) {
-            if (item.regExp) {
-                var stepType = item.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
-                var step = define(stepType, item);
-                Witness.stepMatchers.addStepMatcher(item.regExp, step);
-            } else {
-                var name = Witness.util.parseFunctionName(item);
-                var stepType = item.async ? Witness.Steps.AsyncAssertion : Witness.Steps.Assertion;
-                target[name] = define(stepType, item);
+    target.defineSteps = function Witness_defineSteps(object) {
+        for (var property in object) {
+            if (object.hasOwnProperty(property)) {
+                target.defineStep(property, object[property])
             }
-        });
+        }
     };
 
-    target.match = function (regExp, func) {
-        // Tag the function with the regExp used to find the step created in defineSteps.
-        func.regExp = regExp;
-        return func; // fluent interface
+    target.defineAssertion = function (name, func) {
+        define(name, func, true);
+    };
+
+    target.defineAssertions = function Witness_defineAssertions(object) {
+        for (var property in object) {
+            if (object.hasOwnProperty(property)) {
+                target.defineAssertion(property, object[property]);
+            }
+        }
     };
 
     target.async = function (func) {
@@ -79,10 +51,23 @@ Witness.dsl.addInitializer(function (target) {
         return func; // fluent interface
     };
 
-    function define(type, fn) {
+    function define(name, func, isAssertion) {
+        var stepTypeName = (func.async ? "Async" : "") + (isAssertion ? "Assertion" : "Step");
+        var step = createStep(Witness.Steps[stepTypeName], func, name);
+        var isRegex = !(/^[a-z_][a-z0-9_]*$/i).test(name);
+        if (isRegex) {
+            target.stepMatchers.push({ regExp: new RegExp(name), step: step });
+        } else {
+            target[name] = step;
+        }
+    }
+
+    function createStep(type, fn, name) {
         return function () {
             var args = Array.prototype.slice.apply(arguments);
-            return new type(fn, args);
+            return new type(fn, args, name);
         }
-    };
-});
+    }
+}
+
+Witness.dsl.addInitializer(Witness.dsl.defineStepInitializer);

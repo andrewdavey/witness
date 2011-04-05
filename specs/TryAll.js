@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    describe("TryAll", [
+describe("TryAll", [
 
     given(function tryAllWithTwoSteps() {
         var context = this;

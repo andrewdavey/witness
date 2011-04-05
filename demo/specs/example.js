@@ -1,9 +1,8 @@
-defineAssertions([
-    function messageShouldBeDisplayed(message) {
+defineAssertions({
+    messageShouldBeDisplayed: function (message) {
         return $$("#message").text() == message;
     }
-]);
-
+});
 
 describe("Say Hello Page", [
     given(

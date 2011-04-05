@@ -13,17 +13,12 @@ Witness.util = {
         return text.replace(/([a-z0-9])([A-Z])/g, function (_, a, b) { return a + " " + b.toLowerCase(); });
     },
 
-    createStepDescription: function (func, args) {
-        var funcName = this.parseFunctionName(func);
-        if (funcName) {
-            var description = this.expandCasing(funcName);
-            if (args && args.length) {
-                description += " " + args.map(JSON.stringify).join(", ");
-            }
-            return description;
-        } else {
-            return "<un-named>";
+    createStepDescription: function (name, args) {
+        var description = this.expandCasing((name || "(anonymous)").replace(/_/, " "));
+        if (args && args.length) {
+            description += " " + args.map(JSON.stringify).join(", ");
         }
+        return description;
     }
 
 };
