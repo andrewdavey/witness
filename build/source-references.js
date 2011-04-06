@@ -1,6 +1,5 @@
 ﻿witnessLoadAllScripts([
     'src/namespace.js',
-    'src/stepMatchers.js',
     'src/util.js',
     'src/knockout.extensions.js',
 

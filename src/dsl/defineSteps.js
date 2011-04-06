@@ -51,9 +51,19 @@ Witness.dsl.defineStepInitializer = function (target) {
         return func; // fluent interface
     };
 
+    target.sequence = function () {
+        return new Witness.Steps.Sequence(Array.prototype.slice.call(arguments, 0));
+    };
+
     function define(name, func, isAssertion) {
-        var stepTypeName = (func.async ? "Async" : "") + (isAssertion ? "Assertion" : "Step");
-        var step = createStep(Witness.Steps[stepTypeName], func, name);
+        var step;
+        if (typeof func === "function") {
+            var stepTypeName = (func.async ? "Async" : "") + (isAssertion ? "Assertion" : "Step");
+            step = createStep(Witness.Steps[stepTypeName], func, name);
+        } else { // it's already a step (probably a sequence of steps).
+            step = func;
+            step.description = Witness.util.createStepDescription(name);
+        }
         var isRegex = !(/^[a-z_][a-z0-9_]*$/i).test(name);
         if (isRegex) {
             target.stepMatchers.push({ regExp: new RegExp(name), step: step });

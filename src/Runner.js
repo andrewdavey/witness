@@ -44,7 +44,7 @@
         var path = document.location.search.match(/\bpath=(.*)(&|$)/)[1],
             nocache = (new Date()).getTime();
 
-        $.get("server/aspnet/allspecs.ashx", { path: path, nocache: nocache }, function (urls) {
+        jQuery.get("server/aspnet/allspecs.ashx", { path: path, nocache: nocache }, function (urls) {
             var count = urls.length;
             urls.forEach(function (url) {
                 var script = document.createElement("script");

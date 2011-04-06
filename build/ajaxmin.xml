@@ -2,7 +2,6 @@
 <root>
     <output path="output\scripts\witness.js">
         <input path="..\src\namespace.js"/>
-        <input path="..\src\stepMatchers.js"/>
         <input path="..\src\util.js"/>
         <input path="..\src\knockout.extensions.js"/>
         

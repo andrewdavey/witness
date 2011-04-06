@@ -36,13 +36,14 @@
     Witness_Scenario.prototype.run = function Witness_Scenario_run(outerContext, done, fail) {
         var setStatus = this.status;
         var setError = this.error;
+        var scenario = this;
         setStatus("running");
 
         var context = {
             getIFrame: function () {
-                if (!this.iframe) this.iframe = createIFrame();
-                return this.iframe;
-            } .bind(this),
+                if (!scenario.iframe) scenario.iframe = createIFrame();
+                return scenario.iframe;
+            },
             cleanUps: []
         };
 
@@ -70,7 +71,7 @@
             iframe.setAttribute("class", "scenario");
             iframe.setAttribute("frameborder", "0");
             document.getElementById("output").appendChild(iframe);
-            iframe.style.display = "none";
+            iframe.style.display = scenario.selected() ? "block" : "none";
             return iframe;
         }
     };

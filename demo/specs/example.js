@@ -1,6 +1,6 @@
 defineAssertions({
     messageShouldBeDisplayed: function (message) {
-        return $$("#message").text() == message;
+        return this.$("#message").text() == message;
     }
 });
 
@@ -13,7 +13,7 @@ describe("Say Hello Page", [
         click("#hello")
     ).
     then(
-        messageShouldBeDisplayed("Hello, John")
+        $("#message").textShouldBe("Hello, John")
     ),
 
     given(
@@ -24,7 +24,7 @@ describe("Say Hello Page", [
         click("#hello")
     ).
     then(
-        messageShouldBeDisplayed("Enter your name.")
+        $("#message").textShouldBe("Enter your name.")
     )
 ]);
 
