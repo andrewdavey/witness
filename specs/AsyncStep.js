@@ -67,6 +67,27 @@
     }).
     then(function statusIspending() {
         return this.step.status() === "pending";
-    })
+    }),
+
+    given(function asyncStepThatTakesLongerThanDefaultTimeout() {
+        Witness.Steps.AsyncStep.defaultTimeout = 1000;
+        this.step = new Witness.Steps.AsyncStep(function () { setTimeout(this.done, 1500); });
+    }).
+    when(async(function callRun() {
+        var context = this;
+        this.step.run(
+            {},
+            function () { context.doneCalled = true; context.done(); },
+            function () { context.failCalled = true; context.done(); }
+        );
+    })).
+    then(
+        function doneWasNotCalled() {
+            return !this.doneCalled;
+        },
+        function failWasCalled() {
+            return this.failCalled;
+        }
+    )
 
 ]);
