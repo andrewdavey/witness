@@ -32,10 +32,14 @@
         var self = this;
 
         var tryAll = new Witness.Steps.TryAll(this.specifications());
-        tryAll.run({}, callback, callback);
+        tryAll.run({}, callback, callback.bind(this));
 
         function callback() {
             self.canRun(true);
+
+            if (window.resultsCallback) {
+                resultsCallback(this.specifications());
+            }
         }
     };
 

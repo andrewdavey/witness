@@ -78,6 +78,6 @@ Witness.dsl.defineStepInitializer = function (target) {
             return new type(fn, args, name);
         }
     }
-}
+};
 
 Witness.dsl.addInitializer(Witness.dsl.defineStepInitializer);

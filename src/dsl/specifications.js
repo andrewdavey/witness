@@ -13,6 +13,7 @@ Witness.dsl.addInitializer(function (target) {
         var actions;
 
         return {
+            contexts: contexts,
             when: when, // Declares steps to run.
             then: then  // Can jump directly to assertions if no actions are required.
         };
@@ -39,29 +40,33 @@ Witness.dsl.addInitializer(function (target) {
         }
 
         function convertToStep(item) {
-            if (item.run)
+            if (item.run) {
                 return item; // Already a step
+            }
 
             if (typeof item === "function") {
                 var description = Witness.util.parseFunctionName(item);
                 return item.async ? new Witness.Steps.AsyncStep(item, [], description) : new Witness.Steps.Step(item, [], description);
             }
 
-            if (typeof item === "string")
+            if (typeof item === "string") {
                 return Witness.steps.findMatchingStep(item);
+            }
         }
 
         function convertToAssertion(item) {
-            if (item.run)
+            if (item.run) {
                 return item; // Already a step
+            }
 
             if (typeof item === "function") {
                 var description = Witness.util.parseFunctionName(item);
                 return item.async ? new Witness.Steps.AsyncAssertion(item, [], description) : new Witness.Steps.Assertion(item, [], description);
             }
 
-            if (typeof item === "string")
+            if (typeof item === "string") {
                 return Witness.steps.findMatchingStep(item);
+            }
         }
     };
 
