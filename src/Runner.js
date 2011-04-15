@@ -51,27 +51,49 @@
         jQuery.get("server/aspnet/allspecs.ashx", { path: path, nocache: nocache }, function (urls) {
             var count = urls.length;
             urls.forEach(function (url) {
-                var script = document.createElement("script");
-                document.body.appendChild(script);
-                var loaded = false;
-                script.onload = function () {
-                    loaded = true;
-                    count--;
-                    if (count === 0) callback();
-                };
-                // IE < 9
-                script.onreadystatechange = function () {
-                    if (!loaded && (script.readyState === "loaded" || script.readyState === "complete")) {
-                        loaded = true;
+
+                jQuery.ajax({
+                    url: url,
+                    dataType: 'text',
+                    success: function (scriptSource) {
+                        var globals = [];
+                        for (var prop in window) {
+                            globals.push(prop);
+                        }
+                        var result = JSLINT(scriptSource, { globals: globals });
+                        if (result) {
+                            eval(scriptSource);
+                        } else {
+                            alert("JSLint hates your code: " + JSON.stringify(JSLINT.errors));
+                            // TODO: report script error somewhere!!
+                        }
                         count--;
                         if (count === 0) {
-                            // Allow the browser to run the scripts before we start running.
-                            setTimeout(callback, 10);
+                            callback();
                         }
                     }
-                };
-                script.setAttribute("src", url + "?nocache=" + nocache);
-                script.setAttribute("type", "text/javascript");
+                });
+                //                var script = document.createElement("script");
+                //                document.body.appendChild(script);
+                //                var loaded = false;
+                //                script.onload = function () {
+                //                    loaded = true;
+                //                    count--;
+                //                    if (count === 0) callback();
+                //                };
+                //                // IE < 9
+                //                script.onreadystatechange = function () {
+                //                    if (!loaded && (script.readyState === "loaded" || script.readyState === "complete")) {
+                //                        loaded = true;
+                //                        count--;
+                //                        if (count === 0) {
+                //                            // Allow the browser to run the scripts before we start running.
+                //                            setTimeout(callback, 10);
+                //                        }
+                //                    }
+                //                };
+                //                script.setAttribute("src", url + "?nocache=" + nocache);
+                //                script.setAttribute("type", "text/javascript");
             });
         });
     }

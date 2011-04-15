@@ -1,6 +1,6 @@
 defineAssertions({
     messageShouldBeDisplayed: function (message) {
-        return this.$("#message").text() == message;
+        return this.$("#message").text() === message;
     }
 });
 
@@ -32,7 +32,7 @@ describe("Loading a page that does not exist", [
     given(loadPage("/witness/demo/unknown.htm")).
     then(
         function theResourceCannotBeFound() {
-            return this.document.title === "The resource cannot be found."
+            return this.document.title === "The resource cannot be found.";
         }
     )
 ]);
