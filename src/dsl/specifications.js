@@ -9,6 +9,10 @@ Witness.dsl.addInitializer(function (target) {
     };
 
     target.given = function Witness_given() {
+        if (arguments[arguments.length - 1] instanceof Array) {
+            return createParentScenario(arguments);
+        }
+
         var contexts = convertAll(arguments, convertToStep);
         var actions;
 
@@ -67,6 +71,13 @@ Witness.dsl.addInitializer(function (target) {
             if (typeof item === "string") {
                 return Witness.steps.findMatchingStep(item);
             }
+        }
+
+        function createParentScenario(originalArguments) {
+            originalArguments = [].slice.call(originalArguments);
+            var contexts = originalArguments.slice(0, originalArguments.length - 1);
+            var children = originalArguments[originalArguments.length - 1];
+            return new Witness.ParentScenario(contexts, children);
         }
     };
 

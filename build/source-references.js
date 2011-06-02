@@ -20,6 +20,7 @@
     'src/dsl/web.js',
 
     'src/Scenario.js',
+    'src/ParentScenario.js',
     'src/Specification.js',
     'src/Runner.js',
 

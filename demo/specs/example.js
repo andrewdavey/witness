@@ -36,3 +36,25 @@ describe("Loading a page that does not exist", [
         }
     )
 ]);
+
+defineSteps({
+    emptyDatabase: function () {
+        console.log("Creating empty database.");
+    }
+});
+
+describe("Something complex", [
+
+    given(emptyDatabase(), [
+
+        given(function aCustomer() { this.customer = {}; }).
+        when(function setTest() { this.customer.test = 1; }).
+        then(function testIsSet() { return this.customer.test === 1; }),
+
+        given(function aCustomer() { this.customer = {}; }).
+        when(function setFoo() { this.customer.foo = 1; }).
+        then(function fooIsSet() { return this.customer.foo === 1; })
+
+    ])
+
+]);

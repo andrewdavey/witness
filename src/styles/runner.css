@@ -68,6 +68,10 @@ body {
     font-size: 1.8em;
 }
 
+li.parent-scenario > ul {
+    margin-left: 20px;
+}
+
 li.scenario {
     padding: .5em 0;
 }

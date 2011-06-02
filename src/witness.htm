@@ -25,7 +25,7 @@
 
     <script src="lib/jquery.js" type="text/javascript"></script>
     <script src="lib/jquery.tmpl.js" type="text/javascript"></script>
-    <script src="lib/knockout-1.1.2.js" type="text/javascript"></script>
+    <script src="lib/knockout-1.2.1.js" type="text/javascript"></script>
     <script src="lib/fulljslint.js" type="text/javascript"></script>
     <script src="../build/witness-raw.js" type="text/javascript"></script>
 
@@ -45,7 +45,7 @@
                 Failed
             </span>
         </p>
-        <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
+        <ul data-bind="template: { name: getScenarioTemplateName, foreach: scenarios }"></ul>
     </li>
     </script>
     <script id="scenario" type="text/html">
@@ -54,6 +54,12 @@
         <table data-bind="template: { name: 'action-row', foreach: actions }"></table>
         <table data-bind="template: { name: 'assertion-row', foreach: assertions }"></table>
         <p data-bind="visible: selected, text: error"></p>
+    </li>
+    </script>
+    <script id="parent-scenario" type="text/html">
+    <li class="parent-scenario">
+        <table data-bind="template: { name: 'context-row', foreach: contexts }"></table>
+        <ul data-bind="template: { name: getScenarioTemplateName, foreach: children }"></ul>
     </li>
     </script>
     <script id="context-row" type="text/html">

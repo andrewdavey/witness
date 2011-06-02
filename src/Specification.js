@@ -30,5 +30,13 @@
         tryAll.run(context, done, fail);
     };
 
+    Witness_Specification.prototype.getScenarioTemplateName = function (scenario) {
+        if (scenario instanceof Witness.ParentScenario) {
+            return "parent-scenario";
+        } else {
+            return "scenario";
+        }
+    };
+
     return Witness_Specification;
 })();

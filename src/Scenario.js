@@ -16,6 +16,7 @@
 
         this.status = ko.observable();
         this.selected = ko.observable(false);
+        this.error = ko.observable();
 
         this.reset();
     }
@@ -28,7 +29,7 @@
         }
 
         this.status("pending");
-        this.error = ko.observable();
+        this.error(null);
 
         this.sequence.reset();
     };
