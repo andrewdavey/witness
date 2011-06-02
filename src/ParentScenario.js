@@ -5,6 +5,7 @@
 Witness.ParentScenario = (function () {
 
     function Witness_ParentScenario(contexts, children) {
+        contexts = convertAll(contexts, convertToStep)
         if (contexts.length > 0) contexts[0].first = true;
         
         this.contexts = contexts;
@@ -21,6 +22,26 @@ Witness.ParentScenario = (function () {
         );
 
         this.reset();
+
+        function convertAll(args, convert) {
+            var array = args ? Array.prototype.slice.apply(args) : [];
+            return array.map(convert);
+        }
+
+        function convertToStep(item) {
+            if (item.run) {
+                return item; // Already a step
+            }
+
+            if (typeof item === "function") {
+                var description = Witness.util.parseFunctionName(item);
+                return item.async ? new Witness.Steps.AsyncStep(item, [], description) : new Witness.Steps.Step(item, [], description);
+            }
+
+            if (typeof item === "string") {
+                return Witness.steps.findMatchingStep(item);
+            }
+        }
     }
 
     Witness_ParentScenario.prototype.reset = function Witness_ParentScenario_reset() {

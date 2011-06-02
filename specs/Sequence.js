@@ -1,6 +1,15 @@
-﻿(function() {
+﻿(function () {
 
-describe("Sequence", [
+    function runTheSequence() {
+        var context = this;
+        context.sequence.run(
+            {},
+            function done() { context.doneCalled = true; },
+            function fail(e) { context.failCalled = true; context.error = e; }
+        );
+    }
+
+    describe("Sequence", [
 
     given(function aSequenceOfTwoSteps() {
         var context = this;
@@ -21,7 +30,7 @@ describe("Sequence", [
             return this.doneCalled;
         },
         function failWasNotCalled() {
-            return !this.failCalled
+            return !this.failCalled;
         }
     ),
 
@@ -41,7 +50,7 @@ describe("Sequence", [
             return this.failCalled;
         },
         function failErrorIsThatThrownByFirstStep() {
-            return this.error.message == "fail";
+            return this.error.message === "fail";
         }
     ),
 
@@ -66,13 +75,4 @@ describe("Sequence", [
 
 ]);
 
-function runTheSequence() {
-    var context = this;
-    context.sequence.run(
-        {},
-        function done() { context.doneCalled = true; },
-        function fail(e) { context.failCalled = true; context.error = e; }
-    );
-}
-
-})();
+}());

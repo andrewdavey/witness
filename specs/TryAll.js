@@ -1,5 +1,14 @@
 ﻿(function () {
 
+    function run() {
+        var context = this;
+        context.tryAll.run(
+            {},
+            function () { context.doneCalled = true; },
+            function (e) { context.failCalled = true; context.error = e; }
+        );
+    }
+
 describe("TryAll", [
 
     given(function tryAllWithTwoSteps() {
@@ -70,13 +79,4 @@ describe("TryAll", [
     )
 ]);
 
-    function run() {
-        var context = this;
-        context.tryAll.run(
-            {},
-            function () { context.doneCalled = true; },
-            function (e) { context.failCalled = true; context.error = e; }
-        );
-    }
-
-})();
+}());

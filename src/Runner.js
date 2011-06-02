@@ -64,7 +64,7 @@
                         if (result) {
                             eval(scriptSource);
                         } else {
-                            alert("JSLint hates your code: " + JSON.stringify(JSLINT.errors));
+                            alert("JSLint hates: " + url + "\r\n" + JSON.stringify(JSLINT.errors));
                             // TODO: report script error somewhere!!
                         }
                         count--;

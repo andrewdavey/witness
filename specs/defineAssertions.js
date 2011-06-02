@@ -1,5 +1,14 @@
 ﻿(function () {
 
+    function dslTargetObjectInitialized() {
+        this.dsl = {};
+        Witness.dsl.defineStepInitializer(this.dsl);
+    }
+
+    function callDefineAssertions() {
+        this.dsl.defineAssertions(this.steps);
+    }
+
 describe("defineAssertions", [
 
     given(
@@ -59,13 +68,4 @@ describe("defineAssertions", [
 ]);
 
 
-function dslTargetObjectInitialized() {
-    this.dsl = {};
-    Witness.dsl.defineStepInitializer(this.dsl);
-}
-
-function callDefineAssertions() {
-    this.dsl.defineAssertions(this.steps);
-}
-
-})();
+}());
