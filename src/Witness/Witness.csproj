@@ -83,6 +83,7 @@
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
+    <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
