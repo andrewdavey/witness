@@ -1,0 +1,25 @@
+﻿@{
+    Html.ReferenceScript("scripts/specs/Action.coffee");
+    Html.ReferenceScript("scripts/lib/jquery.js");
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Witness</title>
+    @Html.RenderScripts()
+    <script type="text/javascript">
+        $(function () {
+            var runner = new Witness.SimpleRunner(Witness.specifications);
+            var log = $("#log");
+            runner.runAll(function (msg) {
+                log.append('<li>' + msg + '</li>');
+            });
+        });
+    </script>
+</head>
+<body>
+    <ul id="log">
+    </ul>
+</body>
+</html>
