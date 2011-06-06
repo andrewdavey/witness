@@ -77,13 +77,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Scripts\lib\coffee-script.js" />
     <Content Include="Scripts\lib\jquery.js" />
     <Content Include="Scripts\lib\knockout.js" />
     <None Include="Scripts\specs\Assertion.coffee" />
+    <None Include="Scripts\specs\Dsl.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\Specification.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
+    <None Include="Scripts\witness\Dsl.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
     <Content Include="Web.config" />
@@ -95,6 +98,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <None Include="Scripts\witness\SimpleRunner.coffee" />
+    <None Include="Scripts\witness\StringHelpers.coffee" />
     <None Include="Scripts\witness\TryAll.coffee" />
   </ItemGroup>
   <ItemGroup>
