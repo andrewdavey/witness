@@ -5,6 +5,6 @@ this.Witness.SimpleRunner = class SimpleRunner
 
 	runAll: (log) ->
 		for specification in @specifications
-			log "Testing " + specification.name
+			log "Testing " + specification.description
 			for scenario in specification.scenarios
 				scenario.run {}, (-> log "passed"), ((e) -> log e)
