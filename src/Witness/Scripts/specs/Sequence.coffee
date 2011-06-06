@@ -15,11 +15,11 @@ describe "Sequence",
 		@sequence.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 
 	then: [
-		-> @action0Called
+		-> @action0Called == true
 		-> @action0Context == @context
-		-> @action1Called
+		-> @action1Called == true
 		-> @action1Context == @context
-		-> @doneCallbackCalled
+		-> @doneCallbackCalled?
 		-> not @failCallbackCalled
 	]
 },

@@ -19,7 +19,7 @@ describe "Action",
 		
 	then: [
 		-> @action.name == "action-name"
-		-> @doneCallbackCalled
+		-> @doneCallbackCalled == true
 		-> @doneContext is @testContext
 		-> not @failCallbackCalled
 	]
@@ -40,7 +40,7 @@ describe "Action",
 		)
 
 	then: [
-		-> @failCallbackCalled
+		-> @failCallbackCalled == true
 		-> @failContext is @testContext
 		-> not @doneCallbackCalled
 	]

@@ -18,7 +18,7 @@ describe "Assertion",
 		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
 	
 	then: [
-		-> @doneCallbackCalled
+		-> @doneCallbackCalled == true
 		-> not @failCallbackCalled
 	]
 },
@@ -27,11 +27,11 @@ describe "Assertion",
 		@assertion = new Witness.Assertion "assertion-name", (-> false)
 
 	when: ->
-		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
+		@assertion.run {}, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 	
 	then: [
 		-> not @doneCallbackCalled
-		-> @failCallbackCalled
+		-> @failCallbackCalled == true
 	]
 },
 {

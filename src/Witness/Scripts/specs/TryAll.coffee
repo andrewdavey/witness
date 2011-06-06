@@ -15,11 +15,11 @@ describe "TryAll",
 		@tryAll.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 
 	then: [
-		-> @action0Called
+		-> @action0Called == true
 		-> @action0Context == @context
-		-> @action1Called
+		-> @action1Called == true
 		-> @action1Context == @context
-		-> @doneCallbackCalled
+		-> @doneCallbackCalled == true
 		-> not @failCallbackCalled
 	]
 },
@@ -33,7 +33,7 @@ describe "TryAll",
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
 
 	then: [
-		-> @action1Called
+		-> @action1Called == true
 		-> not @doneCallbackCalled
 		-> @error instanceof Array
 		-> @error[0].message == "action-0 failed"
@@ -49,7 +49,7 @@ describe "TryAll",
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
 	then: [
-		-> @action0Called
+		-> @action0Called == true
 		-> not @doneCallbackCalled
 		-> @errors instanceof Array
 		-> @errors[0].message == "action-1 failed"
