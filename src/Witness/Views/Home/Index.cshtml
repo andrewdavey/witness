@@ -1,5 +1,5 @@
 ﻿@{
-    Html.ReferenceScript("scripts/specs/Action.coffee");
+    Html.ReferenceScript("scripts/witness/SimpleRunner.coffee");
     Html.ReferenceScript("scripts/lib/jquery.js");
 }
 <!DOCTYPE html>
@@ -10,11 +10,13 @@
     @Html.RenderScripts()
     <script type="text/javascript">
         $(function () {
-            var runner = new Witness.SimpleRunner(Witness.specifications);
             var log = $("#log");
-            runner.runAll(function (msg) {
-                log.append('<li>' + msg + '</li>');
-            });
+            var runner = new Witness.SimpleRunner(Witness.specifications);
+            runner.download("/scripts/specs/action.coffee", function() {
+                runner.runAll(function (msg) {
+                    log.append('<li>' + msg + '</li>');
+                });
+            })
         });
     </script>
 </head>

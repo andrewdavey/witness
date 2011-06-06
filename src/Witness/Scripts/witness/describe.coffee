@@ -3,13 +3,14 @@
 # reference "Scenario.coffee"
 # reference "Action.coffee"
 # reference "Assertion.coffee"
+# reference "Dsl.coffee"
 
-Witness.specifications = []
+this.Witness.specifications = []
 
-this.describe = (specificationName, scenariosDefinitions...) ->
+this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	scenarios = (createScenario scenario for scenario in scenariosDefinitions)
 	specification = new Witness.Specification specificationName, scenarios
-	Witness.specifications.push specification
+	this.Witness.specifications.push specification
 
 
 createScenario = (scenario) ->
