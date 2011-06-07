@@ -15,10 +15,11 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 
 
 createScenario = (scenario) ->
-	givens   = (createAction definition for definition in ensureArray scenario.given)
-	whens    = (createAction definition for definition in ensureArray scenario.when)
-	thens    = (createAction definition for definition in ensureArray scenario.then)
-	disposes = (createAction definition for definition in ensureArray scenario.dispose)
+	createActions = (input) -> (createAction definition for definition in ensureArray input)
+	givens   = createActions scenario.given
+	whens    = createActions scenario.when
+	thens    = createActions scenario.then
+	disposes = createActions scenario.dispose
 
 	new Witness.Scenario givens, whens, thens, disposes
 
