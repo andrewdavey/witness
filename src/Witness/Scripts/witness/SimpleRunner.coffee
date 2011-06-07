@@ -45,7 +45,18 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 
 	runAll: (log) ->
-		for specification in @specifications
-			log "Testing " + specification.description
-			for scenario in specification.scenarios
-				scenario.run {}, (-> log "passed"), ((e) -> log e)
+		before = (object, name, newFunc) ->
+			old = object[name]
+			# replace the function
+			object[name] = (args...) ->
+				newFunc.apply this, args
+				old.apply this, args
+			# return a 'restore' function
+			() -> object[name] = old
+
+		before Witness.Specification::, "run", () -> log "Testing: " + @description
+		before Witness.Scenario::, "run", () -> log "Scenario:"
+		before Witness.Assertion::, "run", () -> log "Asserting: " + @name
+
+		all = new Witness.TryAll @specifications
+		all.run {}, (->), (->)
