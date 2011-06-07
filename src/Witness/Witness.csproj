@@ -84,6 +84,8 @@
     <None Include="Scripts\specs\Assertion.coffee" />
     <None Include="Scripts\specs\AsyncAction.coffee" />
     <None Include="Scripts\specs\Dsl.coffee" />
+    <None Include="Scripts\specs\dsl\async.coffee" />
+    <None Include="Scripts\specs\dsl\defineActions.coffee" />
     <None Include="Scripts\specs\dsl\wait.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
