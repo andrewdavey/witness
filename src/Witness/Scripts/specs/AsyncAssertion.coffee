@@ -24,7 +24,7 @@ describe "AsyncAssertion",
 	]),
 	afterRun(functionThatCallsDoneWithFalse, [
 		-> not @doneCallbackCalled
-		-> console.log(@error);@error.message == "Assertion failed: name"
+		-> @error.message == "Assertion failed: name"
 	]),
 	afterRun(functionThatCallsDoneWithUndefined, [
 		-> @doneCallbackCalled

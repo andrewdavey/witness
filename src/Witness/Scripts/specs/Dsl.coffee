@@ -13,6 +13,21 @@
 		-> (@target.loadPage "test.com") instanceof Witness.Action
 		-> (@target.loadPage "test.com").name == "load page test.com"
 	]
+},
+{
+	given: ->
+		@target = {}
+		@dsl = new Witness.Dsl @target
+		@dsl.activate()
+
+	when: ->
+		@target.defineAction "loadPage", async ((url) -> console.log "loading " + url)
+
+	then: [
+		-> typeof @target.loadPage == "function"
+		-> (@target.loadPage "test.com") instanceof Witness.AsyncAction
+		-> (@target.loadPage "test.com").name == "load page test.com"
+	]
 }
 
 describe "dsl.defineActions",

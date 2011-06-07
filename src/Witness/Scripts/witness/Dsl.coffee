@@ -10,9 +10,10 @@ this.Witness.Dsl = class Dsl
 	# Add each function in the DSL to the target object
 	activate: ->
 		for own name, func of Object.getPrototypeOf(this)
-			continue if name == "constructor"
+			continue if name in [ "constructor", "activate" ]
 			do (func) =>
 				# Always call DSL functions in the context of the DSL.
 				@target[name] = ((args...) => func.apply(this, args))
+
 
 	# See ~/scripts/witness/dsl/* for definitions of DSL functions
