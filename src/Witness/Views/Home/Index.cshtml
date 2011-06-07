@@ -12,11 +12,16 @@
         $(function () {
             var log = $("#log");
             var runner = new Witness.SimpleRunner();
-            runner.download("/scripts/specs/action.coffee", function() {
-                runner.runAll(function (msg) {
-                    log.append('<li>' + msg + '</li>');
-                });
-            })
+            var downloading = runner.download("/scripts/specs/action.coffee");
+            var downloading = runner.download("/scripts/specs/assertion.coffee");
+            var downloading = runner.download("/scripts/specs/dsl.coffee");
+            $.when(downloading).then(
+                function() {
+                    runner.runAll(function (msg) {
+                        log.append('<li>' + msg + '</li>');
+                    });
+                }
+            );
         });
     </script>
 </head>

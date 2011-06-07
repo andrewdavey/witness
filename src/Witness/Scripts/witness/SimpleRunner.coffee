@@ -6,17 +6,21 @@ this.Witness.SimpleRunner = class SimpleRunner
 	constructor: () ->
 		@specifications = []
 
-	download: (url, callback) ->
+	download: (url) ->
+		waitForSpecifications = $.Deferred()
 		$.ajax({
 			url: url
 			dataType: 'text'
 			success: (script) =>
 				if url.match(/.coffee$/)
 					script = CoffeeScript.compile(script)
-				@executeSpecificationScript(script, callback)
+				@executeSpecificationScript script, (specs) =>
+					@specifications = @specifications.concat specs
+					waitForSpecifications.resolve()
 		});
+		waitForSpecifications
 
-	executeSpecificationScript: (script, callback) ->
+	executeSpecificationScript: (script, gotSpecifications) ->
 		onloadName = 'iframe_' + (new Date().getTime())
 		iframe = $("<iframe src='/empty.htm'/>").hide().appendTo("body")
 		$(iframe).load () =>
@@ -28,13 +32,9 @@ this.Witness.SimpleRunner = class SimpleRunner
 			)
 			dsl = new Witness.Dsl(iframeWindow)
 			iframeDoc.write("<script type='text/javascript'>#{script}</script>")
-			iframeWindow.Witness_Completed = () =>
-				@specifications = @specifications.concat dsl.specifications
-				callback()
+			iframeWindow.Witness_Completed = (-> gotSpecifications dsl.specifications)
 			iframeDoc.write("<script type='text/javascript'>Witness_Completed()</script>")
 			
-
-
 
 	runAll: (log) ->
 		for specification in @specifications
