@@ -91,6 +91,7 @@
     <None Include="Scripts\witness\polyfill.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
+    <None Include="Scripts\witness\dsl\defineActions.coffee" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
