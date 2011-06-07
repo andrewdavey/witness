@@ -1,6 +1,6 @@
-﻿# reference "Action.coffee"
+﻿# reference "Witness.coffee"
 
-this.Witness.Assertion = class Assertion extends Witness.Action
+this.Witness.Assertion = class Assertion
 	constructor: (@name, @func, @args) ->
 
 	run: (context, done, fail) ->
@@ -16,5 +16,5 @@ this.Witness.Assertion = class Assertion extends Witness.Action
 		else if result == true
 			done()
 		else
-			fail "Assertion failed: " + @name
+			fail new Error "Assertion failed: " + @name
 	

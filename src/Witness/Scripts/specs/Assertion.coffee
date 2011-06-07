@@ -1,5 +1,5 @@
 ﻿# reference "../witness/dsl/describe.coffee"
-# refernce "../witness/Assertion.coffee"
+# reference "../witness/Assertion.coffee"
 
 describe "Assertion",
 {
