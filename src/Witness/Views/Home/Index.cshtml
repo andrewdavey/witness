@@ -12,10 +12,12 @@
         $(function () {
             var log = $("#log");
             var runner = new Witness.SimpleRunner();
-            var downloading = runner.download("/scripts/specs/action.coffee");
-            var downloading = runner.download("/scripts/specs/assertion.coffee");
-            var downloading = runner.download("/scripts/specs/dsl.coffee");
-            $.when(downloading).then(
+            var downloading = [
+                runner.download("/scripts/specs/action.coffee"),
+                runner.download("/scripts/specs/assertion.coffee"),
+                runner.download("/scripts/specs/dsl.coffee")
+            ]
+            $.when.apply(null, downloading).then(
                 function() {
                     runner.runAll(function (msg) {
                         log.append('<li>' + msg + '</li>');

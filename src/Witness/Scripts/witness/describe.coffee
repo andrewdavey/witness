@@ -5,14 +5,15 @@
 # reference "Assertion.coffee"
 # reference "Dsl.coffee"
 
-this.Witness.Dsl::functions.describe = (specificationName, scenariosDefinitions...) ->
-	scenarios = (createScenario scenario for scenario in scenariosDefinitions)
-	specification = new Witness.Specification specificationName, scenarios
+this.Witness.Dsl.add {
+	describe: (specificationName, scenariosDefinitions...) ->
+		scenarios = (createScenario scenario for scenario in scenariosDefinitions)
+		specification = new Witness.Specification specificationName, scenarios
 
-	if not this.specifications
-		this.specifications = []
-	this.specifications.push specification
-
+		if not this.specifications
+			this.specifications = []
+		this.specifications.push specification
+}
 
 createScenario = (scenario) ->
 	givens   = (createAction definition for definition in ensureArray scenario.given)

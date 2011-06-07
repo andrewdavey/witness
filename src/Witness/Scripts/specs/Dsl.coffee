@@ -1,33 +1,35 @@
 ﻿describe "dsl.defineAction",
 {
 	given: ->
-		@dsl = new Witness.Dsl()
+		@target = {}
+		@dsl = new Witness.Dsl(@target)
 
 	when: ->
-		@dsl.defineAction "loadPage", ((url) -> console.log "loading " + url)
+		@target.defineAction "loadPage", ((url) -> console.log "loading " + url)
 
 	then: [
-		-> typeof @dsl.loadPage == "function"
-		-> (@dsl.loadPage "test.com") instanceof Witness.Action
-		-> (@dsl.loadPage "test.com").name == "load page test.com"
+		-> typeof @target.loadPage == "function"
+		-> (@target.loadPage "test.com") instanceof Witness.Action
+		-> (@target.loadPage "test.com").name == "load page test.com"
 	]
 }
 
 describe "dsl.defineActions",
 {
 	given: ->
-		@dsl = new Witness.Dsl()
+		@target = {}
+		@dsl = new Witness.Dsl(@target)
 
 	when: ->
-		@dsl.defineActions {
+		@target.defineActions {
 			loadPage: (url) -> console.log "loading " + url
 			wait: (timeout) -> console.log "waiting " + timeout
 		}
 
 	then: [
-		-> typeof @dsl.loadPage == "function"
-		-> typeof @dsl.wait == "function"
-		-> (@dsl.loadPage "test.com") instanceof Witness.Action
-		-> (@dsl.wait 10) instanceof Witness.Action
+		-> typeof @target.loadPage == "function"
+		-> typeof @target.wait == "function"
+		-> (@target.loadPage "test.com") instanceof Witness.Action
+		-> (@target.wait 10) instanceof Witness.Action
 	]
 }
