@@ -85,6 +85,7 @@
     <None Include="Scripts\specs\AsyncAction.coffee" />
     <None Include="Scripts\specs\AsyncAssertion.coffee" />
     <None Include="Scripts\specs\Dsl.coffee" />
+    <None Include="Scripts\specs\dsl\wait.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\Specification.coffee" />
@@ -92,6 +93,7 @@
     <None Include="Scripts\witness\AsyncAction.coffee" />
     <None Include="Scripts\witness\AsyncAssertion.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
+    <None Include="Scripts\witness\dsl\wait.coffee" />
     <None Include="Scripts\witness\polyfill.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
