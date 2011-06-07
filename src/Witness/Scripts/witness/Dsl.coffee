@@ -2,36 +2,17 @@
 # reference "Action.coffee"
 # reference "StringHelpers.coffee"
 
-{splitCasedString} = Witness.helpers;
-
-# Dsl stores actions and assertions available for use by specifications
 this.Witness.Dsl = class Dsl
 	
+	# @target will usually be the global window object
 	constructor: (@target) ->
-		for own name, func of Dsl.functions
+
+	# Add each function in the DSL to the target object
+	activate: ->
+		for own name, func of Object.getPrototypeOf(this)
+			continue if name == "constructor"
 			do (func) =>
+				# Always call DSL functions in the context of the DSL.
 				@target[name] = ((args...) => func.apply(this, args))
-	
-	# Static Dsl can be extended
-	@functions: {}
-	@add: (objectOfFunctions) ->
-		@functions[name] = func for own name, func of objectOfFunctions
 
-Dsl.add {
-	defineAction: (name, func) ->
-		# An action factory is a function that captures its arguments
-		# and returns a new Action that will call the original function with them.
-		actionFactory = (args...) ->
-			description = createActionDescription name, args
-			new Witness.Action description, func, args
-		@target[name] = actionFactory
-
-	defineActions: (definitions) ->
-		@target.defineAction name, func for own name, func of definitions
-}
-
-
-
-
-createActionDescription = (name, args) ->
-	splitCasedString(name) + " " + args.join(", ")
+	# See ~/scripts/witness/dsl/* for definitions of DSL functions

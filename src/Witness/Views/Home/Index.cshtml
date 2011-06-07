@@ -12,13 +12,11 @@
         $(function () {
             var log = $("#log");
             var runner = new Witness.SimpleRunner();
-            var downloading = [
-                runner.download("/scripts/specs/action.coffee"),
-                runner.download("/scripts/specs/assertion.coffee"),
-                runner.download("/scripts/specs/dsl.coffee")
-            ]
-            $.when.apply(null, downloading).then(
-                function() {
+            var downloads = ["action", "assertion", "dsl", "scenario", "specification", "tryall"].map(function (name) {
+                return runner.download("/scripts/specs/" + name + ".coffee");
+            });
+            $.when.apply(null, downloads).then(
+                function () {
                     runner.runAll(function (msg) {
                         log.append('<li>' + msg + '</li>');
                     });

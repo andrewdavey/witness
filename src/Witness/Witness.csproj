@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="empty.htm" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\lib\coffee-script.js" />
     <Content Include="Scripts\lib\jquery.js" />
@@ -87,6 +88,7 @@
     <None Include="Scripts\specs\Specification.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
+    <None Include="Scripts\witness\polyfill.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
     <Content Include="Web.config" />
@@ -113,7 +115,7 @@
   <ItemGroup>
     <None Include="Scripts\witness\Action.coffee" />
     <None Include="Scripts\witness\Assertion.coffee" />
-    <None Include="Scripts\witness\describe.coffee" />
+    <None Include="Scripts\witness\dsl\describe.coffee" />
     <None Include="Scripts\witness\Specification.coffee" />
     <None Include="Scripts\witness\Witness.coffee" />
     <None Include="Scripts\specs\Action.coffee" />

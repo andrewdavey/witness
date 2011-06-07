@@ -1,4 +1,6 @@
-﻿# The namespace for all Witness objects.
+﻿# reference "polyfill.coffee"
+
+# The namespace for all Witness objects.
 this.Witness = {
 	helpers: {}
 };

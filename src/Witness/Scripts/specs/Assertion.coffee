@@ -1,4 +1,4 @@
-﻿# reference "../witness/describe.coffee"
+﻿# reference "../witness/dsl/describe.coffee"
 # refernce "../witness/Assertion.coffee"
 
 describe "Assertion",

@@ -2,7 +2,8 @@
 {
 	given: ->
 		@target = {}
-		@dsl = new Witness.Dsl(@target)
+		@dsl = new Witness.Dsl @target
+		@dsl.activate()
 
 	when: ->
 		@target.defineAction "loadPage", ((url) -> console.log "loading " + url)
@@ -18,13 +19,14 @@ describe "dsl.defineActions",
 {
 	given: ->
 		@target = {}
-		@dsl = new Witness.Dsl(@target)
+		@dsl = new Witness.Dsl @target
+		@dsl.activate()
 
 	when: ->
-		@target.defineActions {
+		@target.defineActions
 			loadPage: (url) -> console.log "loading " + url
 			wait: (timeout) -> console.log "waiting " + timeout
-		}
+		
 
 	then: [
 		-> typeof @target.loadPage == "function"

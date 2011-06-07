@@ -1,4 +1,4 @@
-﻿# reference "../witness/describe.coffee"
+﻿# reference "../witness/dsl/describe.coffee"
 # reference "../witness/Action.coffee"
 # reference "../witness/TryAll.coffee"
 

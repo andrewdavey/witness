@@ -28,17 +28,20 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 			# Copy all our scripts into the iframe.
 			$("head > script[src]").each(() ->
-				iframeDoc.write("<script type='text/javascript' src='#{this.src}'></script>")
+				iframeDoc.write "<script type='text/javascript' src='#{this.src}'></script>"
 			)
 			
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = ->
 				gotSpecifications dsl.specifications
-				iframe.remove();
+				# Can't instantly remove the iframe since it's still running this code!
+				# So delay for a moment to let the current code finish
+				setTimeout (-> iframe.remove()), 200
 
-			dsl = new Witness.Dsl(iframeWindow)
-			iframeDoc.write("<script type='text/javascript'>#{script}</script>")
-			iframeDoc.write("<script type='text/javascript'>_witnessScriptCompleted()</script>")
+			dsl = new Witness.Dsl iframeWindow
+			dsl.activate()
+			iframeDoc.write "<script type='text/javascript'>#{script}</script>"
+			iframeDoc.write "<script type='text/javascript'>_witnessScriptCompleted()</script>"
 			
 
 	runAll: (log) ->
