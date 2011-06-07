@@ -82,16 +82,19 @@
     <Content Include="Scripts\lib\jquery.js" />
     <Content Include="Scripts\lib\knockout.js" />
     <None Include="Scripts\specs\Assertion.coffee" />
+    <None Include="Scripts\specs\AsyncAction.coffee" />
     <None Include="Scripts\specs\Dsl.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\Specification.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
+    <None Include="Scripts\witness\AsyncAction.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
     <None Include="Scripts\witness\polyfill.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
     <None Include="Scripts\witness\dsl\defineActions.coffee" />
+    <None Include="Scripts\witness\dsl\async.coffee" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -102,6 +105,7 @@
     <Content Include="Views\Web.config" />
     <None Include="Scripts\witness\SimpleRunner.coffee" />
     <None Include="Scripts\witness\StringHelpers.coffee" />
+    <None Include="Scripts\witness\TimeoutError.coffee" />
     <None Include="Scripts\witness\TryAll.coffee" />
   </ItemGroup>
   <ItemGroup>

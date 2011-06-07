@@ -40,7 +40,10 @@ createAction = (definition) ->
 	return action
 
 createActionFromFunction = (func) ->
-	new Witness.Action func.toString(), func, []
+	if func.async?
+		new Witness.AsyncAction func.toString(), func, [], func.async.timeout 
+	else
+		new Witness.Action func.toString(), func, []
 
 createAssertion = (definition) ->
 	# TODO: Tidy this code when Jurrasic stops breaking CoffeeScript compiler!
