@@ -1,20 +1,16 @@
 ﻿# reference "Witness.coffee"
 
 this.Witness.Assertion = class Assertion
-	constructor: (@name, @func, @args) ->
+	constructor: (@action) ->
+		@name = @action.name
 
-	run: (context, done, fail) ->
-		result = null
-		try
-			result = @func.apply(context, @args)
-		catch error
-			fail error
-			return
+	run: (context, assertionDone, assertionFail) ->
+		done = (result) =>
+			if typeof result == "undefined" # no error thrown, so treat as success
+				assertionDone()
+			else if result == true
+				assertionDone()
+			else
+				assertionFail new Error "Assertion failed: " + @name
 
-		if typeof result == "undefined" # no error thrown, so treat as success
-			done()
-		else if result == true
-			done()
-		else
-			fail new Error "Assertion failed: " + @name
-	
+		@action.run context, done, assertionFail

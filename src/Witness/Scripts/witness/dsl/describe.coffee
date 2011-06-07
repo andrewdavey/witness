@@ -17,7 +17,7 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 createScenario = (scenario) ->
 	givens   = (createAction definition for definition in ensureArray scenario.given)
 	whens    = (createAction definition for definition in ensureArray scenario.when)
-	thens    = (createAssertion definition for definition in ensureArray scenario.then)
+	thens    = (createAction definition for definition in ensureArray scenario.then)
 	disposes = (createAction definition for definition in ensureArray scenario.dispose)
 
 	new Witness.Scenario givens, whens, thens, disposes
@@ -44,14 +44,3 @@ createActionFromFunction = (func) ->
 		new Witness.AsyncAction func.toString(), func, [], func.async.timeout 
 	else
 		new Witness.Action func.toString(), func, []
-
-createAssertion = (definition) ->
-	# TODO: Tidy this code when Jurrasic stops breaking CoffeeScript compiler!
-	assertion = null
-	switch typeof definition
-		when "function" then assertion = createAssertionFromFunction definition
-		else throw new Error "Unknown type of assertion definition."
-	return assertion
-
-createAssertionFromFunction = (func) ->
-	new Witness.Assertion func.toString(), func, []

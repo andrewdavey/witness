@@ -6,7 +6,7 @@ this.Witness.Action = class Action
 
 	run: (context, done, fail) ->
 		try
-			@func.apply context, @args
-			done()
+			result = @func.apply context, @args
+			done result
 		catch error
 			fail error

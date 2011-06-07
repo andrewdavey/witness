@@ -1,10 +1,13 @@
 ﻿# reference "../witness/dsl/describe.coffee"
 # reference "../witness/Assertion.coffee"
 
+actionThatReturns = (result) -> new Witness.Action("assertion-name", (-> result))
+actionThatThrows = new Witness.Action("assertion-name", (-> throw new Error "custom error"))
+
 describe "Assertion",
 {
 	given: ->
-		@assertion = new Witness.Assertion "assertion-name", (-> true)
+		@assertion = new Witness.Assertion actionThatReturns true
 
 	then: [
 		-> @assertion.name == "assertion-name"
@@ -12,7 +15,7 @@ describe "Assertion",
 },
 {
 	given: ->
-		@assertion = new Witness.Assertion "assertion-name", (-> true)
+		@assertion = new Witness.Assertion actionThatReturns true
 
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
@@ -24,7 +27,7 @@ describe "Assertion",
 },
 {
 	given: ->
-		@assertion = new Witness.Assertion "assertion-name", (-> false)
+		@assertion = new Witness.Assertion actionThatReturns false
 
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
@@ -36,7 +39,7 @@ describe "Assertion",
 },
 {
 	given: ->
-		@assertion = new Witness.Assertion "assertion-name", (-> throw new Error "custom error")
+		@assertion = new Witness.Assertion actionThatThrows
 
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)

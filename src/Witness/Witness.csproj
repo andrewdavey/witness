@@ -83,7 +83,6 @@
     <Content Include="Scripts\lib\knockout.js" />
     <None Include="Scripts\specs\Assertion.coffee" />
     <None Include="Scripts\specs\AsyncAction.coffee" />
-    <None Include="Scripts\specs\AsyncAssertion.coffee" />
     <None Include="Scripts\specs\Dsl.coffee" />
     <None Include="Scripts\specs\dsl\wait.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
@@ -91,7 +90,6 @@
     <None Include="Scripts\specs\Specification.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
     <None Include="Scripts\witness\AsyncAction.coffee" />
-    <None Include="Scripts\witness\AsyncAssertion.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
     <None Include="Scripts\witness\dsl\wait.coffee" />
     <None Include="Scripts\witness\polyfill.coffee" />
