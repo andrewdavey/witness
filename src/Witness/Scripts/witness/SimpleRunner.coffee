@@ -1,20 +1,40 @@
 ﻿# reference "Witness.coffee"
 # reference "../lib/coffee-script.js"
+# reference "../lib/jquery.js"
 
 this.Witness.SimpleRunner = class SimpleRunner
-	constructor: (@specifications) ->
+	constructor: () ->
+		@specifications = []
 
 	download: (url, callback) ->
 		$.ajax({
 			url: url
 			dataType: 'text'
-			success: (script) ->
-				dsl = new Witness.Dsl()
-				window[name] = value for name, value of dsl 
-				CoffeeScript.eval(script)
-				delete window[name] for name, value of dsl
-				callback()
+			success: (script) =>
+				if url.match(/.coffee$/)
+					script = CoffeeScript.compile(script)
+				@executeSpecificationScript(script, callback)
 		});
+
+	executeSpecificationScript: (script, callback) ->
+		onloadName = 'iframe_' + (new Date().getTime())
+		iframe = $("<iframe src='/empty.htm'/>").hide().appendTo("body")
+		$(iframe).load () =>
+			iframeWindow = iframe[0].contentWindow
+			iframeDoc = iframeWindow.document
+			iframeHead = $("head", iframeWindow.document)
+			$("head > script[src]").each(() ->
+				iframeDoc.write("<script type='text/javascript' src='#{this.src}'></script>")
+			)
+			dsl = new Witness.Dsl(iframeWindow)
+			iframeDoc.write("<script type='text/javascript'>#{script}</script>")
+			iframeWindow.Witness_Completed = () =>
+				@specifications = @specifications.concat dsl.specifications
+				callback()
+			iframeDoc.write("<script type='text/javascript'>Witness_Completed()</script>")
+			
+
+
 
 	runAll: (log) ->
 		for specification in @specifications

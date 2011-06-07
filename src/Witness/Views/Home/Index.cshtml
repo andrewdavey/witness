@@ -11,7 +11,7 @@
     <script type="text/javascript">
         $(function () {
             var log = $("#log");
-            var runner = new Witness.SimpleRunner(Witness.specifications);
+            var runner = new Witness.SimpleRunner();
             runner.download("/scripts/specs/action.coffee", function() {
                 runner.runAll(function (msg) {
                     log.append('<li>' + msg + '</li>');

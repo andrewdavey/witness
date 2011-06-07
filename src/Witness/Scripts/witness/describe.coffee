@@ -5,12 +5,13 @@
 # reference "Assertion.coffee"
 # reference "Dsl.coffee"
 
-this.Witness.specifications = []
-
-this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
+this.Witness.Dsl::functions.describe = (specificationName, scenariosDefinitions...) ->
 	scenarios = (createScenario scenario for scenario in scenariosDefinitions)
 	specification = new Witness.Specification specificationName, scenarios
-	this.Witness.specifications.push specification
+
+	if not this.specifications
+		this.specifications = []
+	this.specifications.push specification
 
 
 createScenario = (scenario) ->
@@ -23,7 +24,7 @@ createScenario = (scenario) ->
 
 ensureArray = (arrayOrObject) ->
 	if arrayOrObject?
-		if arrayOrObject instanceof Array
+		if $.isArray arrayOrObject
 			arrayOrObject
 		else
 			[ arrayOrObject ]
