@@ -10,7 +10,7 @@
     @Html.RenderScripts()
     <script type="text/javascript">
         $(function () {
-            var log = $("#log");
+            var log = new Witness.SimpleRunner.Log($("#log"));
             var runner = new Witness.SimpleRunner();
             var names = ["dsl/describe", "action", "asyncaction", "assertion", "dsl", "scenario", "specification", "tryall", "dsl/wait", "dsl/async", "dsl/defineActions"];
             //var names = ["dsl/describe"];
@@ -19,9 +19,7 @@
             });
             $.when.apply(null, downloads).then(
                 function () {
-                    runner.runAll(function (msg) {
-                        log.append('<li>' + msg + '</li>');
-                    });
+                    runner.runAll(log);
                 }
             );
         });

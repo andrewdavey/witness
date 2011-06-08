@@ -45,18 +45,68 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 
 	runAll: (log) ->
-		before = (object, name, newFunc) ->
+		trace = (object, name, functions) ->
 			old = object[name]
 			# replace the function
-			object[name] = (args...) ->
-				newFunc.apply this, args
+			object[name] = (context, done, fail) ->
+				if functions.done?
+					oldDone = done
+					done = (doneArgs...) ->
+						functions.done.apply this, doneArgs
+						oldDone.apply this, doneArgs
+				if functions.fail?
+					oldFail = fail
+					fail = (failArgs...) ->
+						functions.fail.apply this, failArgs
+						oldFail.apply this, failArgs
+
+				args = [context, done, fail]
+				functions.run.apply this, args
 				old.apply this, args
+
 			# return a 'restore' function
 			() -> object[name] = old
 
-		before Witness.Specification::, "run", () -> log "Testing: " + @description
-		before Witness.Scenario::, "run", () -> log "Scenario:"
-		before Witness.Assertion::, "run", () -> log "Asserting: " + @name
+		trace Witness.Specification::, "run", 
+			run: ->
+				log.write "Testing: " + @description
+				log.indent()
+			done: -> log.unindent()
+			fail: -> log.unindent()
+
+		trace Witness.Scenario::, "run",
+			run: ->
+				log.write "Scenario:"
+				log.indent()
+			done: -> log.unindent()
+			fail: -> log.unindent()
+
+		trace Witness.Assertion::, "run",
+			run: -> log.write "Asserting: " + @name
+
+		@specifications.sort (a,b) ->
+			return -1 if a.description < b.description
+			return 1  if a.description > b.description
+			0
 
 		all = new Witness.TryAll @specifications
 		all.run {}, (->), (->)
+
+this.Witness.SimpleRunner.Log = class Log
+	constructor: (listElement) ->
+		@currentList = listElement
+		@stack = []
+
+	write: (message) ->
+		@currentList.append "<li>#{message}</li>"
+
+	indent: ->
+		@stack.push @currentList
+		item = $ "<li/>"
+		newList = $ "<ul/>"
+		@currentList.append item
+		item.append newList
+		@currentList = newList
+
+	unindent: ->
+		@currentList = @stack.pop()
