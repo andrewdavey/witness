@@ -15,13 +15,15 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 
 
 createScenario = (scenario) ->
-	createActions = (input) -> (createAction definition for definition in ensureArray input)
 	givens   = createActions scenario.given
 	whens    = createActions scenario.when
-	thens    = createActions scenario.then
+	thens    = flatten createActions scenario.then
 	disposes = createActions scenario.dispose
 
 	new Witness.Scenario givens, whens, thens, disposes
+
+createActions = (input) ->
+	(createAction definition for definition in ensureArray input)
 
 ensureArray = (arrayOrObject) ->
 	if arrayOrObject?
@@ -43,7 +45,7 @@ createAction = (definition) ->
 			if isAnActionObject definition
 				action = definition
 			else
-				throw new Error "Unknown type of action definition."
+				action = createActionFromObject definition
 
 		else throw new Error "Unknown type of action definition."
 
@@ -56,3 +58,9 @@ createActionFromFunction = (func) ->
 		new Witness.AsyncAction func.toString(), func, [], func.async.timeout 
 	else
 		new Witness.Action func.toString(), func, []
+
+createActionFromObject = (object) ->
+	(value(key) for own key, value of object)
+
+flatten = (arrays) ->
+	arrays.reduce ((a,b) -> a.concat b), []

@@ -17,4 +17,24 @@
 		-> $.isArray @thens
 		-> $.isArray @disposes
 	]
+},
+{
+	given: ->
+		@context = { contextProperty: 42 }
+		textContext = this
+		actionFactory = (name) => new Witness.Action "action", (-> textContext.value = @[name]), []
+		thenObject = { contextProperty: actionFactory }
+		
+		@scenario = { given: [], when: [], then: thenObject }
+		@target = {}
+		@dsl = new Witness.Dsl(@target)
+	
+	when: ->
+		@dsl.describe.call @target, "specification-name", @scenario
+		@assertion = @target.specifications[0].scenarios[0].thens[0]
+		@assertion.run @context, (->), (->)
+
+	then: [
+		-> @value == 42 # We were passed the value of the context property
+	]
 }

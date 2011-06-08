@@ -12,5 +12,6 @@
 		-> "async" of @target
 		-> "defineAction" of @target
 		-> "defineActions" of @target
+		-> typeof @target.should == "object"
 	]
 }
