@@ -2,6 +2,8 @@
 # reference "Sequence.coffee"
 # reference "TryAll.coffee"
 
+globalIndex = 0
+
 this.Witness.Scenario = class Scenario
 	
 	constructor: (@givens, @whens, @thens, @disposes) ->
@@ -10,7 +12,12 @@ this.Witness.Scenario = class Scenario
 		sequence = new Witness.Sequence [].concat @givens, @whens, tryAllAssertions
 		# The dispose whens must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
-		@aggregateAction = new Witness.TryAll [].concat sequence, disposes
+		if @disposes.length > 0
+			@aggregateAction = new Witness.TryAll [].concat sequence, disposes
+		else
+			@aggregateAction = sequence
+
+		@index = globalIndex++;
 
 	run: (outerContext, done, fail) ->
 		context = {}

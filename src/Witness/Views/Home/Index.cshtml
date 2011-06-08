@@ -13,7 +13,7 @@
             var log = new Witness.SimpleRunner.Log($("#log"));
             var runner = new Witness.SimpleRunner();
             var names = ["dsl/describe", "action", "asyncaction", "assertion", "dsl", "scenario", "specification", "tryall", "dsl/wait", "dsl/async", "dsl/defineActions"];
-            //var names = ["dsl/describe"];
+            //var names = ["AsyncAction"];
             var downloads = names.map(function (name) {
                 return runner.download("/scripts/specs/" + name + ".coffee");
             });
@@ -24,6 +24,10 @@
             );
         });
     </script>
+    <style type="text/css">
+    li.passed { color: Green; }
+    li.failed { color: #800; }
+    </style>
 </head>
 <body>
     <ul id="log">

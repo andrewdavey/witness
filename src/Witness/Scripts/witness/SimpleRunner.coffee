@@ -10,6 +10,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 		waitForSpecifications = $.Deferred()
 		$.ajax({
 			url: url
+			cache: false
 			dataType: 'text'
 			success: (script) =>
 				if url.match(/.coffee$/)
@@ -34,9 +35,6 @@ this.Witness.SimpleRunner = class SimpleRunner
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = ->
 				gotSpecifications dsl.specifications
-				# Can't instantly remove the iframe since it's still running this code!
-				# So delay for a moment to let the current code finish
-				setTimeout (-> iframe.remove()), 200
 
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
@@ -52,37 +50,58 @@ this.Witness.SimpleRunner = class SimpleRunner
 				if functions.done?
 					oldDone = done
 					done = (doneArgs...) ->
-						functions.done.apply this, doneArgs
+						try
+							functions.done.apply this, doneArgs
+						catch e
+							
 						oldDone.apply this, doneArgs
 				if functions.fail?
 					oldFail = fail
 					fail = (failArgs...) ->
-						functions.fail.apply this, failArgs
+						try
+							functions.fail.apply this, failArgs
+						catch e
+							
 						oldFail.apply this, failArgs
 
 				args = [context, done, fail]
-				functions.run.apply this, args
+				try
+					functions.run.apply this, args
+				catch e
+					
 				old.apply this, args
 
 			# return a 'restore' function
 			() -> object[name] = old
 
+		
 		trace Witness.Specification::, "run", 
 			run: ->
 				log.write "Testing: " + @description
 				log.indent()
-			done: -> log.unindent()
-			fail: -> log.unindent()
+			fail: (e) ->
+				log.write e
+				log.unindent()
+			done: ->
+				log.unindent()
 
 		trace Witness.Scenario::, "run",
 			run: ->
-				log.write "Scenario:"
+				log.write "Scenario:" + @index
 				log.indent()
-			done: -> log.unindent()
-			fail: -> log.unindent()
+			done: ->
+				log.unindent()
+			fail: (e) ->
+				log.write e
+				log.unindent()
 
 		trace Witness.Assertion::, "run",
 			run: -> log.write "Asserting: " + @name
+			done: -> log.currentItem.addClass "passed"
+			fail: (e) ->
+				log.currentItem.addClass "failed"
+				log.currentItem.append "<p>#{e}</p>"
+		
 
 		@specifications.sort (a,b) ->
 			return -1 if a.description < b.description
@@ -98,7 +117,9 @@ this.Witness.SimpleRunner.Log = class Log
 		@stack = []
 
 	write: (message) ->
-		@currentList.append "<li>#{message}</li>"
+		item = $ "<li>#{message}</li>"
+		@currentList.append item
+		@currentItem = item
 
 	indent: ->
 		@stack.push @currentList

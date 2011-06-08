@@ -4,22 +4,8 @@
 describe "AsyncAction",
 {
 	given: ->
-		functionThatCallsDone = -> setTimeout (=> this.done()), 20
-		@action = new Witness.AsyncAction "name", functionThatCallsDone, []
-
-	when: async ->
-		testDone = @done;
-		@action.run {}, (=> @doneCalled = true; testDone()), (=> @failCalled = true; testDone())
-
-	then: [
-		-> @doneCalled == true
-		-> not @failCalled
-	]
-},
-{
-	given: ->
-		functionThatCallsFail = -> setTimeout (=> this.fail "failed"), 20
-		@action = new Witness.AsyncAction "name", functionThatCallsFail, []
+		functionThatThrowsBeforeAsync = -> throw new Error "failed"
+		@action = new Witness.AsyncAction "name", functionThatThrowsBeforeAsync, []
 
 	when: async ->
 		testDone = @done;
@@ -27,13 +13,13 @@ describe "AsyncAction",
 
 	then: [
 		-> not @doneCalled
-		-> @error == "failed"
+		-> @error.message == "failed"
 	]
 },
 {
 	given: ->
 		functionThatDoesNothing = (->)
-		timeToWait = 100 # milliseconds
+		timeToWait = 10 # milliseconds
 		@action = new Witness.AsyncAction "name", functionThatDoesNothing, [], timeToWait
 
 	when: async ->
@@ -47,8 +33,22 @@ describe "AsyncAction",
 },
 {
 	given: ->
-		functionThatThrowsBeforeAsync = -> throw new Error "failed"
-		@action = new Witness.AsyncAction "name", functionThatThrowsBeforeAsync, []
+		functionThatCallsDone = -> setTimeout (=> this.done()), 100
+		@action = new Witness.AsyncAction "name", functionThatCallsDone, []
+
+	when: async ->
+		testDone = @done;
+		@action.run {}, (=> @doneCalled = true; testDone()), (=> @failCalled = true; testDone())
+
+	then: [
+		-> @doneCalled == true
+		-> not @failCalled
+	]
+},
+{
+	given: ->
+		functionThatCallsFail = -> setTimeout (=> this.fail "failed"), 10
+		@action = new Witness.AsyncAction "name", functionThatCallsFail, []
 
 	when: async ->
 		testDone = @done;
@@ -56,6 +56,6 @@ describe "AsyncAction",
 
 	then: [
 		-> not @doneCalled
-		-> @error.message == "failed"
+		-> @error == "failed"
 	]
 }

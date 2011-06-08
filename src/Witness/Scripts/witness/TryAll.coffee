@@ -14,9 +14,11 @@ this.Witness.TryAll = class TryAll
 				done()
 
 		chainer = (next, action) -> 
-			() -> action.run context, next, (error) ->
-				errors.push error
-				next()
+			() ->
+				action.run context, next, (error) ->
+					errors.push error
+					next()
+				return
 
 		tryAll = @actions.reduceRight chainer, callDoneOrFail
 		tryAll()
