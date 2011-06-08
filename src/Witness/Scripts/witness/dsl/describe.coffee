@@ -36,9 +36,20 @@ createAction = (definition) ->
 	# TODO: Tidy this code when Jurrasic stops breaking CoffeeScript compiler!
 	action = null
 	switch typeof definition
-		when "function" then action = createActionFromFunction definition
+		when "function" 
+			action = createActionFromFunction definition
+
+		when "object"
+			if isAnActionObject definition
+				action = definition
+			else
+				throw new Error "Unknown type of action definition."
+
 		else throw new Error "Unknown type of action definition."
+
 	return action
+
+isAnActionObject = (object) -> "run" of object
 
 createActionFromFunction = (func) ->
 	if func.async?
