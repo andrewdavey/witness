@@ -4,13 +4,13 @@
 
 this.Witness.Scenario = class Scenario
 	
-	constructor: (@setupActions, @actions, @assertionActions, @disposeActions) ->
-		assertions = (new Witness.Assertion action for action in @assertionActions)
+	constructor: (@givens, @whens, @thens, @disposes) ->
+		assertions = (new Witness.Assertion action for action in @thens)
 		tryAllAssertions = new Witness.TryAll assertions
-		sequence = new Witness.Sequence [].concat @setupActions, @actions, tryAllAssertions
-		# The dispose actions must *always* run, even if the previous sequence fails.
+		sequence = new Witness.Sequence [].concat @givens, @whens, tryAllAssertions
+		# The dispose whens must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
-		@aggregateAction = new Witness.TryAll [].concat sequence, disposeActions
+		@aggregateAction = new Witness.TryAll [].concat sequence, disposes
 
 	run: (outerContext, done, fail) ->
 		context = {}
