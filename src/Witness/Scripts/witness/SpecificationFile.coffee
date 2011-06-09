@@ -18,7 +18,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 				if url.match(/.coffee$/)
 					script = CoffeeScript.compile(script)
 				@executeSpecificationScript script, (specs) =>
-					@specifications.push spec for spec in specs
+					@specifications.push new Witness.ViewModels.SpecificationViewModel(spec) for spec in specs
 		)
 
 	executeSpecificationScript: (script, gotSpecifications) ->
