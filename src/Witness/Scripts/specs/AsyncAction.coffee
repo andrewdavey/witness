@@ -11,10 +11,9 @@ describe "AsyncAction",
 		testDone = @done;
 		@action.run {}, (=> @doneCalled = true; testDone()), ((error) => @error = error; testDone())
 
-	then: [
-		-> not @doneCalled
-		-> @error.message == "failed"
-	]
+	then:
+		doneCalled: should.be undefined
+		error: message: should.be "failed"
 },
 {
 	given: ->
@@ -26,10 +25,9 @@ describe "AsyncAction",
 		testDone = @done;
 		@action.run {}, (=> @doneCalled = true; testDone()), ((error) => @error = error; testDone())
 
-	then: [
-		-> not @doneCalled
-		-> @error instanceof Witness.TimeoutError
-	]
+	then:
+		doneCalled: should.be undefined
+		error: should.beInstanceof Witness.TimeoutError
 },
 {
 	given: ->
@@ -40,10 +38,9 @@ describe "AsyncAction",
 		testDone = @done;
 		@action.run {}, (=> @doneCalled = true; testDone()), (=> @failCalled = true; testDone())
 
-	then: [
-		-> @doneCalled == true
-		-> not @failCalled
-	]
+	then:
+		doneCalled: should.be true
+		failCalled: should.be undefined
 },
 {
 	given: ->
@@ -54,8 +51,7 @@ describe "AsyncAction",
 		testDone = @done;
 		@action.run {}, (=> @doneCalled = true; testDone()), ((error) => @error = error; testDone())
 
-	then: [
-		-> not @doneCalled
-		-> @error == "failed"
-	]
+	then:
+		doneCalled: should.be undefined
+		error: should.be "failed"
 }

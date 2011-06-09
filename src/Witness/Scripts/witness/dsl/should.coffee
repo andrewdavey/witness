@@ -55,6 +55,14 @@ this.Witness.Dsl::should =
 			expected = printableValue expected
 			"#{fullName} should not be #{expected}"
 		error: (fullName, actual, expected) ->
-			actual = printableValue actual
 			expected = printableValue expected
 			"Expected #{fullName} to not be #{expected}"
+
+	beInstanceof: predicateActionBuilder
+		test: (actual, expected) ->
+			actual instanceof expected
+		description: (fullName, expected) ->
+			typeName = expected.toString().match(/function\s*(.*?)\s*\(/)[1]
+			"#{fullName} should be instance of #{typeName}"
+		error: (fullName, actual, expected) ->
+			"Expected #{fullName} to be instance of #{expected}"
