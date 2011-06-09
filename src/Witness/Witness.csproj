@@ -92,15 +92,20 @@
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\Specification.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
+    <None Include="Scripts\specs\ViewModels\ActionWatcher.coffee" />
+    <None Include="Scripts\specs\ViewModels\ScenarioViewModel.coffee" />
     <None Include="Scripts\witness\AsyncAction.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
     <None Include="Scripts\witness\dsl\wait.coffee" />
+    <None Include="Scripts\witness\Event.coffee" />
     <None Include="Scripts\witness\polyfill.coffee" />
     <None Include="Scripts\witness\Scenario.coffee" />
     <None Include="Scripts\witness\Sequence.coffee" />
     <None Include="Scripts\witness\dsl\defineActions.coffee" />
     <None Include="Scripts\witness\dsl\async.coffee" />
     <None Include="Scripts\specs\dsl\should.coffee" />
+    <None Include="Scripts\witness\ViewModels\ActionWatcher.coffee" />
+    <None Include="Scripts\witness\ViewModels\ScenarioViewModel.coffee" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -129,6 +134,7 @@
     <None Include="Scripts\witness\Assertion.coffee" />
     <None Include="Scripts\witness\dsl\describe.coffee" />
     <None Include="Scripts\witness\Specification.coffee" />
+    <None Include="Scripts\witness\ViewModels\ViewModels.coffee" />
     <None Include="Scripts\witness\Witness.coffee" />
     <None Include="Scripts\specs\Action.coffee" />
   </ItemGroup>

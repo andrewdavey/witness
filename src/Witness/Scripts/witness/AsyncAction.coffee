@@ -1,26 +1,37 @@
 ﻿# reference "Witness.coffee"
+# reference "Event.coffee"
 # reference "TimeoutError.coffee"
 
 this.Witness.AsyncAction = class AsyncAction
 	
 	constructor: (@name, @func, @args, @timeout = AsyncAction.defaultTimeout) ->
-		
+		@on =
+			run: new Witness.Event()
+			done: new Witness.Event()
+			fail: new Witness.Event()
+
 	run: (context, done, fail) ->
+		@on.run.raise()
+
 		cancelledByTimeout = false
-		context.done = ->
+		context.done = =>
 			if not cancelledByTimeout
 				clearTimeout timeoutId
+				@on.done.raise()
 				done()
 
-		context.fail = (args...) ->
+		context.fail = (args...) =>
 			if not cancelledByTimeout
 				clearTimeout timeoutId
+				@on.fail.raise.apply @on.fail, args
 				fail.apply(null, args)
 
-		failDueToTimeout = ->
+		failDueToTimeout = =>
 			cancelledByTimeout = true
 			delete timeoutId
-			fail new Witness.TimeoutError "Asynchronous action timed out."
+			error = new Witness.TimeoutError "Asynchronous action timed out."
+			@on.fail.raise error
+			fail error
 
 		timeoutId = setTimeout failDueToTimeout, @timeout
 		try
@@ -28,6 +39,7 @@ this.Witness.AsyncAction = class AsyncAction
 		catch e
 			clearTimeout timeoutId
 			fail e
+			@on.fail.raise e
 
 
 AsyncAction.defaultTimeout = 1000 # milliseconds

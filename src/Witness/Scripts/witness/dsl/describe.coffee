@@ -61,6 +61,8 @@ createActionFromFunction = (func) ->
 
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"
+		if parentNames[parentNames.length - 1] == "this"
+			parentNames = parentNames[0...parentNames.length - 1]
 		object.apply(null, parentNames)
 	else if $.isArray object
 		(createActionsFromObject(value, parentNames.concat(i)) for value, i in object)

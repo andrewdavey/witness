@@ -43,6 +43,8 @@ printableValue = (value) ->
 	else
 		value
 
+this.Witness.Dsl::predicateActionBuilder = predicateActionBuilder
+
 this.Witness.Dsl::should =
 
 	be: predicateActionBuilder
