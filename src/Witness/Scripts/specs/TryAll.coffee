@@ -14,14 +14,13 @@ describe "TryAll",
 	when: ->
 		@tryAll.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 
-	then: [
-		-> @action0Called == true
-		-> @action0Context == @context
-		-> @action1Called == true
-		-> @action1Context == @context
-		-> @doneCallbackCalled == true
-		-> not @failCallbackCalled
-	]
+	then:
+		action0Called: should.be true
+		action0Context: should.be -> @context
+		action1Called: should.be true
+		action1Context: should.be -> @context
+		doneCallbackCalled: should.be true
+		failCallbackCalled: should.be undefined
 },
 {
 	given: ->
@@ -30,14 +29,12 @@ describe "TryAll",
 		@tryAll = new Witness.TryAll [action0, action1]
 
 	when: ->
-		@tryAll.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
+		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
-	then: [
-		-> @action1Called == true
-		-> not @doneCallbackCalled
-		-> @error instanceof Array
-		-> @error[0].message == "action-0 failed"
-	]
+	then:
+		action1Called: should.be true
+		doneCallbackCalled: should.be undefined
+		errors: [ message: should.be "action-0 failed" ]
 },
 {
 	given: ->
@@ -48,12 +45,10 @@ describe "TryAll",
 	when: ->
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
-	then: [
-		-> @action0Called == true
-		-> not @doneCallbackCalled
-		-> @errors instanceof Array
-		-> @errors[0].message == "action-1 failed"
-	]
+	then:
+		action0Called: should.be true
+		doneCallbackCalled: should.be undefined
+		errors: [ message: should.be "action-1 failed" ]
 },
 {
 	given: ->
@@ -64,10 +59,10 @@ describe "TryAll",
 	when: ->
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
-	then: [
-		-> not @doneCallbackCalled
-		-> @errors instanceof Array
-		-> @errors[0].message == "action-0 failed"
-		-> @errors[1].message == "action-1 failed"
-	]
+	then:
+		doneCallbackCalled: should.be undefined
+		errors: [
+			{ message: should.be "action-0 failed" },
+			{ message: should.be "action-1 failed" }
+		]
 }
