@@ -1,6 +1,7 @@
 ﻿@{
     Html.ReferenceScript("scripts/witness/SimpleRunner.coffee");
     Html.ReferenceScript("scripts/lib/jquery.js");
+    Html.ReferenceScript("scripts/lib/jquery.tmpl.js");
 }
 <!DOCTYPE html>
 <html>
@@ -10,18 +11,9 @@
     @Html.RenderScripts()
     <script type="text/javascript">
         $(function () {
-            var log = new Witness.SimpleRunner.Log($("#log"));
-            var runner = new Witness.SimpleRunner();
-            var names = ["dsl/should", "dsl/describe", "action", "asyncaction", "assertion", "dsl", "scenario", "specification", "sequence", "tryall", "dsl/wait", "dsl/async", "dsl/defineActions", "ViewModels/ScenarioViewModel"];
-            //var names = ["ViewModels/ScenarioViewModel"];
-            var downloads = names.map(function (name) {
-                return runner.download("/scripts/specs/" + name + ".coffee");
-            });
-            $.when.apply(null, downloads).then(
-                function () {
-                    runner.runAll(log);
-                }
-            );
+            var runner = new Witness.SimpleRunner("scripts/specs");
+            runner.download();
+            ko.applyBindings(runner);
         });
     </script>
     <style type="text/css">
@@ -30,7 +22,18 @@
     </style>
 </head>
 <body>
-    <ul id="log">
-    </ul>
+    <ul id="specifications" data-bind="template: { name: 'directory', foreach: directory }"></ul>
+    <script id="directory" type="text/html">
+    <li class="directory">
+        <div class="name" data-bind="text: name"></div>
+        <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
+        <ul data-bind="template: { name: 'file', foreach: files }"></ul>
+    </li>
+    </script>
+    <script id="file" type="text/html">
+    <li class="file">
+        <div class="name" data-bind="text: name"></div>
+    </li>
+    </script>
 </body>
 </html>

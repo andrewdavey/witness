@@ -1,12 +1,29 @@
 ﻿# reference "Witness.coffee"
 # reference "../lib/coffee-script.js"
 # reference "../lib/jquery.js"
+# reference "../lib/knockout.js"
 
 this.Witness.SimpleRunner = class SimpleRunner
-	constructor: () ->
-		@specifications = []
+	constructor: (@specsPath) ->
+		# Use an observable array, since knockout dislikes binding to a null object.
+		# Once loaded, the array will contain the single directory object.
+		@directory = ko.observableArray []
 
-	download: (url) ->
+	download: ->
+		downloading = @downloadSpecificationManifest()
+		downloading.then (manifest) => @createSpecificationDirectoryFromManifest manifest
+		downloading
+
+	downloadSpecificationManifest: ->
+		$.ajax(
+			url: "/specs.ashx/" + @specsPath
+			cache: false
+		)
+
+	createSpecificationDirectoryFromManifest: (manifest) ->
+		@directory.push new Witness.SpecificationDirectory manifest	
+
+	downloadSpecification: (url) ->
 		waitForSpecifications = $.Deferred()
 		$.ajax({
 			url: url
