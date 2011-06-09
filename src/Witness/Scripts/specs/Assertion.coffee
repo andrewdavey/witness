@@ -9,9 +9,8 @@ describe "Assertion",
 	given: ->
 		@assertion = new Witness.Assertion actionThatReturns true
 
-	then: [
-		-> @assertion.name == "assertion-name"
-	]
+	then:
+		assertion: name: should.be "assertion-name"
 },
 {
 	given: ->
@@ -20,10 +19,9 @@ describe "Assertion",
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
 	
-	then: [
-		-> @doneCallbackCalled == true
-		-> not @failCallbackCalled
-	]
+	then:
+		doneCallbackCalled: should.be true
+		failCallbackCalled: should.be undefined
 },
 {
 	given: ->
@@ -32,10 +30,9 @@ describe "Assertion",
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 	
-	then: [
-		-> not @doneCallbackCalled
-		-> @failCallbackCalled == true
-	]
+	then:
+		doneCallbackCalled: should.be undefined
+		failCallbackCalled: should.be true
 },
 {
 	given: ->
@@ -44,8 +41,7 @@ describe "Assertion",
 	when: ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
 	
-	then: [
-		-> not @doneCallbackCalled
-		-> @error.message == "custom error"
-	]
+	then:
+		doneCallbackCalled: should.be undefined
+		error: message: should.be "custom error"
 }
