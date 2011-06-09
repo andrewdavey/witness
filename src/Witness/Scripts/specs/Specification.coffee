@@ -9,8 +9,8 @@ describe "Specification",
 			[ new Witness.Scenario([],[],[],[]), new Witness.Scenario([],[],[],[]) ]
 		)
 
-	then: [
-		-> @specification.description == "specification description"
-		-> @specification.scenarios.length == 2
-	]
+	then:
+		specification:
+			description: should.be "specification description"
+			scenarios: length: should.be 2
 }
