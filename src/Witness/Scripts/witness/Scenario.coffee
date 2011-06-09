@@ -10,7 +10,7 @@ this.Witness.Scenario = class Scenario
 		assertions = (new Witness.Assertion action for action in @thens)
 		tryAllAssertions = new Witness.TryAll assertions
 		sequence = new Witness.Sequence [].concat @givens, @whens, tryAllAssertions
-		# The dispose whens must *always* run, even if the previous sequence fails.
+		# The disposes must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
 		if @disposes.length > 0
 			@aggregateAction = new Witness.TryAll [].concat sequence, disposes
