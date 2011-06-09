@@ -1,57 +1,32 @@
-﻿describe "should.equal",
+﻿describe "should.be",
 {
 	given: ->
-		@actionFactory = Witness.Dsl::should.equal 100
+		@actionFactory = Witness.Dsl::should.be 100
 		@action = @actionFactory "theProperty"
 
 	when: ->
 		@action.run { theProperty: 100 }, (=> @done = true), (->)
 
 	then: [
-		-> @action.name == "theProperty should equal 100"
+		-> @action.name == "theProperty should be 100"
 		-> @done == true
 	]
 },
 {
 	given: ->
-		@actionFactory = Witness.Dsl::should.equal 100
+		@actionFactory = Witness.Dsl::should.be 100
 		@action = @actionFactory "theProperty"
 
 	when: ->
 		@action.run { theProperty: 666 }, (->), ((error) => @error = error)
 
 	then: [
-		-> @error.message == "Expected theProperty to equal 100 but was 666"
-	]
-},
-{
-	given: ->
-		@actionFactory = Witness.Dsl::should.notEqual 666
-		@action = @actionFactory "theProperty"
-
-	when: ->
-		@action.run { theProperty: 100 }, (=> @done = true), (->)
-
-	then: [
-		-> @action.name == "theProperty should not equal 666"
-		-> @done == true
-	]
-},
-{
-	given: ->
-		@actionFactory = Witness.Dsl::should.notEqual 666
-		@action = @actionFactory "theProperty"
-
-	when: ->
-		@action.run { theProperty: 666 }, (->), ((error) => @error = error)
-
-	then: [
-		-> @error.message == "Expected theProperty to not equal 666"
+		-> @error.message == "Expected theProperty to be 100 but was 666"
 	]
 },
 { # Scenario is equivalent to the above, but using should's instead
 	given: ->
-		@actionFactory = Witness.Dsl::should.equal 100
+		@actionFactory = Witness.Dsl::should.be 100
 
 	when: ->
 		@action = @actionFactory "theProperty"
@@ -59,6 +34,43 @@
 
 	then: 
 		action:
-			name: should.equal "theProperty should equal 100"
-		done: should.equal(true)
+			name: should.be "theProperty should be 100"
+		done: should.be(true)
+},
+{
+	given: ->
+		@actionFactory = Witness.Dsl::should.be "a string value"
+	when: ->
+		@action = @actionFactory "theProperty"
+		@action.run { theProperty: "incorrect string value" }, (->), ((error) => @error = error)
+	then:
+		action:
+			name: should.be "theProperty should be \"a string value\""
+}
+
+describe "should.notBe",
+{
+	given: ->
+		@actionFactory = Witness.Dsl::should.notBe 666
+		@action = @actionFactory "theProperty"
+
+	when: ->
+		@action.run { theProperty: 100 }, (=> @done = true), (->)
+
+	then: [
+		-> @action.name == "theProperty should not be 666"
+		-> @done == true
+	]
+},
+{
+	given: ->
+		@actionFactory = Witness.Dsl::should.notBe 666
+		@action = @actionFactory "theProperty"
+
+	when: ->
+		@action.run { theProperty: 666 }, (->), ((error) => @error = error)
+
+	then: [
+		-> @error.message == "Expected theProperty to not be 666"
+	]
 }

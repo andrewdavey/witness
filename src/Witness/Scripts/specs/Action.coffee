@@ -16,13 +16,12 @@ describe "Action",
 				@doneContext = testContext),
 			(() => @failCallbackCalled = true)
 		)
-		
-	then: [
-		-> @action.name == "action-name"
-		-> @doneCallbackCalled == true
-		-> @doneContext is @testContext
-		-> not @failCallbackCalled
-	]
+	
+	then:
+		action: { name: should.be "action-name" }
+		doneCallbackCalled: should.be true
+		doneContext: should.be -> @testContext
+		failCallbackCalled: should.be undefined
 },
 {
 	given: ->
