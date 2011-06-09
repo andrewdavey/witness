@@ -3,7 +3,7 @@
 predicateActionBuilder = (options) ->
 	(expected) ->
 		(propertyNames...) ->
-			fullName = propertyNames.join "."
+			fullName = createFullName propertyNames
 			description = options.description fullName, expected
 			new Witness.Action description, () ->
 				actual = decendPropertiesToValue this, propertyNames
@@ -13,6 +13,18 @@ predicateActionBuilder = (options) ->
 					throw new Error error
 				else
 					throw error
+
+createFullName = (propertyNames) ->
+	# [ "foo", 0, "bar" ] -> "foo[0].bar"
+	fullName = []
+	for name in propertyNames
+		if typeof name == "number"
+			fullName.push "[", name, "]"
+		else
+			if fullName.length > 0
+				fullName.push "."
+			fullName.push name
+	fullName.join ""
 
 decendPropertiesToValue = (object, propertyNames) ->
 	for name in propertyNames

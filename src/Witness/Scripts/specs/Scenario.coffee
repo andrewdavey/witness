@@ -14,12 +14,11 @@ describe "Scenario",
 	when: ->
 		@scenario.run {}, (->), (->)
 
-	then: [
-		-> @givenCalled == true
-		-> @whenCalled == true
-		-> @thenCalled == true
-		-> @disposeCalled == true
-	]
+	then:
+		givenCalled: should.be true
+		whenCalled: should.be true
+		thenCalled: should.be true
+		disposeCalled: should.be true
 },
 {
 	given: ->
@@ -32,10 +31,9 @@ describe "Scenario",
 	when: ->
 		@scenario.run {}, (->), ((errors) => @errors = errors)
 
-	then: [
-		-> not @whenCalled
-		-> not @thenCalled
-		-> @disposeCalled == true
-		-> @errors[0].message == "given failed"
-	]
+	then:
+		whenCalled: should.be undefined
+		thenCalled: should.be undefined
+		disposeCalled: should.be true
+		errors: [ message: should.be "given failed" ]
 }

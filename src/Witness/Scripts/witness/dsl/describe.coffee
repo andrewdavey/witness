@@ -62,8 +62,12 @@ createActionFromFunction = (func) ->
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"
 		object.apply(null, parentNames)
-	else
+	else if $.isArray object
+		(createActionsFromObject(value, parentNames.concat(i)) for value, i in object)
+	else if typeof object == "object"
 		(createActionsFromObject(value, parentNames.concat(key)) for own key, value of object)
+	else
+		throw new TypeError "Input must be a Function, Array or Object."
 
 flatten = (input) ->
 	output = []
