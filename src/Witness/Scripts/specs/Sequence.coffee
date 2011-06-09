@@ -14,14 +14,13 @@ describe "Sequence",
 	when: ->
 		@sequence.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 
-	then: [
-		-> @action0Called == true
-		-> @action0Context == @context
-		-> @action1Called == true
-		-> @action1Context == @context
-		-> @doneCallbackCalled?
-		-> not @failCallbackCalled
-	]
+	then:
+		action0Called: should.be true
+		action0Context: should.be -> @context
+		action1Called: should.be true
+		action1Context: should.be -> @context
+		doneCallbackCalled: should.be true
+		failCallbackCalled: should.be undefined
 },
 {
 	given: ->
@@ -32,9 +31,8 @@ describe "Sequence",
 	when: ->
 		@sequence.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
 
-	then: [
-		-> not @action1Called
-		-> not @doneCallbackCalled
-		-> @error.message == "action-0 failed"
-	]
+	then:
+		action1Called: should.be undefined
+		doneCallbackCalled: should.be undefined
+		error: message: should.be "action-0 failed"
 }

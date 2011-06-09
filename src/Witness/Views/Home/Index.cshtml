@@ -12,7 +12,7 @@
         $(function () {
             var log = new Witness.SimpleRunner.Log($("#log"));
             var runner = new Witness.SimpleRunner();
-            var names = ["dsl/should", "dsl/describe", "action", "asyncaction", "assertion", "dsl", "scenario", "specification", "tryall", "dsl/wait", "dsl/async", "dsl/defineActions"];
+            var names = ["dsl/should", "dsl/describe", "action", "asyncaction", "assertion", "dsl", "scenario", "specification", "sequence", "tryall", "dsl/wait", "dsl/async", "dsl/defineActions"];
             //var names = ["dsl/should"];
             var downloads = names.map(function (name) {
                 return runner.download("/scripts/specs/" + name + ".coffee");
