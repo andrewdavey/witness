@@ -38,11 +38,10 @@ describe "Action",
 				@failContext = testContext)
 		)
 
-	then: [
-		-> @failCallbackCalled == true
-		-> @failContext is @testContext
-		-> not @doneCallbackCalled
-	]
+	then:
+		failCallbackCalled: should.be true
+		failContext: should.be -> @testContext
+		doneCallbackCalled: should.be undefined
 },
 {
 	given: -> # Action that has two arguments
@@ -53,8 +52,7 @@ describe "Action",
 	when: ->
 		@action.run {}, (->), (->)
 		
-	then: [
-		-> @firstArg == @argumentsToSend[0]
-		-> @secondArg == @argumentsToSend[1]
-	]
+	then:
+		firstArg: should.be -> @argumentsToSend[0]
+		secondArg: should.be -> @argumentsToSend[1]
 }

@@ -22,6 +22,12 @@ decendPropertiesToValue = (object, propertyNames) ->
 printableValue = (value) ->
 	if typeof value == "string"
 		"\"#{value}\""
+	else if typeof value == "function"
+		# The function is usually something returning a value from the context.
+		# So try to chop off the "function() { return this." and "; }" junk
+		value = value.toString().replace /\r|\n/g, ""
+		value = value.replace(/^function\s*\(\)\s*\{\s*return\s* this\.(.*);\s*\}$/, "$1")
+		value
 	else
 		value
 
