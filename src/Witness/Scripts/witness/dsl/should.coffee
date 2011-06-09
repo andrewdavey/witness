@@ -1,16 +1,33 @@
 ﻿# reference "../Dsl.coffee"
 
 this.Witness.Dsl::should =
-	equal: (expected) ->
-		(propertyName) ->
-			new Witness.Action "#{propertyName} should equal #{expected}", () ->
-				actual = @[propertyName] 
-				if actual != expected
-					throw new Error("Expected #{propertyName} to equal #{expected} but was #{actual}")
+	equal: predicateActionBuilder
+		test: (actual, expected) -> actual == expected
+		description: (fullName, expected) -> "#{fullName} should equal #{expected}",
+		error: (fullName, actual, expected) -> "Expected #{fullName} to equal #{expected} but was #{actual}"
+	
 
-	notEqual: (expected) ->
-		(propertyName) ->
-			new Witness.Action "#{propertyName} should not equal #{expected}", () ->
-				actual = @[propertyName] 
-				if actual == expected
-					throw new Error("Expected #{propertyName} to not equal #{expected}")
+	notEqual: predicateActionBuilder
+		test: (actual, expected) -> actual != expected
+		description: (fullName, expected) -> "#{fullName} should not equal #{expected}",
+		error: (fullName, actual, expected) -> "Expected #{fullName} to not equal #{expected}"
+
+
+predicateActionBuilder = (options) ->
+	(expected) ->
+		(propertyNames...) ->
+			fullName = propertyNames.join "."
+			description = options.description fullName, expected
+			new Witness.Action description, () ->
+				actual = decendPropertiesToValue this, propertyNames
+				return if options.test actual, expected
+				error = options.error fullName, actual, expected
+				if typeof error == "string"
+					throw new Error error
+				else
+					throw error
+
+decendPropertiesToValue = (object, propertyNames) ->
+	for name in propertyNames
+		object = object[name]
+	object

@@ -48,9 +48,7 @@
 	then: [
 		-> @error.message == "Expected theProperty to not equal 666"
 	]
-}
-#,
-### TODO implement nested object assertions
+},
 { # Scenario is equivalent to the above, but using should's instead
 	given: ->
 		@actionFactory = Witness.Dsl::should.equal 100
@@ -64,4 +62,3 @@
 			name: should.equal "theProperty should equal 100"
 		done: should.equal(true)
 }
-###

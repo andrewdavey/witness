@@ -45,7 +45,7 @@ createAction = (definition) ->
 			if isAnActionObject definition
 				action = definition
 			else
-				action = createActionFromObject definition
+				action = createActionsFromObject definition
 
 		else throw new Error "Unknown type of action definition."
 
@@ -59,8 +59,17 @@ createActionFromFunction = (func) ->
 	else
 		new Witness.Action func.toString(), func, []
 
-createActionFromObject = (object) ->
-	(value(key) for own key, value of object)
+createActionsFromObject = (object, parentNames = []) ->
+	if typeof object == "function"
+		object.apply(null, parentNames)
+	else
+		(createActionsFromObject(value, parentNames.concat(key)) for own key, value of object)
 
-flatten = (arrays) ->
-	arrays.reduce ((a,b) -> a.concat b), []
+flatten = (input) ->
+	output = []
+	for item in input
+		if $.isArray item
+			output = output.concat flatten item
+		else
+			output.push item
+	output
