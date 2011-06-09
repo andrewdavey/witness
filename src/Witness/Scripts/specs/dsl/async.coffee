@@ -8,8 +8,8 @@
 	when: ->
 		@func = @target.async (->)
 	
-	then: ->
-		@func.async?
+	then:
+		func: async: should.notBe undefined
 },
 {
 	given: ->
@@ -21,5 +21,6 @@
 		# specify the timeout
 		@func = @target.async (->), 2000
 	
-	then: -> @func.async.timeout == 2000
+	then:
+		func: async: timeout: should.be 2000
 }
