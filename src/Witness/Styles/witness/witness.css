@@ -1,0 +1,61 @@
+﻿body {
+    font-family: Calibri, Helvetica, sans-serif;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+    clear: left;
+}
+
+.toggle-open {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/open.png);
+    background-position: center center;
+}
+.open > .toggle-open {
+    background-image: url(images/close.png);    
+}
+
+li.directory > ul,
+li.file > ul,
+li.specification > ul {
+    display: none;
+}
+li.open > ul {
+    clear: left;
+    display: block;
+    margin-left: 20px;
+}
+
+.name {
+    float: left;
+}
+
+li.directory > .name {
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    background-image: url(images/directory.png);
+}
+
+li.file > .name {
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    background-image: url(images/file.png);
+}
+
+li.specification > .name {
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    background-image: url(images/specification.png);
+}
+
+.action.passed { color: Green; }
+.action.failed { color: #800; }
+.scenario.failed { background-color: #faa; }

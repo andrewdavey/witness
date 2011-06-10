@@ -109,6 +109,12 @@
     <None Include="Scripts\specs\dsl\should.coffee" />
     <None Include="Scripts\witness\ViewModels\ActionWatcher.coffee" />
     <None Include="Scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <Content Include="Styles\witness\images\specification.png" />
+    <Content Include="Styles\witness\images\close.png" />
+    <Content Include="Styles\witness\images\open.png" />
+    <Content Include="Styles\witness\images\directory.png" />
+    <Content Include="Styles\witness\images\file.png" />
+    <Content Include="Styles\witness\witness.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

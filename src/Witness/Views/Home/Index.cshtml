@@ -2,6 +2,7 @@
     Html.ReferenceScript("scripts/witness/SimpleRunner.coffee");
     Html.ReferenceScript("scripts/lib/jquery.js");
     Html.ReferenceScript("scripts/lib/jquery.tmpl.js");
+    Html.ReferenceStylesheet("styles/witness/witness.css");
 }
 <!DOCTYPE html>
 <html>
@@ -18,36 +19,36 @@
             $("#run").click(function() { runner.runAll(); });
         });
     </script>
-    <style type="text/css">
-    .action.passed { color: Green; }
-    .action.failed { color: #800; }
-    .scenario.failed { background-color: #faa; }
-    </style>
+    @Html.RenderStylesheetLinks()
 </head>
 <body>
     <div><button id="run">Run</button></div>
     <ul id="specifications" data-bind="template: { name: 'directory', foreach: directory }"></ul>
     <script id="directory" type="text/html">
-    <li class="directory">
+    <li class="directory" data-bind="css: { open: isOpen }">
+        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
         <div class="name" data-bind="text: name"></div>
         <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
         <ul data-bind="template: { name: 'file', foreach: files }"></ul>
     </li>
     </script>
     <script id="file" type="text/html">
-    <li class="file">
+    <li class="file" data-bind="css: { open: isOpen }">
+        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
         <div class="name" data-bind="text: name"></div>
         <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
     </li>
     </script>
     <script id="specification" type="text/html">
-    <li class="specification">
+    <li class="specification" data-bind="css: { open: isOpen }">
+        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
         <div class="name" data-bind="text: description"></div>
         <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
     </li>
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }">
+            <div class="name">Scenario:</div>
             <ul data-bind="template: { name: 'action', foreach: givens }"></ul>
             <ul data-bind="template: { name: 'action', foreach: whens }"></ul>
             <ul data-bind="template: { name: 'action', foreach: thens }"></ul>
