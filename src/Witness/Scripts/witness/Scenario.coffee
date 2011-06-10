@@ -13,7 +13,7 @@ this.Witness.Scenario = class Scenario
 		# The disposes must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
 		if @disposes.length > 0
-			@aggregateAction = new Witness.TryAll [].concat sequence, disposes
+			@aggregateAction = new Witness.TryAll [].concat sequence, @disposes
 		else
 			@aggregateAction = sequence
 

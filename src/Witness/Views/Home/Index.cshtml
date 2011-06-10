@@ -14,14 +14,18 @@
             var runner = new Witness.SimpleRunner("scripts/specs");
             runner.download();
             ko.applyBindings(runner);
+
+            $("#run").click(function() { runner.runAll(); });
         });
     </script>
     <style type="text/css">
-    li.passed { color: Green; }
-    li.failed { color: #800; }
+    .action.passed { color: Green; }
+    .action.failed { color: #800; }
+    .scenario.failed { background-color: #faa; }
     </style>
 </head>
 <body>
+    <div><button id="run">Run</button></div>
     <ul id="specifications" data-bind="template: { name: 'directory', foreach: directory }"></ul>
     <script id="directory" type="text/html">
     <li class="directory">
@@ -47,12 +51,17 @@
             <ul data-bind="template: { name: 'action', foreach: givens }"></ul>
             <ul data-bind="template: { name: 'action', foreach: whens }"></ul>
             <ul data-bind="template: { name: 'action', foreach: thens }"></ul>
+            <div data-bind="template: { name: 'error', foreach: errors }"></div>
         </li>
     </script>
     <script id="action" type="text/html">
-        <li class="action">
+        <li data-bind="attr: { 'class': 'action ' + status() }">
             <div data-bind="text: name"></div>
+            <div data-bind="template: { name: 'error', foreach: errors }"></div>
         </li>
+    </script>
+    <script id="error" type="text/html">
+        <p data-bind="text: message"></p>
     </script>
 </body>
 </html>

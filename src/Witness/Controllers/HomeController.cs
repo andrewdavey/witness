@@ -13,5 +13,9 @@ namespace Witness.Controllers
             return View();
         }
 
+        public ActionResult Sandbox()
+        {
+            return View();
+        }
     }
 }

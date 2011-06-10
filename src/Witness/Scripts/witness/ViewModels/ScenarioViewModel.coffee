@@ -11,6 +11,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		@givens = (new ActionWatcher action for action in @scenario.givens)
 		@whens = (new ActionWatcher action for action in @scenario.whens)
 		@thens = (new ActionWatcher action for action in @scenario.thens)
+		@errors = ko.observableArray []
 
 	run: (context, done, fail) ->
 		@status "running"
@@ -20,6 +21,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 				done()
 			(errors) =>
 				@status "failed"
+				@errors errors
 				fail errors
 
 	reset: ->
