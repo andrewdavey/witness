@@ -10,3 +10,9 @@ this.Witness.Event = class Event
 	raise: (args...) ->
 		for handler in @handlers
 			handler.apply null, args
+
+
+Event.define = (names...) ->
+	events = {}
+	events[name] = new Event() for name in names
+	events

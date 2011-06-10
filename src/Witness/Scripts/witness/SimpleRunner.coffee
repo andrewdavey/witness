@@ -21,7 +21,10 @@ this.Witness.SimpleRunner = class SimpleRunner
 		)
 
 	createSpecificationDirectoryFromManifest: (manifest) ->
-		@directory.push new Witness.SpecificationDirectory manifest	
+		dir = new Witness.SpecificationDirectory manifest
+		viewModel = new Witness.ViewModels.SpecificationDirectoryViewModel dir
+		@directory.push viewModel
+		@directory()[0].download()
 
 	downloadSpecification: (url) ->
 		waitForSpecifications = $.Deferred()
@@ -60,4 +63,4 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 
 	runAll: () ->
-		@directory()[0].run {}, (->), (->)
+		@directory()[0].run()

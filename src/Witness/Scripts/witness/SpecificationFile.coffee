@@ -7,10 +7,8 @@ this.Witness.SpecificationFile = class SpecificationFile
 
 	constructor: (manifest) ->
 		{@name,@url} = manifest
-		@on =
-			downloading: new Witness.Event()
-			downloaded: new Witness.Event()
-		@specifications = ko.observableArray []
+		@on = Witness.Event.define "downloading", "downloaded", "run", "done", "fail"
+		@specifications = []
 
 	download: () ->
 		@on.downloading.raise()
@@ -50,5 +48,8 @@ this.Witness.SpecificationFile = class SpecificationFile
 			addScript { innerText: "_witnessScriptCompleted();" }
 
 	run: (context, done, fail) ->
-		tryAll = new Witness.TryAll @specifications()
-		tryAll.run context, done, fail
+		@on.run.raise()
+		tryAll = new Witness.TryAll @specifications
+		tryAll.run context,
+			(=> @on.done.raise(); done())
+			((error) => @on.fail.raise(error); fail(error))
