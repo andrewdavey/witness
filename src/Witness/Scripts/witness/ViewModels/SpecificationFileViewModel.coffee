@@ -7,6 +7,12 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@name = @file.name
 		@status = ko.observable "notdownloaded"
 		@specifications = ko.observableArray []
+		@canRun = ko.dependentObservable =>
+			result = null
+			switch @status()
+				when "downloaded", "passed", "failed" then result = yes
+				else result = no
+			result
 
 		@file.on.downloading.addHandler => @status "downloading"
 		@file.on.downloaded.addHandler =>
@@ -20,4 +26,4 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@file.download()
 
 	run: ->
-		@file.run {}, (->), (->) 
+		@file.run {}, (->), (->) if @canRun()

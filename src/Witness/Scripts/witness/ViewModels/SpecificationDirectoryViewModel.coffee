@@ -7,19 +7,25 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 	constructor: (@directory) ->
 		@name = @directory.name
 		@status = ko.observable "notdownloaded"
-		
+		@canRun = ko.dependentObservable =>
+			result = null
+			switch @status()
+				when "downloaded", "passed", "failed" then result = yes
+				else result = no
+			result
+
 		@files = (new Witness.ViewModels.SpecificationFileViewModel file for file in @directory.files)
 		@directories = (new SpecificationDirectoryViewModel directory for directory in @directory.directories)
 
-		@directory.on.downloaded.addHandler => @status "ready"
+		@directory.on.downloading.addHandler => @status "downloading"
+		@directory.on.downloaded.addHandler => @status "downloaded"
 		@directory.on.run.addHandler => @status "running"
 		@directory.on.done.addHandler => @status "passed"
 		@directory.on.fail.addHandler => @status "failed"
 	
 
 	download: ->
-		@status = ko.observable "downloading"
 		@directory.download()
 
 	run: ->
-		@directory.run({}, (->), (->)) if @status() != "downloading" and @status() != "running"
+		@directory.run({}, (->), (->)) if @canRun() 
