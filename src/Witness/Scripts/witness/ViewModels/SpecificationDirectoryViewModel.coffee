@@ -1,11 +1,12 @@
 # reference "../../lib/knockout.js"
 # reference "ViewModels.coffee"
+# reference "SpecificationFileViewModel.coffee"
 
 this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDirectoryViewModel
 	
 	constructor: (@directory) ->
 		@name = @directory.name
-		@status = ko.observable "downloading"
+		@status = ko.observable "notdownloaded"
 		
 		@files = (new Witness.ViewModels.SpecificationFileViewModel file for file in @directory.files)
 		@directories = (new SpecificationDirectoryViewModel directory for directory in @directory.directories)
@@ -17,6 +18,7 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 	
 
 	download: ->
+		@status = ko.observable "downloading"
 		@directory.download()
 
 	run: ->
