@@ -1,26 +1,26 @@
 ﻿describe "async",
 {
-	given: ->
+	"given the DSL is activated": ->
 		@target = {}
 		@dsl = new Witness.Dsl @target
 		@dsl.activate()
 
-	when: ->
+	"when async is called with a function argument": ->
 		@func = @target.async (->)
 	
-	then:
+	"then the function has an async property added":
 		func: async: should.notBe undefined
 },
 {
-	given: ->
+	"given the DSL is activated": ->
 		@target = {}
 		@dsl = new Witness.Dsl @target
 		@dsl.activate()
 
-	when: ->
+	"when async is called with function and timeout of 2000 milliseconds": ->
 		# specify the timeout
 		@func = @target.async (->), 2000
 	
-	then:
+	"then the timeout is stored":
 		func: async: timeout: should.be 2000
 }
