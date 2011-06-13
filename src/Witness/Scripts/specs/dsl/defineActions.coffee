@@ -1,29 +1,29 @@
 ﻿describe "defineAction",
 {
-	given: ->
+	"given the DSL is activated": ->
 		@target = {}
 		@dsl = new Witness.Dsl @target
 		@dsl.activate()
 
-	when: ->
+	"when defineAction is called": ->
 		@target.defineAction "loadPage", ((url) -> console.log "loading " + url)
 
-	then: [
+	"then a new action builder is added to the DSL target object": [
 		-> typeof @target.loadPage == "function"
 		-> (@target.loadPage "test.com") instanceof Witness.Action
 		-> (@target.loadPage "test.com").description == "load page test.com"
 	]
 },
 {
-	given: ->
+	"given the DSL is activated": ->
 		@target = {}
 		@dsl = new Witness.Dsl @target
 		@dsl.activate()
 
-	when: ->
+	"when definedAction is called with an async function": ->
 		@target.defineAction "loadPage", async ((url) -> console.log "loading " + url)
 
-	then: [
+	"then a new async action builder is added to the DSL target object": [
 		-> typeof @target.loadPage == "function"
 		-> (@target.loadPage "test.com") instanceof Witness.AsyncAction
 		-> (@target.loadPage "test.com").description == "load page test.com"
@@ -32,18 +32,17 @@
 
 describe "defineActions",
 {
-	given: ->
+	"given the DSL is activated": ->
 		@target = {}
 		@dsl = new Witness.Dsl @target
 		@dsl.activate()
 
-	when: ->
+	"when defineActions is called with a object of functions": ->
 		@target.defineActions
 			loadPage: (url) -> console.log "loading " + url
 			wait: (timeout) -> console.log "waiting " + timeout
-		
-
-	then: [
+	
+	"then new action builders are added to the DSL target object": [
 		-> typeof @target.loadPage == "function"
 		-> typeof @target.wait == "function"
 		-> (@target.loadPage "test.com") instanceof Witness.Action
