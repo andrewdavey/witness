@@ -57,4 +57,25 @@
 
 	then:
 		value: should.be 42
+},
+{
+	"given a nested scenario definition": ->
+		@definition = 
+			"given this is the outer scenario": [
+				-> @outerProperty = 1
+				{
+					"given this is the inner scenario": -> @innerProperty = 2
+					when: (->)
+					then: (->)
+				}
+			]
+		@target = {}
+		@dsl = new Witness.Dsl(@target)
+
+	"when describe the scenario": ->
+		@dsl.describe.call @target, "specification-name", @definition
+		@scenario = @target.specifications[0].scenarios[0]
+
+	"then":
+		scenario: should.beInstanceof Witness.OuterScenario
 }

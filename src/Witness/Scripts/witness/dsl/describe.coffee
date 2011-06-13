@@ -18,9 +18,17 @@ createScenario = (scenario) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
-	parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
-
-	new Witness.Scenario parts
+	isOuter = parts.given.actions.length > 0 and parts.when.actions.length == 0 and parts.then.actions.length == 0
+	if isOuter
+		setups = (item for item in parts.given when typeof item == "function")
+		setup = if setups.length = 1 then setups[0] else new Witness.Sequence setups
+		children = (createScenario item for item in parts.given when typeof item == "object")
+		new Witness.OuterScenario parts.given.description, setup, children
+	else
+		for own key, value of parts
+			parts[key].actions = flatten createActions value.actions
+		parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
+		new Witness.Scenario parts
 
 findPart = (name, scenario) ->
 	startsWith = new RegExp "^#{name}", "i"
@@ -29,7 +37,7 @@ findPart = (name, scenario) ->
 		if match
 			return {
 				description: key
-				actions: flatten createActions value
+				actions: value
 			}
 
 	return {
