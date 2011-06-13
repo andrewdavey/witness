@@ -1,6 +1,6 @@
 describe "SpecificationFile",
 {
-	given: ->
+	"given a SpecificationFile that is passed a file manifest": ->
 		manifest =
 			name: "test.coffee"
 			url: "/specs/test.coffee"
@@ -10,7 +10,7 @@ describe "SpecificationFile",
 		}
 		@file = new Witness.SpecificationFile manifest
 
-	when: async ->
+	"when the file is downloaded": async ->
 		@file.on.downloading.addHandler => @downloadingEventRaised = true
 		@file.on.downloaded.addHandler => @downloadedEventRaised = true; @done()
 		@file.download()
