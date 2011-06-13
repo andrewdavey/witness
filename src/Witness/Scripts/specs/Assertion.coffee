@@ -6,10 +6,10 @@ actionThatThrows = new Witness.Action (-> throw new Error "custom error")
 
 describe "Assertion",
 {
-	given: ->
+	"given an assertion where the action returns true": ->
 		@assertion = new Witness.Assertion actionThatReturns true
 
-	when: ->
+	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
 	
 	then:
@@ -17,10 +17,10 @@ describe "Assertion",
 		failCallbackCalled: should.be undefined
 },
 {
-	given: ->
+	"given an assertion where the action returns false": ->
 		@assertion = new Witness.Assertion actionThatReturns false
 
-	when: ->
+	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 	
 	then:
@@ -28,10 +28,10 @@ describe "Assertion",
 		failCallbackCalled: should.be true
 },
 {
-	given: ->
+	"given an assertion where the action throws": ->
 		@assertion = new Witness.Assertion actionThatThrows
 
-	when: ->
+	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
 	
 	then:
