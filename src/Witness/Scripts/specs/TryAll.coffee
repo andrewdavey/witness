@@ -4,14 +4,14 @@
 
 describe "TryAll",
 {
-	given: ->
+	"given a TryAll action where both actions complete": ->
 		@context = {};
 		@outerContext = outerContext = this
 		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
 		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	when: ->
+	"when the action is run": ->
 		@tryAll.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
 
 	then:
@@ -23,12 +23,12 @@ describe "TryAll",
 		failCallbackCalled: should.be undefined
 },
 {
-	given: ->
+	"given a TryAll action where the first action fails": ->
 		action0 = new Witness.Action (=> throw new Error "action-0 failed")
 		action1 = new Witness.Action (=> @action1Called = true)
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	when: ->
+	"when the action is run": ->
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
 	then:
@@ -37,12 +37,12 @@ describe "TryAll",
 		errors: [ message: should.be "action-0 failed" ]
 },
 {
-	given: ->
+	"given a TryAll where the second action fails": ->
 		action0 = new Witness.Action (=> @action0Called = true)
 		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	when: ->
+	"when the action is run": ->
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
 	then:
@@ -51,12 +51,12 @@ describe "TryAll",
 		errors: [ message: should.be "action-1 failed" ]
 },
 {
-	given: ->
+	"given a TryAll where both actions fail": ->
 		action0 = new Witness.Action (=> throw new Error "action-0 failed")
 		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	when: ->
+	"when the action is run": ->
 		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
 
 	then:
