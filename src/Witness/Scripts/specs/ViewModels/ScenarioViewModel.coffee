@@ -5,9 +5,13 @@
 	
 describe "ScenarioViewModel",
 {
-	given: ->
+	"given a ScenarioViewModel with a given part": ->
 		@scenario = new Witness.Scenario
-			given: { description: "given", actions: [ new Witness.Action((->), [], "action") ] }
+			given:
+				description: "given"
+				actions: [
+					new Witness.Action((->), [], "action")
+				]
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
 	then:
@@ -16,11 +20,11 @@ describe "ScenarioViewModel",
 			givens: [ should.beInstanceof Witness.ViewModels.ActionWatcher ]
 },
 {
-	given: ->
+	"given a ScenarioViewModel with no parts": ->
 		@scenario = new Witness.Scenario([],[],[],[])
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
-	when: ->
+	"when it is run": ->
 		@viewModel.run {}, (=> @doneCalled = true), (->)
 
 	then:
@@ -28,12 +32,16 @@ describe "ScenarioViewModel",
 		 viewModel: should.haveStatus "passed"
 },
 {
-	given: ->
+	"given a ScenarioViewModel with a given part that throws": ->
 		@scenario = new Witness.Scenario
-			given: { description: "given", actions: [ new Witness.Action((-> throw "scenario failed"), [], "action") ] }
+			given:
+				description: "given"
+				actions: [
+					new Witness.Action (-> throw "scenario failed"), [], "action"
+				]
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
-	when: ->
+	"when it is run": ->
 		@viewModel.run {}, (->), ((error) => @error = error)
 
 	then:
