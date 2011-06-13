@@ -4,14 +4,14 @@
 
 describe "Scenario",
 {
-	given: ->
+	"given a scenario with given, when, then and dispose": ->
 		@scenario = new Witness.Scenario
 			given:   { description: "given", actions: [ (new Witness.Action (=> @givenCalled = true), []) ] }
 			when:    { description: "when", actions: [ (new Witness.Action (=> @whenCalled = true), []) ] }
 			then:    { description: "then", actions: [ new Witness.Assertion (new Witness.Action (=> @thenCalled = true), []) ] }
 			dispose: { description: "dispose", actions: [ (new Witness.Action (=> @disposeCalled = true), []) ] }
 
-	when: ->
+	"when scenario is run": ->
 		@scenario.run {}, (->), (->)
 
 	then:
@@ -21,7 +21,7 @@ describe "Scenario",
 		disposeCalled: should.be true
 },
 {
-	given: ->
+	"given a scenario where the `given` action throws an error": ->
 		@scenario = new Witness.Scenario 
 			given:   { description: "given", actions: [ (new Witness.Action (-> throw new Error "given failed"), []) ] }
 			when:    { description: "when", actions: [ (new Witness.Action (=> @whenCalled = true), []) ] }
@@ -29,7 +29,7 @@ describe "Scenario",
 			dispose: { description: "dispose", actions: [ (new Witness.Action (=> @disposeCalled = true), []) ] }
 
 
-	when: ->
+	"when scenarion is run": ->
 		@scenario.run {}, (->), ((errors) => @errors = errors)
 
 	then:
