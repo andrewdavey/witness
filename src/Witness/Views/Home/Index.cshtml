@@ -48,14 +48,13 @@
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }">
-            <div class="name">Scenario:</div>
             <p data-bind="text: givenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: givens }"></ul>
+            <ul data-bind="template: { name: 'action', foreach: givens }, visible: givens.length!=0"></ul>
             <p data-bind="text: whenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: whens }"></ul>
+            <ul data-bind="template: { name: 'action', foreach: whens }, visible: whens.length!=0"></ul>
             <p data-bind="text: thenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: thens }"></ul>
-            <div data-bind="template: { name: 'error', foreach: errors }"></div>
+            <ul data-bind="template: { name: 'action', foreach: thens }, visible: thens.length!=0"></ul>
+            <div data-bind="template: { name: 'error', foreach: errors }, visible: errors.length!=0"></div>
         </li>
     </script>
     <script id="action" type="text/html">

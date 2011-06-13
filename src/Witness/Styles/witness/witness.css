@@ -2,6 +2,8 @@
     font-family: Calibri, Helvetica, sans-serif;
 }
 
+p { margin: 0; padding: 0 }
+
 ul {
     padding: 0;
 }
@@ -54,6 +56,10 @@ li.specification > .name {
     background-repeat: no-repeat;
     padding-left: 20px;
     background-image: url(images/specification.png);
+}
+
+li.scenario {
+    margin-bottom: 10px;
 }
 
 .action.passed { color: Green; }
