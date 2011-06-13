@@ -2,13 +2,13 @@
 
 describe "wait",
 {
-	given: ->
+	"given an action that is wait 100 milliseconds": ->
 		@action = wait(100)
 		@startTime = now()
 
-	when: async ->
+	"when the action is run": async ->
 		@action.run {}, (=> @finishTime = now(); @done()), @fail
 
-	then: ->
+	"then it completes after 100 milliseconds": ->
 		(@finishTime - @startTime) >= 100
 }
