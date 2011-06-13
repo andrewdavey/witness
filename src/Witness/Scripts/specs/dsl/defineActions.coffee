@@ -11,7 +11,7 @@
 	then: [
 		-> typeof @target.loadPage == "function"
 		-> (@target.loadPage "test.com") instanceof Witness.Action
-		-> (@target.loadPage "test.com").name == "load page test.com"
+		-> (@target.loadPage "test.com").description == "load page test.com"
 	]
 },
 {
@@ -26,7 +26,7 @@
 	then: [
 		-> typeof @target.loadPage == "function"
 		-> (@target.loadPage "test.com") instanceof Witness.AsyncAction
-		-> (@target.loadPage "test.com").name == "load page test.com"
+		-> (@target.loadPage "test.com").description == "load page test.com"
 	]
 }
 

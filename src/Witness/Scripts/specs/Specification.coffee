@@ -3,7 +3,7 @@
 
 describe "Specification",
 {
-	given: ->
+	"given a Specification with two scenarios": ->
 		@specification = new Witness.Specification(
 			"specification description"
 			[ new Witness.Scenario([],[],[],[]), new Witness.Scenario([],[],[],[]) ]

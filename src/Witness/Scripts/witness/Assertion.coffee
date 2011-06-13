@@ -30,8 +30,8 @@ this.Witness.Assertion = class Assertion
 				@on.done.raise()
 				assertionDone()
 			else
-				error = new Error "Assertion failed: " + @name
-				@on.done.raise error
+				error = new Error "Assertion failed: " + @description
+				@on.fail.raise error
 				assertionFail error
 
 		@action.run context,

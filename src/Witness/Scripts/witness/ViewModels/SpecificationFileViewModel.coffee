@@ -6,7 +6,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 	constructor: (@file) ->
 		@name = @file.name
 		@status = ko.observable "notdownloaded"
-		@isOpen = ko.observable false
+		@isOpen = ko.observable true
 		@specifications = ko.observableArray []
 		@canRun = ko.dependentObservable =>
 			result = null

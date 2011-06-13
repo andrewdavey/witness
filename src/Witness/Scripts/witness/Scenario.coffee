@@ -22,7 +22,7 @@ this.Witness.Scenario = class Scenario
 					actionDescription = part.actions[0].description ? (createDescriptionFromFunction part.actions[0].func)
 					part.description = "#{name} #{actionDescription}" 
 			else
-				part = { description: name, actions: [] }
+				@[name] = { description: name, actions: [] }
 			
 	
 		tryAllAssertions = new Witness.TryAll @then.actions
