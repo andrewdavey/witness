@@ -6,18 +6,23 @@ globalIndex = 0
 
 this.Witness.Scenario = class Scenario
 	
-	constructor: (@givens, @whens, @thens, @disposes) ->
-		assertions = (new Witness.Assertion action for action in @thens)
+	constructor: (@parts) ->
+		{@given, @when, @then, @dispose} = @parts
+		for name in ["given","when","then","dispose"]
+			if not @[name]?
+				@[name] = { description: name, actions: [] }
+	
+		assertions = (new Witness.Assertion action for action in @then.actions)
 		tryAllAssertions = new Witness.TryAll assertions
-		sequence = new Witness.Sequence [].concat @givens, @whens, tryAllAssertions
+		sequence = new Witness.Sequence [].concat @given.actions, @when.actions, tryAllAssertions
 		# The disposes must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
-		if @disposes.length > 0
-			@aggregateAction = new Witness.TryAll [].concat sequence, @disposes
+		if @dispose.actions.length > 0
+			@aggregateAction = new Witness.TryAll [].concat sequence, @dispose.actions
 		else
 			@aggregateAction = sequence
 
-		@index = globalIndex++;
+		@index = globalIndex++
 
 	run: (outerContext, done, fail) ->
 		context = {}

@@ -15,12 +15,26 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 
 
 createScenario = (scenario) ->
-	givens   = createActions scenario.given
-	whens    = createActions scenario.when
-	thens    = flatten createActions scenario.then
-	disposes = createActions scenario.dispose
+	parts = {}
+	for name in ["given","when","then","dispose"]
+		parts[name] = findPart name, scenario
 
-	new Witness.Scenario givens, whens, thens, disposes
+	new Witness.Scenario parts
+
+findPart = (name, scenario) ->
+	startsWith = new RegExp "^#{name}", "i"
+	for own key, value of scenario
+		match = key.match startsWith
+		if match
+			return {
+				description: key
+				actions: flatten createActions value
+			}
+
+	return {
+		description: name 
+		actions: []
+	}
 
 createActions = (input) ->
 	(createAction definition for definition in ensureArray input)
@@ -55,9 +69,9 @@ isAnActionObject = (object) -> "run" of object
 
 createActionFromFunction = (func) ->
 	if func.async?
-		new Witness.AsyncAction func.toString(), func, [], func.async.timeout 
+		new Witness.AsyncAction "", func, [], func.async.timeout 
 	else
-		new Witness.Action func.toString(), func, []
+		new Witness.Action "", func, []
 
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"

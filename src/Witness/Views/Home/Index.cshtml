@@ -49,8 +49,11 @@
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }">
             <div class="name">Scenario:</div>
+            <p data-bind="text: givenDescription"></p>
             <ul data-bind="template: { name: 'action', foreach: givens }"></ul>
+            <p data-bind="text: whenDescription"></p>
             <ul data-bind="template: { name: 'action', foreach: whens }"></ul>
+            <p data-bind="text: thenDescription"></p>
             <ul data-bind="template: { name: 'action', foreach: thens }"></ul>
             <div data-bind="template: { name: 'error', foreach: errors }"></div>
         </li>

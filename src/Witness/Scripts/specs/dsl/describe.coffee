@@ -1,25 +1,25 @@
 ﻿describe "describe",
 {
-	given: ->
+	"given a scenario definition": ->
 		@target = {}
 		@dsl = new Witness.Dsl(@target)
 		@scenario = { given: (->), when: wait(10), then: [] }
 		
-	when: ->
+	"when describing the scenario": ->
 		@dsl.describe.call @target, "specification-name", @scenario
-		{@givens,@whens,@thens,@disposes} = @target.specifications[0].scenarios[0]
+		{@given,@when,@then,@dispose} = @target.specifications[0].scenarios[0]
 
 	then: [
 		-> @target.specifications.length == 1
 		-> @target.specifications[0].scenarios.length == 1
-		-> $.isArray @givens
-		-> $.isArray @whens
-		-> $.isArray @thens
-		-> $.isArray @disposes
+		-> $.isArray @given.actions
+		-> $.isArray @when.actions
+		-> $.isArray @then.actions
+		-> $.isArray @dispose.actions
 	]
 },
 {
-	given: ->
+	"given context has a property set to 42 and 'then' is an action factory reading the property name": ->
 		@context = { contextProperty: 42 }
 		textContext = this
 		actionFactory = (name) => new Witness.Action "action", (-> textContext.value = @[name]), []
@@ -29,17 +29,16 @@
 		@target = {}
 		@dsl = new Witness.Dsl(@target)
 	
-	when: ->
+	"when the assertion is run": ->
 		@dsl.describe.call @target, "specification-name", @scenario
-		@assertion = @target.specifications[0].scenarios[0].thens[0]
+		@assertion = @target.specifications[0].scenarios[0].then.actions[0]
 		@assertion.run @context, (->), (->)
 
-	then: [
-		-> @value == 42 # We were passed the value of the context property
-	]
+	then:
+		value: should.be 42
 },
 {
-	given: -> # The "then" object contains a nested object with the property to check
+	"given the 'then' object contains a nested object with the property to check": ->
 		@context = { outer: inner: 42 }
 		textContext = this
 		# actionFactory takes *two* arguments, one for each property name in the hirerachy
@@ -51,12 +50,11 @@
 		@target = {}
 		@dsl = new Witness.Dsl(@target)
 	
-	when: ->
+	"when the assertion is run": ->
 		@dsl.describe.call @target, "specification-name", @scenario
-		@assertion = @target.specifications[0].scenarios[0].thens[0]
+		@assertion = @target.specifications[0].scenarios[0].then.actions[0]
 		@assertion.run @context, (->), (->)
 
-	then: [
-		-> @value == 42 # We were passed the value of the nested context property
-	]
+	then:
+		value: should.be 42
 }
