@@ -4,7 +4,7 @@
 
 this.Witness.AsyncAction = class AsyncAction
 	
-	constructor: (@name, @func, @args, @timeout = AsyncAction.defaultTimeout) ->
+	constructor: (@func, @args = [], @description, @timeout = AsyncAction.defaultTimeout) ->
 		@on =
 			run: new Witness.Event()
 			done: new Witness.Event()

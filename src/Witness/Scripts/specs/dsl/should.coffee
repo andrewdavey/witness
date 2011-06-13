@@ -8,7 +8,7 @@
 		@action.run { theProperty: 100 }, (=> @done = true), (->)
 
 	then: [
-		-> @action.name == "theProperty should be 100"
+		-> @action.description == "theProperty should be 100"
 		-> @done == true
 	]
 },
@@ -34,7 +34,7 @@
 
 	then: 
 		action:
-			name: should.be "theProperty should be 100"
+			description: should.be "theProperty should be 100"
 		done: should.be(true)
 },
 {
@@ -45,7 +45,7 @@
 		@action.run { theProperty: "incorrect string value" }, (->), ((error) => @error = error)
 	then:
 		action:
-			name: should.be "theProperty should be \"a string value\""
+			description: should.be "theProperty should be \"a string value\""
 }
 
 describe "should.notBe",
@@ -58,7 +58,7 @@ describe "should.notBe",
 		@action.run { theProperty: 100 }, (=> @done = true), (->)
 
 	then: [
-		-> @action.name == "theProperty should not be 666"
+		-> @action.description == "theProperty should not be 666"
 		-> @done == true
 	]
 },

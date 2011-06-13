@@ -7,8 +7,8 @@ describe "TryAll",
 	given: ->
 		@context = {};
 		@outerContext = outerContext = this
-		action0 = new Witness.Action "action-0", (-> outerContext.action0Called = true; outerContext.action0Context = this), []
-		action1 = new Witness.Action "action-1", (-> outerContext.action1Called = true; outerContext.action1Context = this), []
+		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
+		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
 		@tryAll = new Witness.TryAll [action0, action1]
 
 	when: ->
@@ -24,8 +24,8 @@ describe "TryAll",
 },
 {
 	given: ->
-		action0 = new Witness.Action "action-0", (=> throw new Error "action-0 failed"), []
-		action1 = new Witness.Action "action-1", (=> @action1Called = true), []
+		action0 = new Witness.Action (=> throw new Error "action-0 failed")
+		action1 = new Witness.Action (=> @action1Called = true)
 		@tryAll = new Witness.TryAll [action0, action1]
 
 	when: ->
@@ -38,8 +38,8 @@ describe "TryAll",
 },
 {
 	given: ->
-		action0 = new Witness.Action "action-0", (=> @action0Called = true), []
-		action1 = new Witness.Action "action-1", (=> throw new Error "action-1 failed"), []
+		action0 = new Witness.Action (=> @action0Called = true)
+		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
 	when: ->
@@ -52,8 +52,8 @@ describe "TryAll",
 },
 {
 	given: ->
-		action0 = new Witness.Action "action-0", (=> throw new Error "action-0 failed"), []
-		action1 = new Witness.Action "action-1", (=> throw new Error "action-1 failed"), []
+		action0 = new Witness.Action (=> throw new Error "action-0 failed")
+		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
 	when: ->

@@ -7,7 +7,7 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 	constructor: (@directory) ->
 		@name = @directory.name
 		@status = ko.observable "notdownloaded"
-		@isOpen = ko.observable false
+		@isOpen = ko.observable true
 		@canRun = ko.dependentObservable =>
 			result = null
 			switch @status()

@@ -1,17 +1,10 @@
 ﻿# reference "../witness/dsl/describe.coffee"
 # reference "../witness/Assertion.coffee"
 
-actionThatReturns = (result) -> new Witness.Action("assertion-name", (-> result))
-actionThatThrows = new Witness.Action("assertion-name", (-> throw new Error "custom error"))
+actionThatReturns = (result) -> new Witness.Action (-> result)
+actionThatThrows = new Witness.Action (-> throw new Error "custom error")
 
 describe "Assertion",
-{
-	given: ->
-		@assertion = new Witness.Assertion actionThatReturns true
-
-	then:
-		assertion: name: should.be "assertion-name"
-},
 {
 	given: ->
 		@assertion = new Witness.Assertion actionThatReturns true

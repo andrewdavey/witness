@@ -5,7 +5,7 @@ describe "Action",
 {
 	"given an action that does nothing": ->
 		@testContext = {}
-		@action = new Witness.Action "action-name", (->), []
+		@action = new Witness.Action (->)
 		
 	"when the action is run": ->
 		testContext = @testContext
@@ -18,7 +18,6 @@ describe "Action",
 		)
 	
 	then:
-		action: { name: should.be "action-name" }
 		doneCallbackCalled: should.be true
 		doneContext: should.be -> @testContext
 		failCallbackCalled: should.be undefined
@@ -26,7 +25,7 @@ describe "Action",
 {
 	"given an action that throws an error": ->
 		@testContext = {}
-		@action = new Witness.Action "action-name", (-> throw new Error "failed"), []
+		@action = new Witness.Action (-> throw new Error "failed")
 		
 	"when the action is run": ->
 		testContext = @testContext
@@ -47,7 +46,7 @@ describe "Action",
 	"given an action that receives two arguments": ->
 		@argumentsToSend = [42, "test-arg"]
 		recordArguments = ((x,y) => @firstArg = x; @secondArg = y)
-		@action = new Witness.Action "action-name", recordArguments, @argumentsToSend
+		@action = new Witness.Action recordArguments, @argumentsToSend
 		
 	"when the action is run": ->
 		@action.run {}, (->), (->)

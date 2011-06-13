@@ -1,9 +1,19 @@
 ﻿# reference "Witness.coffee"
 # reference "Event.coffee"
 
+createDescriptionFromFunction = (func) ->
+	s = func.toString()
+	match = s.match /function\s*\(\)\s*{\s*return\s*(.*)\s*;\s*}/
+	return match[1] if match
+	return s
+
 this.Witness.Assertion = class Assertion
 	constructor: (@action) ->
-		@name = @action.name
+		if @action.description
+			@description = @action.description
+		else
+			@description = createDescriptionFromFunction @action.func
+
 		@on =
 			run: new Witness.Event()
 			done: new Witness.Event()

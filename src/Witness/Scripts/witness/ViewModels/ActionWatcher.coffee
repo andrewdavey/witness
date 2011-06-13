@@ -5,9 +5,10 @@
 # A watcher object handles these and maintains an observable status.
 # This means the action can remain stateless, while the watcher can be bound the UI.
 
+
 this.Witness.ViewModels.ActionWatcher = class ActionWatcher
 	constructor: (@action) ->
-		@name = @action.name
+		@description = @action.description
 		@errors = ko.observableArray []
 		@status = ko.observable "notrun"
 		@action.on.run.addHandler  => @status "running"
@@ -17,4 +18,5 @@ this.Witness.ViewModels.ActionWatcher = class ActionWatcher
 			@errors.push error
 
 	reset: ->
+		@errors.removeAll()
 		@status "notrun"

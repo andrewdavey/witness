@@ -6,9 +6,9 @@ this.Witness.Dsl::defineAction = (name, func) ->
 	actionFactory = (args...) ->
 		description = createActionDescription name, args
 		if func.async?
-			new Witness.AsyncAction description, func, args, func.async.timeout
+			new Witness.AsyncAction func, args, description, func.async.timeout
 		else
-			new Witness.Action description, func, args
+			new Witness.Action func, args, description
 	if @target?
 		@target[name] = actionFactory
 	else

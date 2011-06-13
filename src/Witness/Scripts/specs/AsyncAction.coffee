@@ -5,7 +5,7 @@ describe "AsyncAction",
 {
 	given: ->
 		functionThatThrowsBeforeAsync = -> throw new Error "failed"
-		@action = new Witness.AsyncAction "name", functionThatThrowsBeforeAsync, []
+		@action = new Witness.AsyncAction functionThatThrowsBeforeAsync, []
 
 	when: async ->
 		testDone = @done;
@@ -19,7 +19,7 @@ describe "AsyncAction",
 	given: ->
 		functionThatDoesNothing = (->)
 		timeToWait = 10 # milliseconds
-		@action = new Witness.AsyncAction "name", functionThatDoesNothing, [], timeToWait
+		@action = new Witness.AsyncAction functionThatDoesNothing, [], null, timeToWait
 
 	when: async ->
 		testDone = @done;
@@ -32,7 +32,7 @@ describe "AsyncAction",
 {
 	given: ->
 		functionThatCallsDone = -> setTimeout (=> this.done()), 100
-		@action = new Witness.AsyncAction "name", functionThatCallsDone, []
+		@action = new Witness.AsyncAction functionThatCallsDone
 
 	when: async ->
 		testDone = @done;
@@ -45,7 +45,7 @@ describe "AsyncAction",
 {
 	given: ->
 		functionThatCallsFail = -> setTimeout (=> this.fail "failed"), 10
-		@action = new Witness.AsyncAction "name", functionThatCallsFail, []
+		@action = new Witness.AsyncAction functionThatCallsFail
 
 	when: async ->
 		testDone = @done;

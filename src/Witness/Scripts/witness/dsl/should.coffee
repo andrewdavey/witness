@@ -5,7 +5,7 @@ predicateActionBuilder = (options) ->
 		(propertyNames...) ->
 			fullName = createFullName propertyNames
 			description = options.description fullName, expected
-			new Witness.Action description, () ->
+			func = () ->
 				actual = decendPropertiesToValue this, propertyNames
 				return if options.test.call this, actual, expected
 				error = options.error fullName, actual, expected
@@ -13,6 +13,7 @@ predicateActionBuilder = (options) ->
 					throw new Error error
 				else
 					throw error
+			new Witness.Action func, [], description
 
 createFullName = (propertyNames) ->
 	# [ "foo", 0, "bar" ] -> "foo[0].bar"

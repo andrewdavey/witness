@@ -18,6 +18,7 @@ createScenario = (scenario) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
+	parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
 
 	new Witness.Scenario parts
 
@@ -69,9 +70,9 @@ isAnActionObject = (object) -> "run" of object
 
 createActionFromFunction = (func) ->
 	if func.async?
-		new Witness.AsyncAction "", func, [], func.async.timeout 
+		new Witness.AsyncAction func, [], null, func.async.timeout 
 	else
-		new Witness.Action "", func, []
+		new Witness.Action func, []
 
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"

@@ -5,18 +5,18 @@
 	
 describe "ActionWatcher with Action",
 {
-	given: ->
-		@action = new Witness.Action "action-name", (->), []
+	"given ActionWatcher of an Action with a description": ->
+		@action = new Witness.Action (->), [], "description"
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	then:
 		watcher:
 			this: should.haveStatus "notrun"
-			name: should.be "action-name"
+			description: should.be "description"
 },
 {
 	given: ->
-		@action = new Witness.Action "action-name", (-> throw new Error "action failed"), []
+		@action = new Witness.Action (-> throw new Error "action failed")
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	when: ->
@@ -27,7 +27,7 @@ describe "ActionWatcher with Action",
 },
 {
 	given: ->
-		@action = new Witness.Action "action-name", (->), []
+		@action = new Witness.Action (->)
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	when: ->
@@ -38,7 +38,7 @@ describe "ActionWatcher with Action",
 },
 {
 	given: ->
-		@action = new Witness.Action "action-name", (->), []
+		@action = new Witness.Action (->)
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 		@action.run {}, (->), (->)
 
@@ -52,17 +52,17 @@ describe "ActionWatcher with Action",
 describe "ActionWatcher with AsyncAction",
 {
 	given: ->
-		@action = new Witness.AsyncAction "action-name", (-> @done()), []
+		@action = new Witness.AsyncAction (-> @done()), [], "action-name"
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	then:
 		watcher:
 			this: should.haveStatus "notrun"
-			name: should.be "action-name"
+			description: should.be "action-name"
 },
 {
 	given: ->
-		@action = new Witness.AsyncAction "action-name", (-> @done()), []
+		@action = new Witness.AsyncAction (-> @done())
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	when: ->
@@ -73,7 +73,7 @@ describe "ActionWatcher with AsyncAction",
 },
 {
 	given: ->
-		@action = new Witness.AsyncAction "action-name", (-> @fail()), []
+		@action = new Witness.AsyncAction (-> @fail())
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 
 	when: ->
@@ -84,7 +84,7 @@ describe "ActionWatcher with AsyncAction",
 },
 {
 	given: ->
-		@action = new Witness.AsyncAction "action-name", (-> @done()), []
+		@action = new Witness.AsyncAction (-> @done())
 		@watcher = new Witness.ViewModels.ActionWatcher @action
 		@action.run {}, (->), (->)
 

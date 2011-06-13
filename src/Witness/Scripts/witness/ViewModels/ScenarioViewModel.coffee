@@ -28,6 +28,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 				fail errors
 
 	reset: ->
+		@errors.removeAll()
 		for watchers in [ @givens, @whens, @thens ]
 			for watcher in watchers
 				watch.reset()

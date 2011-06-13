@@ -6,10 +6,10 @@ describe "Scenario",
 {
 	given: ->
 		@scenario = new Witness.Scenario
-			given:   { description: "given", actions: [ (new Witness.Action "given-action",   (=> @givenCalled = true), []) ] }
-			when:    { description: "when", actions: [ (new Witness.Action "when-action",    (=> @whenCalled = true), []) ] }
-			then:    { description: "then", actions: [ (new Witness.Action "then-assertion", (=> @thenCalled = true), []) ] }
-			dispose: { description: "dispose", actions: [ (new Witness.Action "dispose-action", (=> @disposeCalled = true), []) ] }
+			given:   { description: "given", actions: [ (new Witness.Action (=> @givenCalled = true), []) ] }
+			when:    { description: "when", actions: [ (new Witness.Action (=> @whenCalled = true), []) ] }
+			then:    { description: "then", actions: [ new Witness.Assertion (new Witness.Action (=> @thenCalled = true), []) ] }
+			dispose: { description: "dispose", actions: [ (new Witness.Action (=> @disposeCalled = true), []) ] }
 
 	when: ->
 		@scenario.run {}, (->), (->)
@@ -23,10 +23,10 @@ describe "Scenario",
 {
 	given: ->
 		@scenario = new Witness.Scenario 
-			given:   { description: "given", actions: [ (new Witness.Action "given-action",   (-> throw new Error "given failed"), []) ] }
-			when:    { description: "when", actions: [ (new Witness.Action "when-action",    (=> @whenCalled = true), []) ] }
-			then:    { description: "then", actions: [ (new Witness.Action "then-assertion", (=> @thenCalled = true), []) ] }
-			dispose: { description: "dispose", actions: [ (new Witness.Action "dispose-action", (=> @disposeCalled = true), []) ] }
+			given:   { description: "given", actions: [ (new Witness.Action (-> throw new Error "given failed"), []) ] }
+			when:    { description: "when", actions: [ (new Witness.Action (=> @whenCalled = true), []) ] }
+			then:    { description: "then", actions: [ new Witness.Assertion (new Witness.Action (=> @thenCalled = true), []) ] }
+			dispose: { description: "dispose", actions: [ (new Witness.Action (=> @disposeCalled = true), []) ] }
 
 
 	when: ->

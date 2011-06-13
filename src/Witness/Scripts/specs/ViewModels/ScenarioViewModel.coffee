@@ -7,7 +7,7 @@ describe "ScenarioViewModel",
 {
 	given: ->
 		@scenario = new Witness.Scenario
-			given: { description: "given", actions: [ new Witness.Action("given", (->), []) ] }
+			given: { description: "given", actions: [ new Witness.Action((->), []) ] }
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
 	then:
@@ -30,7 +30,7 @@ describe "ScenarioViewModel",
 {
 	given: ->
 		@scenario = new Witness.Scenario
-			given: { description: "given", actions: [ new Witness.Action("given", (-> throw "scenario failed"), []) ] }
+			given: { description: "given", actions: [ new Witness.Action((-> throw "scenario failed"), []) ] }
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
 	when: ->

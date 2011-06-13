@@ -5,10 +5,10 @@
 describe "Sequence",
 {
 	given: ->
-		@context = {};
+		@context = {}
 		@outerContext = outerContext = this
-		action0 = new Witness.Action "action-0", (-> outerContext.action0Called = true; outerContext.action0Context = this), []
-		action1 = new Witness.Action "action-1", (-> outerContext.action1Called = true; outerContext.action1Context = this), []
+		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
+		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
 		@sequence = new Witness.Sequence [action0, action1]
 
 	when: ->
@@ -24,8 +24,8 @@ describe "Sequence",
 },
 {
 	given: ->
-		action0 = new Witness.Action "action-0", (=> throw new Error "action-0 failed"), []
-		action1 = new Witness.Action "action-1", (=> @action1Called = true), []
+		action0 = new Witness.Action (=> throw new Error "action-0 failed")
+		action1 = new Witness.Action (=> @action1Called = true)
 		@sequence = new Witness.Sequence [action0, action1]
 
 	when: ->
