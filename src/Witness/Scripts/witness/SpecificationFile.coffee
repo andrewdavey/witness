@@ -9,6 +9,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 		{@name,@url} = manifest
 		@on = Witness.Event.define "downloading", "downloaded", "run", "done", "fail"
 		@specifications = []
+		@errors = []
 
 	download: () ->
 		@on.downloading.raise()
@@ -18,7 +19,13 @@ this.Witness.SpecificationFile = class SpecificationFile
 			dataType: 'text'
 			success: (script) =>
 				if @url.match(/.coffee$/)
-					script = CoffeeScript.compile(script)
+					try
+						script = CoffeeScript.compile(script)
+					catch error
+						@errors.push error
+						@on.downloaded.raise()
+						return
+
 				@executeSpecificationScript script, (specs) =>
 					@specifications.push new Witness.ViewModels.SpecificationViewModel(spec) for spec in specs
 					@on.downloaded.raise()
