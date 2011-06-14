@@ -18,15 +18,13 @@ createScenario = (scenario) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
-	isOuter = parts.given.actions.length > 0 and parts.when.actions.length == 0 and parts.then.actions.length == 0
+	for own key, value of parts
+		parts[key].actions = flatten createActions value.actions
+	isOuter = scenario.inner?
 	if isOuter
-		setups = (item for item in parts.given when typeof item == "function")
-		setup = if setups.length = 1 then setups[0] else new Witness.Sequence setups
-		children = (createScenario item for item in parts.given when typeof item == "object")
-		new Witness.OuterScenario parts.given.description, setup, children
+		children = (createScenario item for item in scenario.inner)
+		new Witness.OuterScenario parts, children
 	else
-		for own key, value of parts
-			parts[key].actions = flatten createActions value.actions
 		parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
 		new Witness.Scenario parts
 

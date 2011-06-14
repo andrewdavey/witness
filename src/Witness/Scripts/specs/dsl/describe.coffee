@@ -61,14 +61,20 @@
 {
 	"given a nested scenario definition": ->
 		@definition = 
-			"given this is the outer scenario": [
-				-> @outerProperty = 1
+			"given this is the outer scenario": -> @outerProperty = 1
+			inner: [
 				{
 					"given this is the inner scenario": -> @innerProperty = 2
 					when: (->)
 					then: (->)
+				},
+				{
+					"given this is the other inner scenario": (->)
+					when: (->)
+					then: (->)
 				}
 			]
+			dispose: (->)
 		@target = {}
 		@dsl = new Witness.Dsl(@target)
 
@@ -77,5 +83,10 @@
 		@scenario = @target.specifications[0].scenarios[0]
 
 	"then":
-		scenario: should.beInstanceof Witness.OuterScenario
+		scenario:
+			this: should.beInstanceof Witness.OuterScenario
+			innerScenarios:
+				length: should.be 2
+				0: should.beInstanceof Witness.Scenario
+				1: should.beInstanceof Witness.Scenario
 }

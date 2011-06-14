@@ -2,9 +2,14 @@
 
 this.Witness.OuterScenario = class OuterScenario
 
-	constructor: (@description, @setupAction, @childScenarios) ->
-		children = new Witness.TryAll @childScenario
-		sequence = new Witness.Sequence [ @setupAction, children] 
+	constructor: (parts, @innerScenarios) ->
+		{@given, @dispose} = parts
+		children = new Witness.TryAll @innerScenarios
+		sequence = new Witness.Sequence [].concat @given.actions, children 
+		@action = if @dispose.actions.length > 0
+			new Witness.TryAll [sequence].concat @dispose.actions
+		else
+			sequence
 
 	run: (outerContext, done, fail) ->
-		sequence.run {}, done, fail
+		@action.run {}, done, fail
