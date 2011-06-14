@@ -15,3 +15,11 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 
 	toggleOpen: ->
 		@isOpen(not @isOpen())
+
+	scenarioTemplate: (item) ->
+		if item instanceof Witness.ViewModels.OuterScenarioViewModel
+			"outer-scenario"
+		else
+			"scenario"
+
+

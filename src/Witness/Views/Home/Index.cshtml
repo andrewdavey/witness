@@ -25,26 +25,26 @@
     <div><button id="run">Run</button></div>
     <ul id="specifications" data-bind="template: { name: fileSystemItemTemplate, foreach: directory }"></ul>
     <script id="directory" type="text/html">
-    <li class="directory" data-bind="css: { open: isOpen }">
-        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
-        <div class="name" data-bind="text: name"></div>
-        <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
-        <ul data-bind="template: { name: 'file', foreach: files }"></ul>
-    </li>
+        <li class="directory" data-bind="css: { open: isOpen }">
+            <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
+            <div class="name" data-bind="text: name"></div>
+            <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
+            <ul data-bind="template: { name: 'file', foreach: files }"></ul>
+        </li>
     </script>
     <script id="file" type="text/html">
-    <li class="file" data-bind="css: { open: isOpen }">
-        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
-        <div class="name" data-bind="text: name"></div>
-        <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
-    </li>
+        <li class="file" data-bind="css: { open: isOpen }">
+            <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
+            <div class="name" data-bind="text: name"></div>
+            <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
+        </li>
     </script>
     <script id="specification" type="text/html">
-    <li class="specification" data-bind="css: { open: isOpen }">
-        <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
-        <div class="name" data-bind="text: description"></div>
-        <ul data-bind="template: { name: 'scenario', foreach: scenarios }"></ul>
-    </li>
+        <li class="specification" data-bind="css: { open: isOpen }">
+            <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
+            <div class="name" data-bind="text: description"></div>
+            <ul data-bind="template: { name: scenarioTemplate, foreach: scenarios }"></ul>
+        </li>
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }">
@@ -55,6 +55,13 @@
             <p data-bind="text: thenDescription"></p>
             <ul data-bind="template: { name: 'action', foreach: thens }, visible: thens.length!=0"></ul>
             <div data-bind="template: { name: 'error', foreach: errors }, visible: errors.length!=0"></div>
+        </li>
+    </script>
+    <script id="outer-scenario" type="text/html">
+        <li data-bind="attr: { 'class': 'outer-scenario ' + status() }">
+            <p data-bind="text: givenDescription"></p>
+            <ul data-bind="template: { name: 'action', foreach: givens }, visible: givens.length!=0"></ul>
+            <ul data-bind="template: { name: scenarioTemplate, foreach: innerScenarios }"></ul> 
         </li>
     </script>
     <script id="action" type="text/html">
