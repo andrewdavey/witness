@@ -97,7 +97,7 @@ describe "should.beLessThen",
 				done: should.be true
 		},
 		{
-			"given the context propert is 101": ->
+			"given the context property is 101": ->
 				@context = { theProperty: 101 }
 
 			"when the action is run": ->
@@ -129,7 +129,7 @@ describe "should.beGreaterThan",
 				done: should.be true
 		},
 		{
-			"given the context propert is 99": ->
+			"given the context property is 99": ->
 				@context = { theProperty: 99 }
 
 			"when the action is run": ->
@@ -173,7 +173,7 @@ describe "should.beGreaterThanOrEqual",
 				done: should.be true
 		},
 		{
-			"given the context propert is 99": ->
+			"given the context property is 99": ->
 				@context = { theProperty: 99 }
 
 			"when the action is run": ->
@@ -217,7 +217,7 @@ describe "should.beLessThanOrEqual",
 				done: should.be true
 		},
 		{
-			"given the context propert is 101": ->
+			"given the context property is 101": ->
 				@context = { theProperty: 101 }
 
 			"when the action is run": ->
