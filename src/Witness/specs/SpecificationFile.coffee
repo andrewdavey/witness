@@ -23,7 +23,7 @@ describe "SpecificationFile",
 		@restorejQuery()
 },
 {
-	"given a SpecificationFile that is a file manifest of a file with a syntax error": ->
+	"given a SpecificationFile with a file manifest of a CoffeeScript file with a syntax error": ->
 		manifest =
 			name: "test.coffee"
 			url: "/specs/test.coffee"
@@ -38,4 +38,27 @@ describe "SpecificationFile",
 
 	then:
 		file: errors: length: should.be 1
+
+	dispose: ->
+		@restorejQuery()
+},
+{
+	"given a SpecificationFile with a file manifest of a JavaScript file with a syntax error": ->
+		manifest =
+			name: "test.js"
+			url: "/specs/test.js"
+		@restorejQuery = mock jQuery, {
+			ajax: (options) -> options.success " { "
+		}
+		@file = new Witness.SpecificationFile manifest
+
+	"when the file is downloaded": async ->
+		@file.on.downloaded.addHandler => @done()
+		@file.download()
+
+	then:
+		file: errors: length: should.be 1
+
+	dispose: ->
+		@restorejQuery()
 }

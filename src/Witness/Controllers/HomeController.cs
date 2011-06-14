@@ -12,7 +12,7 @@ namespace Witness.Controllers
         {
             if (string.IsNullOrEmpty(path))
             {
-                return RedirectToAction("index", new { path = "scripts/specs" });
+                return RedirectToAction("index", new { path = "specs" });
             }
 
             ViewBag.Path = path;
