@@ -74,5 +74,25 @@ namespace Witness.Tests
         }
     }
 
+    public class CallingAParametisedMethodFromJavascript
+    {
+        static string result;
+        DotNetContext context;
+
+        public CallingAParametisedMethodFromJavascript()
+        {
+            context = new DotNetContext()
+                .Add("callingAMethod", () => result = "called");
+        }
+
+        [Fact]
+        public void IsCalled()
+        {
+            context.Run("callingAMethod('called')");
+
+            Assert.Equal(result,"called");
+        }
+    }
+
 
 }
