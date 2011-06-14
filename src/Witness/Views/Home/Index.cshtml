@@ -12,7 +12,7 @@
     @Html.RenderScripts()
     <script type="text/javascript">
         $(function () {
-            var runner = new Witness.SimpleRunner("scripts/specs");
+            var runner = new Witness.SimpleRunner("@ViewBag.Path");
             runner.download();
             ko.applyBindings(runner);
 
@@ -23,7 +23,7 @@
 </head>
 <body>
     <div><button id="run">Run</button></div>
-    <ul id="specifications" data-bind="template: { name: 'directory', foreach: directory }"></ul>
+    <ul id="specifications" data-bind="template: { name: fileSystemItemTemplate, foreach: directory }"></ul>
     <script id="directory" type="text/html">
     <li class="directory" data-bind="css: { open: isOpen }">
         <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>

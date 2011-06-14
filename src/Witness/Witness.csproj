@@ -83,6 +83,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\lib\coffee-script.js" />
     <Content Include="Scripts\lib\jquery.js" />
+    <Content Include="Scripts\lib\jquery.tmpl.js" />
     <Content Include="Scripts\lib\knockout.js" />
     <None Include="Scripts\specs\Assertion.coffee" />
     <None Include="Scripts\specs\AsyncAction.coffee" />
@@ -91,9 +92,11 @@
     <None Include="Scripts\specs\dsl\defineActions.coffee" />
     <None Include="Scripts\specs\dsl\describe.coffee" />
     <None Include="Scripts\specs\dsl\wait.coffee" />
+    <None Include="Scripts\specs\OuterScenario.coffee" />
     <None Include="Scripts\specs\Scenario.coffee" />
     <None Include="Scripts\specs\Sequence.coffee" />
     <None Include="Scripts\specs\Specification.coffee" />
+    <None Include="Scripts\specs\SpecificationFile.coffee" />
     <None Include="Scripts\specs\TryAll.coffee" />
     <None Include="Scripts\specs\ViewModels\ActionWatcher.coffee" />
     <None Include="Scripts\specs\ViewModels\ScenarioViewModel.coffee" />

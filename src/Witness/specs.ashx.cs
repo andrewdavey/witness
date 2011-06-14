@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
+using System;
 
 namespace Witness
 {
@@ -13,12 +14,23 @@ namespace Witness
     {
         public void ProcessRequest(HttpContext context)
         {
-            var path = context.Request.PathInfo;
-            path = path.TrimEnd('/');
-            var fullPath = Path.Combine(context.Server.MapPath("~" + path));
+            var path = context.Request.QueryString["path"];
+            if (path == null) throw new HttpException(400, "Request is missing the path query string parameter.");
 
-            var directory = GetSpecificationDirectory(fullPath, context);
-            var json = new JavaScriptSerializer().Serialize(directory);
+            path = path.TrimEnd('/');
+            var fullPath = Path.Combine(context.Server.MapPath("~/" + path));
+
+            string json;
+            if (File.GetAttributes(fullPath).HasFlag(FileAttributes.Directory))
+            {
+                var directory = GetSpecificationDirectory(fullPath, context);
+                json = new JavaScriptSerializer().Serialize(directory);
+            }
+            else
+            {
+                var file = GetSpecificationFile(fullPath, context);
+                json = new JavaScriptSerializer().Serialize(file);
+            }
 
             context.Response.ContentType = "application/json";
             context.Response.Write(json);
@@ -40,6 +52,8 @@ namespace Witness
                     select GetSpecificationDirectory(path, context),
                 files =
                     from filename in Directory.EnumerateFiles(rootPath)
+                    where filename.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                       || filename.EndsWith(".coffee", StringComparison.OrdinalIgnoreCase)
                     where File.GetAttributes(filename).HasFlag(FileAttributes.Hidden) == false
                     select GetSpecificationFile(filename, context)
             };

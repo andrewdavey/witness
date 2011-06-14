@@ -9,22 +9,38 @@ this.Witness.SimpleRunner = class SimpleRunner
 		# Once loaded, the array will contain the single directory object.
 		@directory = ko.observableArray []
 
+	fileSystemItemTemplate: (item) ->
+		if item instanceof Witness.ViewModels.SpecificationDirectoryViewModel
+			"directory"
+		else
+			"file"
+
 	download: ->
 		downloading = @downloadSpecificationManifest()
-		downloading.then (manifest) => @createSpecificationDirectoryFromManifest manifest
+		downloading.then (manifest) =>
+			if manifest.url?
+				@createSpecificationFileFromManifest manifest
+			else
+				@createSpecificationDirectoryFromManifest manifest
 		downloading
 
 	downloadSpecificationManifest: ->
 		$.ajax(
-			url: "/specs.ashx/" + @specsPath
+			url: "/specs.ashx?path=" + @specsPath
 			cache: false
 		)
+
+	createSpecificationFileFromManifest: (manifest) ->
+		file = new Witness.SpecificationFile manifest
+		viewModel = new Witness.ViewModels.SpecificationFileViewModel file
+		@directory.push viewModel
+		viewModel.download()
 
 	createSpecificationDirectoryFromManifest: (manifest) ->
 		dir = new Witness.SpecificationDirectory manifest
 		viewModel = new Witness.ViewModels.SpecificationDirectoryViewModel dir
 		@directory.push viewModel
-		@directory()[0].download()
+		viewModel.download()
 
 	downloadSpecification: (url) ->
 		waitForSpecifications = $.Deferred()

@@ -8,8 +8,14 @@ namespace Witness.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return RedirectToAction("index", new { path = "scripts/specs" });
+            }
+
+            ViewBag.Path = path;
             return View();
         }
 
