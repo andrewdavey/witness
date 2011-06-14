@@ -1,8 +1,9 @@
-﻿should.haveStatus = predicateActionBuilder
-	test: (actual, expected) -> actual.status() == expected
-	description: (fullName, expected) -> "View model status should be \"#{expected}\""
-	error: (fullName, actual, expected) -> "Expected view model status to be \"#{expected}\" but was \"#{actual.status()}\""
-	
+﻿should.unwrapActual = (actual) -> 
+	if actual.__ko_proto__?
+		actual()
+	else
+		actual
+
 describe "ScenarioViewModel",
 {
 	"given a ScenarioViewModel with a given part": ->
@@ -16,7 +17,7 @@ describe "ScenarioViewModel",
 
 	then:
 		viewModel:
-			this: should.haveStatus "notrun"
+			status: should.be "notrun"
 			givens: [ should.beInstanceof Witness.ViewModels.ActionWatcher ]
 },
 {
@@ -29,7 +30,7 @@ describe "ScenarioViewModel",
 
 	then:
 		 doneCalled: should.be true
-		 viewModel: should.haveStatus "passed"
+		 viewModel: status: should.be "passed"
 },
 {
 	"given a ScenarioViewModel with a given part that throws": ->
@@ -46,5 +47,5 @@ describe "ScenarioViewModel",
 
 	then:
 		 error: should.be "scenario failed"
-		 viewModel: should.haveStatus "failed"
+		 viewModel: status: should.be "failed"
 }

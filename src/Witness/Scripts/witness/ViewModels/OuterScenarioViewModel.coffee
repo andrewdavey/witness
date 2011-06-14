@@ -5,6 +5,7 @@ this.Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 
 	constructor: (@outerScenario) ->
 		@status = ko.observable "notrun"
+		@isOpen = ko.observable true
 		@outerScenario.on.run.addHandler => @status "running"
 		@outerScenario.on.done.addHandler => @status "passed"
 		@outerScenario.on.fail.addHandler (error) => @status "failed"

@@ -46,10 +46,12 @@ printableValue = (value) ->
 
 this.Witness.Dsl::predicateActionBuilder = predicateActionBuilder
 
-this.Witness.Dsl::should =
+this.Witness.Dsl::should = should =
+	unwrapActual: (actual) -> actual
 
 	be: predicateActionBuilder
 		test: (actual, expected) ->
+			actual = should.unwrapActual actual
 			if typeof expected == "function"
 				expected = expected.call this	
 			actual == expected
@@ -57,12 +59,13 @@ this.Witness.Dsl::should =
 			expected = printableValue expected
 			"#{fullName} should be #{expected}"
 		error: (fullName, actual, expected) ->
-			actual = printableValue actual
+			actual = printableValue should.unwrapActual actual
 			expected = printableValue expected
 			"Expected #{fullName} to be #{expected} but was #{actual}"
 
 	notBe: predicateActionBuilder
 		test: (actual, expected) ->
+			actual = should.unwrapActual actual
 			if typeof expected == "function"
 				expected = expected.call this	
 			actual != expected
@@ -75,7 +78,7 @@ this.Witness.Dsl::should =
 
 	beInstanceof: predicateActionBuilder
 		test: (actual, expected) ->
-			actual instanceof expected
+			should.unwrapActual(actual) instanceof expected
 		description: (fullName, expected) ->
 			typeName = expected.toString().match(/function\s*(.*?)\s*\(/)[1]
 			"#{fullName} should be instance of #{typeName}"

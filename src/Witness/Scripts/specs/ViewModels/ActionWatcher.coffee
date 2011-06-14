@@ -1,8 +1,10 @@
-﻿should.haveStatus = predicateActionBuilder
-	test: (actual, expected) -> actual.status() == expected
-	description: (fullName, expected) -> "View model status should be \"#{expected}\""
-	error: (fullName, actual, expected) -> "Expected view model status to be \"#{expected}\" but was \"#{actual.status()}\""
-	
+﻿should.unwrapActual = (actual) -> 
+	if actual.__ko_proto__?
+		actual()
+	else
+		actual
+
+
 describe "ActionWatcher with Action",
 {
 	"given an ActionWatcher of an Action with a description": ->
@@ -11,7 +13,7 @@ describe "ActionWatcher with Action",
 
 	then:
 		watcher:
-			this: should.haveStatus "notrun"
+			status: should.be "notrun"
 			description: should.be "description"
 },
 {
@@ -23,7 +25,7 @@ describe "ActionWatcher with Action",
 		@action.run {}, (->), (->)
 
 	then:
-		watcher: should.haveStatus "failed"
+		watcher: status: should.be "failed"
 },
 {
 	"given an ActionWatcher where the action passes": ->
@@ -34,7 +36,7 @@ describe "ActionWatcher with Action",
 		@action.run {}, (->), (->)
 
 	then:
-		watcher: should.haveStatus "passed"
+		watcher: status: should.be "passed"
 },
 {
 	"given an ActionWatcher that has been run": ->
@@ -46,7 +48,7 @@ describe "ActionWatcher with Action",
 		@watcher.reset()
 
 	then:
-		watcher: should.haveStatus "notrun"
+		watcher: status: should.be "notrun"
 }
 
 describe "ActionWatcher with AsyncAction",
@@ -57,7 +59,7 @@ describe "ActionWatcher with AsyncAction",
 
 	then:
 		watcher:
-			this: should.haveStatus "notrun"
+			status: should.be "notrun"
 			description: should.be "action-name"
 },
 {
@@ -69,7 +71,7 @@ describe "ActionWatcher with AsyncAction",
 		@action.run {}, (->), (->)
 
 	then:
-		watcher: should.haveStatus "passed"
+		watcher: status: should.be "passed"
 },
 {
 	"given an ActionWatcher with an AsyncAction that fails": ->
@@ -80,7 +82,7 @@ describe "ActionWatcher with AsyncAction",
 		@action.run {}, (->), (->)
 
 	then:
-		watcher: should.haveStatus "failed"
+		watcher: status: should.be "failed"
 },
 {
 	"given an ActionWatcher with an AsyncAction and has been run": ->
@@ -92,5 +94,5 @@ describe "ActionWatcher with AsyncAction",
 		@watcher.reset()
 
 	then:
-		watcher: should.haveStatus "notrun"
+		watcher: status: should.be "notrun"
 }
