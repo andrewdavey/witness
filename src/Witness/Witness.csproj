@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DotNetContext.cs" />
+    <Compile Include="ExecutableHeaders.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -77,6 +79,7 @@
     <Compile Include="specs.ashx.cs">
       <DependentUpon>specs.ashx</DependentUpon>
     </Compile>
+    <Compile Include="ExecuteJavascriptOnServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="empty.htm" />
