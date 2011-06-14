@@ -23,7 +23,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 						script = CoffeeScript.compile(script)
 					catch error
 						@errors.push error
-						@on.downloaded.raise()
+						@on.downloaded.raise [error]
 						return
 
 				@executeSpecificationScript script, (specs) =>

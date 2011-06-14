@@ -8,6 +8,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@status = ko.observable "notdownloaded"
 		@isOpen = ko.observable true
 		@specifications = ko.observableArray []
+		@errors = ko.observableArray []
 		@canRun = ko.dependentObservable =>
 			result = null
 			switch @status()
@@ -15,10 +16,17 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 				else result = no
 			result
 
-		@file.on.downloading.addHandler => @status "downloading"
-		@file.on.downloaded.addHandler =>
-			@status "downloaded"
-			@specifications @file.specifications
+		@file.on.downloading.addHandler =>
+			@errors.removeAll()
+			@specifications.removeAll()
+			@status "downloading"
+		@file.on.downloaded.addHandler (errors) =>
+			if not errors
+				@status "downloaded"
+				@specifications @file.specifications
+			else
+				@status "errors"
+				@errors.push error for error in errors
 		@file.on.run.addHandler => @status "running"
 		@file.on.done.addHandler => @status "passed"
 		@file.on.fail.addHandler => @status "failed"
