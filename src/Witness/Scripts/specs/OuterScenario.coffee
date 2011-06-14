@@ -51,4 +51,29 @@ describe "OuterScenario",
 		inner1WhenCalled: should.be true
 		inner1ThenCalled: should.be true
 		doneCalled: should.be true
+},
+{
+	"given an OuterScenarioViewModel with event handlers added": ->
+		parts =
+			given:
+				description: "given"
+				actions: []
+
+			dispose:
+				description: "dispose"
+				actions: []
+
+		innerScenarios = []
+		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		@outerScenario.on.run.addHandler => @runEventRaised = true
+		@outerScenario.on.done.addHandler => @doneEventRaised = true
+		@outerScenario.on.fail.addHandler => @failEventRaised = true
+
+	"when it is run": ->
+		@outerScenario.run {}, (->), (->)
+
+	then:
+		runEventRaised: should.be true
+		doneEventRaised: should.be true
+		failEventRaised: should.be undefined
 }
