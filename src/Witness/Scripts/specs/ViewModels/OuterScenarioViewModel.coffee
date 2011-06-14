@@ -21,6 +21,7 @@ describe "OuterScenarioViewModel",
 		viewModel:
 			status: should.be "notrun"
 			isOpen: should.be true
+			innerScenarios: length: should.be 0
 },
 {
 	"given an OuterScenarioViewModel": ->
