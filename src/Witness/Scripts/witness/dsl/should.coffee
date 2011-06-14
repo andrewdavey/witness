@@ -76,6 +76,38 @@ this.Witness.Dsl::should = should =
 			expected = printableValue expected
 			"Expected #{fullName} to not be #{expected}"
 
+	beLessThan: predicateActionBuilder
+		test: (actual, expected) ->
+			should.unwrapActual(actual) < expected
+		description: (fullName, expected) ->
+			"#{fullName} should be less than #{expected}"
+		error: (fullName, actual, expected) ->
+			"Expected #{fullName} to be less than #{expected}, but it was #{should.unwrapActual(actual)}"
+
+	beGreaterThan: predicateActionBuilder
+		test: (actual, expected) ->
+			should.unwrapActual(actual) > expected
+		description: (fullName, expected) ->
+			"#{fullName} should be greater than #{expected}"
+		error: (fullName, actual, expected) ->
+			"Expected #{fullName} to be greater than #{expected}, but it was #{should.unwrapActual(actual)}"
+
+	beGreaterThanOrEqual: predicateActionBuilder
+		test: (actual, expected) ->
+			should.unwrapActual(actual) >= expected
+		description: (fullName, expected) ->
+			"#{fullName} should be greater than or equal #{expected}"
+		error: (fullName, actual, expected) ->
+			"Expected #{fullName} to be greater than or equal #{expected}, but it was #{should.unwrapActual(actual)}"
+
+	beLessThanOrEqual: predicateActionBuilder
+		test: (actual, expected) ->
+			should.unwrapActual(actual) <= expected
+		description: (fullName, expected) ->
+			"#{fullName} should be less than or equal #{expected}"
+		error: (fullName, actual, expected) ->
+			"Expected #{fullName} to be less than or equal #{expected}, but it was #{should.unwrapActual(actual)}"
+
 	beInstanceof: predicateActionBuilder
 		test: (actual, expected) ->
 			should.unwrapActual(actual) instanceof expected

@@ -76,3 +76,155 @@ describe "should.notBe",
 		-> @error.message == "Expected theProperty to not be 666"
 	]
 }
+
+describe "should.beLessThen",
+{
+	"given the assertion: context property should.beLessThan 100": ->
+		@actionFactory = Witness.Dsl::should.beLessThan 100
+		@action = @actionFactory "theProperty"
+	
+	inner: [
+		{
+			"given the context property is 50": ->
+				@context = { theProperty: 50 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be less than 100"
+				done: should.be true
+		},
+		{
+			"given the context propert is 101": ->
+				@context = { theProperty: 101 }
+
+			"when the action is run": ->
+				@action.run @context, (->), ((error) => @error = error)
+		
+			"then a readable error is created":
+				error: message: should.be "Expected theProperty to be less than 100, but it was 101"
+		}
+	]
+}
+
+describe "should.beGreaterThan",
+{
+	"given the assertion: context property should.beGreaterThan 100": ->
+		@actionFactory = Witness.Dsl::should.beGreaterThan 100
+		@action = @actionFactory "theProperty"
+	
+	inner: [
+		{
+			"given the context property is 101": ->
+				@context = { theProperty: 101 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be greater than 100"
+				done: should.be true
+		},
+		{
+			"given the context propert is 99": ->
+				@context = { theProperty: 99 }
+
+			"when the action is run": ->
+				@action.run @context, (->), ((error) => @error = error)
+		
+			"then a readable error is created":
+				error: message: should.be "Expected theProperty to be greater than 100, but it was 99"
+		}
+	]
+}
+
+describe "should.beGreaterThanOrEqual",
+{
+	"given the assertion: context property should.beGreaterThanOrEqual 100": ->
+		@actionFactory = Witness.Dsl::should.beGreaterThanOrEqual 100
+		@action = @actionFactory "theProperty"
+	
+	inner: [
+		{
+			"given the context property is 101": ->
+				@context = { theProperty: 101 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be greater than or equal 100"
+				done: should.be true
+		},
+		{
+			"given the context property is 100": ->
+				@context = { theProperty: 100 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be greater than or equal 100"
+				done: should.be true
+		},
+		{
+			"given the context propert is 99": ->
+				@context = { theProperty: 99 }
+
+			"when the action is run": ->
+				@action.run @context, (->), ((error) => @error = error)
+		
+			"then a readable error is created":
+				error: message: should.be "Expected theProperty to be greater than or equal 100, but it was 99"
+		}
+	]
+}
+
+describe "should.beLessThanOrEqual",
+{
+	"given the assertion: context property should.beLessThanOrEqual 100": ->
+		@actionFactory = Witness.Dsl::should.beLessThanOrEqual 100
+		@action = @actionFactory "theProperty"
+	
+	inner: [
+		{
+			"given the context property is 99": ->
+				@context = { theProperty: 99 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be less than or equal 100"
+				done: should.be true
+		},
+		{
+			"given the context property is 100": ->
+				@context = { theProperty: 100 }
+
+			"when the action is run": ->
+				@action.run @context, (=> @done = true), (->)
+		
+			"then the action has a readable description and completes":
+				action:
+					description: should.be "theProperty should be less than or equal 100"
+				done: should.be true
+		},
+		{
+			"given the context propert is 101": ->
+				@context = { theProperty: 101 }
+
+			"when the action is run": ->
+				@action.run @context, (->), ((error) => @error = error)
+		
+			"then a readable error is created":
+				error: message: should.be "Expected theProperty to be less than or equal 100, but it was 101"
+		}
+	]
+}
