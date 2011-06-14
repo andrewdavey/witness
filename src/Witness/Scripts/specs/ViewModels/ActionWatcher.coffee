@@ -1,5 +1,5 @@
 ﻿should.unwrapActual = (actual) -> 
-	if actual.__ko_proto__?
+	if actual?.__ko_proto__?
 		actual()
 	else
 		actual

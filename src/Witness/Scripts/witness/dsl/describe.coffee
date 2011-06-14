@@ -12,7 +12,7 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	if not this.specifications
 		this.specifications = []
 	this.specifications.push specification
-
+	specification
 
 createScenario = (scenario) ->
 	parts = {}

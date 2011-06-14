@@ -10,8 +10,8 @@
 				@scenario = { given: (->), when: wait(10), then: [] }
 
 			"when describing the scenario": ->
-				@dsl.describe.call @target, "specification-name", @scenario
-				{@given,@when,@then,@dispose} = @target.specifications[0].scenarios[0]
+				spec = @dsl.describe.call @target, "specification-name", @scenario
+				{@given,@when,@then,@dispose} = spec.scenarios[0]
 
 			then: [
 				-> @target.specifications.length == 1
@@ -31,8 +31,8 @@
 				@scenario = { given: [], when: [], then: thenObject }
 			
 			"when the assertion is run": ->
-				@dsl.describe.call @target, "specification-name", @scenario
-				@assertion = @target.specifications[0].scenarios[0].then.actions[0]
+				spec = @dsl.describe.call @target, "specification-name", @scenario
+				@assertion = spec.scenarios[0].then.actions[0]
 				@assertion.run @context, (->), (->)
 
 			then:
@@ -52,8 +52,8 @@
 				@dsl = new Witness.Dsl(@target)
 			
 			"when the assertion is run": ->
-				@dsl.describe.call @target, "specification-name", @scenario
-				@assertion = @target.specifications[0].scenarios[0].then.actions[0]
+				spec = @dsl.describe.call @target, "specification-name", @scenario
+				@assertion = spec.scenarios[0].then.actions[0]
 				@assertion.run @context, (->), (->)
 
 			then:
@@ -80,8 +80,8 @@
 				@dsl = new Witness.Dsl(@target)
 
 			"when describe the scenario": ->
-				@dsl.describe.call @target, "specification-name", @definition
-				@scenario = @target.specifications[0].scenarios[0]
+				spec = @dsl.describe.call @target, "specification-name", @definition
+				@scenario = spec.scenarios[0]
 
 			"then":
 				scenario:

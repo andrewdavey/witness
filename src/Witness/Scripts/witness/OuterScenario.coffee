@@ -17,5 +17,5 @@ this.Witness.OuterScenario = class OuterScenario
 		@action.run(
 			{}
 			=> @on.done.raise(); done()
-			(error) => @on.fail.raise(error); fail()
+			(error) => @on.fail.raise(error); fail(error)
 		)

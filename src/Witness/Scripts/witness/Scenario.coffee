@@ -14,6 +14,7 @@ createDescriptionFromFunction = (func) ->
 this.Witness.Scenario = class Scenario
 	
 	constructor: (@parts) ->
+		@on = Witness.Event.define "run", "done", "fail"
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
 			part = @[name]
@@ -37,4 +38,12 @@ this.Witness.Scenario = class Scenario
 		@index = globalIndex++
 
 	run: (outerContext, done, fail) ->
-		@aggregateAction.run outerContext, done, fail
+		context = {}
+		context[key] = value for own key, value of outerContext
+		
+		@on.run.raise()
+		@aggregateAction.run(
+			context
+			=> @on.done.raise(); done()
+			(error) => @on.fail.raise(error); fail(error)
+		)
