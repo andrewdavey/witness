@@ -1,7 +1,7 @@
 ﻿should.haveStatus = predicateActionBuilder
 	test: (actual, expected) -> actual.status() == expected
 	description: (fullName, expected) -> "View model status should be \"#{expected}\""
-	error: (fullName, actual, expected) -> "Expected view model status to be \"#{expected}\" but was \"#{actual}\""
+	error: (fullName, actual, expected) -> "Expected view model status to be \"#{expected}\" but was \"#{actual.status()}\""
 	
 describe "ScenarioViewModel",
 {
