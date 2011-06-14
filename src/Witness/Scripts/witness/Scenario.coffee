@@ -37,5 +37,4 @@ this.Witness.Scenario = class Scenario
 		@index = globalIndex++
 
 	run: (outerContext, done, fail) ->
-		context = {}
-		@aggregateAction.run context, done, fail
+		@aggregateAction.run outerContext, done, fail

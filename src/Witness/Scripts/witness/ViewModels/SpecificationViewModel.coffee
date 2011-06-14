@@ -1,10 +1,11 @@
 # reference "ViewModels.coffee"
+# reference "Helpers.coffee"
 # reference "ScenarioViewModel.coffee"
 
 this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 	constructor: (@specification) ->
 		@description = @specification.description
-		@scenarios = (new Witness.ViewModels.ScenarioViewModel(scenario) for scenario in @specification.scenarios)
+		@scenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @specification.scenarios)
 		@isOpen = ko.observable true
 
 	run: (context, done, fail) ->

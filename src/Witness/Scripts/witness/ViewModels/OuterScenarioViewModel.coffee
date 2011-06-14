@@ -1,10 +1,13 @@
 # reference "ViewModels.coffee"
+# reference "Helpers.coffee"
 # reference "../../lib/knockout.js"
 
 this.Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 
 	constructor: (@outerScenario) ->
-		@innerScenarios = @outerScenario.innerScenarios
+		@givenDescription = @outerScenario.given.description
+		@givens = (new ActionWatcher action for action in @outerScenario.given.actions when action.description?)
+		@innerScenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @outerScenario.innerScenarios)
 		@status = ko.observable "notrun"
 		@isOpen = ko.observable true
 		@outerScenario.on.run.addHandler => @status "running"

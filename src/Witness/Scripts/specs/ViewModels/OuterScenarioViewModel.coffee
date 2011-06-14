@@ -1,5 +1,5 @@
 should.unwrapActual = (actual) -> 
-	if actual.__ko_proto__?
+	if actual?.__ko_proto__?
 		actual()
 	else
 		actual
@@ -19,6 +19,7 @@ describe "OuterScenarioViewModel",
 	
 	then:
 		viewModel:
+			givenDescription: should.be "given"
 			status: should.be "notrun"
 			isOpen: should.be true
 			innerScenarios: length: should.be 0
