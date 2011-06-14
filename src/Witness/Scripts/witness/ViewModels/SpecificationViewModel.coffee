@@ -8,11 +8,8 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 		@scenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @specification.scenarios)
 		@isOpen = ko.observable true
 
-	run: (context, done, fail) ->
-		tryAll = new Witness.TryAll @scenarios
-		tryAll.run context, done, (error) ->
-			console.log error
-			fail error
+	run: ->
+		@specification.run {}, (->), (->)
 
 	toggleOpen: ->
 		@isOpen(not @isOpen())

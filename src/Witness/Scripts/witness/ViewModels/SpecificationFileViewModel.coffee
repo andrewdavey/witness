@@ -23,7 +23,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@file.on.downloaded.addHandler (errors) =>
 			if not errors
 				@status "downloaded"
-				@specifications @file.specifications
+				@specifications new Witness.ViewModels.SpecificationViewModel spec for spec in @file.specifications
 			else
 				@status "errors"
 				@errors.push error for error in errors
@@ -35,7 +35,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@file.download()
 
 	run: ->
-		@file.run {}, (->), (->) if @canRun()
+		@file.run() if @canRun()
 		
 	toggleOpen: ->
 		@isOpen(not @isOpen())

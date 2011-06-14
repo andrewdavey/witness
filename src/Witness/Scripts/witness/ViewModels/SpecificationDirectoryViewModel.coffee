@@ -29,7 +29,7 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		@directory.download()
 
 	run: ->
-		@directory.run({}, (->), (->)) if @canRun() 
+		@directory.run {}, (->), (->) if @canRun() 
 
 	toggleOpen: ->
 		@isOpen(not @isOpen())

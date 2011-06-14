@@ -33,7 +33,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 						return
 
 				@executeSpecificationScript script, (specs) =>
-					@specifications.push new Witness.ViewModels.SpecificationViewModel(spec) for spec in specs
+					@specifications.push spec for spec in specs
 					@on.downloaded.raise()
 		)
 
