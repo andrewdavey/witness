@@ -27,7 +27,8 @@ this.Witness.SpecificationFile = class SpecificationFile
 						@on.downloaded.raise [error]
 						return
 				else
-					if not JSLINT script
+					predef = (name for own name of Witness.Dsl::)
+					if not JSLINT script, { predef: predef, white: true }
 						@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
 						@on.downloaded.raise @errors
 						return
