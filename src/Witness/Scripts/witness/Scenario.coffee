@@ -19,11 +19,9 @@ this.Witness.Scenario = class Scenario
 		for name in ["given","when","then","dispose"]
 			part = @[name]
 			if part?
-				if name != "then" and part.description.indexOf(' ') < 0 and part.actions.length > 0
-					actionDescription = part.actions[0].description ? (createDescriptionFromFunction part.actions[0].func)
-					part.description = "#{name} #{actionDescription}" 
+				part.description = part.description.split(' ').slice(1).join(' ')
 			else
-				@[name] = { description: name, actions: [] }
+				@[name] = { description: "", actions: [] }
 			
 	
 		tryAllAssertions = new Witness.TryAll @then.actions
