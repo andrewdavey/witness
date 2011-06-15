@@ -47,3 +47,4 @@ this.Witness.Scenario = class Scenario
 			=> @on.done.raise(); done()
 			(error) => @on.fail.raise(error); fail(error)
 		)
+
