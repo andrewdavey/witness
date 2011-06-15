@@ -6,7 +6,10 @@ predicateActionBuilder = (options) ->
 			fullName = createFullName propertyNames
 			description = options.description fullName, expected
 			func = () ->
-				actual = decendPropertiesToValue this, propertyNames
+				actual = if options.getActual?
+					options.getActual this, propertyNames
+				else
+					decendPropertiesToValue this, propertyNames
 				return if options.test.call this, actual, expected
 				error = options.error fullName, actual, expected
 				if typeof error == "string"
@@ -116,3 +119,8 @@ this.Witness.Dsl::should = should =
 			"#{fullName} should be instance of #{typeName}"
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
+
+
+this.Witness.Dsl::defineShouldFunctions = (object) ->
+	for own name, options of object
+		should[name] = predicateActionBuilder options
