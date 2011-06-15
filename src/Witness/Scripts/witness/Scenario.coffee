@@ -41,6 +41,7 @@ this.Witness.Scenario = class Scenario
 		context = {}
 		context[key] = value for own key, value of outerContext
 		context.scenario = this
+		context.window = window
 
 		@on.run.raise()
 		@aggregateAction.run(
