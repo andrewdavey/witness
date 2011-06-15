@@ -4,10 +4,12 @@
 # reference "../lib/knockout.js"
 
 this.Witness.SimpleRunner = class SimpleRunner
-	constructor: (@specsPath) ->
+	constructor: (@specsPath, iframeContainer) ->
 		# Use an observable array, since knockout dislikes binding to a null object.
 		# Once loaded, the array will contain the single directory object.
 		@directory = ko.observableArray []
+
+		Witness.MessageBus.addHandler "AppendIframe", (iframe) -> iframeContainer.append iframe
 
 	fileSystemItemTemplate: (item) ->
 		if item instanceof Witness.ViewModels.SpecificationDirectoryViewModel

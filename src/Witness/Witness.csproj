@@ -79,6 +79,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="demo\index.htm" />
+    <Content Include="demo\specs\index.js" />
     <Content Include="empty.htm" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\lib\coffee-script.js" />

@@ -18,7 +18,7 @@ this.Witness.Dsl::defineActions = (definitions) ->
 	@defineAction name, func for own name, func of definitions
 
 
-{splitCasedString} = Witness.helpers;
+{splitCasedString} = Witness.helpers
 
 createActionDescription = (name, args) ->
 	splitCasedString(name) + " " + args.join(", ")
