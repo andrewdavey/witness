@@ -39,3 +39,9 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		
 	toggleOpen: ->
 		@isOpen(not @isOpen())
+
+	scenarioTemplate: (item) ->
+		if item instanceof Witness.ViewModels.OuterScenarioViewModel
+			"outer-scenario"
+		else
+			"scenario"

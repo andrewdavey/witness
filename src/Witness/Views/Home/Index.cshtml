@@ -33,10 +33,21 @@
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: name"></div>
             <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
-            <ul data-bind="template: { name: 'file', foreach: files }"></ul>
+            <ul data-bind="template: { name: fileTemplate, foreach: files }"></ul>
         </li>
     </script>
-    <script id="file" type="text/html">
+    <script id="file-of-one" type="text/html">
+        <li class="file" data-bind="css: { open: isOpen }">
+            <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
+            <div class="name">
+                <span data-bind="text: specifications()[0].description"></span>
+                <span class="filename" data-bind="text: '(' + name + ')'"></span>
+            </div>
+            <ul data-bind="template: { name: scenarioTemplate, foreach: specifications()[0].scenarios }"></ul>
+            <ul data-bind="template: { name: 'error', foreach: errors }"></ul>
+        </li>
+    </script>
+    <script id="file-of-many" type="text/html">
         <li class="file" data-bind="css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: name"></div>
