@@ -28,6 +28,10 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 	download: ->
 		@directory.download()
 
+	fileTemplate: (file) ->
+		return "file-of-one" if file.specifications().length == 1
+		return "file-of-many"
+
 	run: ->
 		@directory.run {}, (->), (->) if @canRun() 
 
