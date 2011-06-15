@@ -34,10 +34,13 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	select: ->
 		@isSelected true
 		Witness.MessageBus.send "ScenarioSelected", this
-		
+		if @scenario.iframe?
+			@scenario.iframe.show()
+
 	deselect: ->
 		@isSelected false
-
+		if @scenario.iframe?
+			@scenario.iframe.hide()
 
 currentSelection = null
 Witness.MessageBus.addHandler "ScenarioSelected", (scenarioViewModel) ->

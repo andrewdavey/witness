@@ -92,6 +92,9 @@ li.specification > .name {
 li.scenario {
     margin-bottom: 10px;
 }
+li.scenario.selected {
+    background-color: #eee;
+}
 
 .action.passed { color: Green; }
 .action.failed { color: #800; }

@@ -53,7 +53,7 @@
         </li>
     </script>
     <script id="scenario" type="text/html">
-        <li data-bind="attr: { 'class': 'scenario ' + status() }">
+        <li data-bind="attr: { 'class': 'scenario ' + status() }, click: select, css: { selected: isSelected }">
             <p data-bind="text: givenDescription"></p>
             <ul data-bind="template: { name: 'action', foreach: givens }, visible: givens.length!=0"></ul>
             <p data-bind="text: whenDescription"></p>
