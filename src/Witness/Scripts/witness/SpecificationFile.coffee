@@ -26,13 +26,11 @@ this.Witness.SpecificationFile = class SpecificationFile
 						@errors.push error
 						@on.downloaded.raise [error]
 						return
-				###
 				else
 					if not JSLINT script
 						@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
 						@on.downloaded.raise @errors
 						return
-				###
 				@executeSpecificationScript script, (specs) =>
 					@specifications.push spec for spec in specs
 					@on.downloaded.raise()

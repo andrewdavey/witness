@@ -14,12 +14,14 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	this.specifications.push specification
 	specification
 
+flattenArray = this.Witness.helpers.flattenArray
+
 createScenario = (scenario) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
 	for own key, value of parts
-		parts[key].actions = flatten createActions value.actions
+		parts[key].actions = flattenArray createActions value.actions
 	isOuter = scenario.inner?
 	if isOuter
 		children = (createScenario item for item in scenario.inner)
@@ -92,11 +94,3 @@ createActionsFromObject = (object, parentNames = []) ->
 	else
 		throw new TypeError "Input must be a Function, Array or Object."
 
-flatten = (input) ->
-	output = []
-	for item in input
-		if $.isArray item
-			output = output.concat flatten item
-		else
-			output.push item
-	output
