@@ -8,6 +8,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	
 	constructor: (@scenario) ->
 		@status = ko.observable "notrun"
+		@isSelected = ko.observable false
 		@givenDescription = @scenario.given.description
 		@givens = (new ActionWatcher action for action in @scenario.given.actions when action.description?)
 		@whenDescription = @scenario.when.description
@@ -29,3 +30,16 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		for watchers in [ @givens, @whens, @thens ]
 			for watcher in watchers
 				watch.reset()
+
+	select: ->
+		@isSelected true
+		Witness.MessageBus.send "ScenarioSelected", this
+		
+	deselect: ->
+		@isSelected false
+
+
+currentSelection = null
+Witness.MessageBus.addHandler "ScenarioSelected", (scenarioViewModel) ->
+	currentSelection.deselect() if currentSelection?
+	currentSelection = scenarioViewModel

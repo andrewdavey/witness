@@ -40,11 +40,13 @@ this.Witness.Scenario = class Scenario
 	run: (outerContext, done, fail) ->
 		context = {}
 		context[key] = value for own key, value of outerContext
-		
+		context.scenario = this
+
 		@on.run.raise()
 		@aggregateAction.run(
 			context
 			=> @on.done.raise(); done()
 			(error) => @on.fail.raise(error); fail(error)
 		)
+
 
