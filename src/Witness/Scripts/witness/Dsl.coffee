@@ -1,6 +1,6 @@
 ﻿# reference "Witness.coffee"
 # reference "Action.coffee"
-# reference "StringHelpers.coffee"
+# reference "helpers.coffee"
 
 this.Witness.Dsl = class Dsl
 	

@@ -3,6 +3,7 @@
 # reference "../../lib/knockout.js"
 
 ActionWatcher = this.Witness.ViewModels.ActionWatcher
+flattenArray = this.Witness.helpers.flattenArray
 
 this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	
@@ -19,7 +20,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		@scenario.on.run.addHandler => @status "running"
 		@scenario.on.done.addHandler => @status "passed"
 		@scenario.on.fail.addHandler (errors) =>
-			@errors errors
+			@errors flattenArray errors
 			@status "failed"
 
 	run: (context, done, fail) ->
