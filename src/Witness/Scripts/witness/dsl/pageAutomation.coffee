@@ -38,6 +38,10 @@ this.Witness.Dsl::defineActions
 	click: (selector) ->
 		$(selector, @document).click()
 
+	input: (inputs) ->
+		for own selector, value of inputs
+			$(selector, @document).val value
+
 this.Witness.Dsl::defineShouldFunctions
 	haveText:
 		getActual: (context, propertyNames) ->

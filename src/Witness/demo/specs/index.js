@@ -1,9 +1,12 @@
 ﻿describe("demo page",
 {
     given: loadPage("/demo/index.htm"),
-    when: click("#hello"),
+    when: [
+        input({ "#name": "John" }),
+        click("#hello")
+    ],
     then: {
-        "#message": should.haveText("Hello, world!")
+        "#message": should.haveText("Hello, John")
     }
 },
 {
