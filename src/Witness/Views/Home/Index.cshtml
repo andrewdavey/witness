@@ -65,12 +65,51 @@
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }, click: select, css: { selected: isSelected }">
-            <p data-bind="text: givenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: givens }, visible: givens.length!=0"></ul>
-            <p data-bind="text: whenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: whens }, visible: whens.length!=0"></ul>
-            <p data-bind="text: thenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: thens }, visible: thens.length!=0"></ul>
+            <table>
+                <tr>
+                    <td>Given</td>
+                    <td data-bind="text: givenDescription"></td>
+                </tr>
+                {{each givens}}
+                <tr>
+                    <td style="width:40px"></td>
+                    <td data-bind="attr: { 'class': 'action ' + status() }">
+                        <div data-bind="text: description"></div>
+                        <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+            <table>
+                <tr>
+                    <td>When</td>
+                    <td data-bind="text: whenDescription"></td>
+                </tr>
+                {{each whens}}
+                <tr>
+                    <td></td>
+                    <td data-bind="attr: { 'class': 'action ' + status() }">
+                        <div data-bind="text: description"></div>
+                        <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+            <table>
+                <tr>
+                    <td>Then</td>
+                    <td colspan="2" data-bind="text: thenDescription"></td>
+                </tr>
+                {{each thens}}
+                <tr>
+                    <td></td>
+                    <td data-bind="attr: { 'class': 'action ' + status() }">
+                        <div data-bind="text: description"></div>
+                        <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
             <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors.length!=0"></ul>
         </li>
     </script>
