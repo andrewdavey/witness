@@ -17,6 +17,8 @@
             ko.applyBindings(runner);
 
             $("#run").click(function() { runner.runAll(); });
+
+            Witness.runner = runner; // expose the runner for PhantomJS access
         });
     </script>
     @Html.RenderStylesheetLinks()

@@ -81,4 +81,5 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 
 	runAll: () ->
-		@directory()[0].run()
+		@directory()[0].run ->
+			Witness.MessageBus.send "RunnerFinished"

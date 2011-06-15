@@ -32,8 +32,8 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		return "file-of-one" if file.specifications().length == 1
 		return "file-of-many"
 
-	run: ->
-		@directory.run {}, (->), (->) if @canRun() 
+	run: (done = (->)) ->
+		@directory.run {}, done, done if @canRun() 
 
 	toggleOpen: ->
 		@isOpen(not @isOpen())
