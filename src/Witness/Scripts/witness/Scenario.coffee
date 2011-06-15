@@ -44,7 +44,10 @@ this.Witness.Scenario = class Scenario
 		@on.run.raise()
 		@aggregateAction.run(
 			context
-			=> @on.done.raise(); done()
+			=>
+				@on.done.raise()
+				Witness.MessageBus.send "ScenarioPassed"
+				done()
 			(error) => @on.fail.raise(error); fail(error)
 		)
 
