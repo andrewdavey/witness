@@ -8,7 +8,7 @@ async = this.Witness.Dsl::async
 this.Witness.Dsl::defineActions
 	loadPage: async (url) ->
 		createIframe = =>
-			iframe = @scenario.iframe = $("<iframe/>")
+			iframe = @scenario.iframe = $("<iframe/>").hide()
 			Witness.MessageBus.send "AppendIframe", iframe
 			iframe
 
