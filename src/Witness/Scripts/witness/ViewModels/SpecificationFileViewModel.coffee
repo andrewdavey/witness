@@ -35,7 +35,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@file.download()
 
 	run: ->
-		@file.run() if @canRun()
+		@file.run {}, (->), (->) if @canRun()
 		
 	toggleOpen: ->
 		@isOpen(not @isOpen())
