@@ -49,3 +49,37 @@ this.Witness.Scenario = class Scenario
 				Witness.messageBus.send "ScenarioFailed", this
 				fail(error)
 
+	getIFrame: ->
+		@iframe or @createAndCacheIFrame()
+
+	setIFrameLoadCallback: (callback, callIfJustLoaded = no) ->
+		if @iframeJustLoaded and callIfJustLoaded
+			# Sometimes we need a callback to run just after the
+			# iframe has loaded e.g. awaitPageLoad()
+			@iframeJustLoaded = no
+			callback @iframe[0].contentWindow
+		else
+			@iframeLoadCallback = callback
+
+	createAndCacheIFrame: ->
+		@iframe = $("<iframe/>").hide()
+		Witness.messageBus.send "AppendIframe", @iframe
+		@iframe.bind "load", => @handleIFrameLoad()
+		@iframe
+
+	handleIFrameLoad: ->
+		if @iframeLoadCallback?
+			@iframeJustLoaded = no
+			
+			# Callbacks are single use.
+			# So we must clear the current callback property before calling it.
+			# Otherwise a new callback could be assign which would then be cleared!
+			callback = @iframeLoadCallback
+			@iframeLoadCallback = null 
+
+			callback @iframe[0].contentWindow
+		else
+			# Remember that the iframe has just loaded so that when there is a callback set
+			# we can call it immediately.
+			@iframeJustLoaded = yes
+

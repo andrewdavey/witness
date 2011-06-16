@@ -7,39 +7,26 @@ async = this.Witness.Dsl::async
 
 this.Witness.Dsl::defineActions
 	loadPage: async (url) ->
-		createIframe = =>
-			iframe = @scenario.iframe = $("<iframe/>").hide()
-			Witness.messageBus.send "AppendIframe", iframe
-			iframe
-
-		iframeLoadHandler = =>
-			# Only handle this once
-			iframe.unbind "load", iframeLoadHandler
-			iframe.data "WitnessLoadHandler", null
-			iframe.contents().ready =>
-				# Store page objects in the context so other actions can access them
-				@window = iframe[0].contentWindow
-				@document = iframe[0].contentWindow.document
-				# Continue with the next action
-				@done()
-		
-		iframe = @scenario.iframe or createIframe()
-
-		# The "done" callback is called once the iframe has loaded.
-		# But the same iframe is reused each time the scenario is run.
-		# Therefore we must only have the current "load" handler bound to it.
-		if iframe.data("WitnessLoadHandler")?
-			iframe.unbind "load", iframe.data("WitnessLoadHandler")
-		iframe.bind "load", iframeLoadHandler
-		iframe.data "WitnessLoadHandler", iframeLoadHandler
+		iframe = @scenario.getIFrame()
+		@scenario.setIFrameLoadCallback (iframeWindow) =>
+			# Store page objects in the context so other actions can access them
+			@window = iframeWindow
+			@document = iframeWindow.document
+			# Continue with the next action
+			@done()
 
 		iframe.attr "src", url
 	
-	awaitPageLoad: ->
-		if not @scenario.iframe?
-			throw new Error "Cannot await page load when no page is loading."
-		# TODO
+	awaitPageLoad: async ->
+		iframe = @scenario.getIFrame()
+		loaded = (iframeWindow) =>
+			# Store page objects in the context so other actions can access them
+			@window = iframeWindow
+			@document = iframeWindow.document
+			# Continue with the next action
+			@done()
 
+		@scenario.setIFrameLoadCallback loaded, yes
 
 	click: (selector) ->
 		# Thanks to http://stackoverflow.com/questions/1421584/how-can-i-simulate-a-click-to-an-anchor-tag/1421968#1421968

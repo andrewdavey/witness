@@ -6,7 +6,7 @@
         click("#hello")
     ],
     then: {
-        "#message": should.haveText("Hello, John!")
+        "#message": should.haveText("Hello, John")
     }
 },
 {
