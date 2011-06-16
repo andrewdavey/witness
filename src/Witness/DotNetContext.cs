@@ -21,7 +21,7 @@ namespace Witness
 
         public string Run(string script)
         {
-            engine.Execute(script);
+            engine.Execute("result = " +  script);
             engine.Execute("result = JSON.stringify(result)");
             return engine.GetGlobalValue("result").ToString();
         }
