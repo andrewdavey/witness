@@ -78,9 +78,9 @@ isAnActionObject = (object) -> "run" of object
 
 createActionFromFunction = (func) ->
 	if func.async?
-		new Witness.AsyncAction func, [], null, func.async.timeout 
+		new Witness.AsyncAction func, [], func.toString(), func.async.timeout 
 	else
-		new Witness.Action func, []
+		new Witness.Action func, [], func.toString()
 
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"

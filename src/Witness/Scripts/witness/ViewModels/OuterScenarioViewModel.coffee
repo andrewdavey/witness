@@ -6,7 +6,7 @@ this.Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 
 	constructor: (@outerScenario) ->
 		@givenDescription = @outerScenario.given.description
-		@givens = (new ActionWatcher action for action in @outerScenario.given.actions when action.description?)
+		@givens = (new Witness.ViewModels.ActionWatcher action for action in @outerScenario.given.actions)
 		@innerScenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @outerScenario.innerScenarios)
 		@status = ko.observable "notrun"
 		@isOpen = ko.observable true

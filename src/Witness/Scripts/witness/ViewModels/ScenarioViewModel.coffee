@@ -12,8 +12,10 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		@isSelected = ko.observable false
 		@givenDescription = @scenario.given.description
 		@givens = (new ActionWatcher action for action in @scenario.given.actions)
+		@givensVisible = ko.observable (@givenDescription.length == 0)
 		@whenDescription = @scenario.when.description
 		@whens = (new ActionWatcher action for action in @scenario.when.actions)
+		@whensVisible = ko.observable (@whenDescription.length == 0)
 		@thenDescription = @scenario.then.description
 		@thens = (new ActionWatcher action for action in @scenario.then.actions)
 		@errors = ko.observableArray []
@@ -43,7 +45,15 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		if @scenario.iframe?
 			@scenario.iframe.hide()
 
+	toggleGivens: ->
+		@givensVisible not @givensVisible()
+
+	toggleWhens: ->
+		@whensVisible not @whensVisible()
+
+
 currentSelection = null
 Witness.messageBus.addHandler "ScenarioSelected", (scenarioViewModel) ->
+	return if scenarioViewModel is currentSelection
 	currentSelection.deselect() if currentSelection?
 	currentSelection = scenarioViewModel

@@ -45,7 +45,7 @@
                 <span data-bind="text: specifications()[0].description"></span>
                 <span class="filename" data-bind="text: '(' + name + ')'"></span>
             </div>
-            <ul data-bind="template: { name: scenarioTemplate, foreach: specifications()[0].scenarios }"></ul>
+            <ul class="scenario-list" data-bind="template: { name: scenarioTemplate, foreach: specifications()[0].scenarios }"></ul>
             <ul data-bind="template: { name: 'error', foreach: errors }"></ul>
         </li>
     </script>
@@ -62,45 +62,55 @@
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: description"></div>
             <a href="#" data-bind="click: run">run</a>
-            <ul data-bind="template: { name: scenarioTemplate, foreach: scenarios }"></ul>
+            <ul class="scenario-list" data-bind="template: { name: scenarioTemplate, foreach: scenarios }"></ul>
         </li>
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }, click: select, css: { selected: isSelected }">
             <table>
+                <thead>
                 <tr>
                     <td>Given</td>
-                    <td data-bind="text: givenDescription"></td>
+                    <td class="part-description" data-bind="text: givenDescription"></td>
+                    <td class="part-toggle-container"><a class="part-toggle" href="#" data-bind="click: toggleGivens, css: { open: givensVisible }"></a></td>
                 </tr>
+                </thead>
+                <tbody data-bind="visible: givensVisible">
                 {{each givens}}
                 <tr>
                     <td style="width:40px"></td>
-                    <td data-bind="attr: { 'class': 'action ' + status() }">
+                    <td colspan="2" data-bind="attr: { 'class': 'action ' + status() }">
                         <div data-bind="text: description"></div>
                         <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
                     </td>
                 </tr>
                 {{/each}}
+                </tbody>
             </table>
             <table>
+                <thead>
                 <tr>
                     <td>When</td>
-                    <td data-bind="text: whenDescription"></td>
+                    <td class="part-description" data-bind="text: whenDescription"></td>
+                    <td class="part-toggle-container"><a class="part-toggle" href="#" data-bind="click: toggleWhens, css: { open: whensVisible }"></a></td>
                 </tr>
+                </thead>
+                <tbody data-bind="visible: whensVisible">
                 {{each whens}}
                 <tr>
                     <td></td>
-                    <td data-bind="attr: { 'class': 'action ' + status() }">
+                    <td colspan="2" data-bind="attr: { 'class': 'action ' + status() }">
                         <div data-bind="text: description"></div>
                         <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
                     </td>
                 </tr>
                 {{/each}}
+                </tbody>
             </table>
             <table>
                 <tr>
                     <td>Then</td>
-                    <td colspan="2" data-bind="text: thenDescription"></td>
+                    <td class="part-description" colspan="2" data-bind="text: thenDescription"></td>
                 </tr>
                 {{each thens}}
                 <tr>
