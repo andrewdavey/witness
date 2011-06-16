@@ -31,7 +31,7 @@ namespace Witness
                 var file = GetSpecificationFile(fullPath, context);
                 json = new JavaScriptSerializer().Serialize(file);
             }
-
+            context.Response.AddHeader("Cache-Control","no-cache");
             context.Response.ContentType = "application/json";
             context.Response.Write(json);
         }
