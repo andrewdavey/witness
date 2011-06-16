@@ -9,14 +9,24 @@ namespace Witness
     {
         private ScriptEngine engine = new ScriptEngine();
 
-        public void Add(string key, object argument)
-        {
-            engine.SetGlobalValue(key,argument);
-        }
-
         public void Add(string key, Action argument)
         {
             engine.SetGlobalFunction(key,argument);
+        }
+
+        public void Add<T>(string key, Func<T> argument)
+        {
+            engine.SetGlobalFunction(key, argument);
+        }
+
+        public void Add<T,T2>(string key, Func<T,T2> argument)
+        {
+            engine.SetGlobalFunction(key, argument);
+        }
+
+        public void Add<T, T2,T3>(string key, Func<T, T2,T3> argument)
+        {
+            engine.SetGlobalFunction(key, argument);
         }
 
         public string Run(string script)
@@ -26,9 +36,10 @@ namespace Witness
             return engine.GetGlobalValue("result").ToString();
         }
 
-        public void AddMany(IDictionary<string, Action> dotnetmethods)
+        public void AddMany(IDictionary<string, object> dotnetmethods)
         {
-            foreach(var kv in dotnetmethods) Add(kv.Key,kv.Value);
+            foreach (var kv in dotnetmethods)
+                engine.SetGlobalFunction(kv.Key, (Delegate) kv.Value);
         }
     }
 }

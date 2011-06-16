@@ -46,6 +46,25 @@ namespace Witness.Tests
         }
     }
 
+    public class CallingAFunctionFromJavascript
+    {
+        DotNetContext context;
+
+        public CallingAFunctionFromJavascript()
+        {
+            context = new DotNetContext();
+            context.Add("callingAFunction", () => 42);
+        }
+
+        [Fact]
+        public void IsCalled()
+        {
+            var returnvalue = context.Run("result = callingAFunction()");
+
+            Assert.Equal(returnvalue, "42");
+        }
+    }
+
 
     public class ReturningAnObjectLiteralFromJavascript
     {
