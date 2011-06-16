@@ -17,6 +17,9 @@ this.Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 	run: (context, done, fail) ->
 		@outerScenario.run {}, done, fail
 
+	reset: ->
+		scenario.reset() for scenario in @innerScenarios
+
 	scenarioTemplate: (item) ->
 		if item instanceof Witness.ViewModels.OuterScenarioViewModel
 			"outer-scenario"
