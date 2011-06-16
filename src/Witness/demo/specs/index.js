@@ -29,4 +29,14 @@
     then: {
         "#message": should.haveText("Number is 3")
     }
+},
+{
+    given: loadPage("/demo/index.htm"),
+    when: [
+        click("a[href^=second]"),
+        awaitPageLoad()
+    ],
+    then: {
+        document: { title: should.be("Second Page") }
+    }
 });
