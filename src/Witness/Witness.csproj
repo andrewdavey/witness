@@ -150,7 +150,6 @@
     <Content Include="Views\Web.config" />
     <None Include="Scripts\witness\dsl\should.coffee" />
     <None Include="Scripts\witness\SimpleRunner.coffee" />
-    <None Include="Scripts\witness\StringHelpers.coffee" />
     <None Include="Scripts\witness\TimeoutError.coffee" />
     <None Include="Scripts\witness\TryAll.coffee" />
     <Content Include="specs.ashx" />
