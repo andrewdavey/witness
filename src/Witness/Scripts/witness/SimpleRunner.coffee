@@ -15,7 +15,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 		if item instanceof Witness.ViewModels.SpecificationDirectoryViewModel
 			"directory"
 		else
-			"file"
+			"file-of-many"
 
 	download: ->
 		downloading = @downloadSpecificationManifest()
