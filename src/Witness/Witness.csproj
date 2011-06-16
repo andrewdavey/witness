@@ -115,6 +115,8 @@
     <None Include="specs\dsl\should.coffee" />
     <None Include="Scripts\witness\ViewModels\ActionWatcher.coffee" />
     <None Include="Scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <Content Include="Styles\witness\images\scenario-part-open.png" />
+    <Content Include="Styles\witness\images\scenario-part-close.png" />
     <Content Include="Styles\witness\images\specification.png" />
     <Content Include="Styles\witness\images\close.png" />
     <Content Include="Styles\witness\images\open.png" />
