@@ -43,11 +43,14 @@ this.Witness.SpecificationFile = class SpecificationFile
 			iframeWindow = iframe[0].contentWindow
 			iframeDoc = iframeWindow.document
 			body = iframeDoc.getElementsByTagName("head")[0]
-			addScript = (properties) ->
+			addScript = (scriptText) ->
 				scriptElement = iframeDoc.createElement "script"
 				scriptElement.type = "text/javascript"
 				scriptElement.async = false # else some browser seem to execute scripts in non-sequential order!
-				scriptElement[name] = value for own name, value of properties
+				if document.createElement("script").textContent == ""
+					scriptElement.textContent = scriptText
+				else
+					scriptElement.innerText = scriptText
 				body.appendChild scriptElement
 
 			# Add a function to the iframe window that will be called when the script has finished running.
@@ -57,8 +60,8 @@ this.Witness.SpecificationFile = class SpecificationFile
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
 
-			addScript { innerText: script }
-			addScript { innerText: "_witnessScriptCompleted();" }
+			addScript script
+			addScript "_witnessScriptCompleted();"
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationFileRunning", this

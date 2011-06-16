@@ -44,13 +44,13 @@ this.Witness.Dsl::defineActions
 	click: (selector) ->
 		# Thanks to http://stackoverflow.com/questions/1421584/how-can-i-simulate-a-click-to-an-anchor-tag/1421968#1421968
 		fakeClick = (anchorObj) ->
-			if anchorObj.click
-				anchorObj.click()
-			else if document.createEvent
+			if document.createEvent
 				evt = document.createEvent "MouseEvents"
 				evt.initMouseEvent "click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null
 				anchorObj.dispatchEvent evt
-		
+			else if anchorObj.click
+				anchorObj.click()
+
 		$(selector, @document).each -> fakeClick this
 
 	input: (inputs) ->
