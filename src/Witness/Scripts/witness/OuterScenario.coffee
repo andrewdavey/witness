@@ -13,9 +13,14 @@ this.Witness.OuterScenario = class OuterScenario
 			sequence
 
 	run: (outerContext, done, fail) ->
+		Witness.messageBus.send "OuterScenarioRunning", this
 		@on.run.raise()
-		@action.run(
-			{}
-			=> @on.done.raise(); done()
-			(error) => @on.fail.raise(error); fail(error)
-		)
+		@action.run {},
+			=>
+				Witness.messageBus.send "OuterScenarioPassed", this
+				@on.done.raise()
+				done()
+			(error) =>
+				Witness.messageBus.send "OuterScenarioFailed", this
+				@on.fail.raise(error)
+				fail(error)

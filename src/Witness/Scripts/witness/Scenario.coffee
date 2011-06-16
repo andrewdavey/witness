@@ -2,8 +2,6 @@
 # reference "Sequence.coffee"
 # reference "TryAll.coffee"
 
-globalIndex = 0
-
 createDescriptionFromFunction = (func) ->
 	return "" if typeof func != "function"
 	s = func.toString()
@@ -33,22 +31,21 @@ this.Witness.Scenario = class Scenario
 		else
 			@aggregateAction = sequence
 
-		@index = globalIndex++
-
 	run: (outerContext, done, fail) ->
 		context = {}
 		context[key] = value for own key, value of outerContext
 		context.scenario = this
 		context.window = window
 
+		Witness.messageBus.send "ScenarioRunning", this
 		@on.run.raise()
-		@aggregateAction.run(
-			context
+		@aggregateAction.run context,
 			=>
 				@on.done.raise()
-				Witness.MessageBus.send "ScenarioPassed"
+				Witness.messageBus.send "ScenarioPassed", this
 				done()
-			(error) => @on.fail.raise(error); fail(error)
-		)
-
+			(error) =>
+				@on.fail.raise(error)
+				Witness.messageBus.send "ScenarioFailed", this
+				fail(error)
 
