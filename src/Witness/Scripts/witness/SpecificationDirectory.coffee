@@ -19,9 +19,16 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 			item.download()
 
 	run: (context, done, fail) ->
+		Witness.messageBus.send "SpecificationDirectoryRunning", this
 		@on.run.raise()
 		all = @directories.concat @files
 		tryAll = new Witness.TryAll all
 		tryAll.run context,
-			(=> @on.done.raise(); done())
-			((error) => @on.fail.raise(error); fail(error))
+			=>
+				@on.done.raise()
+				Witness.messageBus.send "SpecificationDirectoryPassed", this
+				done()
+			(error) =>
+				@on.fail.raise(error)
+				Witness.messageBus.send "SpecificationDirectoryFailed", this
+				fail(error)

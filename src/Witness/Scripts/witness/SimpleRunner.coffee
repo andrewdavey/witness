@@ -9,7 +9,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 		# Once loaded, the array will contain the single directory object.
 		@directory = ko.observableArray []
 
-		Witness.MessageBus.addHandler "AppendIframe", (iframe) -> iframeContainer.append iframe
+		Witness.messageBus.addHandler "AppendIframe", (iframe) -> iframeContainer.append iframe
 
 	fileSystemItemTemplate: (item) ->
 		if item instanceof Witness.ViewModels.SpecificationDirectoryViewModel
@@ -82,4 +82,4 @@ this.Witness.SimpleRunner = class SimpleRunner
 
 	runAll: () ->
 		@directory()[0].run ->
-			Witness.MessageBus.send "RunnerFinished"
+			Witness.messageBus.send "RunnerFinished"

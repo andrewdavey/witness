@@ -61,8 +61,15 @@ this.Witness.SpecificationFile = class SpecificationFile
 			addScript { innerText: "_witnessScriptCompleted();" }
 
 	run: (context, done, fail) ->
+		Witness.messageBus.send "SpecificationFileRunning", this
 		@on.run.raise()
 		tryAll = new Witness.TryAll @specifications
 		tryAll.run context,
-			(=> @on.done.raise(); done())
-			((error) => @on.fail.raise(error); fail(error))
+			=>
+				Witness.messageBus.send "SpecificationFilePassed", this
+				@on.done.raise()
+				done()
+			(error) =>
+				@on.fail.raise(error)
+				Witness.messageBus.send "SpecificationFileFailed", this
+				fail(error)

@@ -5,4 +5,11 @@ this.Witness.Specification = class Specification
 		@all = new Witness.TryAll @scenarios
 
 	run: (context, done, fail) ->
-		@all.run context, done, fail
+		Witness.messageBus.send "SpecificationRunning", this
+		@all.run context,
+			->
+				Witness.messageBus.send "SpecificationPassed", this
+				done()
+			->
+				Witness.messageBus.send "SpecificationFailed", this
+				fail()
