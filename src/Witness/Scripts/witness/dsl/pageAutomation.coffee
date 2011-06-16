@@ -50,6 +50,8 @@ this.Witness.Dsl::defineActions
 				anchorObj.dispatchEvent evt
 			else if anchorObj.click
 				anchorObj.click()
+			else
+				throw new Error "Unable to simulate click in this web browser."
 
 		$(selector, @document).each -> fakeClick this
 
