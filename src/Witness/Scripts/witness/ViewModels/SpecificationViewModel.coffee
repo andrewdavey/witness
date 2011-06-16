@@ -20,4 +20,5 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 		else
 			"scenario"
 
-
+	reset: ->
+		scenario.reset() for scenario in @scenarios

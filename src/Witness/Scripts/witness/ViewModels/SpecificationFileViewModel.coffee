@@ -37,6 +37,9 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 	run: ->
 		@file.run {}, (->), (->) if @canRun()
 		
+	reset: ->
+		specification.reset() for specification in @specifications()
+
 	toggleOpen: ->
 		@isOpen(not @isOpen())
 

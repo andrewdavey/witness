@@ -11,12 +11,14 @@ this.Witness.ViewModels.ActionWatcher = class ActionWatcher
 		@description = @action.description
 		@errors = ko.observableArray []
 		@status = ko.observable "notrun"
-		@action.on.run.addHandler  => @status "running"
+		@action.on.run.addHandler  =>
+			@reset()
+			@status "running"
 		@action.on.done.addHandler => @status "passed"
 		@action.on.fail.addHandler (error) =>
 			@status "failed"
 			@errors.push error
 
 	reset: ->
-		@errors.removeAll()
 		@status "notrun"
+		@errors.removeAll()

@@ -33,7 +33,12 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		return "file-of-many"
 
 	run: (done = (->)) ->
+		@reset()
 		@directory.run {}, done, done if @canRun() 
+
+	reset: ->
+		directory.reset() for directory in @directories
+		file.reset() for file in @files
 
 	toggleOpen: ->
 		@isOpen(not @isOpen())
