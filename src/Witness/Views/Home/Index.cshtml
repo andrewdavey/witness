@@ -67,7 +67,7 @@
     </script>
     <script id="scenario" type="text/html">
         <li data-bind="attr: { 'class': 'scenario ' + status() }, click: select, css: { selected: isSelected }">
-            <table>
+            <table data-bind="visible: givens.length">
                 <thead>
                 <tr>
                     <td>Given</td>
@@ -126,9 +126,27 @@
         </li>
     </script>
     <script id="outer-scenario" type="text/html">
-        <li data-bind="attr: { 'class': 'outer-scenario ' + status() }, css: { open: isOpen }">
-            <p data-bind="text: givenDescription"></p>
-            <ul data-bind="template: { name: 'action', foreach: givens }, visible: givens.length!=0"></ul>
+        <li data-bind="attr: { 'class': 'outer-scenario scenario ' + status() }, css: { open: isOpen }">
+            <table>
+                <thead>
+                <tr>
+                    <td>Given</td>
+                    <td class="part-description" data-bind="text: givenDescription"></td>
+                    <td class="part-toggle-container"><a class="part-toggle" href="#" data-bind="click: toggleGivens, css: { open: givensVisible }"></a></td>
+                </tr>
+                </thead>
+                <tbody data-bind="visible: givensVisible">
+                {{each givens}}
+                <tr>
+                    <td style="width:40px"></td>
+                    <td colspan="2" data-bind="attr: { 'class': 'action ' + status() }">
+                        <div data-bind="text: description"></div>
+                        <ul data-bind="template: { name: 'error', foreach: errors }, visible: errors().length!=0"></ul>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
             <ul data-bind="template: { name: scenarioTemplate, foreach: innerScenarios }"></ul> 
         </li>
     </script>
