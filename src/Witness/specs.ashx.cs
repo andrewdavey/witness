@@ -19,6 +19,10 @@ namespace Witness
 
             path = path.TrimEnd('/');
             var fullPath = Path.Combine(context.Server.MapPath("~/" + path));
+            if (!Directory.Exists(fullPath) && !File.Exists(fullPath))
+            {
+                throw new HttpException(404, "Cannot find the path \"" + path + "\"");
+            }
 
             string json;
             if (File.GetAttributes(fullPath).HasFlag(FileAttributes.Directory))

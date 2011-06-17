@@ -21,7 +21,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 	download: ->
 		@status "Downloading specification manifest..."
 		downloadManifest = @downloadSpecificationManifest()
-		downloadManifest.then (manifest) =>
+		downloadManifest.done (manifest) =>
 			@status "Downloading specifications..."
 			isFile = manifest.url?
 			{model, viewModel} = @createModelAndViewModelForManifest manifest
@@ -33,6 +33,9 @@ this.Witness.SimpleRunner = class SimpleRunner
 				)
 				(=> @status "Download error.")
 			)
+
+		downloadManifest.fail =>
+			@status "Could not download manifest from #{@specsPath}"
 
 	createModelAndViewModelForManifest: (manifest) ->
 		isFile = manifest.url?

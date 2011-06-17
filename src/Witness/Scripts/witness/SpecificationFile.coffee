@@ -11,32 +11,46 @@ this.Witness.SpecificationFile = class SpecificationFile
 		@specifications = []
 		@errors = []
 
-	download: (done = (->)) ->
+	download: (done = (->), fail = (->)) ->
 		@errors = []
 		@on.downloading.raise()
-		$.ajax(
+		$.ajax
 			url: @url
 			cache: false
 			dataType: 'text'
 			success: (script) =>
-				if @url.match(/.coffee$/)
-					try
-						script = CoffeeScript.compile(script)
-					catch error
-						@errors.push error
-						@on.downloaded.raise [error]
-						return
-				else
-					predef = (name for own name of Witness.Dsl::)
-					if not JSLINT script, { predef: predef, white: true }
-						@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
-						@on.downloaded.raise @errors
-						return
+				script = @parseScript script
+				if not script
+					fail()
+					return
+
 				@executeSpecificationScript script, (specs) =>
 					@specifications.push spec for spec in specs
 					@on.downloaded.raise()
 					done()
-		)
+			error: =>
+				errorMessage = "Could not download #{@url}"
+				@errors.push errorMessage
+				@on.downloaded.raise [ errorMessage ]
+				fail()
+				
+
+	parseScript: (script) ->
+		if @url.match(/.coffee$/)
+			try
+				script = CoffeeScript.compile(script)
+			catch error
+				@errors.push error
+				@on.downloaded.raise [error]
+				return null
+		else
+			predef = (name for own name of Witness.Dsl::)
+			if not JSLINT script, { predef: predef, white: true }
+				@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
+				@on.downloaded.raise @errors
+				return null
+		# If we get here, then the script is okay.
+		script
 
 	executeSpecificationScript: (script, gotSpecifications) ->
 		iframe = $("<iframe src='/home/sandbox'/>").hide().appendTo("body")

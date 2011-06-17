@@ -22,7 +22,7 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 
 		if items.length
 			for item in items
-				item.download itemDownloadCallback
+				item.download itemDownloadCallback, fail
 		else
 			@on.downloaded.raise()
 			done()
