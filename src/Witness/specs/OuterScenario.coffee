@@ -42,8 +42,8 @@ describe "OuterScenario",
 		@outerScenario.run {}, (=> @doneCalled = true), (->)
 	
 	"then":
-		outerGivenCalled: should.be 1
-		outerDisposeCalled: should.be 1
+		outerGivenCalled: should.be 2
+		outerDisposeCalled: should.be 2
 		inner0GivenCalled: should.be true
 		inner0WhenCalled: should.be true
 		inner0ThenCalled: should.be true
@@ -78,7 +78,7 @@ describe "OuterScenario",
 		failEventRaised: should.be undefined
 },
 {
-	"given an OuterScenario that fails with event handlers added": ->
+	"given an OuterScenario that fails with an inner Scenario and event handlers added": ->
 		parts =
 			given:
 				description: "given"
@@ -88,7 +88,7 @@ describe "OuterScenario",
 				description: "dispose"
 				actions: []
 
-		innerScenarios = []
+		innerScenarios = [ new Witness.Scenario {} ]
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
 		@outerScenario.on.run.addHandler => @runEventRaised = true
 		@outerScenario.on.done.addHandler => @doneEventRaised = true
@@ -101,4 +101,29 @@ describe "OuterScenario",
 		runEventRaised: should.be true
 		doneEventRaised: should.be undefined
 		failEventRaised: should.be true
+},
+{
+	"given an OuterScenario that fails but has no inner Scenarios": ->
+		parts =
+			given:
+				description: "given"
+				actions: [ new Witness.Action(-> throw new Error "failed") ]
+
+			dispose:
+				description: "dispose"
+				actions: []
+
+		innerScenarios = []
+		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		@outerScenario.on.done.addHandler => @doneEventRaised = true
+
+	"when it is run": ->
+		@outerScenario.run {}, (->), (->)
+
+	"then the done event is raised":
+		doneEventRaised: should.be true
+# The outer Given and Dispose run for each inner scenario.
+# So when there are none, technically they should never run.
+# However, we can't just stall the action execution, so we simply
+# expect `done` to be called.
 }

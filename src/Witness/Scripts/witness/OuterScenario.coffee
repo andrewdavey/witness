@@ -7,7 +7,10 @@ this.Witness.OuterScenario = class OuterScenario
 		@on = Witness.Event.define "run", "done", "fail"
 		
 		buildChildSequence = (child) =>
-			new Witness.Sequence [].concat(@given.actions, child, @dispose.actions)
+			new Witness.TryAll [].concat(
+				(new Witness.Sequence [].concat(@given.actions, child)),
+				@dispose.actions
+			)
 
 		@action = new Witness.TryAll (buildChildSequence child for child in @innerScenarios)
 

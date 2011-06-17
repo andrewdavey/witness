@@ -65,4 +65,12 @@ describe "TryAll",
 			{ message: should.be "action-0 failed" },
 			{ message: should.be "action-1 failed" }
 		]
+},
+{
+	"given a TryAll with no actions": ->
+		@tryAll = new Witness.TryAll []
+	"when the action is run": ->
+		@tryAll.run {}, (=>@doneCallbackCalled = true), (->)
+	then:
+		doneCallbackCalled: should.be true
 }

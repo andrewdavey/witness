@@ -51,7 +51,7 @@ describe "OuterScenarioViewModel",
 			dispose:
 				description: "dispose"
 				actions: []
-		scenario = new Witness.OuterScenario parts, []
+		scenario = new Witness.OuterScenario parts, [ new Witness.Scenario {} ]
 		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
 	
 	"when it is run": ->
