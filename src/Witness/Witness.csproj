@@ -75,8 +75,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="executeonserver.ashx.cs">
-      <DependentUpon>executeonserver.ashx</DependentUpon>
+    <Compile Include="executejavascriptonserver.ashx.cs">
+      <DependentUpon>executejavascriptonserver.ashx</DependentUpon>
     </Compile>
     <Compile Include="specs.ashx.cs">
       <DependentUpon>specs.ashx</DependentUpon>
@@ -92,11 +92,12 @@
     <Content Include="Scripts\lib\jquery.tmpl.js" />
     <Content Include="Scripts\lib\jslint.js" />
     <Content Include="Scripts\lib\knockout.js" />
-    <None Include="Scripts\witness\actions\OnServer.coffee" />
+    <None Include="Scripts\witness\actions\Remote.coffee" />
+    <None Include="specs\actions\RemoteAssertion.coffee" />
     <None Include="specs\Assertion.coffee" />
     <None Include="specs\AsyncAction.coffee" />
     <None Include="specs\Dsl.coffee" />
-    <None Include="specs\actions\OnServer.coffee" />
+    <None Include="specs\actions\Remote.coffee" />
     <None Include="specs\dsl\defineActions.coffee" />
     <None Include="specs\dsl\describe.coffee" />
     <None Include="specs\dsl\wait.coffee" />
@@ -142,7 +143,7 @@
     <None Include="Scripts\witness\TryAll.coffee" />
     <Content Include="specs.ashx" />
     <Content Include="Views\Home\Sandbox.cshtml" />
-    <Content Include="executeonserver.ashx" />
+    <Content Include="executejavascriptonserver.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

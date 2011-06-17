@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace Witness
 {
     /// <summary>
     /// Summary description for serverexecute
     /// </summary>
-    public class ExecuteJSOnServer : IHttpHandler
+    public class ExecuteJavascriptOnServer : IHttpHandler
     {
         private static IDictionary<string, object> dotnetmethods = new Dictionary<string, object>(); 
 
-        public static void AddMethod(string jsname,Delegate method)
+        public static void Add(string jsname,Action method)
         {
             dotnetmethods[jsname] = method;
         }
@@ -22,6 +23,17 @@ namespace Witness
         {
             dotnetmethods[jsname] = function;
         }
+
+        public static void Add<T1,T2>(string jsname, Func<T1,T2> function)
+        {
+            dotnetmethods[jsname] = function;
+        }
+
+        public static void Add<T1, T2,T3>(string jsname, Func<T1, T2,T3> function)
+        {
+            dotnetmethods[jsname] = function;
+        }
+
 
         public void ProcessRequest(HttpContext context)
         {
@@ -37,7 +49,11 @@ namespace Witness
                 catch(Exception e)
                 {
                     context.Response.StatusCode = 400;
-                    context.Response.Write(e.Message);
+                    var serializer = new JavaScriptSerializer();
+                    context.Response.Write(serializer.Serialize(new
+                    {
+                        error = e.Message
+                    }));
                     return;
                 }
             }
