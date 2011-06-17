@@ -8,7 +8,8 @@ this.Witness.SimpleRunner = class SimpleRunner
 		# Use an observable array, since knockout dislikes binding to a null object.
 		# Once loaded, the array will contain the single directory object.
 		@directory = ko.observableArray []
-
+		@canRun = ko.observable false
+		@status = ko.observable ""
 		Witness.messageBus.addHandler "AppendIframe", (iframe) -> iframeContainer.append iframe
 
 	fileSystemItemTemplate: (item) ->
@@ -18,45 +19,54 @@ this.Witness.SimpleRunner = class SimpleRunner
 			"file-of-many"
 
 	download: ->
-		downloading = @downloadSpecificationManifest()
-		downloading.then (manifest) =>
-			if manifest.url?
-				@createSpecificationFileFromManifest manifest
-			else
-				@createSpecificationDirectoryFromManifest manifest
-		downloading
+		@status "Downloading specification manifest..."
+		downloadManifest = @downloadSpecificationManifest()
+		downloadManifest.then (manifest) =>
+			@status "Downloading specifications..."
+			isFile = manifest.url?
+			{model, viewModel} = @createModelAndViewModelForManifest manifest
+			@directory.push viewModel
+			model.download(
+				(=>
+					@canRun true
+					@status "Ready to run"
+				)
+				(=> @status "Download error.")
+			)
+
+	createModelAndViewModelForManifest: (manifest) ->
+		isFile = manifest.url?
+		create = if isFile
+			@createSpecificationFileFromManifest
+		else
+			@createSpecificationDirectoryFromManifest
+		create(manifest)
 
 	downloadSpecificationManifest: ->
-		$.ajax(
+		$.ajax
 			url: "/specs.ashx?path=" + @specsPath
 			cache: false
-		)
 
 	createSpecificationFileFromManifest: (manifest) ->
 		file = new Witness.SpecificationFile manifest
-		viewModel = new Witness.ViewModels.SpecificationFileViewModel file
-		@directory.push viewModel
-		viewModel.download()
+		{ model: file, viewModel: new Witness.ViewModels.SpecificationFileViewModel file }
 
 	createSpecificationDirectoryFromManifest: (manifest) ->
 		dir = new Witness.SpecificationDirectory manifest
-		viewModel = new Witness.ViewModels.SpecificationDirectoryViewModel dir
-		@directory.push viewModel
-		viewModel.download()
+		{ model: dir, viewModel: new Witness.ViewModels.SpecificationDirectoryViewModel dir }
 
 	downloadSpecification: (url) ->
 		waitForSpecifications = $.Deferred()
-		$.ajax({
+		$.ajax
 			url: url
 			cache: false
-			dataType: 'text'
+			dataType: "text"
 			success: (script) =>
 				if url.match(/.coffee$/)
 					script = CoffeeScript.compile(script)
 				@executeSpecificationScript script, (specs) =>
 					@specifications = @specifications.concat specs
 					waitForSpecifications.resolve()
-		});
 		waitForSpecifications
 
 	executeSpecificationScript: (script, gotSpecifications) ->
@@ -81,5 +91,8 @@ this.Witness.SimpleRunner = class SimpleRunner
 			
 
 	runAll: () ->
-		@directory()[0].run ->
+		return if not @canRun()
+		@status "Running..."
+		@directory()[0].run =>
+			@status "Finished"
 			Witness.messageBus.send "RunnerFinished"

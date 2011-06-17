@@ -24,7 +24,10 @@
     @Html.RenderStylesheetLinks()
 </head>
 <body>
-    <div id="toolbar"><button id="run">Run</button></div>
+    <div id="toolbar">
+        <button id="run" data-bind="enable: canRun">Run</button>
+        <span data-bind="text: status"></span>
+    </div>
     <div id="specifications">
         <ul data-bind="template: { name: fileSystemItemTemplate, foreach: directory }"></ul>
     </div>

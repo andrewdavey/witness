@@ -8,7 +8,7 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 		@directories = (new SpecificationDirectory directory for directory in manifest.directories)
 		@files = (new Witness.SpecificationFile file for file in manifest.files)
 
-	download: (done = (->)) ->
+	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()
 
 		# Download all the files and sub-directories
