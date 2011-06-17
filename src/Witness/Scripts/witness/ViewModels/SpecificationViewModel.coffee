@@ -15,6 +15,7 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 			@status "passed"
 		@specification.on.failed.addHandler =>
 			@status "failed"
+			@isOpen true
 
 	run: ->
 		@specification.run {}, (->), (->)

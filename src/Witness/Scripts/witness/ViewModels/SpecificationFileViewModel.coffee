@@ -30,7 +30,9 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 
 		@file.on.running.addHandler => @status "running"
 		@file.on.passed.addHandler => @status "passed"
-		@file.on.failed.addHandler => @status "failed"
+		@file.on.failed.addHandler =>
+			@status "failed"
+			@isOpen true
 		
 	download: ->
 		@file.download()

@@ -57,6 +57,14 @@ describe "SpecificationViewModel",
 				@viewModel.reset()
 			then:
 				scenarioReset: should.be true
+		},
+		{
+			"when the underlying specification fails": ->
+				@specification.on.failed.raise new Error("failed")
+			then:
+				viewModel:
+					isOpen: should.be true
+					status: should.be "failed"
 		}
 	]
 }

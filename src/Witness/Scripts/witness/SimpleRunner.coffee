@@ -26,6 +26,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 			isFile = manifest.url?
 			{model, viewModel} = @createModelAndViewModelForManifest manifest
 			@directory.push viewModel
+			viewModel.isOpen true
 			model.download(
 				(=>
 					@canRun true

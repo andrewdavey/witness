@@ -7,7 +7,7 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 	constructor: (@directory) ->
 		@name = @directory.name
 		@status = ko.observable "notdownloaded"
-		@isOpen = ko.observable true
+		@isOpen = ko.observable false
 		@canRun = ko.dependentObservable =>
 			result = null
 			switch @status()
@@ -21,6 +21,8 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		for status in [ "downloading", "downloaded", "running", "passed", "failed" ]
 			do (status) =>
 				@directory.on[status].addHandler => @status status
+
+		@directory.on.failed.addHandler => @isOpen true
 
 	download: ->
 		@directory.download()
