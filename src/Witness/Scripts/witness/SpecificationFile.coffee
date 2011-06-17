@@ -24,10 +24,16 @@ this.Witness.SpecificationFile = class SpecificationFile
 					fail()
 					return
 
-				@executeSpecificationScript script, (specs) =>
-					@specifications.push spec for spec in specs
-					@on.downloaded.raise()
-					done()
+				@executeSpecificationScript script,
+					(specs) =>
+						@specifications.push spec for spec in specs
+						@on.downloaded.raise()
+						done()
+					(error) =>
+						@errors.push error
+						@on.downloaded.raise [ error ]
+						fail()
+
 			error: =>
 				errorMessage = "Could not download #{@url}"
 				@errors.push errorMessage
@@ -52,7 +58,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 		# If we get here, then the script is okay.
 		script
 
-	executeSpecificationScript: (script, gotSpecifications) ->
+	executeSpecificationScript: (script, gotSpecifications, fail) ->
 		iframe = $("<iframe src='/home/sandbox'/>").hide().appendTo("body")
 		iframe.load () =>
 			iframeWindow = iframe[0].contentWindow
@@ -71,12 +77,24 @@ this.Witness.SpecificationFile = class SpecificationFile
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = ->
 				gotSpecifications dsl.specifications or []
+			failed = false
+			iframeWindow._witnessScriptError = (args...) ->
+				failed = true
+				fail.apply this, args
 
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
 
+			script = """
+			try {
+				#{script}
+			} catch (e) {
+				_witnessScriptError(e);
+			}
+			"""
 			addScript script
-			addScript "_witnessScriptCompleted();"
+			if not failed
+				addScript "_witnessScriptCompleted();"
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationFileRunning", this

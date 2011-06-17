@@ -61,4 +61,24 @@ describe "SpecificationFile",
 
 	dispose: ->
 		@restorejQuery()
+},
+{
+	"given a SpecificationFile with a file manifest of a JavaScript file with a runtime error": ->
+		manifest =
+			name: "test.js"
+			url: "/specs/test.js"
+		@restorejQuery = mock jQuery, {
+			ajax: (options) -> options.success "should.callFunctionThatDoesNotExist();"
+		}
+		@file = new Witness.SpecificationFile manifest
+
+	"when the file is downloaded": async ->
+		@file.on.downloaded.addHandler => @done()
+		@file.download()
+
+	then:
+		file: errors: length: should.be 1
+
+	dispose: ->
+		@restorejQuery()
 }
