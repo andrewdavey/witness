@@ -12,7 +12,8 @@
     @Html.RenderScripts()
     <script type="text/javascript">
         $(function () {
-            var runner = new Witness.SimpleRunner("@ViewBag.Path", $("#view"));
+            var autoRun = document.location.search.match(/\bautorun=(yes|true|on|1)/i);
+            var runner = new Witness.SimpleRunner("@ViewBag.Path", $("#view"), autoRun);
             runner.download();
             ko.applyBindings(runner);
 

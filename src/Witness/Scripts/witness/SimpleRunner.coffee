@@ -4,7 +4,7 @@
 # reference "../lib/knockout.js"
 
 this.Witness.SimpleRunner = class SimpleRunner
-	constructor: (@specsPath, iframeContainer) ->
+	constructor: (@specsPath, iframeContainer, @autoRun = no) ->
 		# Use an observable array, since knockout dislikes binding to a null object.
 		# Once loaded, the array will contain the single directory object.
 		@directory = ko.observableArray []
@@ -30,6 +30,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 				(=>
 					@canRun true
 					@status "Ready to run"
+					@runAll() if @autoRun
 				)
 				(=> @status "Download error.")
 			)
@@ -95,7 +96,9 @@ this.Witness.SimpleRunner = class SimpleRunner
 
 	runAll: () ->
 		return if not @canRun()
+		@canRun false
 		@status "Running..."
 		@directory()[0].run =>
 			@status "Finished"
+			@canRun true
 			Witness.messageBus.send "RunnerFinished"
