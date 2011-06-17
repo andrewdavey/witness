@@ -70,10 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DotNetContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="executejavascriptonserver.ashx.cs">
+      <DependentUpon>executejavascriptonserver.ashx</DependentUpon>
+    </Compile>
     <Compile Include="specs.ashx.cs">
       <DependentUpon>specs.ashx</DependentUpon>
     </Compile>
@@ -88,10 +92,12 @@
     <Content Include="Scripts\lib\jquery.tmpl.js" />
     <Content Include="Scripts\lib\jslint.js" />
     <Content Include="Scripts\lib\knockout.js" />
+    <None Include="Scripts\witness\actions\Remote.coffee" />
+    <None Include="specs\actions\RemoteAssertion.coffee" />
     <None Include="specs\Assertion.coffee" />
     <None Include="specs\AsyncAction.coffee" />
     <None Include="specs\Dsl.coffee" />
-    <None Include="specs\dsl\async.coffee" />
+    <None Include="specs\actions\Remote.coffee" />
     <None Include="specs\dsl\defineActions.coffee" />
     <None Include="specs\dsl\describe.coffee" />
     <None Include="specs\dsl\wait.coffee" />
@@ -135,11 +141,11 @@
     <Content Include="Views\Web.config" />
     <None Include="Scripts\witness\dsl\should.coffee" />
     <None Include="Scripts\witness\SimpleRunner.coffee" />
-    <None Include="Scripts\witness\StringHelpers.coffee" />
     <None Include="Scripts\witness\TimeoutError.coffee" />
     <None Include="Scripts\witness\TryAll.coffee" />
     <Content Include="specs.ashx" />
     <Content Include="Views\Home\Sandbox.cshtml" />
+    <Content Include="executejavascriptonserver.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

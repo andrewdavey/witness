@@ -54,4 +54,15 @@ describe "AsyncAction",
 	then:
 		doneCalled: should.be undefined
 		error: should.be "failed"
+},
+{
+	"given an AsyncAction that requires a result": ->
+		@action = new Witness.AsyncAction -> @done(42)
+		
+	"when the action is run": ->
+		@action.run {}, ((result)=>@result = result), (->)
+		
+	"then the result is passed to the done callback":
+		result: should.be 42
+   
 }
