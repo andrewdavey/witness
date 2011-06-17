@@ -35,8 +35,8 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 	download: ->
 		@file.download()
 
-	run: ->
-		@file.run {}, (->), (->) if @canRun()
+	run: (done = (->)) ->
+		@file.run {}, done, done if @canRun()
 		
 	reset: ->
 		specification.reset() for specification in @specifications()
