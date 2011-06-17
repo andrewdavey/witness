@@ -11,7 +11,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 		@specifications = []
 		@errors = []
 
-	download: () ->
+	download: (done = (->)) ->
 		@errors = []
 		@on.downloading.raise()
 		$.ajax(
@@ -35,6 +35,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 				@executeSpecificationScript script, (specs) =>
 					@specifications.push spec for spec in specs
 					@on.downloaded.raise()
+					done()
 		)
 
 	executeSpecificationScript: (script, gotSpecifications) ->
