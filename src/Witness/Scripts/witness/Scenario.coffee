@@ -32,8 +32,14 @@ this.Witness.Scenario = class Scenario
 			@aggregateAction = sequence
 
 	run: (outerContext, done, fail) ->
-		context = {}
-		context[key] = value for own key, value of outerContext
+		# We want the context for the scenario run to inherit
+		# anything defined in the outer context. This means the 
+		# OuterScenario object can set up things to be used by inner
+		# scenarios.
+		Context = (->)
+		Context.prototype = outerContext
+		context = new Context()
+		# Add some other useful stuff...
 		context.scenario = this
 		context.window = window
 
