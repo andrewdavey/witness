@@ -82,11 +82,23 @@ li.directory > .name {
     padding-left: 20px;
     background-image: url(images/directory.png);
 }
+li.directory.passed {
+    color: #080;
+}
+li.directory.failed {
+    color: #800;
+}
 
 li.file > .name {
     background-repeat: no-repeat;
     padding-left: 20px;
     background-image: url(images/file.png);
+}
+li.file.passed {
+    color: #080;
+}
+li.file.failed {
+    color: #800;
 }
 
 li.specification > .name {

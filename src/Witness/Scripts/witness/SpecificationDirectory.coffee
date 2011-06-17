@@ -4,7 +4,7 @@
 this.Witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest) ->
 		@name = manifest.name
-		@on = Witness.Event.define "downloading", "downloaded", "run", "done", "fail"
+		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
 		@directories = (new SpecificationDirectory directory for directory in manifest.directories)
 		@files = (new Witness.SpecificationFile file for file in manifest.files)
 
@@ -29,15 +29,15 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationDirectoryRunning", this
-		@on.run.raise()
+		@on.running.raise()
 		all = @directories.concat @files
 		tryAll = new Witness.TryAll all
 		tryAll.run context,
 			=>
-				@on.done.raise()
+				@on.passed.raise()
 				Witness.messageBus.send "SpecificationDirectoryPassed", this
 				done()
 			(error) =>
-				@on.fail.raise(error)
+				@on.failed.raise(error)
 				Witness.messageBus.send "SpecificationDirectoryFailed", this
 				fail(error)

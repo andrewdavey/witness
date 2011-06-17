@@ -18,12 +18,9 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		@files = (new Witness.ViewModels.SpecificationFileViewModel file for file in @directory.files)
 		@directories = (new SpecificationDirectoryViewModel directory for directory in @directory.directories)
 
-		@directory.on.downloading.addHandler => @status "downloading"
-		@directory.on.downloaded.addHandler => @status "downloaded"
-		@directory.on.run.addHandler => @status "running"
-		@directory.on.done.addHandler => @status "passed"
-		@directory.on.fail.addHandler => @status "failed"
-	
+		for status in [ "downloading", "downloaded", "running", "passed", "failed" ]
+			do (status) =>
+				@directory.on[status].addHandler => @status status
 
 	download: ->
 		@directory.download()

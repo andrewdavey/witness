@@ -7,7 +7,7 @@ this.Witness.SpecificationFile = class SpecificationFile
 
 	constructor: (manifest) ->
 		{@name,@url} = manifest
-		@on = Witness.Event.define "downloading", "downloaded", "run", "done", "fail"
+		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
 		@specifications = []
 		@errors = []
 
@@ -80,14 +80,14 @@ this.Witness.SpecificationFile = class SpecificationFile
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationFileRunning", this
-		@on.run.raise()
+		@on.running.raise()
 		tryAll = new Witness.TryAll @specifications
 		tryAll.run context,
 			=>
 				Witness.messageBus.send "SpecificationFilePassed", this
-				@on.done.raise()
+				@on.passed.raise()
 				done()
 			(error) =>
-				@on.fail.raise(error)
+				@on.failed.raise(error)
 				Witness.messageBus.send "SpecificationFileFailed", this
 				fail(error)

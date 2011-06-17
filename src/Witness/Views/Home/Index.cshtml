@@ -35,7 +35,7 @@
     <div id="view"></div>
 
     <script id="directory" type="text/html">
-        <li class="directory" data-bind="css: { open: isOpen }">
+        <li data-bind="attr: { 'class': 'directory ' + status() }, css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: name"></div>
             <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
@@ -43,7 +43,7 @@
         </li>
     </script>
     <script id="file-of-one" type="text/html">
-        <li class="file" data-bind="css: { open: isOpen }">
+        <li data-bind="attr: { 'class': 'file ' + status() }, css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name">
                 <span data-bind="text: specifications()[0].description"></span>
@@ -54,7 +54,7 @@
         </li>
     </script>
     <script id="file-of-many" type="text/html">
-        <li class="file" data-bind="css: { open: isOpen }">
+        <li data-bind="attr: { 'class': 'file ' + status() }, css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: name"></div>
             <ul data-bind="template: { name: 'specification', foreach: specifications }"></ul>
@@ -62,7 +62,7 @@
         </li>
     </script>
     <script id="specification" type="text/html">
-        <li class="specification" data-bind="css: { open: isOpen }">
+        <li data-bind="attr: { 'class': 'specification ' + status() }, css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: description"></div>
             <a href="#" data-bind="click: run">run</a>

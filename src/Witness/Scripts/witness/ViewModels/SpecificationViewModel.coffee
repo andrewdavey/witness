@@ -6,7 +6,15 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 	constructor: (@specification) ->
 		@description = @specification.description
 		@scenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @specification.scenarios)
-		@isOpen = ko.observable true
+		@isOpen = ko.observable false
+		@status = ko.observable "notrun"
+
+		@specification.on.running.addHandler =>
+			@status "running"
+		@specification.on.passed.addHandler =>
+			@status "passed"
+		@specification.on.failed.addHandler =>
+			@status "failed"
 
 	run: ->
 		@specification.run {}, (->), (->)
