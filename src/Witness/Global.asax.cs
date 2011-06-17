@@ -27,6 +27,12 @@ namespace Witness
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
+            ExecuteJavascriptOnServer.Add("serverfunctionthatreturns42",() => 42);
+            ExecuteJavascriptOnServer.Add("serverfunctionthatreturns43", () => 43);
+            ExecuteJavascriptOnServer.Add("servermethodthatthrowsanexception",()=>
+            {
+                throw new Exception("bang");
+            });
         }
 
         protected void Application_Start()

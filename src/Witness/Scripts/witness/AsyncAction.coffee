@@ -14,11 +14,11 @@ this.Witness.AsyncAction = class AsyncAction
 		@on.run.raise()
 
 		cancelledByTimeout = false
-		context.done = =>
+		context.done = (args...)=>
 			if not cancelledByTimeout
 				clearTimeout timeoutId
 				@on.done.raise()
-				done()
+				done.apply(null,args)
 
 		context.fail = (args...) =>
 			if not cancelledByTimeout
