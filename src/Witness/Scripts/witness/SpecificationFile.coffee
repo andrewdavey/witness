@@ -3,60 +3,29 @@
 # reference "../lib/coffee-script.js"
 # reference "Event.coffee"
 
-this.Witness.SpecificationFile = class SpecificationFile
+Witness = this.Witness
+
+Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 
 	constructor: (manifest) ->
-		{@name,@url} = manifest
-		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
+		super manifest.url
+		@name = manifest.name
+		@on.ready = new Witness.Event()
+		@on.running = new Witness.Event()
+		@on.passed = new Witness.Event()
+		@on.failed = new Witness.Event()
 		@specifications = []
-		@errors = []
 
-	download: (done = (->), fail = (->)) ->
-		@errors = []
-		@on.downloading.raise()
-		$.ajax
-			url: @url
-			cache: false
-			dataType: 'text'
-			success: (script) =>
-				script = @parseScript script
-				if not script
-					fail()
-					return
-
-				@executeSpecificationScript script,
-					(specs) =>
-						@specifications.push spec for spec in specs
-						@on.downloaded.raise()
-						done()
-					(error) =>
-						@errors.push error
-						@on.downloaded.raise [ error ]
-						fail()
-
-			error: =>
-				errorMessage = "Could not download #{@url}"
-				@errors.push errorMessage
-				@on.downloaded.raise [ errorMessage ]
-				fail()
-				
-
-	parseScript: (script) ->
-		if @url.match(/.coffee$/)
-			try
-				script = CoffeeScript.compile(script)
-			catch error
+	scriptDownloaded: (script, done, fail) ->
+		@executeSpecificationScript script,
+			(specs) =>
+				@specifications.push spec for spec in specs
+				@on.ready.raise()
+				done()
+			(error) =>
 				@errors.push error
-				@on.downloaded.raise [error]
-				return null
-		else
-			predef = (name for own name of Witness.Dsl::)
-			if not JSLINT script, { predef: predef, white: true }
-				@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
-				@on.downloaded.raise @errors
-				return null
-		# If we get here, then the script is okay.
-		script
+				@on.failed.raise @errors
+				fail @errors
 
 	executeSpecificationScript: (script, gotSpecifications, fail) ->
 		iframe = $("<iframe src='/home/sandbox'/>").hide().appendTo("body")

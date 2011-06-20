@@ -101,6 +101,9 @@ li.file.failed, li.file.errors {
     color: #800;
 }
 
+li.specification.passed {
+    color: #080;
+}    
 li.specification > .name {
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -112,6 +115,7 @@ li.scenario {
 }
 li.scenario.passed {
     background-color: #efc;
+    color: #080;
 }
 li.scenario.selected {
     background-color: #eee;

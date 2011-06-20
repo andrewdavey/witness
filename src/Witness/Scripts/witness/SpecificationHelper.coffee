@@ -1,7 +1,13 @@
 # reference "Witness.coffee"
 
-this.Witness.SpecificationHelper = class SpecificationHelper
+Witness = this.Witness
 
-	constructor: (@url) ->
+Witness.SpecificationHelper = class SpecificationHelper extends Witness.ScriptFile
 
+	constructor: (url) ->
+		super url
+
+	scriptDownloaded: (script, done, fail) ->
+		@script = script
+		done()
 

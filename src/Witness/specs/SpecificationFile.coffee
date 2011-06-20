@@ -33,7 +33,7 @@ describe "SpecificationFile",
 		@file = new Witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloaded.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @done()
 		@file.download()
 
 	then:
@@ -53,7 +53,7 @@ describe "SpecificationFile",
 		@file = new Witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloaded.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @done()
 		@file.download()
 
 	then:
@@ -73,7 +73,7 @@ describe "SpecificationFile",
 		@file = new Witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloaded.addHandler => @done()
+		@file.on.failed.addHandler => @done()
 		@file.download()
 
 	then:
