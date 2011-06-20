@@ -1,9 +1,3 @@
-should.unwrapActual = (actual) -> 
-	if actual?.__ko_proto__?
-		actual()
-	else
-		actual
-
 describe "OuterScenarioViewModel",
 {
 	"given a new OuterScenarioViewModel with no inner scenarios": ->

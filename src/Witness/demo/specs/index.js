@@ -1,10 +1,5 @@
 ﻿/*jslint sloppy: true */
 /*global clickButtonNumber, $ */
-defineActions({
-    clickButtonNumber: function (number) {
-        $("button.number:eq(" + (number-1).toString() + ")", this.document).click();
-    }
-});
 
 describe("demo page",
 {

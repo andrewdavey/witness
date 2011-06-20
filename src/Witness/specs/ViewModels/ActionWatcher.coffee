@@ -1,11 +1,4 @@
-﻿should.unwrapActual = (actual) -> 
-	if actual?.__ko_proto__?
-		actual()
-	else
-		actual
-
-
-describe "ActionWatcher with Action",
+﻿describe "ActionWatcher with Action",
 {
 	"given an ActionWatcher of an Action with a description": ->
 		@action = new Witness.Action (->), [], "description"

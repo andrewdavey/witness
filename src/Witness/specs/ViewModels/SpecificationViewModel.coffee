@@ -1,9 +1,3 @@
-should.unwrapActual = (actual) -> 
-	if actual?.__ko_proto__?
-		actual()
-	else
-		actual
-
 describe "SpecificationViewModel",
 {
 	"given a Specification with a description and one scenario": ->

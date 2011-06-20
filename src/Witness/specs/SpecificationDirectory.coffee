@@ -48,6 +48,20 @@ describe "SpecificationDirectory constructor",
 	"then a sub SpecificationDirectory is created":
 		directory:
 			directories: [ should.beInstanceof Witness.SpecificationDirectory ]
+},
+{
+	"given a directory manifest with helpers": ->
+		@manifest =
+			helpers: [ "/example/_helper1.js", "/example/_helper2.js" ]
+
+	"when a SpecificationDirectory is created with the manifest": ->
+		@directory = new Witness.SpecificationDirectory @manifest
+	
+	"then helpers property is array of SpecificationHelpers":
+		directory: helpers: [
+			should.beInstanceof Witness.SpecificationHelper
+			should.beInstanceof Witness.SpecificationHelper
+		]
 }
 
 describe "SpecificationDirectory download",

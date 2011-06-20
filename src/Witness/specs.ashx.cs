@@ -56,11 +56,25 @@ namespace Witness
                     select GetSpecificationDirectory(path, context),
                 files =
                     from filename in Directory.EnumerateFiles(rootPath)
-                    where filename.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
-                       || filename.EndsWith(".coffee", StringComparison.OrdinalIgnoreCase)
-                    where File.GetAttributes(filename).HasFlag(FileAttributes.Hidden) == false
-                    select GetSpecificationFile(filename, context)
+                    where IsScript(filename) && IsHelperFile(filename) == false
+                    select GetSpecificationFile(filename, context),
+                helpers =
+                    from filename in Directory.EnumerateFiles(rootPath)
+                    where IsScript(filename) && IsHelperFile(filename)
+                    select GetFileUrl(filename, context)
             };
+        }
+
+        bool IsScript(string filename)
+        {
+            return (filename.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                 || filename.EndsWith(".coffee", StringComparison.OrdinalIgnoreCase))
+                && File.GetAttributes(filename).HasFlag(FileAttributes.Hidden) == false;
+        }
+
+        bool IsHelperFile(string filename)
+        {
+            return Path.GetFileName(filename).StartsWith("_");
         }
 
         SpecFile GetSpecificationFile(string filename, HttpContext context)
@@ -82,6 +96,7 @@ namespace Witness
             public string name { get; set; }
             public IEnumerable<SpecDir> directories { get; set; }
             public IEnumerable<SpecFile> files { get; set; }
+            public IEnumerable<string> helpers { get; set; }
         }
 
         class SpecFile
