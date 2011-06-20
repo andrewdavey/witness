@@ -3,18 +3,19 @@
 # reference "SpecificationHelper.coffee"
 
 this.Witness.SpecificationDirectory = class SpecificationDirectory
-	constructor: (manifest) ->
+	constructor: (manifest, parentHelpers = []) ->
 		@name = manifest.name
 		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
-		@directories = (new SpecificationDirectory directory for directory in manifest.directories or [])
-		@files = (new Witness.SpecificationFile file for file in manifest.files or [])
 		@helpers = (new Witness.SpecificationHelper url for url in manifest.helpers or [])
+		allHelpers = parentHelpers.concat @helpers
+		@directories = (new SpecificationDirectory(directory, allHelpers) for directory in manifest.directories or [])
+		@files = (new Witness.SpecificationFile(file, allHelpers) for file in manifest.files or [])
 
 	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()
 
-		# Download all the files and sub-directories
-		items = @directories.concat @files
+		# Download all the files, helpers and sub-directories
+		items = [].concat @files, @helpers, @directories
 		remainingDownloadCount = items.length
 		itemDownloadCallback = =>
 			remainingDownloadCount--

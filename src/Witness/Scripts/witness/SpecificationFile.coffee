@@ -7,7 +7,7 @@ Witness = this.Witness
 
 Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 
-	constructor: (manifest) ->
+	constructor: (manifest, @helpers = []) ->
 		super manifest.url
 		@name = manifest.name
 		@on.ready = new Witness.Event()
@@ -54,16 +54,18 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
 
-			script = """
+			wrapScript = (script) -> """
 			try {
 				#{script}
 			} catch (e) {
 				_witnessScriptError(e);
 			}
 			"""
-			addScript script
-			if not failed
-				addScript "_witnessScriptCompleted();"
+			for helper in @helpers
+				addScript wrapScript helper.script
+				break if failed
+			addScript wrapScript script if not failed
+			addScript "_witnessScriptCompleted();" if not failed
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationFileRunning", this
