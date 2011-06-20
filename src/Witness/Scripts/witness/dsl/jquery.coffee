@@ -16,13 +16,12 @@ this.Witness.Dsl::defineShouldFunctions
 			"#{selector} should have the text \"#{expected}\""
 		error: (selector, actual, expected) ->
 			"Expected #{selector} to have text \"#{expected}\", but was \"#{actual}\""
-   
-	haveElements:
+	match:
 		getActual: (context, propertyNames) ->
 			applySelector(context, propertyNames).length
-		test: (actual, expected = 1) ->
+		test: (actual, expected) ->
 			actual == expected
 		description: (selector, expected) ->
-			"#{selector} should match  \"#{expected}\" elements"
+			"The selector #{selector} should match  \"#{expected}\" elements"
 		error: (selector, actual, expected) ->
 			"Expected #{selector} to have \"#{expected}\" elements, but matched \"#{actual}\" elements"

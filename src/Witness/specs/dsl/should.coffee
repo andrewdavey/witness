@@ -21,7 +21,7 @@
 		@action.run { theProperty: 666 }, (->), ((error) => @error = error)
 
 	"then a readable error is created": [
-		-> console.log @error@error.message == "Expected theProperty to be 100 but was 666"
+		-> @error.message == "Expected theProperty to be 100 but was 666"
 	]
 },
 { # Scenario is equivalent to the above, but using should's instead
