@@ -25,3 +25,13 @@ this.Witness.Dsl::defineShouldFunctions
 			"The selector #{selector} should match  \"#{expected}\" elements"
 		error: (selector, actual, expected) ->
 			"Expected #{selector} to have \"#{expected}\" elements, but matched \"#{actual}\" elements"
+	haveClass:
+		getActual: (context, propertyNames) ->
+			applySelector(context, propertyNames)
+		test: (actual, expected) ->
+			actual.hasClass(expected)
+		description: (selector, expected) ->
+			"The element matching #{selector} should have a class of \"#{expected}\""
+		error: (selector, actual, expected) ->
+			"Expected #{selector} to have a class of \"#{expected}\" elements, but has \"#{actual.attr('class')}\""
+
