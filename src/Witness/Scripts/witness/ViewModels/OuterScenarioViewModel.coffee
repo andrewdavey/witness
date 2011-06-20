@@ -15,8 +15,8 @@ this.Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 		@outerScenario.on.done.addHandler => @status "passed"
 		@outerScenario.on.fail.addHandler (error) => @status "failed"
 
-	run: (context, done, fail) ->
-		@outerScenario.run {}, done, fail
+	run: ->
+		@outerScenario.run {}, (->), (->)
 
 	reset: ->
 		scenario.reset() for scenario in @innerScenarios
