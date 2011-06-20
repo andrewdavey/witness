@@ -7,6 +7,9 @@ this.Witness.helpers.splitCasedString = (s) ->
 	)
 
 this.Witness.helpers.flattenArray = flattenArray = (array) ->
+	if not $.isArray array
+		return [ array ]
+
 	output = []
 	for item in array
 		if $.isArray item

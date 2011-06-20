@@ -31,9 +31,9 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 		return "file-of-one" if file.specifications().length == 1
 		return "file-of-many"
 
-	run: (done = (->)) ->
+	run: ->
 		@reset()
-		@directory.run {}, done, done if @canRun() 
+		@directory.run {}, (->), (->) if @canRun() 
 
 	reset: ->
 		directory.reset() for directory in @directories

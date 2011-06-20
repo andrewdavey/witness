@@ -27,6 +27,15 @@ this.Witness.SimpleRunner = class SimpleRunner
 			{model, viewModel} = @createModelAndViewModelForManifest manifest
 			@directory.push viewModel
 			viewModel.isOpen true
+			model.on.passed.addHandler =>
+				@status "Passed"
+				@canRun true
+				Witness.messageBus.send "RunnerFinished"
+			model.on.failed.addHandler =>
+				@status "Failed"
+				@canRun true
+				Witness.messageBus.send "RunnerFinished"
+
 			model.download(
 				(=>
 					@canRun true
@@ -99,7 +108,5 @@ this.Witness.SimpleRunner = class SimpleRunner
 		return if not @canRun()
 		@canRun false
 		@status "Running..."
-		@directory()[0].run =>
-			@status "Finished"
-			@canRun true
-			Witness.messageBus.send "RunnerFinished"
+		@directory()[0].run()
+	

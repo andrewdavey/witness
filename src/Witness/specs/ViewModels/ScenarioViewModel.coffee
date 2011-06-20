@@ -20,10 +20,9 @@
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
 	"when it is run": ->
-		@viewModel.run {}, (=> @doneCalled = true), (->)
+		@viewModel.run()
 
 	then:
-		 doneCalled: should.be true
 		 viewModel: status: should.be "passed"
 },
 {
@@ -32,14 +31,15 @@
 			given:
 				description: "given"
 				actions: [
-					new Witness.Action (-> throw "scenario failed"), [], "action"
+					new Witness.Action (-> throw new Error "scenario failed"), [], "action"
 				]
 		@viewModel = new Witness.ViewModels.ScenarioViewModel @scenario
 
 	"when it is run": ->
-		@viewModel.run {}, (->), ((error) => @error = error)
+		@viewModel.run()
 
-	then:
-		 error: should.be "scenario failed"
+	then: [
 		 viewModel: status: should.be "failed"
+		 -> @viewModel.errors()[0].message == "scenario failed"
+	]
 }

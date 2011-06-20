@@ -27,8 +27,8 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 			@errors flattenArray errors
 			@status "failed"
 
-	run: (context, done, fail) ->
-		@scenario.run context, done, fail
+	run: ->
+		@scenario.run {}, (->), (->)
 
 	reset: ->
 		@status "notrun"
