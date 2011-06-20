@@ -1,12 +1,14 @@
 # reference "Witness.coffee"
 # reference "SpecificationFile.coffee"
+# reference "SpecificationHelper.coffee"
 
 this.Witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest) ->
 		@name = manifest.name
 		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
-		@directories = (new SpecificationDirectory directory for directory in manifest.directories)
-		@files = (new Witness.SpecificationFile file for file in manifest.files)
+		@directories = (new SpecificationDirectory directory for directory in manifest.directories or [])
+		@files = (new Witness.SpecificationFile file for file in manifest.files or [])
+		@helpers = (new Witness.SpecificationHelper url for url in manifest.helpers or [])
 
 	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()

@@ -97,7 +97,7 @@ li.file > .name {
 li.file.passed {
     color: #080;
 }
-li.file.failed {
+li.file.failed, li.file.errors {
     color: #800;
 }
 
