@@ -1,10 +1,4 @@
-﻿should.unwrapActual = (actual) -> 
-	if actual?.__ko_proto__?
-		actual()
-	else
-		actual
-
-describe "ScenarioViewModel",
+﻿describe "ScenarioViewModel",
 {
 	"given a ScenarioViewModel with a given part": ->
 		@scenario = new Witness.Scenario
