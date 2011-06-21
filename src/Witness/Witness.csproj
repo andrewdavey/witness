@@ -93,6 +93,20 @@
     <Content Include="Scripts\lib\jslint.js" />
     <Content Include="Scripts\lib\knockout.js" />
     <None Include="Scripts\witness\actions\Remote.coffee" />
+    <None Include="Scripts\witness\dsl\mock.coffee" />
+    <None Include="Scripts\witness\dsl\pageAutomation.coffee" />
+    <None Include="Scripts\witness\helpers.coffee" />
+    <None Include="Scripts\witness\MessageBus.coffee" />
+    <None Include="Scripts\witness\OuterScenario.coffee" />
+    <None Include="Scripts\witness\ScriptFile.coffee" />
+    <None Include="Scripts\witness\SpecificationDirectory.coffee" />
+    <None Include="Scripts\witness\SpecificationFile.coffee" />
+    <None Include="Scripts\witness\SpecificationHelper.coffee" />
+    <None Include="Scripts\witness\ViewModels\Helpers.coffee" />
+    <None Include="Scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationViewModel.coffee" />
     <None Include="specs\actions\RemoteAssertion.coffee" />
     <None Include="specs\Assertion.coffee" />
     <None Include="specs\AsyncAction.coffee" />
@@ -100,14 +114,19 @@
     <None Include="specs\actions\Remote.coffee" />
     <None Include="specs\dsl\defineActions.coffee" />
     <None Include="specs\dsl\describe.coffee" />
+    <None Include="specs\dsl\pageAutomation.coffee" />
     <None Include="specs\dsl\wait.coffee" />
+    <None Include="specs\Event.coffee" />
     <None Include="specs\OuterScenario.coffee" />
     <None Include="specs\Scenario.coffee" />
     <None Include="specs\Sequence.coffee" />
     <None Include="specs\Specification.coffee" />
+    <None Include="specs\SpecificationDirectory.coffee" />
     <None Include="specs\SpecificationFile.coffee" />
+    <None Include="specs\SpecificationHelper.coffee" />
     <None Include="specs\TryAll.coffee" />
     <None Include="specs\ViewModels\ActionWatcher.coffee" />
+    <None Include="specs\ViewModels\OuterScenarioViewModel.coffee" />
     <None Include="specs\ViewModels\ScenarioViewModel.coffee" />
     <None Include="Scripts\witness\AsyncAction.coffee" />
     <None Include="Scripts\witness\Dsl.coffee" />
@@ -146,6 +165,8 @@
     <Content Include="specs.ashx" />
     <Content Include="Views\Home\Sandbox.cshtml" />
     <Content Include="executejavascriptonserver.ashx" />
+    <None Include="specs\ViewModels\SpecificationViewModel.coffee" />
+    <None Include="specs\ViewModels\_helper.coffee" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

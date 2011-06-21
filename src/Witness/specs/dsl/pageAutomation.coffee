@@ -7,7 +7,9 @@ describe "click",
 			$: (selector, context) =>
 				@selector = selector
 				@context = context
-				return click: => @clickCalled = true
+				# Return a stub jQuery-like object
+				return each: (func) =>
+					func.call({ click: => @clickCalled = true })
 
 	"when it is run": ->
 		@click.run { document: "document" }, (->), (->)
