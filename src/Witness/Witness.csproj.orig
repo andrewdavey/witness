@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Witness</RootNamespace>
+    <AssemblyName>Witness</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Knapsack.0.4.2\lib\net40\Jurassic.dll</HintPath>
+    </Reference>
+    <Reference Include="Knapsack, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Knapsack.0.4.2\lib\net40\Knapsack.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.1\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotNetContext.cs" />
+    <Compile Include="RequestHandlers\ExecuteScriptHandler.cs" />
+    <Compile Include="RequestHandlers\GetManifestHandler.cs" />
+    <Compile Include="RequestHandlers\GetAssemblyResourceHandler.cs" />
+    <Compile Include="RequestHandlers\IUseRequestContext.cs" />
+    <Compile Include="RequestHandlers\GetScriptResourceHandler.cs" />
+    <Compile Include="RequestHandlers\WitnessRequestHandlerBase.cs" />
+    <Compile Include="WitnessRouteHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
+    <Compile Include="executejavascriptonserver.ashx.cs">
+      <DependentUpon>executejavascriptonserver.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="specs.ashx.cs">
+      <DependentUpon>specs.ashx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="demo\index.htm" />
+    <Content Include="demo\specs\index.js" />
+    <Content Include="empty.htm" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\lib\coffee-script.js" />
+    <Content Include="Scripts\lib\jquery.js" />
+    <Content Include="Scripts\lib\jquery.tmpl.js" />
+    <Content Include="Scripts\lib\jslint.js" />
+    <Content Include="Scripts\lib\knockout.js" />
+    <None Include="Scripts\witness\actions\Remote.coffee" />
+    <None Include="Scripts\witness\dsl\mock.coffee" />
+    <None Include="Scripts\witness\dsl\pageAutomation.coffee" />
+    <None Include="Scripts\witness\helpers.coffee" />
+    <None Include="Scripts\witness\MessageBus.coffee" />
+    <None Include="Scripts\witness\OuterScenario.coffee" />
+    <None Include="Scripts\witness\ScriptFile.coffee" />
+    <None Include="Scripts\witness\SpecificationDirectory.coffee" />
+    <None Include="Scripts\witness\SpecificationFile.coffee" />
+    <None Include="Scripts\witness\SpecificationHelper.coffee" />
+    <None Include="Scripts\witness\ViewModels\Helpers.coffee" />
+    <None Include="Scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
+    <None Include="Scripts\witness\ViewModels\SpecificationViewModel.coffee" />
+    <None Include="specs\actions\RemoteAssertion.coffee" />
+    <None Include="specs\Assertion.coffee" />
+    <None Include="specs\AsyncAction.coffee" />
+    <None Include="specs\Dsl.coffee" />
+    <None Include="specs\actions\Remote.coffee" />
+    <None Include="specs\dsl\defineActions.coffee" />
+    <None Include="specs\dsl\describe.coffee" />
+    <None Include="specs\dsl\pageAutomation.coffee" />
+    <None Include="specs\dsl\wait.coffee" />
+    <None Include="specs\Event.coffee" />
+    <None Include="specs\OuterScenario.coffee" />
+    <None Include="specs\Scenario.coffee" />
+    <None Include="specs\Sequence.coffee" />
+    <None Include="specs\Specification.coffee" />
+    <None Include="specs\SpecificationDirectory.coffee" />
+    <None Include="specs\SpecificationFile.coffee" />
+    <None Include="specs\SpecificationHelper.coffee" />
+    <None Include="specs\TryAll.coffee" />
+    <None Include="specs\ViewModels\ActionWatcher.coffee" />
+    <None Include="specs\ViewModels\OuterScenarioViewModel.coffee" />
+    <None Include="specs\ViewModels\ScenarioViewModel.coffee" />
+    <None Include="Scripts\witness\AsyncAction.coffee" />
+    <None Include="Scripts\witness\Dsl.coffee" />
+    <None Include="Scripts\witness\dsl\wait.coffee" />
+    <None Include="Scripts\witness\Event.coffee" />
+    <None Include="Scripts\witness\polyfill.coffee" />
+    <None Include="Scripts\witness\Scenario.coffee" />
+    <None Include="Scripts\witness\Sequence.coffee" />
+    <None Include="Scripts\witness\dsl\defineActions.coffee" />
+    <None Include="Scripts\witness\dsl\async.coffee" />
+    <None Include="specs\dsl\should.coffee" />
+    <None Include="Scripts\witness\ViewModels\ActionWatcher.coffee" />
+    <None Include="Scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <Content Include="Styles\witness\images\scenario-part-open.png" />
+    <Content Include="Styles\witness\images\scenario-part-close.png" />
+    <Content Include="Styles\witness\images\specification.png" />
+    <Content Include="Styles\witness\images\close.png" />
+    <Content Include="Styles\witness\images\open.png" />
+    <Content Include="Styles\witness\images\directory.png" />
+    <Content Include="Styles\witness\images\file.png" />
+    <Content Include="Styles\witness\witness.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <None Include="Scripts\witness\dsl\should.coffee" />
+    <None Include="Scripts\witness\SimpleRunner.coffee" />
+    <None Include="Scripts\witness\TimeoutError.coffee" />
+    <None Include="Scripts\witness\TryAll.coffee" />
+    <Content Include="specs.ashx" />
+    <Content Include="Views\Home\Sandbox.cshtml" />
+    <Content Include="executejavascriptonserver.ashx" />
+    <None Include="specs\ViewModels\SpecificationViewModel.coffee" />
+    <None Include="specs\ViewModels\_helper.coffee" />
+=======
+    <Compile Include="Routing.cs" />
+>>>>>>> Create separate Witness core project. Move specs and demo into their own projects. Witness now packaged up into a single DLL.
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="styles\images\directory.png" />
+    <EmbeddedResource Include="styles\images\file.png" />
+    <EmbeddedResource Include="styles\images\open.png" />
+    <EmbeddedResource Include="styles\images\scenario-part-close.png" />
+    <EmbeddedResource Include="styles\images\scenario-part-open.png" />
+    <EmbeddedResource Include="styles\images\specification.png" />
+    <EmbeddedResource Include="styles\witness.css" />
+    <EmbeddedResource Include="runner.htm" />
+    <EmbeddedResource Include="styles\images\close.png" />
+    <None Include="packages.config" />
+    <None Include="scripts\witness\Action.coffee" />
+    <None Include="scripts\witness\actions\Remote.coffee" />
+    <None Include="scripts\witness\Assertion.coffee" />
+    <None Include="scripts\witness\AsyncAction.coffee" />
+    <None Include="scripts\witness\Dsl.coffee" />
+    <None Include="scripts\witness\dsl\async.coffee" />
+    <None Include="scripts\witness\dsl\defineActions.coffee" />
+    <None Include="scripts\witness\dsl\describe.coffee" />
+    <None Include="scripts\witness\dsl\mock.coffee" />
+    <None Include="scripts\witness\dsl\pageAutomation.coffee" />
+    <None Include="scripts\witness\dsl\should.coffee" />
+    <None Include="scripts\witness\dsl\wait.coffee" />
+    <None Include="scripts\witness\Event.coffee" />
+    <None Include="scripts\witness\helpers.coffee" />
+    <None Include="scripts\witness\MessageBus.coffee" />
+    <None Include="scripts\witness\OuterScenario.coffee" />
+    <None Include="scripts\witness\polyfill.coffee" />
+    <None Include="scripts\witness\RunnerPage.coffee" />
+    <None Include="scripts\witness\Scenario.coffee" />
+    <None Include="scripts\witness\ScriptFile.coffee" />
+    <None Include="scripts\witness\Sequence.coffee" />
+    <None Include="scripts\witness\SimpleRunner.coffee" />
+    <None Include="scripts\witness\Specification.coffee" />
+    <None Include="scripts\witness\SpecificationDirectory.coffee" />
+    <None Include="scripts\witness\SpecificationFile.coffee" />
+    <None Include="scripts\witness\SpecificationHelper.coffee" />
+    <None Include="scripts\witness\TimeoutError.coffee" />
+    <None Include="scripts\witness\TryAll.coffee" />
+    <None Include="scripts\witness\ViewModels\ActionWatcher.coffee" />
+    <None Include="scripts\witness\ViewModels\Helpers.coffee" />
+    <None Include="scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
+    <None Include="scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <None Include="scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
+    <None Include="scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
+    <None Include="scripts\witness\ViewModels\SpecificationViewModel.coffee" />
+    <None Include="scripts\witness\ViewModels\ViewModels.coffee" />
+    <None Include="scripts\witness\Witness.coffee" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Script.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="sandbox.htm" />
+    <Content Include="scripts\lib\coffee-script.js" />
+    <Content Include="scripts\lib\jquery.js" />
+    <Content Include="scripts\lib\jquery.tmpl.js" />
+    <Content Include="scripts\lib\jslint.js" />
+    <Content Include="scripts\lib\knockout.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(SolutionDir)..\tools\knapsack\knapsack.shell.exe" ..\..\scripts &gt; ..\..\obj\witness.js</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
