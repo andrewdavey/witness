@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.htm" />
+    <Content Include="jquery.js" />
     <Content Include="second.htm" />
     <Content Include="specs\index.js" />
     <Content Include="specs\_helper.js" />
