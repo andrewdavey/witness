@@ -58,7 +58,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 
 	downloadSpecificationManifest: ->
 		$.ajax
-			url: "/specs.ashx?path=" + @specsPath
+			url: "/_witness/manifest/" + @specsPath
 			cache: false
 
 	createSpecificationFileFromManifest: (manifest) ->
