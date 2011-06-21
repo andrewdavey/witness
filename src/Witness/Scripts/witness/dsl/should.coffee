@@ -124,6 +124,7 @@ builtIn = be:
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
 
+# TODO: Fix this for use in actual spec files
 this.Witness.Dsl::defineShouldFunctions = (object) ->
 	for own name, options of object
 		should[name] = predicateActionBuilder options
