@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
+using System.Reflection;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof (Witness.RequestHandlers.ExecuteScriptHandler), "AppStart")]
 
@@ -12,6 +14,20 @@ namespace Witness.RequestHandlers
     {
         public static void AppStart()
         {
+            /*
+            var methods =
+                from Assembly assembly in System.Web.Compilation.BuildManager.GetReferencedAssemblies()
+                from type in assembly.GetTypes()
+                where type.IsDefined(typeof(RemoteScriptableAttribute), false)
+                from method in type.GetMethods(BindingFlags.Public | BindingFlags.Static)
+                select method;
+
+            
+            foreach (var method in methods)
+            {
+                //ExecuteScriptHandler.Add(method.Name, ** create delegate? **)
+            }
+            */
             ExecuteScriptHandler.Add("serverfunctionthatreturns42", () => 42);
             ExecuteScriptHandler.Add("serverfunctionthatreturns43", () => 43);
             ExecuteScriptHandler.Add("servermethodthatthrowsanexception", () =>

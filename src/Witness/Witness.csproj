@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotNetContext.cs" />
+    <Compile Include="RemoteScriptableAttribute.cs" />
     <Compile Include="RequestHandlers\ExecuteScriptHandler.cs" />
     <Compile Include="RequestHandlers\GetManifestHandler.cs" />
     <Compile Include="RequestHandlers\GetAssemblyResourceHandler.cs" />
