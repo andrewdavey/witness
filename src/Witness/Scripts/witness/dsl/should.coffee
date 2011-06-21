@@ -1,8 +1,7 @@
 ﻿# reference "../Dsl.coffee"
 
-predicateActionBuilder = (options) ->
-	(expected) ->
-		(propertyNames...) ->
+predicateActionBuilder = (options,negate) ->
+	(expected) -> (propertyNames...) ->
 			fullName = createFullName propertyNames
 			description = options.description fullName, expected
 			func = () ->
@@ -10,7 +9,9 @@ predicateActionBuilder = (options) ->
 					options.getActual this, propertyNames
 				else
 					decendPropertiesToValue this, propertyNames
-				return if options.test.call this, actual, expected
+				result =  options.test.call this, actual, expected
+				return if negate and !result
+				return if !negate and result
 				error = options.error fullName, actual, expected
 				if typeof error == "string"
 					throw new Error error
@@ -52,7 +53,10 @@ this.Witness.Dsl::predicateActionBuilder = predicateActionBuilder
 this.Witness.Dsl::should = should =
 	unwrapActual: (actual) -> actual
 
-	be: predicateActionBuilder
+this.Witness.Dsl::shouldnot = shouldnot =
+	unwrapActual: (actual) -> actual
+
+builtIn = be:
 		test: (actual, expected) ->
 			actual = should.unwrapActual actual
 			if typeof expected == "function"
@@ -66,7 +70,7 @@ this.Witness.Dsl::should = should =
 			expected = printableValue expected
 			"Expected #{fullName} to be #{expected} but was #{actual}"
 
-	notBe: predicateActionBuilder
+	notBe:
 		test: (actual, expected) ->
 			actual = should.unwrapActual actual
 			if typeof expected == "function"
@@ -79,7 +83,7 @@ this.Witness.Dsl::should = should =
 			expected = printableValue expected
 			"Expected #{fullName} to not be #{expected}"
 
-	beLessThan: predicateActionBuilder
+	beLessThan:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) < expected
 		description: (fullName, expected) ->
@@ -87,7 +91,7 @@ this.Witness.Dsl::should = should =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be less than #{expected}, but it was #{should.unwrapActual(actual)}"
 
-	beGreaterThan: predicateActionBuilder
+	beGreaterThan:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) > expected
 		description: (fullName, expected) ->
@@ -95,7 +99,7 @@ this.Witness.Dsl::should = should =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be greater than #{expected}, but it was #{should.unwrapActual(actual)}"
 
-	beGreaterThanOrEqual: predicateActionBuilder
+	beGreaterThanOrEqual:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) >= expected
 		description: (fullName, expected) ->
@@ -103,7 +107,7 @@ this.Witness.Dsl::should = should =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be greater than or equal #{expected}, but it was #{should.unwrapActual(actual)}"
 
-	beLessThanOrEqual: predicateActionBuilder
+	beLessThanOrEqual:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) <= expected
 		description: (fullName, expected) ->
@@ -111,7 +115,7 @@ this.Witness.Dsl::should = should =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be less than or equal #{expected}, but it was #{should.unwrapActual(actual)}"
 
-	beInstanceof: predicateActionBuilder
+	beInstanceof:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) instanceof expected
 		description: (fullName, expected) ->
@@ -120,7 +124,9 @@ this.Witness.Dsl::should = should =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
 
-
 this.Witness.Dsl::defineShouldFunctions = (object) ->
 	for own name, options of object
 		should[name] = predicateActionBuilder options
+		shouldnot[name] = predicateActionBuilder options,true
+
+@Witness.Dsl::defineShouldFunctions builtIn
