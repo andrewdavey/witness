@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Witness\Witness.csproj">
-      <Project>{7B795B1B-664A-4AEB-9E5F-06F2DDB4236D}</Project>
+      <Project>{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}</Project>
       <Name>Witness</Name>
     </ProjectReference>
   </ItemGroup>
