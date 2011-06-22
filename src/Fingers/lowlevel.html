@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mock for fingers :)</title>
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/arms-common.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui/jquery-ui-1.8.7.custom.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui/jquery-ui-1.8.7.custom.min.js"></script>
+    <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="lib/ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript" src="debug/fingers.js"></script>
+    <style>
+    body {font-size:12px;}
+    label {color:green;font-size:10px;}
+    input, select, textarea {display:block;}
+    </style>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+       // fingers.controller();
+    });
+</script>
+<body>
+    <form method="get">
+
+    <label for="test0">Empty Single Text</label>
+    <input type="text" name="test0" class="editable view-single-text" value="" />
+
+    <label for="test1">Single Text</label>
+    <input type="text" name="test1" class="editable view-single-text" value="test1" />
+
+    <label for="test2">Single Text</label>
+    <input type="text" name="test2" class="editable view-single-text" value="test2" />
+
+    <label for="test3">Multi Text</label>
+    <input type="text" name="test3" class="editable view-multi-text" value="multi1|multi2|multi3" />
+
+    <label for="test4">Multi Text, Limit 5</label>
+    <input type="text" name="test4" class="editable view-multi-text-limit-5" value="limit1|limit2|limit3" />
+
+    <label for="test5">Boolean</label>
+    <input type="text" name="test5" class="editable view-bool" value="true" />
+
+    <label for="test6">Select</label>
+    <select name="test6" class="editable view-select">
+        <option value="">please choose one mannnn!!!!</option>
+        <option value="selectValue1" selected="selected">Select Value 1</option>
+        <option value="selectValue2">Select Value 2</option>
+    </select>
+
+    <label for="test7">Multi Select</label>
+    <select name="test7" class="editable view-multi-select" size="8" multiple="multiple">
+        <option value="selectValue1" selected="selected">Select Value 1</option>
+        <option value="selectValue2">Select Value 2</option>
+        <option value="selectValue3">Select Value 3</option>
+        <option value="selectValue4">Select Value 4</option>
+        <option value="selectValue5">Select Value 5</option>
+        <option value="selectValue6" selected="selected">Select Value 6</option>
+        <option value="selectValue7">Select Value 7</option>
+        <option value="selectValue8">Select Value 8</option>
+    </select>
+    
+    <label for="test-8">Look up/Autocomplete</label>
+    <input type="text" name="test-8" class="editable view-type-ahead" data-lookupUrl="/lookup/Publishers" />
+    
+    <label for="test-8">Multiple Look up/Autocomplete</label>
+    <input type="text" name="test-8" class="editable view-multi-type-ahead" data-lookupUrl="/lookup/Publishers" value="php|javascript|java" />
+
+    <label for="test-9">jQuery UI Date Picker</label>
+    <input type="text" name="test-9" class="editable view-date-picker" />
+
+    <label for="test-9">CKEditor Rich Text</label>
+    <textarea name="test-ck" class="editable view-ck-editor"><h2>Test!</h2><p>This is some rich HTML content</p></textarea>
+
+    <input type="submit" value="submit" />
+
+    </form>
+</body>
+</html>
