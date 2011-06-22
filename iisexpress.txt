@@ -1,0 +1,27 @@
+The Witness projects need to run on IISExpress.
+It's likely you'll need to manually edit:
+"~\Documents\IISExpress\config\applicationhost.config"
+
+In the <sites> section add the following, changing the is and paths as required:
+
+<site name="Witness" id="8">
+    <application path="/" applicationPool="Clr4IntegratedAppPool">
+        <virtualDirectory path="/" physicalPath="C:\path-to-witness\src\" />
+    </application>
+    <application path="/demo">
+        <virtualDirectory path="/" physicalPath="C:\path-to-witness\src\Demo" />
+    </application>
+    <application path="/fingers">
+        <virtualDirectory path="/" physicalPath="C:\path-to-witness\src\Fingers" />
+    </application>
+    <application path="/witness">
+        <virtualDirectory path="/" physicalPath="C:\path-to-witness\src\Witness" />
+    </application>
+    <application path="/witness-specs">
+        <virtualDirectory path="/" physicalPath="C:\path-to-witness\src\Witness.Specs" />
+    </application>
+    <bindings>
+        <binding protocol="http" bindingInformation="*:1337:localhost" />
+    </bindings>
+</site>
+
