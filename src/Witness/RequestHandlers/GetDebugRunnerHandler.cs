@@ -13,7 +13,7 @@ namespace Witness.RequestHandlers
     {
         static readonly Knapsack.CoffeeScript.CoffeeScriptCompiler coffeeScriptCompiler = new Knapsack.CoffeeScript.CoffeeScriptCompiler(File.ReadAllText);
 
-        static string GetDebugScriptsHtml(HttpContext context)
+        static string[] GetDebugScriptUrls(HttpContext context)
         {
             using (var storage = IsolatedStorageFile.GetMachineStoreForDomain())
             {
@@ -28,18 +28,17 @@ namespace Witness.RequestHandlers
                 builder.AddModule("", "");
                 var container = builder.Build();
                 var rootUrl = context.Request.Url.GetLeftPart(UriPartial.Authority) + "/witness/";
+
                 var urls =
                     from r in container.FindModule("").Resources
-                    select r.Path.EndsWith(".coffee")
+                    select (r.Path.EndsWith(".coffee")
                         ? rootUrl + "knapsack.axd/coffee/scripts/" + r.Path.Substring(0, r.Path.Length - ".coffee".Length)
-                        : rootUrl + "scripts/" + r.Path;
-                var scriptTags = from url in urls
-                                 select "<script type='text/javascript' src='" + url + "'></script>";
-                return string.Join("\r\n", scriptTags);
+                        : rootUrl + "scripts/" + r.Path);
+                return urls.ToArray();
             }
         }
 
-        static Lazy<string> debugScriptsHtml = new Lazy<string>(() => GetDebugScriptsHtml(HttpContext.Current));
+        static Lazy<string[]> debugScriptUrls = new Lazy<string[]>(() => GetDebugScriptUrls(HttpContext.Current));
 
         public override void ProcessRequest(RequestContext context)
         {
@@ -50,7 +49,11 @@ namespace Witness.RequestHandlers
                 using (var reader = new StreamReader(stream))
                 {
                     var replace = "<script type=\"text/javascript\" src=\"witness.js\"></script>";
-                    var html = reader.ReadToEnd().Replace(replace, debugScriptsHtml.Value);
+                    var nocache = "?_=" + DateTime.UtcNow.Ticks.ToString();
+                    var scriptTags = from url in debugScriptUrls.Value
+                                     select "<script type='text/javascript' src='" + url + nocache + "'></script>";
+                    var debugScriptsHtml = string.Join("\r\n", scriptTags);
+                    var html = reader.ReadToEnd().Replace(replace, debugScriptsHtml);
 
                     context.HttpContext.Response.ContentType = "text/html";
                     context.HttpContext.Response.Write(html);

@@ -93,6 +93,7 @@
     <None Include="scripts\witness\dsl\async.coffee" />
     <None Include="scripts\witness\dsl\defineActions.coffee" />
     <None Include="scripts\witness\dsl\describe.coffee" />
+    <None Include="scripts\witness\dsl\jquery.coffee" />
     <None Include="scripts\witness\dsl\mock.coffee" />
     <None Include="scripts\witness\dsl\pageAutomation.coffee" />
     <None Include="scripts\witness\dsl\should.coffee" />

@@ -46,6 +46,12 @@ this.Witness.Dsl::defineActions
 		for own selector, value of inputs
 			$(selector, @document).val value
 
+	blur: (selector) ->
+		$(selector, @document).blur()
+
+	focus: (selector) ->
+		$(selector, @document).focus()
+
 this.Witness.Dsl::defineShouldFunctions
 	haveText:
 		getActual: (context, propertyNames) ->

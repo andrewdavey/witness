@@ -21,6 +21,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 		@errors = ko.observableArray []
 		@scenario.on.run.addHandler =>
 			@reset()
+			@select()
 			@status "running"
 		@scenario.on.done.addHandler => @status "passed"
 		@scenario.on.fail.addHandler (errors) =>

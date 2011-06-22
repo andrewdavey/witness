@@ -68,7 +68,7 @@ this.Witness.Scenario = class Scenario
 			@iframeLoadCallback = callback
 
 	createAndCacheIFrame: ->
-		@iframe = $("<iframe/>").hide()
+		@iframe = $("<iframe/>").focus()
 		Witness.messageBus.send "AppendIframe", @iframe
 		@iframe.bind "load", => @handleIFrameLoad()
 		@iframe

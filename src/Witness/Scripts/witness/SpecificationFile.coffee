@@ -24,8 +24,8 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 				done()
 			(error) =>
 				@errors.push error
-				@on.failed.raise @errors
-				fail @errors
+				@on.downloadFailed.raise @errors
+				fail error
 
 	executeSpecificationScript: (script, gotSpecifications, fail) ->
 		iframe = $("<iframe src='sandbox.htm'/>").hide().appendTo("body")
