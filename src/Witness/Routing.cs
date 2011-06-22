@@ -15,20 +15,36 @@ namespace Witness
             router.Install();
         }
 
-        readonly string routePrefix = "_witness/";
-        readonly RouteCollection routes;
-        int nextInsertIndex = 0;
-
         public Routing(RouteCollection routes)
         {
             this.routes = routes;
         }
 
+        readonly RouteCollection routes;
+        readonly string routePrefix = "_witness/";
+        int nextInsertIndex = 0;
+
+        /// <summary>
+        /// Inserts all the Witness routes into the route collection.
+        /// </summary>
         public void Install()
         {
-            MapRoute<GetManifestHandler>("manifest/{*path}");
-            MapRoute<GetScriptResourceHandler>("witness.js");
+            // In debug mode we need to parse the HTML files and insert to debug version
+            // of Witness's javascript. This means each script is a separate file in the page.
+            // In release mode the scripts are already merged into a single file and embedded
+            // as a resource.
+#if DEBUG
+            MapRoute<GetDebugRunnerHandler>("runner.htm");
+            MapRoute<GetDebugRunnerHandler>("sandbox.htm");
+#endif
+            MapRoute<GetManifestHandler>("manifest");
             MapRoute<ExecuteScriptHandler>("execute-script");
+#if RELEASE
+            // The witness.js file is in a separate resource file, so a specialized handler
+            // is used to read it.
+            MapRoute<GetScriptResourceHandler>("witness.js");
+#endif
+            // All other resources (css, images) can be accessed generically using this handler.
             MapRoute<GetAssemblyResourceHandler>("{*path}");
         }
 

@@ -12,7 +12,7 @@ namespace Witness.RequestHandlers
     {
         public override void ProcessRequest(RequestContext context)
         {
-            var path = (string)context.RouteData.Values["path"] ?? "";
+            var path = context.HttpContext.Request.QueryString["path"] ?? "";
 
             path = path.TrimEnd('/');
             var fullPath = Path.Combine(context.HttpContext.Server.MapPath("~/" + path));
@@ -82,7 +82,8 @@ namespace Witness.RequestHandlers
 
         string GetFileUrl(string filename, HttpContextBase context)
         {
-            return "/" + filename.Substring(context.Request.PhysicalApplicationPath.Length).Replace('\\', '/');
+            var root = context.Request.ApplicationPath.TrimEnd('/');
+            return root + "/" + filename.Substring(context.Request.PhysicalApplicationPath.Length).Replace('\\', '/');
         }
 
         class SpecDir

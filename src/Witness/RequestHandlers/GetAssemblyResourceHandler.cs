@@ -7,7 +7,7 @@ namespace Witness.RequestHandlers
     {
         public override void ProcessRequest(RequestContext context)
         {
-            var path = (string)context.RouteData.Values["path"] ?? "runner.htm";
+            var path = (string)context.RouteData.Values["path"] ?? "index.htm";
             var resourceName = "Witness." + path.Replace('/', '.');
 
             var response = context.HttpContext.Response;
