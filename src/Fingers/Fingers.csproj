@@ -629,6 +629,7 @@
     <Content Include="lib\jquery.min.js" />
     <Content Include="lowlevel.html" />
     <Content Include="specs\test.js" />
+    <Content Include="specs\_helpers.js" />
     <Content Include="src\application.js" />
     <Content Include="src\base.js" />
     <Content Include="src\bool-middleware.js" />

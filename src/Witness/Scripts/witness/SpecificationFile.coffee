@@ -5,14 +5,53 @@
 
 Witness = this.Witness
 
-extractRuntimeErrorFromStack = (stack) ->
+# Wrapping a script in an anonymous function call prevents it accidently
+# leaking into global scope. The try..catch should catch any runtime errors.
+# For example, calling a function that does not exist.
+# The global function _witnessScriptError is added to the window executing
+# the script by SpecificationFile below.
+wrapScript = (script) ->
+	"""
+	try {
+		(function() {
+		#{script}
+		}());
+	} catch (e) {
+		_witnessScriptError(e);
+	}
+	"""
+
+# In Chrome, error objects have a stack string property.
+# Parse this to get the error message and also the line and character
+# of the error. This makes for a more useful error message to display.
+extractRuntimeErrorFromStack = (stack, helper) ->
 	firstLine = stack.match(/^(.*)(:?\r|\n|$)/)[1]
 	location = stack.match(/sandbox\.htm:(\d+):(\d+)/)
 	
 	if location? 
-		"#{firstLine}. Line #{location[1]}, character #{location[2]}."
+		# line number was offset by 2 in the wrapScript function
+		line = parseInt(location[1], 10) - 2
+		if helper?
+			"#{firstLine}. #{helper.url} at line #{line}, character #{location[2]}."
+		else
+			"#{firstLine}. Line #{line}, character #{location[2]}."
 	else
 		firstLine
+
+addInlineScript = (scriptText, iframeDoc) ->
+	scriptElement = iframeDoc.createElement "script"
+	scriptElement.type = "text/javascript"
+	scriptElement.async = false # else some browser seem to execute scripts in non-sequential order!
+	
+	if iframeDoc.createElement("script").textContent == ""
+		scriptElement.textContent = scriptText
+	else
+		scriptElement.innerText = scriptText
+
+	head = iframeDoc.getElementsByTagName("head")[0]
+	head.appendChild scriptElement
+
+
 
 Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 
@@ -41,43 +80,34 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 		iframe.load () =>
 			iframeWindow = iframe[0].contentWindow
 			iframeDoc = iframeWindow.document
-			body = iframeDoc.getElementsByTagName("head")[0]
-			addScript = (scriptText) ->
-				scriptElement = iframeDoc.createElement "script"
-				scriptElement.type = "text/javascript"
-				scriptElement.async = false # else some browser seem to execute scripts in non-sequential order!
-				if document.createElement("script").textContent == ""
-					scriptElement.textContent = scriptText
-				else
-					scriptElement.innerText = scriptText
-				body.appendChild scriptElement
+			addScript = (script) -> addInlineScript script, iframeDoc
+			failed = false
+			# Track current helper (if any) so if it throws an exception
+			# we can report it's URL. 
+			currentHelper = null
 
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = ->
 				gotSpecifications dsl.specifications or []
-			failed = false
+
+			# Global error handling function for the iframe window
 			iframeWindow._witnessScriptError = (args...) ->
 				failed = true
 				error = args[0]
 				if typeof error.stack == "string"
-					message = extractRuntimeErrorFromStack error.stack
+					message = extractRuntimeErrorFromStack error.stack, currentHelper
 					fail.call this, new Error message
 				else
 					fail.apply this, args
 
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
-
-			wrapScript = (script) -> """
-			try {
-				#{script}
-			} catch (e) {
-				_witnessScriptError(e);
-			}
-			"""
+			
 			for helper in @helpers
+				currentHelper = helper
 				addScript wrapScript helper.script
 				break if failed
+			currentHelper = null
 			addScript wrapScript script if not failed
 			addScript "_witnessScriptCompleted();" if not failed
 
