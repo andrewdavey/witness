@@ -10,20 +10,29 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	constructor: (@scenario) ->
 		@status = ko.observable "notrun"
 		@isSelected = ko.observable false
-		@givenDescription = @scenario.given.description
-		@givens = (new ActionWatcher action for action in @scenario.given.actions)
-		@givensVisible = ko.observable (@givenDescription.length == 0)
-		@whenDescription = @scenario.when.description
-		@whens = (new ActionWatcher action for action in @scenario.when.actions)
-		@whensVisible = ko.observable (@whenDescription.length == 0)
-		@thenDescription = @scenario.then.description
-		@thens = (new ActionWatcher action for action in @scenario.then.actions)
 		@errors = ko.observableArray []
+
+		@givenDescription = @scenario.given.description
+		@givens = for action in @scenario.given.actions
+			new ActionWatcher action
+		@givensVisible = ko.observable (@givenDescription.length == 0)
+
+		@whenDescription = @scenario.when.description
+		@whens = for action in @scenario.when.actions
+			new ActionWatcher action
+		@whensVisible = ko.observable (@whenDescription.length == 0)
+		
+		@thenDescription = @scenario.then.description
+		@thens = for action in @scenario.then.actions
+			new ActionWatcher action
+		
+		# Handle events raised by the scenario and update the view model state.
 		@scenario.on.running.addHandler =>
 			@reset()
 			@select()
 			@status "running"
-		@scenario.on.passed.addHandler => @status "passed"
+		@scenario.on.passed.addHandler =>
+			@status "passed"
 		@scenario.on.failed.addHandler (errors) =>
 			@errors flattenArray errors
 			@status "failed"

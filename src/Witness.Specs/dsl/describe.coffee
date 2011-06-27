@@ -16,10 +16,10 @@
 			then: [
 				-> @target.specifications.length == 1
 				-> @target.specifications[0].scenarios.length == 1
-				-> $.isArray @given.actions
-				-> $.isArray @when.actions
-				-> $.isArray @then.actions
-				-> $.isArray @dispose.actions
+				-> jQuery.isArray @given.actions
+				-> jQuery.isArray @when.actions
+				-> jQuery.isArray @then.actions
+				-> jQuery.isArray @dispose.actions
 			]
 		},
 		{

@@ -50,7 +50,7 @@ createActions = (input) ->
 
 ensureArray = (arrayOrObject) ->
 	if arrayOrObject?
-		if $.isArray arrayOrObject
+		if jQuery.isArray arrayOrObject
 			arrayOrObject
 		else
 			[ arrayOrObject ]
@@ -87,7 +87,7 @@ createActionsFromObject = (object, parentNames = []) ->
 		if parentNames[parentNames.length - 1] == "this"
 			parentNames = parentNames[0...parentNames.length - 1]
 		object.apply(null, parentNames)
-	else if $.isArray object
+	else if jQuery.isArray object
 		(createActionsFromObject(value, parentNames.concat(i)) for value, i in object)
 	else if typeof object == "object"
 		(createActionsFromObject(value, parentNames.concat(key)) for own key, value of object)

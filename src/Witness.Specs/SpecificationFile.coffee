@@ -73,7 +73,7 @@ describe "SpecificationFile",
 		@file = new Witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.failed.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @done()
 		@file.download()
 
 	then:

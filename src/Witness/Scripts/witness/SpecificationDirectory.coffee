@@ -18,7 +18,9 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 		items = [].concat @helpers, @directories, @files
 		downloadActions = for item in items
 			do (item) ->
-				new Witness.AsyncAction (-> item.download @done, @fail)
+				action = new Witness.AsyncAction (-> item.download @done, @fail)
+				action.timeout = 10000 # 10 seconds
+				action
 
 		sequence = new Witness.Sequence downloadActions
 		sequence.run {},

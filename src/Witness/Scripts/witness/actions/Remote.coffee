@@ -7,7 +7,7 @@ async = @Witness.Dsl::async
 @Witness.Dsl::defineActions
     remote: async (remotefunc) ->
       $.ajax 
-        url:"/_witness/execute-script"
+        url:"execute-script"
         type: 'POST'
         data:"(#{remotefunc})(this)"
         success: (data) =>@done(data)

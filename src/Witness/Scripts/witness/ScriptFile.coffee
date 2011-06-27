@@ -12,7 +12,7 @@ this.Witness.ScriptFile = class ScriptFile
 	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()
 		@errors = []
-		$.ajax
+		jQuery.ajax
 			url: @url
 			cache: false
 			dataType: 'text' # Must be 'text' else jQuery tries to execute the script for us!

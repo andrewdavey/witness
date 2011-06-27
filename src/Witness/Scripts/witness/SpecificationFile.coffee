@@ -76,7 +76,7 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 				fail error
 
 	executeSpecificationScript: (script, gotSpecifications, fail) ->
-		iframe = $("<iframe src='sandbox.htm'/>").hide().appendTo("body")
+		iframe = jQuery("<iframe src='sandbox.htm'/>").hide().appendTo("body")
 		iframe.load () =>
 			iframeWindow = iframe[0].contentWindow
 			iframeDoc = iframeWindow.document

@@ -83,10 +83,10 @@ li.directory > .name {
     background-image: url(images/directory.png);
     min-height: 16px;
 }
-li.directory.passed {
+.passed > .name {
     color: #080;
 }
-li.directory.failed, li.directory.downloadFailed {
+.failed > .name, .downloadFailed > .name {
     color: #800;
 }
 
@@ -95,16 +95,7 @@ li.file > .name {
     padding-left: 20px;
     background-image: url(images/file.png);
 }
-li.file.passed {
-    color: #080;
-}
-li.file.failed, li.file.errors {
-    color: #800;
-}
 
-li.specification.passed {
-    color: #080;
-}    
 li.specification > .name {
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -116,7 +107,6 @@ li.scenario {
 }
 li.scenario.passed {
     background-color: #efc;
-    color: #080;
 }
 li.scenario.selected {
     background-color: #eee;
@@ -142,6 +132,6 @@ li.scenario .part-toggle.open {
     background-image: url(images/scenario-part-close.png);
 }
 
-.action.passed { color: Green; }
+.action.passed { color: #080; }
 .action.failed { color: #800; }
 .scenario.failed { background-color: #faa; }
