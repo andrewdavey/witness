@@ -5,6 +5,15 @@
 
 Witness = this.Witness
 
+extractRuntimeErrorFromStack = (stack) ->
+	firstLine = stack.match(/^(.*)(:?\r|\n|$)/)[1]
+	location = stack.match(/sandbox\.htm:(\d+):(\d+)/)
+	
+	if location? 
+		"#{firstLine}. Line #{location[1]}, character #{location[2]}."
+	else
+		firstLine
+
 Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 
 	constructor: (manifest, @helpers = []) ->
@@ -49,7 +58,12 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 			failed = false
 			iframeWindow._witnessScriptError = (args...) ->
 				failed = true
-				fail.apply this, args
+				error = args[0]
+				if typeof error.stack == "string"
+					message = extractRuntimeErrorFromStack error.stack
+					fail.call this, new Error message
+				else
+					fail.apply this, args
 
 			dsl = new Witness.Dsl iframeWindow
 			dsl.activate()
