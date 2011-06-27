@@ -12,7 +12,7 @@ createDescriptionFromFunction = (func) ->
 this.Witness.Scenario = class Scenario
 	
 	constructor: (@parts) ->
-		@on = Witness.Event.define "run", "done", "fail"
+		@on = Witness.Event.define "running", "passed", "failed"
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
 			part = @[name]
@@ -44,14 +44,14 @@ this.Witness.Scenario = class Scenario
 		context.window = window
 
 		Witness.messageBus.send "ScenarioRunning", this
-		@on.run.raise()
+		@on.running.raise()
 		@aggregateAction.run context,
 			=>
-				@on.done.raise()
+				@on.passed.raise()
 				Witness.messageBus.send "ScenarioPassed", this
 				done()
 			(error) =>
-				@on.fail.raise(error)
+				@on.failed.raise(error)
 				Witness.messageBus.send "ScenarioFailed", this
 				fail(error)
 
