@@ -19,6 +19,7 @@
         <li data-bind="attr: { 'class': 'directory ' + status() }, css: { open: isOpen }">
             <a class="toggle-open" href="#" data-bind="click: toggleOpen"></a>
             <div class="name" data-bind="text: name"></div>
+            <ul data-bind="template: { name: 'error', foreach: errors }"></ul>
             <ul data-bind="template: { name: 'directory', foreach: directories }"></ul>
             <ul data-bind="template: { name: fileTemplate, foreach: files }"></ul>
         </li>

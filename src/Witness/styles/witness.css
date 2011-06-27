@@ -86,7 +86,7 @@ li.directory > .name {
 li.directory.passed {
     color: #080;
 }
-li.directory.failed {
+li.directory.failed, li.directory.downloadFailed {
     color: #800;
 }
 

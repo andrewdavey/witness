@@ -17,12 +17,17 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 
 		@files = (new Witness.ViewModels.SpecificationFileViewModel file for file in @directory.files)
 		@directories = (new SpecificationDirectoryViewModel directory for directory in @directory.directories)
+		@errors = ko.observableArray []
 
-		for status in [ "downloading", "downloaded", "running", "passed", "failed" ]
+		for status in [ "downloading", "downloaded", "downloadFailed", "running", "passed", "failed" ]
 			do (status) =>
 				@directory.on[status].addHandler => @status status
 
 		@directory.on.failed.addHandler => @isOpen true
+
+		for helper in @directory.helpers
+			helper.on.downloadFailed.addHandler (errors) =>
+				@errors.push error for error in errors
 
 	download: ->
 		@directory.download()

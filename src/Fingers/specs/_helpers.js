@@ -1,4 +1,5 @@
 ﻿/*jslint sloppy: true */
+/*global jQuery */
 
 should.beVisible = predicateActionBuilder({
     getActual: function (context, propertyNames) {

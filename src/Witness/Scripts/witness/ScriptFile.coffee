@@ -42,7 +42,7 @@ this.Witness.ScriptFile = class ScriptFile
 		else
 			predef = (name for own name of Witness.Dsl::)
 			if not JSLINT script, { predef: predef, white: true }
-				@errors.push {message: "Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
+				@errors.push {message: "#{@url} Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
 				return null
 		# If we get here, then the script is okay.
 		script

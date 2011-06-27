@@ -1,5 +1,4 @@
 ﻿/*jslint sloppy: true */
-/*global Witness, jQuery */
 
 describe("fingers suite", {
     "given a page containing a single text component":

@@ -5,7 +5,7 @@
 this.Witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest, parentHelpers = []) ->
 		@name = manifest.name
-		@on = Witness.Event.define "downloading", "downloaded", "running", "passed", "failed"
+		@on = Witness.Event.define "downloading", "downloaded", "downloadFailed", "running", "passed", "failed"
 		@helpers = (new Witness.SpecificationHelper url for url in manifest.helpers or [])
 		allHelpers = parentHelpers.concat @helpers
 		@directories = (new SpecificationDirectory(directory, allHelpers) for directory in manifest.directories or [])
@@ -14,21 +14,21 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()
 
-		# Download all the files, helpers and sub-directories
-		items = [].concat @files, @helpers, @directories
-		remainingDownloadCount = items.length
-		itemDownloadCallback = =>
-			remainingDownloadCount--
-			if remainingDownloadCount == 0
+		# Download all the helpers, sub-directories and files
+		items = [].concat @helpers, @directories, @files
+		downloadActions = for item in items
+			do (item) ->
+				new Witness.AsyncAction (-> item.download @done, @fail)
+
+		sequence = new Witness.Sequence downloadActions
+		sequence.run {},
+			=> # all done
 				@on.downloaded.raise()
 				done()
+			(args...) => # something failed
+				@on.downloadFailed.raise args...
+				fail.apply null, args
 
-		if items.length
-			for item in items
-				item.download itemDownloadCallback, fail
-		else
-			@on.downloaded.raise()
-			done()
 
 	run: (context, done, fail) ->
 		Witness.messageBus.send "SpecificationDirectoryRunning", this
