@@ -2,7 +2,6 @@
 # reference "async.coffee"
 # reference "defineActions.coffee"
 # reference "should.coffee"
-# reference "../../lib/Sizzle.js"
 
 
 # We want to allow natural, jQuery-style, actions in scenarios. For example:
@@ -46,8 +45,26 @@ class JQueryActions
 				else
 					throw new Error "Unable to simulate click in this web browser."
 
-			$(selector, @document).each -> fakeClick this
+			jQuery(selector, @document).each -> fakeClick this
 		new Witness.Action func, [], "click #{selector}"
+
+	# Simulate typing characters into an input element
+	type: (text) ->
+		selector = @selector
+		func = ->
+			sendTextInputToElement = (element) =>
+				if @document.createEvent
+					# This code is only webkit-friendly for now
+					evt = @document.createEvent "TextEvent"
+					evt.initTextEvent "textInput", true, true, null, text
+					# Element must have focus to receive the event
+					element.focus()
+					element.dispatchEvent evt
+				else
+					jQuery(element).val(text)
+			jQuery(selector, @document).each -> sendTextInputToElement this
+		new Witness.Action func, [], "type #{text}"
+
 
 # Adding $ to the DSL makes it globally available in specification scripts
 # and overwrite the existing jQuery function.

@@ -5,7 +5,7 @@ describe("fingers suite", {
         loadPage('/fingers/test.html'),
 
     "when a static view is clicked":
-        click('div.static-view.field:eq(0)'),
+        $('div.static-view.field:eq(0)').click(),
 
     "then an edit view should appear": {
         'div.static-view.field:eq(0)': shouldnot.beVisible(),
@@ -29,7 +29,7 @@ describe("fingers suite", {
         $('input.edit-view-control.single-text:eq(0)').val("TEST")
 	],
     "when the edit view is blurred": [
-        blur('input.edit-view-control.single-text:eq(0)')
+        $('input.edit-view-control.single-text:eq(0)').blur()
 	],
     "then the static view should show the entered text": {
         'div.static-view.field:eq(0)': should.haveText("TEST")

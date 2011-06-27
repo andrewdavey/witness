@@ -1,27 +1,19 @@
 describe "click",
 {
-	"given a click action": ->
-		@click = click("button")
-		# Mock the $(selector, context).click() call
-		@restore$ = mock this.window,
-			$: (selector, context) =>
-				@selector = selector
-				@context = context
-				# Return a stub jQuery-like object
-				return each: (func) =>
-					func.call({ click: => @clickCalled = true })
-
-	"when it is run": ->
-		@click.run { document: "document" }, (->), (->)
-	
-	then: [
-		selector: should.be "button"
-		context: should.be "document"
-		clickCalled: should.be true
+	"given an element in the document to click": [
+		loadEmptyPage()
+		->
+			@body.append "<a href='#'>test</a>"
+			elementToClick = @body.find "a"
+			elementToClick.click => @clickEventRaised = true
+			@clickAction = $("a").click()
 	]
 
-	dispose: ->
-		@restore$()
+	"when click action is run": ->
+		@clickAction.run { document: @document }, (->), (->)
+
+	"then":
+		clickEventRaised: should.be true
 }
 
 describe "input",
