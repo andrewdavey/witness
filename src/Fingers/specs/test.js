@@ -38,13 +38,11 @@ describe("fingers suite", {
     "given a page with an active edit view component that was empty, clicked and had text entered": [
 		loadPage('/fingers/test.html'),
 		$('div.static-view.field:eq(0)').click(),
-        $('input.edit-view-control.single-text:eq(0)').type("TEST"),
-        wait(100)
+        $('input.edit-view-control.single-text:eq(0)').type("TEST")
     ],
 
     "when Escape key is pressed": [ 
-        $("input.edit-view-control.single-text:eq(0)").type(ESCAPE),
-        wait(100)
+        $("input.edit-view-control.single-text:eq(0)").type(ESCAPE)
     ],
 
     "then the static view should be empty": {
@@ -59,8 +57,7 @@ describe("fingers suite", {
     ],
 
     "when Return key is pressed": [ 
-        $("input.edit-view-control.single-text:eq(0)").type(RETURN),
-        wait(100)
+        $("input.edit-view-control.single-text:eq(0)").type(RETURN)
     ],
 
     "then the static view should be updated to equal the entered text": {
