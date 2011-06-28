@@ -72,9 +72,32 @@ class JQueryActions
 				for name in ["keydown", "keyup"]
 					event = @window.jQuery.Event name
 					event.which = text
+					event.shiftKey = false
+					event.altKey = false
+					event.ctrlKey = false
+					event.metaKey = false
 					$element.trigger event
+					return false if event.isDefaultPrevented()
+				
+				return true
 
-			invoke = if typeof text == "string" then sendTextInputToElement else sendKeyToElement
+			sendTabToElement = (element) =>
+				return if not sendKeyToElement element
+
+				focusableElements = jQuery ":focusable", @document
+				nextIndex = null
+				for focusableElement, i in focusableElements
+					if focusableElement == element
+						nextIndex = (i + 1) % focusableElements.length
+						break
+				focusableElements[nextIndex].focus() if nextIndex?
+
+			invoke = if typeof text == "string"
+				sendTextInputToElement
+			else if text == Witness.Dsl::TAB
+				sendTabToElement
+			else
+				sendKeyToElement
 
 			jQuery(selector, @document).each -> invoke this
 

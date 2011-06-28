@@ -36,7 +36,19 @@ this.Witness.Dsl::defineActions
 
 	input: (inputs) ->
 		for own selector, value of inputs
-			$(selector, @document).val value
+			jQuery(selector, @document).val value
+
+	tab: ->
+		current = jQuery(":focus", @document)[0]
+		focusable = jQuery ":focusable", @document
+		if current?
+			for element, i in focusable
+				if element == current
+					nextIndex = (i + 1) % focusable.length
+					focusable[nextIndex].focus()
+					break
+		else if focusable.length > 0
+			focusable[0].focus()
 
 this.Witness.Dsl::defineShouldFunctions
 	haveText:
