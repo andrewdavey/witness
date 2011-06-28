@@ -2,7 +2,7 @@
 # reference "async.coffee"
 # reference "defineActions.coffee"
 # reference "should.coffee"
-
+# reference "../Keys.coffee"
 
 # We want to allow natural, jQuery-style, actions in scenarios. For example:
 #   when: [ $("input").val("test"), $("button").click() ]
@@ -62,7 +62,22 @@ class JQueryActions
 					element.dispatchEvent evt
 				else
 					jQuery(element).val(text)
-			jQuery(selector, @document).each -> sendTextInputToElement this
+
+			sendKeyToElement = (element) =>
+				# The target window's jQuery MUST be used to trigger events.
+				# Otherwise they won't actually call the bound handlers.
+				# I assume this is because jQuery stores the handlers in its
+				# window object. So different jQuery means different window.
+				$element = @window.jQuery element
+				for name in ["keydown", "keyup"]
+					event = @window.jQuery.Event name
+					event.which = text
+					$element.trigger event
+
+			invoke = if typeof text == "string" then sendTextInputToElement else sendKeyToElement
+
+			jQuery(selector, @document).each -> invoke this
+
 		new Witness.Action func, [], "type #{text}"
 
 

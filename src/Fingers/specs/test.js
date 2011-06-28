@@ -34,6 +34,38 @@ describe("fingers suite", {
     "then the static view should show the entered text": {
         'div.static-view.field:eq(0)': should.haveText("TEST")
     }
+}, {
+    "given a page with an active edit view component that was empty, clicked and had text entered": [
+		loadPage('/fingers/test.html'),
+		$('div.static-view.field:eq(0)').click(),
+        $('input.edit-view-control.single-text:eq(0)').type("TEST"),
+        wait(100)
+    ],
+
+    "when Escape key is pressed": [ 
+        $("input.edit-view-control.single-text:eq(0)").type(ESCAPE),
+        wait(100)
+    ],
+
+    "then the static view should be empty": {
+        'div.static-view.field:eq(0)': should.haveText("Click to edit"),
+        "input.edit-view-control.single-text:eq(0)": shouldnot.beVisible()
+    }
+}, {
+    "given a page with an active edit view component that was empty, clicked and had text entered": [
+		loadPage('/fingers/test.html'),
+		$('div.static-view.field:eq(0)').click(),
+        $('input.edit-view-control.single-text:eq(0)').type("TEST")
+    ],
+
+    "when Return key is pressed": [ 
+        $("input.edit-view-control.single-text:eq(0)").type(RETURN),
+        wait(100)
+    ],
+
+    "then the static view should be updated to equal the entered text": {
+        'div.static-view.field:eq(0)': should.haveText("TEST")
+    }
 });
 
 describe("Low level JS test", {
@@ -50,8 +82,6 @@ describe("Low level JS test", {
     }
 
 });
-
-
 
 /*
 
