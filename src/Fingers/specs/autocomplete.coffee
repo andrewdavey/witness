@@ -7,9 +7,8 @@ describe "Autocomplete",
 
 	"when 'ph' is typed and down pressed": [
 		$(":focus").type "ph"
-		wait 500
-		$(":focus").type DOWN
-		$(":focus").type RETURN
+		wait 500 # allow time for drop down menu to appear
+		$(":focus").type DOWN, RETURN
 	]
 	
 	"then 'php' is selected":

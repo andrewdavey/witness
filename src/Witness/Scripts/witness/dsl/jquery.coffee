@@ -60,6 +60,8 @@ class JQueryActions
 					# Element must have focus to receive the event
 					element.focus()
 					element.dispatchEvent evt
+					
+					@window.jQuery(element).keydown()
 				else
 					jQuery(element).val(text)
 
