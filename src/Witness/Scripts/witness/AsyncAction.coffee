@@ -32,8 +32,8 @@ this.Witness.AsyncAction = class AsyncAction
 			error = new Witness.TimeoutError "Asynchronous action timed out."
 			@on.fail.raise error
 			fail error
-
-		timeoutId = setTimeout failDueToTimeout, @timeout
+		
+		timeoutId = setTimeout failDueToTimeout, @timeout if @timeout > 0
 		try
 			@func.apply context, @args
 		catch e

@@ -5,5 +5,5 @@
 async = this.Witness.Dsl::async
 
 this.Witness.Dsl::defineActions
-	wait: async (delay) ->
-		setTimeout @done, delay
+	wait: async ((delay) ->
+		setTimeout @done, delay), -1

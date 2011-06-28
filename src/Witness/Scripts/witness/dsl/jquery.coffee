@@ -49,10 +49,10 @@ class JQueryActions
 		new Witness.Action func, [], "click #{selector}"
 
 	# Simulate typing characters into an input element
-	type: (text) ->
+	type: (values...) ->
 		selector = @selector
 		func = ->
-			sendTextInputToElement = (element) =>
+			sendTextInputToElement = (element, text) =>
 				if @document.createEvent
 					# This code is only webkit-friendly for now
 					evt = @document.createEvent "TextEvent"
@@ -63,7 +63,7 @@ class JQueryActions
 				else
 					jQuery(element).val(text)
 
-			sendKeyToElement = (element) =>
+			sendKeyToElement = (element, keyCode) =>
 				# The target window's jQuery MUST be used to trigger events.
 				# Otherwise they won't actually call the bound handlers.
 				# I assume this is because jQuery stores the handlers in its
@@ -71,7 +71,8 @@ class JQueryActions
 				$element = @window.jQuery element
 				for name in ["keydown", "keyup"]
 					event = @window.jQuery.Event name
-					event.which = text
+					event.which = keyCode
+					event.keyCode = keyCode
 					event.shiftKey = false
 					event.altKey = false
 					event.ctrlKey = false
@@ -81,8 +82,8 @@ class JQueryActions
 				
 				return true
 
-			sendTabToElement = (element) =>
-				return if not sendKeyToElement element
+			sendTabToElement = (element, keyCode) =>
+				return if not sendKeyToElement element, keyCode
 
 				focusableElements = jQuery ":focusable", @document
 				nextIndex = null
@@ -92,16 +93,18 @@ class JQueryActions
 						break
 				focusableElements[nextIndex].focus() if nextIndex?
 
-			invoke = if typeof text == "string"
-				sendTextInputToElement
-			else if text == Witness.Dsl::TAB
-				sendTabToElement
-			else
-				sendKeyToElement
+			elements = jQuery selector, @document
+			for value in values
+				invoke = if typeof value == "string"
+					sendTextInputToElement
+				else if value == Witness.Dsl::TAB
+					sendTabToElement
+				else
+					sendKeyToElement
 
-			jQuery(selector, @document).each -> invoke this
+				elements.each -> invoke this, value
 
-		new Witness.Action func, [], "type #{text}"
+		new Witness.Action func, [], "type #{values.join(', ')}"
 
 
 # Adding $ to the DSL makes it globally available in specification scripts
