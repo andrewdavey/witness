@@ -15,7 +15,11 @@ this.Witness.Dsl::defineActions
 			# Continue with the next action
 			@done()
 
-		iframe.attr "src", url
+		pageAlreadyLoaded = iframe.attr("src") == url
+		if pageAlreadyLoaded
+			@window.location.reload true # force reload
+		else
+			iframe.attr "src", url
 
 	loadEmptyPage: ->
 		iframe = @scenario.getIFrame()
