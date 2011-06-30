@@ -59,7 +59,7 @@ describe "Single text input",
 	]
 
 	"when Return key is pressed":
-		$("input.edit-view-control.single-text:eq(0)").type(RETURN)
+		$("input.edit-view-control.single-text:eq(0)").type(ENTER)
 
 	"then the static view should be updated to equal the entered text":
 		'div.static-view.field:eq(0)': should.haveText("TEST")

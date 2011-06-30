@@ -106,7 +106,13 @@ class JQueryActions
 
 				elements.each -> invoke this, value
 
-		new Witness.Action func, [], "type #{values.join(', ')}"
+		valueDescriptions = for value in values
+			if typeof value == "string"
+				value
+			else
+				Witness.keyNames[value] or value.toString()
+		actionDescription = "type #{valueDescriptions.join(', ')}"
+		new Witness.Action func, [], actionDescription 
 
 
 # Adding $ to the DSL makes it globally available in specification scripts
