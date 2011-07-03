@@ -13,28 +13,37 @@ namespace Witness.RequestHandlers
         public override void ProcessRequest(RequestContext context)
         {
             var path = context.HttpContext.Request.QueryString["path"] ?? "";
-
             path = path.TrimEnd('/');
             var fullPath = Path.Combine(context.HttpContext.Server.MapPath("~/" + path));
+            EnsurePathExists(path, fullPath);
+
+            var manifest = new Manifest(context.HttpContext.Request.ApplicationPath);
+            AssignDirectoryOrFile(manifest, fullPath, context);
+            
+            var json = new JavaScriptSerializer().Serialize(manifest);
+            context.HttpContext.Response.AddHeader("Cache-Control", "no-cache");
+            context.HttpContext.Response.ContentType = "application/json";
+            context.HttpContext.Response.Write(json);
+        }
+
+        void EnsurePathExists(string path, string fullPath)
+        {
             if (!Directory.Exists(fullPath) && !File.Exists(fullPath))
             {
                 throw new HttpException(404, "Cannot find the path \"" + path + "\"");
             }
+        }
 
-            string json;
+        void AssignDirectoryOrFile(Manifest manifest, string fullPath, RequestContext context)
+        {
             if (File.GetAttributes(fullPath).HasFlag(FileAttributes.Directory))
             {
-                var directory = GetSpecificationDirectory(fullPath, context.HttpContext);
-                json = new JavaScriptSerializer().Serialize(directory);
+                manifest.directory = GetSpecificationDirectory(fullPath, context.HttpContext);
             }
             else
             {
-                var file = GetSpecificationFile(fullPath, context.HttpContext);
-                json = new JavaScriptSerializer().Serialize(file);
+                manifest.file = GetSpecificationFile(fullPath, context.HttpContext);
             }
-            context.HttpContext.Response.AddHeader("Cache-Control", "no-cache");
-            context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.Write(json);
         }
 
         SpecDir GetSpecificationDirectory(string rootPath, HttpContextBase context)
@@ -84,6 +93,22 @@ namespace Witness.RequestHandlers
         {
             var root = context.Request.ApplicationPath.TrimEnd('/');
             return root + "/" + filename.Substring(context.Request.PhysicalApplicationPath.Length).Replace('\\', '/');
+        }
+
+        class Manifest
+        {
+            public Manifest(string urlBase)
+            {
+                this.urlBase = urlBase;
+                if (!this.urlBase.EndsWith("/")) this.urlBase += "/";
+            }
+
+            // directory xor file:
+            public SpecDir directory { get; set; }
+            public SpecFile file { get; set; }
+
+            // So that `loadPage "foo.htm"` can reference the absolute URL:
+            public string urlBase { get; set; }
         }
 
         class SpecDir

@@ -7,6 +7,8 @@ async = this.Witness.Dsl::async
 
 this.Witness.Dsl::defineActions
 	loadPage: async (url) ->
+		url = Witness.urlBase + url unless url.match /^\//
+
 		iframe = @scenario.getIFrame()
 		@scenario.setIFrameLoadCallback (iframeWindow) =>
 			# Store page objects in the context so other actions can access them

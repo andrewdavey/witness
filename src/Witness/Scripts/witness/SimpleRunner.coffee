@@ -49,12 +49,11 @@ this.Witness.SimpleRunner = class SimpleRunner
 			@status "Could not download manifest from #{@specsPath}"
 
 	createModelAndViewModelForManifest: (manifest) ->
-		isFile = manifest.url?
-		create = if isFile
-			@createSpecificationFileFromManifest
+		Witness.urlBase = manifest.urlBase
+		if manifest.file?
+			@createSpecificationFileFromManifest manifest.file
 		else
-			@createSpecificationDirectoryFromManifest
-		create(manifest)
+			@createSpecificationDirectoryFromManifest manifest.directory
 
 	downloadSpecificationManifest: ->
 		$.ajax

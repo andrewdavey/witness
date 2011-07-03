@@ -2,7 +2,7 @@ if (phantom.state.length === 0) {
     phantom.state = "run";
     var path = phantom.args[0];
     console.log("Loading Witness Runner for '" + path + "'");
-    phantom.open("http://localhost:1234/?path=" + path);
+    phantom.open("http://localhost:1234/_witness/runner.htm?path=" + path);
 
 } else if (phantom.state === "run") {
     // PhantomJS seems to reload for any page automation iframes loaded by specs

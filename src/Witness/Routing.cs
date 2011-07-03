@@ -39,7 +39,7 @@ namespace Witness
 #endif
             MapRoute<GetManifestHandler>("manifest");
             MapRoute<ExecuteScriptHandler>("execute-script");
-#if RELEASE
+#if !DEBUG
             // The witness.js file is in a separate resource file, so a specialized handler
             // is used to read it.
             MapRoute<GetScriptResourceHandler>("witness.js");
