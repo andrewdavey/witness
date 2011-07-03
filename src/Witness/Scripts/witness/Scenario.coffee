@@ -41,7 +41,6 @@ this.Witness.Scenario = class Scenario
 		context = new Context()
 		# Add some other useful stuff...
 		context.scenario = this
-		context.window = window
 
 		Witness.messageBus.send "ScenarioRunning", this
 		@on.running.raise()
@@ -68,8 +67,9 @@ this.Witness.Scenario = class Scenario
 			@iframeLoadCallback = callback
 
 	createAndCacheIFrame: ->
-		@iframe = $("<iframe/>").focus()
+		@iframe = $ "<iframe/>"
 		Witness.messageBus.send "AppendIframe", @iframe
+		@iframe.focus()
 		@iframe.bind "load", => @handleIFrameLoad()
 		@iframe
 
@@ -79,7 +79,7 @@ this.Witness.Scenario = class Scenario
 			
 			# Callbacks are single use.
 			# So we must clear the current callback property before calling it.
-			# Otherwise a new callback could be assign which would then be cleared!
+			# Otherwise a new callback could be assigned which would then be cleared!
 			callback = @iframeLoadCallback
 			@iframeLoadCallback = null 
 
@@ -88,4 +88,7 @@ this.Witness.Scenario = class Scenario
 			# Remember that the iframe has just loaded so that when there is a callback set
 			# we can call it immediately.
 			@iframeJustLoaded = yes
+
+	forceReloadIFrame: ->
+		@iframe[0].contentWindow.document.location.reload true # force reload
 
