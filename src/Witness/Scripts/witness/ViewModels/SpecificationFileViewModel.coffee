@@ -23,8 +23,9 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@file.on.downloaded.addHandler =>
 			@status "downloaded"
 		@file.on.downloadFailed.addHandler (errors) =>
-			@status "errors"
+			@status "downloadFailed"
 			@errors.push error for error in errors
+			@isOpen true
 
 		@file.on.ready.addHandler =>
 			@status "ready"
