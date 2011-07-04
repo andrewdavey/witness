@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Resources;
+using System.Web;
 using System.Web.Routing;
 
 namespace Witness.RequestHandlers
@@ -12,6 +14,9 @@ namespace Witness.RequestHandlers
             var response = context.HttpContext.Response;
 
             response.ContentType = "text/javascript";
+
+            response.Cache.SetCacheability(HttpCacheability.Public);
+            response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(1));
 
             using (var scriptStream = GetScriptStream())
             {

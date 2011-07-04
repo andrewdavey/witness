@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Web;
 using System.Web.Routing;
 
 namespace Witness.RequestHandlers
@@ -24,6 +26,9 @@ namespace Witness.RequestHandlers
             {
                 response.ContentType = "image/png";
             }
+
+            response.Cache.SetCacheability(HttpCacheability.Public);
+            response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(1));
 
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
