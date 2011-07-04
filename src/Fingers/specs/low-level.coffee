@@ -1,7 +1,7 @@
 describe "Low level JS test",
 {
 	given: [
-		loadPage('/fingers/lowlevel.html'),
+		loadPage('lowlevel.html'),
 		->
 			this.fingersInstance = this.window.fingers.controller();
 	],

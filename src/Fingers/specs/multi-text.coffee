@@ -1,7 +1,7 @@
 describe "Multi text input",
 {
 	"given editing multi text input with first input focused": [
-		loadPage('/fingers/test.html'),
+		loadPage('test.html'),
 		$('div.static-view.field:eq(3)').click(),
 		$(".multi-text input:eq(0)").focus()
 	]
@@ -14,7 +14,7 @@ describe "Multi text input",
 },
 {
 	"given editing multi text input with last input focused": [
-		loadPage('/fingers/test.html'),
+		loadPage('test.html'),
 		$('div.static-view.field:eq(3)').click(),
 		$(".multi-text input:eq(3)").focus()
 	]

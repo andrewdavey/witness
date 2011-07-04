@@ -3,7 +3,7 @@ editor = "input:eq(1)"
 describe "Autocomplete",
 {
 	"given an autocomplete in edit mode": [
-		loadPage "/fingers/autocomplete.html"
+		loadPage "autocomplete.html"
         $("div.static-view.field").click()
 	]
 

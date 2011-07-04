@@ -1,7 +1,7 @@
 describe "Single text input",
 {
 	"given a page containing a single text component":
-		loadPage("/fingers/test.html")
+		loadPage("test.html")
 
 	"when a static view is clicked":
 		$("div.static-view.field:eq(0)").click()
@@ -12,7 +12,7 @@ describe "Single text input",
 },
 {
 	"given a page with an active edit view component": [
-		loadPage("/fingers/test.html"),
+		loadPage("test.html"),
 		$("div.static-view.field:eq(0)").click()
 	]
 
@@ -24,7 +24,7 @@ describe "Single text input",
 },
 {
 	"given a page with an active edit view component and text entered": [
-		loadPage('/fingers/test.html'),
+		loadPage('test.html'),
 		$('div.static-view.field:eq(0)').click(),
 		$('input.edit-view-control.single-text:eq(0)').val("TEST")
 	]
@@ -39,7 +39,7 @@ describe "Single text input",
 },
 {
 	"given a page with an active edit view component that was empty, clicked and had text entered": [
-		loadPage('/fingers/test.html'),
+		loadPage('test.html'),
 		$('div.static-view.field:eq(0)').click(),
 		$('input.edit-view-control.single-text:eq(0)').type("TEST")
 	]
@@ -53,7 +53,7 @@ describe "Single text input",
 },
 {
 	"given a page with an active edit view component that was empty, clicked and had text entered": [
-		loadPage('/fingers/test.html'),
+		loadPage('test.html'),
 		$('div.static-view.field:eq(0)').click(),
 		$('input.edit-view-control.single-text:eq(0)').type("TEST")
 	]
