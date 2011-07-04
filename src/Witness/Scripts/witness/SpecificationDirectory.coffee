@@ -39,10 +39,10 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 		tryAll = new Witness.TryAll all
 		tryAll.run context,
 			=>
-				@on.passed.raise()
 				Witness.messageBus.send "SpecificationDirectoryPassed", this
+				@on.passed.raise()
 				done()
 			(error) =>
-				@on.failed.raise(error)
 				Witness.messageBus.send "SpecificationDirectoryFailed", this
+				@on.failed.raise(error)
 				fail(error)

@@ -2,7 +2,7 @@
 
 this.Witness.OuterScenario = class OuterScenario
 
-	constructor: (parts, @innerScenarios) ->
+	constructor: (parts, @innerScenarios, @id) ->
 		{@given, @dispose} = parts
 		@on = Witness.Event.define "run", "done", "fail"
 		

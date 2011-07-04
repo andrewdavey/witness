@@ -6,7 +6,8 @@
 # reference "../Dsl.coffee"
 
 this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
-	scenarios = (createScenario scenario for scenario in scenariosDefinitions)
+	idGenerator = new IdGenerator()
+	scenarios = (createScenario(scenario, idGenerator) for scenario in scenariosDefinitions)
 	specification = new Witness.Specification specificationName, scenarios
 
 	if not this.specifications
@@ -14,9 +15,31 @@ this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	this.specifications.push specification
 	specification
 
+
+# Scenarios need an Id generated.
+# Scenarios can be be nested. So adopt a 1.2.3 numbering scheme.
+class IdGenerator
+	constructor: ->
+		# Start with top-level numbering.
+		@nextIdStack = [0]
+
+	getNext: ->
+		# Increment current level of numbering
+		@nextIdStack[@nextIdStack.length - 1]++
+		@nextIdStack.join "."
+
+	push: ->
+		# Start a new level of numbering
+		@nextIdStack.push 0
+
+	pop: ->
+		# Exit the current level of numbering
+		@nextIdStack.pop()
+
+
 flattenArray = this.Witness.helpers.flattenArray
 
-createScenario = (scenario) ->
+createScenario = (scenario, idGenerator) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
@@ -24,11 +47,13 @@ createScenario = (scenario) ->
 		parts[key].actions = flattenArray createActions value.actions
 	isOuter = scenario.inner?
 	if isOuter
-		children = (createScenario item for item in scenario.inner)
-		new Witness.OuterScenario parts, children
+		idGenerator.push()
+		children = (createScenario item, idGenerator for item in scenario.inner)
+		idGenerator.pop()
+		new Witness.OuterScenario parts, children, idGenerator.getNext()
 	else
 		parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
-		new Witness.Scenario parts
+		new Witness.Scenario parts, idGenerator.getNext()
 
 findPart = (name, scenario) ->
 	startsWith = new RegExp "^#{name}", "i"

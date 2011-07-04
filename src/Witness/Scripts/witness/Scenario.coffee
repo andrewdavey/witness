@@ -11,7 +11,7 @@ createDescriptionFromFunction = (func) ->
 
 this.Witness.Scenario = class Scenario
 	
-	constructor: (@parts) ->
+	constructor: (@parts, @id) ->
 		@on = Witness.Event.define "running", "passed", "failed"
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
