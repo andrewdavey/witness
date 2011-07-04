@@ -85,7 +85,7 @@ class JQueryActions
 				return true
 
 			sendTabToElement = (element, keyCode) =>
-				return if not sendKeyToElement element, keyCode
+				return unless sendKeyToElement element, keyCode
 
 				focusableElements = jQuery ":focusable", @document
 				nextIndex = null
@@ -95,7 +95,7 @@ class JQueryActions
 						break
 				focusableElements[nextIndex].focus() if nextIndex?
 
-			elements = jQuery selector, @document
+			elements = @window.jQuery selector, @document
 			for value in values
 				invoke = if typeof value == "string"
 					sendTextInputToElement
@@ -110,7 +110,7 @@ class JQueryActions
 			if typeof value == "string"
 				value
 			else
-				Witness.keyNames[value] or value.toString()
+				Witness.keyNames[value] or ("key:" + value.toString())
 		actionDescription = "type #{valueDescriptions.join(', ')}"
 		new Witness.Action func, [], actionDescription 
 

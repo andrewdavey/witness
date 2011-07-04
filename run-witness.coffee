@@ -41,11 +41,12 @@ page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (sta
 				ScenarioPassed: (scenario) ->
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				ScenarioFailed: (scenario, error) ->
-					message = error.join('|n').replace(/|/g, "||").replace(/'/g, "|'")
+					if typeof error != "string"
+						error = error.join('|n')
+					message = error.replace(/'/g, "|'")
 					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				
-				ScenarioRunning: -> 
 			Witness.runner.runAll()
 	else
 		console.log "Could not load Witness runner page."

@@ -45,7 +45,7 @@ this.Witness.Dsl::defineActions
 			jQuery(selector, @document).val value
 
 	tab: ->
-		current = jQuery(":focus", @document)[0]
+		current = @document.activeElement
 		focusable = jQuery ":focusable", @document
 		if current?
 			for element, i in focusable
