@@ -1,13 +1,17 @@
-[path] = phantom.args
+[url, path] = phantom.args
 
-if not path?
-	console.log "Web application relative path to specifications required."
+if not url? or not path?
+	console.log "Usage:"
+	console.log "phantomjs.exe run-witness.coffee application-URL spec-path"
 	phantom.exit()
 	return
 
+runnerUrl = "#{url}/_witness/runner.htm?path=#{path}"
+console.log "Loading #{runnerUrl}"
+
 page = new WebPage()
 loaded = no
-page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (status) ->
+page.open runnerUrl, (status) ->
 	return if loaded # callback called for iframe loads as well, so skip those!
 
 	if status == "success"
@@ -18,9 +22,18 @@ page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (sta
 			else
 				console.log message
 
+		# evaluate runs the function in the context of the page.
+		# So it has no access to phantom, exception for logging to console.
 		page.evaluate ->
+			escape = (s) ->
+				s.replace(/\|/g, "||")
+				 .replace(/\n/g, "|n")
+				 .replace(/\r/g, "|r")
+				 .replace(/'/g,  "|'")
+
 			Witness.messageBus.addHandlers
-				RunnerFinished: -> console.log "!exit"
+				RunnerFinished: ->
+					console.log "!exit"
 
 				SpecificationDirectoryRunning: (directory) ->
 					console.log "##teamcity[testSuiteStarted name='#{directory.name}']"
@@ -41,9 +54,13 @@ page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (sta
 				ScenarioPassed: (scenario) ->
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				ScenarioFailed: (scenario, error) ->
-					if typeof error != "string"
-						error = error.join('|n')
-					message = error.replace(/'/g, "|'")
+					console.log error
+					message = if error.join
+						(escape e.message for e in error).join("|n")
+					else if error.message?
+						escape error.message
+					else
+						escape error.toString()
 					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				
