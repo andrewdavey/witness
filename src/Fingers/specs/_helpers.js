@@ -2,8 +2,8 @@
 /*global jQuery */
 
 should.beVisible = predicateActionBuilder({
-    getActual: function (context, propertyNames) {
-        return jQuery(propertyNames[0], context.document);
+    getActual: function (propertyNames) {
+        return jQuery(propertyNames[0], this.document);
     },
     test: function (actual) {
         return actual.is(':visible');
@@ -16,8 +16,8 @@ should.beVisible = predicateActionBuilder({
     }
 });
 shouldnot.beVisible = predicateActionBuilder({
-    getActual: function (context, propertyNames) {
-        return jQuery(propertyNames[0], context.document);
+    getActual: function (propertyNames) {
+        return jQuery(propertyNames[0], this.document);
     },
     test: function (actual) {
         return !actual.is(':visible');

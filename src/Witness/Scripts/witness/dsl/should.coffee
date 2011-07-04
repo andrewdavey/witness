@@ -6,13 +6,13 @@ predicateActionBuilder = (options,negate) ->
 			description = options.description fullName, expected
 			func = () ->
 				actual = if options.getActual?
-					options.getActual this, propertyNames
+					options.getActual.call this, propertyNames
 				else
 					decendPropertiesToValue this, propertyNames
 				result =  options.test.call this, actual, expected
 				return if negate and !result
 				return if !negate and result
-				error = options.error fullName, actual, expected
+				error = options.error.call this, fullName, actual, expected
 				if typeof error == "string"
 					throw new Error error
 				else

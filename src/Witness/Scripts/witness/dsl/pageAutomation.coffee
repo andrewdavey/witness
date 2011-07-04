@@ -55,15 +55,3 @@ this.Witness.Dsl::defineActions
 					break
 		else if focusable.length > 0
 			focusable[0].focus()
-
-this.Witness.Dsl::defineShouldFunctions
-	haveText:
-		getActual: (context, propertyNames) ->
-			$(propertyNames[0], context.document).text()
-		test: (actual, expected) ->
-			actual == expected
-		description: (selector, expected) ->
-			"#{selector} should have the text \"#{expected}\""
-		error: (selector, actual, expected) ->
-			"Expected #{selector} to have text \"#{expected}\", but was \"#{actual}\""
-
