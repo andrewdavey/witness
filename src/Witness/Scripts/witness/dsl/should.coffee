@@ -1,23 +1,24 @@
 ﻿# reference "../Dsl.coffee"
 
-predicateActionBuilder = (options,negate) ->
+predicateActionBuilder = (options, negate) ->
 	(expected) -> (propertyNames...) ->
-			fullName = createFullName propertyNames
-			description = options.description fullName, expected
-			func = () ->
-				actual = if options.getActual?
-					options.getActual.call this, propertyNames
-				else
-					decendPropertiesToValue this, propertyNames
-				result =  options.test.call this, actual, expected
-				return if negate and !result
-				return if !negate and result
-				error = options.error.call this, fullName, actual, expected
-				if typeof error == "string"
-					throw new Error error
-				else
-					throw error
-			new Witness.Action func, [], description
+		fullName = createFullName propertyNames
+		description = options.description fullName, expected
+		func = () ->
+			actual = if options.getActual?
+				options.getActual.call this, propertyNames
+			else
+				decendPropertiesToValue this, propertyNames
+			result =  options.test.call this, actual, expected
+			return if negate and !result
+			return if !negate and result
+			error = options.error.call this, fullName, actual, expected
+			if typeof error == "string"
+				throw new Error error
+			else
+				throw error
+
+		new Witness.Action func, [], description
 
 createFullName = (propertyNames) ->
 	# [ "foo", 0, "bar" ] -> "foo[0].bar"
@@ -56,7 +57,8 @@ this.Witness.Dsl::should = should =
 this.Witness.Dsl::shouldnot = shouldnot =
 	unwrapActual: (actual) -> actual
 
-builtIn = be:
+builtIn =
+	be:
 		test: (actual, expected) ->
 			actual = should.unwrapActual actual
 			if typeof expected == "function"
@@ -124,10 +126,9 @@ builtIn = be:
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
 
-# TODO: Fix this for use in actual spec files
-this.Witness.Dsl::defineShouldFunctions = (object) ->
+this.Witness.Dsl::extendShould = (object) ->
 	for own name, options of object
-		should[name] = predicateActionBuilder options
-		shouldnot[name] = predicateActionBuilder options,true
+		@should[name] = predicateActionBuilder options
+		@shouldnot[name] = predicateActionBuilder options,true
 
-@Witness.Dsl::defineShouldFunctions builtIn
+@Witness.Dsl::extendShould builtIn

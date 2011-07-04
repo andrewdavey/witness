@@ -41,6 +41,7 @@ this.Witness.ScriptFile = class ScriptFile
 				return null
 		else
 			predef = (name for own name of Witness.Dsl::)
+			predef.push "dsl"
 			if not JSLINT script, { predef: predef, white: true }
 				@errors.push {message: "#{@url} Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
 				return null

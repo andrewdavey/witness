@@ -9,6 +9,7 @@ this.Witness.Dsl = class Dsl
 
 	# Add each function in the DSL to the target object
 	activate: ->
+		@target.dsl = this
 		for own name, value of Object.getPrototypeOf(this)
 			continue if name in [ "constructor", "activate" ]
 			if typeof value == "function"

@@ -123,7 +123,7 @@ this.Witness.Dsl::$ = (selector) -> new JQueryActions(selector)
 applySelector = (context, propertyNames) ->
 	jQuery propertyNames[0], context.document
 
-this.Witness.Dsl::defineShouldFunctions
+this.Witness.Dsl::extendShould
 	haveText:
 		getActual: (propertyNames) ->
 			applySelector(this, propertyNames).text()
