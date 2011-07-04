@@ -1,16 +1,3 @@
-should.beActive = predicateActionBuilder
-	getActual: (context, propertyNames) ->
-		console.log 'active element class = ' + context.document.activeElement.className
-		console.log 'selector = ' + propertyNames[0]
-		console.log 'selected element class = ' + jQuery(propertyNames[0], context.document).attr('class')
-		context.document.activeElement == jQuery(propertyNames[0], context.document)[0]
-	test: (actual) ->
-		actual
-	description: (selector) ->
-		selector + " should be active"
-	error: (selector) ->
-		"#{selector} was not active"
-
 describe "Multi text input",
 {
 	"given editing multi text input with first input focused": [

@@ -170,3 +170,13 @@ this.Witness.Dsl::defineShouldFunctions
 			"The element #{selector} should have the value \"#{expected}\""
 		error: (selector, actual, expected) ->
 			"Expected the element #{selector} to have the value \"#{expected}\", but was \"#{actual}\""
+
+	beActive:
+		getActual: (context, propertyNames) ->
+			jQuery propertyNames[0], context.document
+		test: (actual) ->
+			actual.length > 0 and actual[0] == @document.activeElement
+		description: (selector) ->
+			selector + " should be active"
+		error: (selector) ->
+			"#{selector} was not active"
