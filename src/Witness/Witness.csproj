@@ -151,9 +151,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PreBuildEvent>"$(SolutionDir)..\tools\knapsack\knapsack.shell.exe" ..\..\scripts &gt; ..\..\obj\witness.js</PreBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)..\tools\knapsack\knapsack.shell.exe" ..\..\scripts &gt; ..\..\obj\witness.js</PreBuildEvent>
-  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
