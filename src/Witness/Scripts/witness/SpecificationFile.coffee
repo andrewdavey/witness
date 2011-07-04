@@ -121,6 +121,6 @@ Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 				@on.passed.raise()
 				done()
 			(error) =>
-				@on.failed.raise(error)
 				Witness.messageBus.send "SpecificationFileFailed", this
+				@on.failed.raise(error)
 				fail(error)

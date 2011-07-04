@@ -74,7 +74,7 @@
 		
 		createChild : function createChild(){
 		
-			var child = function base( args ){
+			var child = function ( args ){
 				
 				if ( this instanceof arguments.callee ) {
 		
@@ -89,8 +89,11 @@
 				}
 			};
 			
-			$.extend(child, this);
-			$.extend(child.prototype,  this.prototype);
+            $.extend(true, child, this);
+            var method;
+            for(method in this.prototype){
+                child.prototype[method] = this.prototype[method];
+            }
 
 			return child;
 		

@@ -6,8 +6,12 @@ if not path?
 	return
 
 page = new WebPage()
+loaded = no
 page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (status) ->
+	return if loaded # callback called for iframe loads as well, so skip those!
+
 	if status == "success"
+		loaded = yes
 		page.onConsoleMessage = (message) ->
 			if message == "!exit"
 				phantom.exit()
@@ -36,8 +40,9 @@ page.open "http://localhost:1337/fingers/_witness/runner.htm?path=#{path}", (sta
 					console.log "##teamcity[testStarted name='scenario-#{scenario.id}']"
 				ScenarioPassed: (scenario) ->
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
-				ScenarioFailed: (scenario) ->
-					console.log "##teamcity[testFailed name='scenario-#{scenario.id}']"
+				ScenarioFailed: (scenario, error) ->
+					message = error.join('|n').replace(/|/g, "||").replace(/'/g, "|'")
+					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				
 				ScenarioRunning: -> 

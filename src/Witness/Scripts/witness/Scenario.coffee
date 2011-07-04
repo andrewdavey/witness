@@ -46,12 +46,12 @@ this.Witness.Scenario = class Scenario
 		@on.running.raise()
 		@aggregateAction.run context,
 			=>
-				@on.passed.raise()
 				Witness.messageBus.send "ScenarioPassed", this
+				@on.passed.raise()
 				done()
 			(error) =>
+				Witness.messageBus.send "ScenarioFailed", this, error
 				@on.failed.raise(error)
-				Witness.messageBus.send "ScenarioFailed", this
 				fail(error)
 
 	getIFrame: ->
