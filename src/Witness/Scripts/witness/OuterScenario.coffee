@@ -1,28 +1,30 @@
 # reference "Witness.coffee"
 
-this.Witness.OuterScenario = class OuterScenario
+{ Event, TryAll, Sequence, messageBus } = @Witness
+
+@Witness.OuterScenario = class OuterScenario
 
 	constructor: (parts, @innerScenarios, @id) ->
 		{@given, @dispose} = parts
-		@on = Witness.Event.define "run", "done", "fail"
+		@on = Event.define "run", "done", "fail"
 		
 		buildChildSequence = (child) =>
-			new Witness.TryAll [].concat(
-				(new Witness.Sequence [].concat(@given.actions, child)),
+			new TryAll [].concat(
+				(new Sequence [].concat(@given.actions, child)),
 				@dispose.actions
 			)
 
-		@action = new Witness.TryAll (buildChildSequence child for child in @innerScenarios)
+		@action = new TryAll (buildChildSequence child for child in @innerScenarios)
 
 	run: (outerContext, done, fail) ->
-		Witness.messageBus.send "OuterScenarioRunning", this
+		messageBus.send "OuterScenarioRunning", this
 		@on.run.raise()
 		@action.run {},
 			=>
-				Witness.messageBus.send "OuterScenarioPassed", this
+				messageBus.send "OuterScenarioPassed", this
 				@on.done.raise()
 				done()
 			(error) =>
-				Witness.messageBus.send "OuterScenarioFailed", this
+				messageBus.send "OuterScenarioFailed", this
 				@on.fail.raise(error)
 				fail(error)

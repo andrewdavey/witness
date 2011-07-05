@@ -2,7 +2,7 @@
 # reference "Action.coffee"
 # reference "helpers.coffee"
 
-this.Witness.Dsl = class Dsl
+@Witness.Dsl = class Dsl
 	
 	# @target will usually be the global window object
 	constructor: (@target) ->

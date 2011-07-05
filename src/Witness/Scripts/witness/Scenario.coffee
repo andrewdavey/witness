@@ -2,6 +2,8 @@
 # reference "Sequence.coffee"
 # reference "TryAll.coffee"
 
+{ Event, TryAll, Sequence, messageBus } = @Witness
+
 createDescriptionFromFunction = (func) ->
 	return "" if typeof func != "function"
 	s = func.toString()
@@ -9,10 +11,10 @@ createDescriptionFromFunction = (func) ->
 	return match[1] if match
 	return s
 
-this.Witness.Scenario = class Scenario
+@Witness.Scenario = class Scenario
 	
 	constructor: (@parts, @id) ->
-		@on = Witness.Event.define "running", "passed", "failed"
+		@on = Event.define "running", "passed", "failed"
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
 			part = @[name]
@@ -22,12 +24,12 @@ this.Witness.Scenario = class Scenario
 				@[name] = { description: "", actions: [] }
 			
 	
-		tryAllAssertions = new Witness.TryAll @then.actions
-		sequence = new Witness.Sequence [].concat @given.actions, @when.actions, tryAllAssertions
+		tryAllAssertions = new TryAll @then.actions
+		sequence = new Sequence [].concat @given.actions, @when.actions, tryAllAssertions
 		# The disposes must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
 		if @dispose.actions.length > 0
-			@aggregateAction = new Witness.TryAll [].concat sequence, @dispose.actions
+			@aggregateAction = new TryAll [].concat sequence, @dispose.actions
 		else
 			@aggregateAction = sequence
 
@@ -42,15 +44,15 @@ this.Witness.Scenario = class Scenario
 		# Add some other useful stuff...
 		context.scenario = this
 
-		Witness.messageBus.send "ScenarioRunning", this
+		messageBus.send "ScenarioRunning", this
 		@on.running.raise()
 		@aggregateAction.run context,
 			=>
-				Witness.messageBus.send "ScenarioPassed", this
+				messageBus.send "ScenarioPassed", this
 				@on.passed.raise()
 				done()
 			(error) =>
-				Witness.messageBus.send "ScenarioFailed", this, error
+				messageBus.send "ScenarioFailed", this, error
 				@on.failed.raise(error)
 				fail(error)
 
@@ -68,7 +70,7 @@ this.Witness.Scenario = class Scenario
 
 	createAndCacheIFrame: ->
 		@iframe = $ "<iframe/>"
-		Witness.messageBus.send "AppendIframe", @iframe
+		messageBus.send "AppendIframe", @iframe
 		@iframe.focus()
 		@iframe.bind "load", => @handleIFrameLoad()
 		@iframe

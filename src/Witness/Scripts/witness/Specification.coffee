@@ -1,9 +1,11 @@
 ﻿# reference "Witness.coffee"
 
-this.Witness.Specification = class Specification
+{ TryAll, Event } = @Witness
+
+@Witness.Specification = class Specification
 	constructor: (@description, @scenarios) ->
-		@all = new Witness.TryAll @scenarios
-		@on = Witness.Event.define "running", "passed", "failed"
+		@all = new TryAll @scenarios
+		@on = Event.define "running", "passed", "failed"
 
 	run: (context, done, fail) ->
 		@on.running.raise()

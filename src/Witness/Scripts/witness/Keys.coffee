@@ -1,6 +1,6 @@
 # reference "Dsl.coffee"
 
-jQuery.extend Witness.Dsl::, {
+jQuery.extend @Witness.Dsl::, {
 	ALT: 18
 	BACKSPACE: 8
 	CAPS_LOCK: 20

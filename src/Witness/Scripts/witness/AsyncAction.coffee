@@ -2,13 +2,12 @@
 # reference "Event.coffee"
 # reference "TimeoutError.coffee"
 
-this.Witness.AsyncAction = class AsyncAction
+{ Event, TimeoutError } = @Witness
+
+@Witness.AsyncAction = class AsyncAction
 	
 	constructor: (@func, @args = [], @description, @timeout = AsyncAction.defaultTimeout) ->
-		@on =
-			run: new Witness.Event()
-			done: new Witness.Event()
-			fail: new Witness.Event()
+		@on = Event.define "run", "done", "fail"
 
 	run: (context, done, fail) ->
 		@on.run.raise()
@@ -29,7 +28,7 @@ this.Witness.AsyncAction = class AsyncAction
 		failDueToTimeout = =>
 			cancelledByTimeout = true
 			delete timeoutId
-			error = new Witness.TimeoutError "Asynchronous action timed out."
+			error = new TimeoutError "Asynchronous action timed out."
 			@on.fail.raise error
 			fail error
 		

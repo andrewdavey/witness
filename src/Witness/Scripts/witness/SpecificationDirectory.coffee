@@ -1,15 +1,18 @@
 # reference "Witness.coffee"
 # reference "SpecificationFile.coffee"
 # reference "SpecificationHelper.coffee"
+# reference "Sequence.coffee"
 
-this.Witness.SpecificationDirectory = class SpecificationDirectory
+{ Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll } = @Witness
+
+@Witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest, parentHelpers = []) ->
 		@name = manifest.name
-		@on = Witness.Event.define "downloading", "downloaded", "downloadFailed", "running", "passed", "failed"
-		@helpers = (new Witness.SpecificationHelper url for url in manifest.helpers or [])
+		@on = Event.define "downloading", "downloaded", "downloadFailed", "running", "passed", "failed"
+		@helpers = (new SpecificationHelper url for url in manifest.helpers or [])
 		allHelpers = parentHelpers.concat @helpers
 		@directories = (new SpecificationDirectory(directory, allHelpers) for directory in manifest.directories or [])
-		@files = (new Witness.SpecificationFile(file, allHelpers) for file in manifest.files or [])
+		@files = (new SpecificationFile(file, allHelpers) for file in manifest.files or [])
 
 	download: (done = (->), fail = (->)) ->
 		@on.downloading.raise()
@@ -18,11 +21,11 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 		items = [].concat @helpers, @directories, @files
 		downloadActions = for item in items
 			do (item) ->
-				action = new Witness.AsyncAction (-> item.download @done, @fail)
+				action = new AsyncAction (-> item.download @done, @fail)
 				action.timeout = 10000 # 10 seconds
 				action
 
-		sequence = new Witness.Sequence downloadActions
+		sequence = new Sequence downloadActions
 		sequence.run {},
 			=> # all done
 				@on.downloaded.raise()
@@ -36,7 +39,7 @@ this.Witness.SpecificationDirectory = class SpecificationDirectory
 		Witness.messageBus.send "SpecificationDirectoryRunning", this
 		@on.running.raise()
 		all = @directories.concat @files
-		tryAll = new Witness.TryAll all
+		tryAll = new TryAll all
 		tryAll.run context,
 			=>
 				Witness.messageBus.send "SpecificationDirectoryPassed", this

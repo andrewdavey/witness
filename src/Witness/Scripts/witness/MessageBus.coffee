@@ -16,7 +16,7 @@ send = (messageType, data...) ->
 		run.apply null, data
 	return
 
-this.Witness.messageBus =
+@Witness.messageBus =
 	addHandler: addHandler
 	addHandlers: addHandlers
 	send: send

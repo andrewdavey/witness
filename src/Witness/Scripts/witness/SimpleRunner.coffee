@@ -2,8 +2,17 @@
 # reference "../lib/coffee-script.js"
 # reference "../lib/jquery.js"
 # reference "../lib/knockout.js"
+# reference "MessageBus.coffee"
+# reference "Dsl.coffee"
+# reference "SpecificationFile.coffee"
+# reference "SpecificationDirectory.coffee"
+# reference "ViewModels/SpecificationFileViewModel.coffee"
+# reference "ViewModels/SpecificationDirectoryViewModel.coffee"
 
-this.Witness.SimpleRunner = class SimpleRunner
+{ messageBus, SpecificationFile, SpecificationDirectory, Dsl } = @Witness
+{ SpecificationFileViewModel, SpecificationDirectoryViewModel } = @Witness.ViewModels
+
+@Witness.SimpleRunner = class SimpleRunner
 	constructor: (@specsPath, iframeContainer, @autoRun = no) ->
 		# Use an observable array, since knockout dislikes binding to a null object.
 		# Once loaded, the array will contain the single directory object.
@@ -13,7 +22,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 		Witness.messageBus.addHandler "AppendIframe", (iframe) -> iframeContainer.append iframe
 
 	fileSystemItemTemplate: (item) ->
-		if item instanceof Witness.ViewModels.SpecificationDirectoryViewModel
+		if item instanceof SpecificationDirectoryViewModel
 			"directory"
 		else
 			"file-of-many"
@@ -66,12 +75,12 @@ this.Witness.SimpleRunner = class SimpleRunner
 			cache: false
 
 	createSpecificationFileFromManifest: (manifest) ->
-		file = new Witness.SpecificationFile manifest
-		{ model: file, viewModel: new Witness.ViewModels.SpecificationFileViewModel file }
+		file = new SpecificationFile manifest
+		{ model: file, viewModel: new SpecificationFileViewModel file }
 
 	createSpecificationDirectoryFromManifest: (manifest) ->
-		dir = new Witness.SpecificationDirectory manifest
-		{ model: dir, viewModel: new Witness.ViewModels.SpecificationDirectoryViewModel dir }
+		dir = new SpecificationDirectory manifest
+		{ model: dir, viewModel: new SpecificationDirectoryViewModel dir }
 
 	downloadSpecification: (url) ->
 		waitForSpecifications = $.Deferred()
@@ -102,7 +111,7 @@ this.Witness.SimpleRunner = class SimpleRunner
 			iframeWindow._witnessScriptCompleted = ->
 				gotSpecifications dsl.specifications
 
-			dsl = new Witness.Dsl iframeWindow
+			dsl = new Dsl iframeWindow
 			dsl.activate()
 			iframeDoc.write "<script type='text/javascript'>#{script}</script>"
 			iframeDoc.write "<script type='text/javascript'>_witnessScriptCompleted()</script>"
