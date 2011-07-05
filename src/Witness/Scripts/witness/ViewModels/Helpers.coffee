@@ -4,10 +4,10 @@
 # reference "OuterScenarioViewModel.coffee"
 
 { OuterScenario } = @Witness
-{ OuterScenarioViewModel, ScenarioViewModel } = @Witness.ViewModels
+ViewModels = @Witness.ViewModels
 
-@Witness.ViewModels.createScenarioViewModel = (scenario) ->
+ViewModels.createScenarioViewModel = (scenario) ->
 	if scenario instanceof OuterScenario
-		new OuterScenarioViewModel scenario
+		new ViewModels.OuterScenarioViewModel scenario
 	else
-		new ScenarioViewModel scenario
+		new ViewModels.ScenarioViewModel scenario

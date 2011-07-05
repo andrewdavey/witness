@@ -1,6 +1,7 @@
 ﻿# reference "ViewModels.coffee"
 # reference "ActionWatcher.coffee"
 # reference "../MessageBus.coffee"
+# reference "../helpers.coffee"
 # reference "../../lib/knockout.js"
 
 { messageBus } = @Witness
