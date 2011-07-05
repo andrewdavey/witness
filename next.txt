@@ -1,0 +1,38 @@
+Generating test HTML within a test to remove the need for lots
+of test .html files. Use coffeescript heredocs.
+* given:
+    html """
+         <p>test</p>
+         """
+    loadScript "app.js"
+* Assign <base href="{app-url-root}"/>
+
+Adding scripts under test into the automation iframe
+* given: loadScript "foo.js"
+
+Expand the set of DSL functions.
+
+Parallelise download of spec files.
+
+Test runner UI improvements
+* Reloading and re-running specs
+
+URL to a specific specification/scenario
+
+Unify fail callback behavior. e.g. array of errors?
+
+nuget package
+
+Detect remote scripting classes by attribute
+
+Negate description and error messages in predicate action builder
+* manually provide the negation functions?
+* inflector code for JS?
+
+Mocking support
+* Register clean up function in context to avoid having to manually
+  `unmock` in dipose.
+
+  @mock jQuery, { ajax: () -> ... }
+
+

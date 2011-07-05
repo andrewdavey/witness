@@ -1,7 +1,5 @@
 # reference "../OuterScenario.coffee"
 # reference "ViewModels.coffee"
-# reference "ScenarioViewModel.coffee"
-# reference "OuterScenarioViewModel.coffee"
 
 { OuterScenario, ViewModels } = @Witness
 
