@@ -53,7 +53,7 @@ addInlineScript = (scriptText, iframeDoc) ->
 
 
 
-Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
+@Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
 
 	constructor: (manifest, @helpers = []) ->
 		super manifest.url

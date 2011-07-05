@@ -1,4 +1,5 @@
 ﻿# reference "Witness.coffee"
+# reference "MessageBus.coffee"
 
 { TryAll, Event } = @Witness
 

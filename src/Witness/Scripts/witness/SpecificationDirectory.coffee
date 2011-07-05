@@ -2,6 +2,7 @@
 # reference "SpecificationFile.coffee"
 # reference "SpecificationHelper.coffee"
 # reference "Sequence.coffee"
+# reference "TryAll.coffee"
 
 { Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll } = @Witness
 
