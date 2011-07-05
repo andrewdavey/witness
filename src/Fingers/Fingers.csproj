@@ -51,9 +51,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="autocomplete.html" />
     <Content Include="debug\.placeholder.txt" />
     <Content Include="debug\fingers.js" />
     <Content Include="debug\intermojo.js" />
+    <Content Include="default.aspx" />
     <Content Include="dist\.placeholder.txt" />
     <Content Include="dist\fingers.min.js" />
     <Content Include="dist\intermojo.min.js" />
@@ -627,8 +629,8 @@
     <Content Include="lib\jquery-ui\jQueryUI_Components.txt" />
     <Content Include="lib\jquery.js" />
     <Content Include="lib\jquery.min.js" />
+    <Content Include="license.txt" />
     <Content Include="lowlevel.html" />
-    <Content Include="specs\test.js" />
     <Content Include="specs\_helpers.js" />
     <Content Include="src\application.js" />
     <Content Include="src\base.js" />
@@ -667,8 +669,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="debug\intermojo.js.orig" />
-    <None Include="dist\intermojo.min.js.orig" />
     <None Include="lib\ckeditor\ckeditor_php5.php" />
     <None Include="lib\ckeditor\_samples\php\advanced.php" />
     <None Include="lib\ckeditor\_samples\php\events.php" />
@@ -676,6 +676,10 @@
     <None Include="lib\ckeditor\_samples\php\replaceall.php" />
     <None Include="lib\ckeditor\_samples\php\standalone.php" />
     <None Include="lib\ckeditor\_samples\sample_posteddata.php" />
+    <None Include="specs\autocomplete.coffee" />
+    <None Include="specs\low-level.coffee" />
+    <None Include="specs\multi-text.coffee" />
+    <None Include="specs\single-text.coffee" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
