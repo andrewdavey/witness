@@ -1,4 +1,4 @@
-this.Witness.Dsl::mock = (targetObject, functions) ->
+@Witness.Dsl::mock = (targetObject, functions) ->
 	originals = {}
 	for own name, func of functions
 		original = targetObject[name]

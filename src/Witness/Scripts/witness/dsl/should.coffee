@@ -1,4 +1,7 @@
 ﻿# reference "../Dsl.coffee"
+# reference "../Action.coffee"
+
+{ Action, Dsl } = @Witness
 
 predicateActionBuilder = (options, negate) ->
 	(expected) -> (propertyNames...) ->
@@ -18,7 +21,7 @@ predicateActionBuilder = (options, negate) ->
 			else
 				throw error
 
-		new Witness.Action func, [], description
+		new Action func, [], description
 
 createFullName = (propertyNames) ->
 	# [ "foo", 0, "bar" ] -> "foo[0].bar"
@@ -49,13 +52,19 @@ printableValue = (value) ->
 	else
 		value
 
-this.Witness.Dsl::predicateActionBuilder = predicateActionBuilder
+Dsl::predicateActionBuilder = predicateActionBuilder
 
-this.Witness.Dsl::should = should =
+Dsl::should = should =
 	unwrapActual: (actual) -> actual
 
-this.Witness.Dsl::shouldnot = shouldnot =
+Dsl::shouldnot = shouldnot =
 	unwrapActual: (actual) -> actual
+
+Dsl::extendShould = (object) ->
+	for own name, options of object
+		@should[name] = predicateActionBuilder options
+		@shouldnot[name] = predicateActionBuilder options,true
+
 
 builtIn =
 	be:
@@ -126,9 +135,4 @@ builtIn =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
 
-this.Witness.Dsl::extendShould = (object) ->
-	for own name, options of object
-		@should[name] = predicateActionBuilder options
-		@shouldnot[name] = predicateActionBuilder options,true
-
-@Witness.Dsl::extendShould builtIn
+Dsl::extendShould builtIn

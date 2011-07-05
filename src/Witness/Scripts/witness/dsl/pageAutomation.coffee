@@ -3,9 +3,10 @@
 # reference "defineActions.coffee"
 # reference "should.coffee"
 
-async = this.Witness.Dsl::async
+{ async } = @Witness.Dsl::
+Witness = @Witness
 
-this.Witness.Dsl::defineActions
+@Witness.Dsl::defineActions
 	loadPage: async (url) ->
 		url = Witness.urlBase + url unless url.match /^\//
 

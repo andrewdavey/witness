@@ -1,8 +1,11 @@
 # reference "../Dsl.coffee"
+# reference "../Keys.coffee"
+# reference "../Action.coffee"
 # reference "async.coffee"
 # reference "defineActions.coffee"
 # reference "should.coffee"
-# reference "../Keys.coffee"
+
+{ Action, Dsl, keyNames } = @Witness
 
 # We want to allow natural, jQuery-style, actions in scenarios. For example:
 #   when: [ $("input").val("test"), $("button").click() ]
@@ -24,7 +27,7 @@ class JQueryActions
 				elements = jQuery(selector, @document)
 				originalFunction.apply(elements, args)
 
-			new Witness.Action func, args, "#{name} #{selector}"
+			new Action func, args, "#{name} #{selector}"
 
 	# Add functions to this class by iterating over jQuery.fn
 	JQueryActions::[name] = createJQueryAction(name, value) for own name, value of jQuery.fn
@@ -46,7 +49,7 @@ class JQueryActions
 					throw new Error "Unable to simulate click in this web browser."
 
 			jQuery(selector, @document).each -> fakeClick this
-		new Witness.Action func, [], "click #{selector}"
+		new Action func, [], "click #{selector}"
 
 	# Simulate typing characters into an input element
 	type: (values...) ->
@@ -99,7 +102,7 @@ class JQueryActions
 			for value in values
 				invoke = if typeof value == "string"
 					sendTextInputToElement
-				else if value == Witness.Dsl::TAB
+				else if value == Dsl::TAB
 					sendTabToElement
 				else
 					sendKeyToElement
@@ -110,14 +113,14 @@ class JQueryActions
 			if typeof value == "string"
 				value
 			else
-				Witness.keyNames[value] or ("key:" + value.toString())
+				keyNames[value] or ("key:" + value.toString())
 		actionDescription = "type #{valueDescriptions.join(', ')}"
-		new Witness.Action func, [], actionDescription 
+		new Action func, [], actionDescription 
 
 
 # Adding $ to the DSL makes it globally available in specification scripts
 # and overwrite the existing jQuery function.
-this.Witness.Dsl::$ = (selector) -> new JQueryActions(selector)
+Dsl::$ = (selector) -> new JQueryActions(selector)
 
 # jQuery predicates all have the same getActual function.
 # It simply gets the jQuery object for the given selector.
@@ -127,7 +130,7 @@ jQueryPredicates = (builders) ->
 			jQuery propertyNames[0], this.document
 	builders
 
-this.Witness.Dsl::extendShould jQueryPredicates
+Dsl::extendShould jQueryPredicates
 	haveText:
 		test: (actual, expected) ->
 			actual.text() == expected
