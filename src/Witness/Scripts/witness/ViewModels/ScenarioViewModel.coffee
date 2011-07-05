@@ -1,11 +1,13 @@
 ﻿# reference "ViewModels.coffee"
 # reference "ActionWatcher.coffee"
+# reference "../MessageBus.coffee"
 # reference "../../lib/knockout.js"
 
-ActionWatcher = this.Witness.ViewModels.ActionWatcher
-flattenArray = this.Witness.helpers.flattenArray
+{ messageBus } = @Witness
+{ flattenArray } = @Witness.helpers
+{ ActionWatcher } = @Witness.ViewModels
 
-this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
+@Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	
 	constructor: (@scenario) ->
 		@status = ko.observable "notrun"
@@ -49,7 +51,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 
 	select: ->
 		@isSelected true
-		Witness.messageBus.send "ScenarioSelected", this
+		messageBus.send "ScenarioSelected", this
 		if @scenario.iframe?
 			@scenario.iframe.show()
 
@@ -66,7 +68,7 @@ this.Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 
 
 currentSelection = null
-Witness.messageBus.addHandler "ScenarioSelected", (scenarioViewModel) ->
+messageBus.addHandler "ScenarioSelected", (scenarioViewModel) ->
 	return if scenarioViewModel is currentSelection
 	currentSelection.deselect() if currentSelection?
 	currentSelection = scenarioViewModel

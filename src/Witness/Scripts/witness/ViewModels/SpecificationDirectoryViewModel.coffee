@@ -2,7 +2,9 @@
 # reference "ViewModels.coffee"
 # reference "SpecificationFileViewModel.coffee"
 
-this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDirectoryViewModel
+{ SpecificationFileViewModel } = @Witness.ViewModels
+
+@Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDirectoryViewModel
 	
 	constructor: (@directory) ->
 		@name = @directory.name
@@ -15,7 +17,7 @@ this.Witness.ViewModels.SpecificationDirectoryViewModel = class SpecificationDir
 				else result = no
 			result
 
-		@files = (new Witness.ViewModels.SpecificationFileViewModel file for file in @directory.files)
+		@files = (new SpecificationFileViewModel file for file in @directory.files)
 		@directories = (new SpecificationDirectoryViewModel directory for directory in @directory.directories)
 		@errors = ko.observableArray []
 

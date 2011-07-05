@@ -1,7 +1,11 @@
 # reference "../../lib/knockout.js"
 # reference "ViewModels.coffee"
+# reference "SpecificationViewModel.coffee"
+# reference "OuterScenarioViewModel.coffee"
 
-this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileViewModel
+{ SpecificationViewModel, OuterScenarioViewModel } = @Witness.ViewModels
+
+@Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileViewModel
 
 	constructor: (@file) ->
 		@name = @file.name
@@ -29,7 +33,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 
 		@file.on.ready.addHandler =>
 			@status "ready"
-			@specifications (new Witness.ViewModels.SpecificationViewModel spec for spec in @file.specifications)
+			@specifications (new SpecificationViewModel spec for spec in @file.specifications)
 
 		@file.on.running.addHandler => @status "running"
 		@file.on.passed.addHandler => @status "passed"
@@ -50,7 +54,7 @@ this.Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileView
 		@isOpen(not @isOpen())
 
 	scenarioTemplate: (item) ->
-		if item instanceof Witness.ViewModels.OuterScenarioViewModel
+		if item instanceof OuterScenarioViewModel
 			"outer-scenario"
 		else
 			"scenario"

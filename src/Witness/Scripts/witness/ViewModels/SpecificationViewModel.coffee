@@ -1,11 +1,14 @@
 # reference "ViewModels.coffee"
 # reference "Helpers.coffee"
 # reference "ScenarioViewModel.coffee"
+# reference "OuterScenarioViewModel.coffee"
 
-this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
+{ OuterScenarioViewModel, createScenarioViewModel } = @Witness.ViewModels
+
+@Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 	constructor: (@specification) ->
 		@description = @specification.description
-		@scenarios = (Witness.ViewModels.createScenarioViewModel scenario for scenario in @specification.scenarios)
+		@scenarios = (createScenarioViewModel scenario for scenario in @specification.scenarios)
 		@isOpen = ko.observable false
 		@status = ko.observable "notrun"
 
@@ -24,7 +27,7 @@ this.Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 		@isOpen(not @isOpen())
 
 	scenarioTemplate: (item) ->
-		if item instanceof Witness.ViewModels.OuterScenarioViewModel
+		if item instanceof OuterScenarioViewModel
 			"outer-scenario"
 		else
 			"scenario"

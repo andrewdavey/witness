@@ -1,14 +1,20 @@
 ﻿# reference "../Witness.coffee"
 # reference "../Specification.coffee"
 # reference "../Scenario.coffee"
+# reference "../OuterScenario.coffee"
 # reference "../Action.coffee"
+# reference "../AsyncAction.coffee"
 # reference "../Assertion.coffee"
 # reference "../Dsl.coffee"
+# reference "../helpers.coffee"
 
-this.Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
+{ Action, AsyncAction, Specification, Scenario, OuterScenario, Assertion } = @Witness
+{ flattenArray } = @Witness.helpers
+
+@Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	idGenerator = new IdGenerator()
 	scenarios = (createScenario(scenario, idGenerator) for scenario in scenariosDefinitions)
-	specification = new Witness.Specification specificationName, scenarios
+	specification = new Specification specificationName, scenarios
 
 	if not this.specifications
 		this.specifications = []
@@ -36,9 +42,6 @@ class IdGenerator
 		# Exit the current level of numbering
 		@nextIdStack.pop()
 
-
-flattenArray = this.Witness.helpers.flattenArray
-
 createScenario = (scenario, idGenerator) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
@@ -50,10 +53,10 @@ createScenario = (scenario, idGenerator) ->
 		idGenerator.push()
 		children = (createScenario item, idGenerator for item in scenario.inner)
 		idGenerator.pop()
-		new Witness.OuterScenario parts, children, idGenerator.getNext()
+		new OuterScenario parts, children, idGenerator.getNext()
 	else
-		parts.then.actions = (new Witness.Assertion action for action in parts.then.actions)
-		new Witness.Scenario parts, idGenerator.getNext()
+		parts.then.actions = (new Assertion action for action in parts.then.actions)
+		new Scenario parts, idGenerator.getNext()
 
 findPart = (name, scenario) ->
 	startsWith = new RegExp "^#{name}", "i"
@@ -103,9 +106,9 @@ isAnActionObject = (object) -> "run" of object
 
 createActionFromFunction = (func) ->
 	if func.async?
-		new Witness.AsyncAction func, [], func.toString(), func.async.timeout 
+		new AsyncAction func, [], func.toString(), func.async.timeout 
 	else
-		new Witness.Action func, [], func.toString()
+		new Action func, [], func.toString()
 
 createActionsFromObject = (object, parentNames = []) ->
 	if typeof object == "function"

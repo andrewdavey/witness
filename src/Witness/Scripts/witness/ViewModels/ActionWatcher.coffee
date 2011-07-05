@@ -6,7 +6,7 @@
 # This means the action can remain stateless, while the watcher can be bound the UI.
 
 
-this.Witness.ViewModels.ActionWatcher = class ActionWatcher
+@Witness.ViewModels.ActionWatcher = class ActionWatcher
 	constructor: (@action) ->
 		@description = @action.description
 		@errors = ko.observableArray []
