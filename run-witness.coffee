@@ -39,10 +39,15 @@ page.open runnerUrl, (status) ->
 				else
 					escape error.toString()
 
+			passCount = 0
+			failCount = 0
+
 			Witness.messageBus.addHandlers
 				RunnerFinished: ->
+					console.log "#{passCount} passed. #{failCount} failed."
 					console.log "!exit"
 				RunnerDownloadFailed: ->
+					console.log "#{passCount} passed. #{failCount} failed."
 					console.log "!exit"
 
 				ScriptDownloading: (script) ->
@@ -69,11 +74,27 @@ page.open runnerUrl, (status) ->
 				SpecificationFileFailed: (file) ->
 					console.log "##teamcity[testSuiteFinished name='#{file.name}']"
 
+				SpecificationRunning: (spec) ->
+					console.log "##teamcity[testSuiteStarted name='#{spec.description}']"
+				SpecificationPassed: (spec) ->
+					console.log "##teamcity[testSuiteFinished name='#{spec.description}']"
+				SpecificationFailed: (spec) ->
+					console.log "##teamcity[testSuiteFinished name='#{spec.description}']"
+
+				OuterScenarioRunning: (outer) ->
+					console.log "##teamcity[testSuiteStarted name='Outer scenario #{outer.id}']"
+				OuterScenarioPassed: (outer) ->
+					console.log "##teamcity[testSuiteFinished name='Outer scenario #{outer.id}']"
+				OuterScenarioFailed: (outer) ->
+					console.log "##teamcity[testSuiteFinished name='Outer scenario #{outer.id}']"
+
 				ScenarioRunning: (scenario) ->
 					console.log "##teamcity[testStarted name='scenario-#{scenario.id}']"
 				ScenarioPassed: (scenario) ->
+					passCount++
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				ScenarioFailed: (scenario, error) ->
+					failCount++
 					message = flattenErrorMessage error
 					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
