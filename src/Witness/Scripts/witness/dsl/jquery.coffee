@@ -119,33 +119,32 @@ class JQueryActions
 # and overwrite the existing jQuery function.
 this.Witness.Dsl::$ = (selector) -> new JQueryActions(selector)
 
+# jQuery predicates all have the same getActual function.
+# It simply gets the jQuery object for the given selector.
+jQueryPredicates = (builders) ->
+	for own name, builder of builders
+		builder.getActual = (propertyNames) ->
+			jQuery propertyNames[0], this.document
+	builders
 
-applySelector = (context, propertyNames) ->
-	jQuery propertyNames[0], context.document
-
-this.Witness.Dsl::extendShould
+this.Witness.Dsl::extendShould jQueryPredicates
 	haveText:
-		getActual: (propertyNames) ->
-			applySelector(this, propertyNames).text()
 		test: (actual, expected) ->
-			actual == expected
+			actual.text() == expected
 		description: (selector, expected) ->
 			"#{selector} should have the text \"#{expected}\""
 		error: (selector, actual, expected) ->
 			"Expected #{selector} to have text \"#{expected}\", but was \"#{actual}\""
+
 	match:
-		getActual: (propertyNames) ->
-			applySelector(this, propertyNames).length
 		test: (actual, expected) ->
-			actual == expected
+			actual.length == expected
 		description: (selector, expected) ->
 			"The selector #{selector} should match  \"#{expected}\" elements"
 		error: (selector, actual, expected) ->
 			"Expected #{selector} to have \"#{expected}\" elements, but matched \"#{actual}\" elements"
 
 	haveClass:
-		getActual: (propertyNames) ->
-			applySelector(this, propertyNames)
 		test: (actual, expected) ->
 			actual.hasClass(expected)
 		description: (selector, expected) ->
@@ -154,28 +153,22 @@ this.Witness.Dsl::extendShould
 			"Expected #{selector} to have a class of \"#{expected}\" elements, but has \"#{actual.attr('class')}\""
 
 	haveLength:
-		getActual: (propertyNames) ->
-			applySelector(this, propertyNames).length
 		test: (actual, expected) ->
-			actual == expected
+			actual.length == expected
 		description: (selector, expected) ->
 			"The selector #{selector} should match #{expected} element" + (if expected != 1 then "s" else "")
 		error: (selector, actual, expected) ->
 			"The selector \"#{selector}\" matched #{actual} element#{if actual != 1 then "s" else ""} instead of #{expected}"
 		
 	haveVal: 
-		getActual: (propertyNames) ->
-			applySelector(this, propertyNames).val()
 		test: (actual, expected) ->
-			actual == expected
+			actual.val() == expected
 		description: (selector, expected) ->
 			"The element #{selector} should have the value \"#{expected}\""
 		error: (selector, actual, expected) ->
 			"Expected the element #{selector} to have the value \"#{expected}\", but was \"#{actual}\""
 
 	beActive:
-		getActual: (propertyNames) ->
-			jQuery propertyNames[0], @document
 		test: (actual) ->
 			actual.length > 0 and actual[0] == @document.activeElement
 		description: (selector) ->
