@@ -1,6 +1,5 @@
 ﻿# reference "polyfill.coffee"
 
 # The namespace for all Witness objects.
-this.Witness = {
+@Witness =
 	helpers: {}
-}

@@ -1,4 +1,6 @@
-﻿# Page initialization for runner.htm
+﻿# reference "SimpleRunner.coffee"
+
+# Page initialization for runner.htm
 $ ->
 	return if not $("html").hasClass "runner"
 

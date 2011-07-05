@@ -3,7 +3,7 @@
 # reference "Event.coffee"
 # reference "Dsl.coffee"
 
-{ Event, messageBus, Dsl } = @Witness
+{ Event, Dsl, messageBus } = @Witness
 
 # A ScriptFile represents either a JavaScript or CoffeeScript file that
 # is to be downloaded, parsed and executed.

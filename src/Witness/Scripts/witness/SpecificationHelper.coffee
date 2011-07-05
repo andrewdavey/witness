@@ -1,6 +1,9 @@
 # reference "Witness.coffee"
+# reference "ScriptFile.coffee"
 
-@Witness.SpecificationHelper = class SpecificationHelper extends @Witness.ScriptFile
+{ ScriptFile } = @Witness
+
+@Witness.SpecificationHelper = class SpecificationHelper extends ScriptFile
 
 	constructor: (url) ->
 		super url

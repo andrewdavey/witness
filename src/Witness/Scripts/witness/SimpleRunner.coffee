@@ -9,7 +9,7 @@
 # reference "ViewModels/SpecificationFileViewModel.coffee"
 # reference "ViewModels/SpecificationDirectoryViewModel.coffee"
 
-{ messageBus, SpecificationFile, SpecificationDirectory, Dsl } = @Witness
+{ SpecificationFile, SpecificationDirectory, Dsl, messageBus } = @Witness
 { SpecificationFileViewModel, SpecificationDirectoryViewModel } = @Witness.ViewModels
 
 @Witness.SimpleRunner = class SimpleRunner

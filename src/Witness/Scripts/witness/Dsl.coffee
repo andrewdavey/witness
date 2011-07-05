@@ -1,6 +1,4 @@
 ﻿# reference "Witness.coffee"
-# reference "Action.coffee"
-# reference "helpers.coffee"
 
 @Witness.Dsl = class Dsl
 	

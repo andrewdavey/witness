@@ -1,11 +1,12 @@
 ﻿# reference "../Dsl.coffee"
 # reference "../Action.coffee"
 # reference "../AsyncAction.coffee"
+# reference "../helpers.coffee"
 
-{ Action, AsyncAction } = @Witness
+{ Action, AsyncAction, Dsl } = @Witness
 { splitCasedString } = @Witness.helpers
 
-@Witness.Dsl::defineAction = (name, func) ->
+Dsl::defineAction = (name, func) ->
 	# An action factory is a function that captures its arguments
 	# and returns a new Action that will call the original function with them.
 	actionFactory = (args...) ->
@@ -14,13 +15,16 @@
 			new AsyncAction func, args, description, func.async.timeout
 		else
 			new Action func, args, description
+
 	if @target?
 		@target[name] = actionFactory
 	else
 		@[name] = actionFactory
 
-@Witness.Dsl::defineActions = (definitions) ->
+
+Dsl::defineActions = (definitions) ->
 	@defineAction name, func for own name, func of definitions
+
 
 createActionDescription = (name, args) ->
 	splitCasedString(name) + " " + args.join(", ")

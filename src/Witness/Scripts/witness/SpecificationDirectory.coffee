@@ -4,8 +4,9 @@
 # reference "Sequence.coffee"
 # reference "TryAll.coffee"
 # reference "AsyncAction.coffee"
+# reference "Event.coffee"
 
-{ Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll } = @Witness
+{ Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll, messageBus } = @Witness
 
 @Witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest, parentHelpers = []) ->
@@ -38,16 +39,16 @@
 
 
 	run: (context, done, fail) ->
-		Witness.messageBus.send "SpecificationDirectoryRunning", this
+		messageBus.send "SpecificationDirectoryRunning", this
 		@on.running.raise()
 		all = @directories.concat @files
 		tryAll = new TryAll all
 		tryAll.run context,
 			=>
-				Witness.messageBus.send "SpecificationDirectoryPassed", this
+				messageBus.send "SpecificationDirectoryPassed", this
 				@on.passed.raise()
 				done()
 			(error) =>
-				Witness.messageBus.send "SpecificationDirectoryFailed", this
+				messageBus.send "SpecificationDirectoryFailed", this
 				@on.failed.raise(error)
 				fail(error)

@@ -1,7 +1,9 @@
 ﻿# reference "Witness.coffee"
 # reference "MessageBus.coffee"
+# reference "TryAll.coffee"
+# reference "Event.coffee"
 
-{ TryAll, Event } = @Witness
+{ TryAll, Event, messageBus } = @Witness
 
 @Witness.Specification = class Specification
 	constructor: (@description, @scenarios) ->
@@ -10,13 +12,13 @@
 
 	run: (context, done, fail) ->
 		@on.running.raise()
-		Witness.messageBus.send "SpecificationRunning", this
+		messageBus.send "SpecificationRunning", this
 		@all.run context,
 			=>
 				@on.passed.raise()
-				Witness.messageBus.send "SpecificationPassed", this
+				messageBus.send "SpecificationPassed", this
 				done()
 			=>
 				@on.failed.raise()
-				Witness.messageBus.send "SpecificationFailed", this
+				messageBus.send "SpecificationFailed", this
 				fail()
