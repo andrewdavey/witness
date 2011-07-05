@@ -17,18 +17,22 @@ this.Witness.ScriptFile = class ScriptFile
 			cache: false
 			dataType: 'text' # Must be 'text' else jQuery tries to execute the script for us!
 			success: (script) =>
+				Witness.messageBus.send "ScriptDownloading", this
 				script = @parseScript script
 				if not script
+					Witness.messageBus.send "ScriptDownloadError", this, @errors
 					@on.downloadFailed.raise @errors
 					fail @errors
 					return
 
+				Witness.messageBus.send "ScriptDownloaded", this
 				@on.downloaded.raise()
 				@scriptDownloaded script, done, fail
 
 			error: =>
 				errorMessage = "Could not download #{@url}"
 				@errors.push errorMessage
+				Witness.messageBus.send "ScriptDownloadError", this, @errors
 				@on.downloadFailed.raise @errors
 				fail @errors
 

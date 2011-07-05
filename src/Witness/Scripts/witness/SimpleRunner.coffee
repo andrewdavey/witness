@@ -42,7 +42,11 @@ this.Witness.SimpleRunner = class SimpleRunner
 					@status "Ready to run"
 					@runAll() if @autoRun
 				)
-				(=> @status "Download error.")
+				(=>
+					console.log "download error"
+					@status "Download error."
+					Witness.messageBus.send "RunnerDownloadFailed"
+				)
 			)
 
 		downloadManifest.fail =>

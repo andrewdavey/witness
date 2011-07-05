@@ -6,7 +6,7 @@ if not url? or not path?
 	phantom.exit()
 	return
 
-runnerUrl = "#{url}/_witness/runner.htm?path=#{path}"
+runnerUrl = "#{url}/_witness/runner.htm?path=#{path}&manualdownload=yes&autorun=yes"
 console.log "Loading #{runnerUrl}"
 
 page = new WebPage()
@@ -30,10 +30,30 @@ page.open runnerUrl, (status) ->
 				 .replace(/\n/g, "|n")
 				 .replace(/\r/g, "|r")
 				 .replace(/'/g,  "|'")
+			
+			flattenErrorMessage = (error) ->
+				if error.join
+					(escape e.message for e in error).join("|n")
+				else if error.message?
+					escape error.message
+				else
+					escape error.toString()
 
 			Witness.messageBus.addHandlers
 				RunnerFinished: ->
 					console.log "!exit"
+				RunnerDownloadFailed: ->
+					console.log "!exit"
+
+				ScriptDownloading: (script) ->
+					console.log "##teamcity{compilationStarted compiler='script'}"
+					console.log "##teamcity{message text='Parsing #{escape script.url}'}"
+				ScriptDownloaded: ->
+					console.log "##teamcity{compilationFinished compiler='script'}"
+				ScriptDownloadError: (script, error) ->
+					message = flattenErrorMessage error
+					console.log "##teamcity{message text='#{script.url} #{message}' status='ERROR'}"
+					console.log "##teamcity{compilationFinished compiler='script'}"
 
 				SpecificationDirectoryRunning: (directory) ->
 					console.log "##teamcity[testSuiteStarted name='#{directory.name}']"
@@ -54,17 +74,13 @@ page.open runnerUrl, (status) ->
 				ScenarioPassed: (scenario) ->
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				ScenarioFailed: (scenario, error) ->
-					console.log error
-					message = if error.join
-						(escape e.message for e in error).join("|n")
-					else if error.message?
-						escape error.message
-					else
-						escape error.toString()
+					message = flattenErrorMessage error
 					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
 					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
 				
-			Witness.runner.runAll()
+			Witness.runner.download()
+			# All specs are run once download has finished because
+			# autorun=yes in the runner page URL. 
 	else
 		console.log "Could not load Witness runner page."
 		phantom.exit()
