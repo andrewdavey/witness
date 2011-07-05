@@ -1,6 +1,6 @@
 ﻿# reference "Witness.coffee"
 
-this.Witness.TryAll = class TryAll
+@Witness.TryAll = class TryAll
 	
 	constructor: (@actions) ->
 

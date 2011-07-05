@@ -2,8 +2,11 @@
 # reference "../lib/knockout.js"
 # reference "../lib/coffee-script.js"
 # reference "Event.coffee"
+# reference "Dsl.coffee"
+# reference "TryAll.coffee"
+# reference "MessageBus.coffee"
 
-Witness = this.Witness
+{ Dsl, Event, TryAll, messageBus } = @Witness
 
 # Wrapping a script in an anonymous function call prevents it accidently
 # leaking into global scope. The try..catch should catch any runtime errors.
@@ -53,15 +56,12 @@ addInlineScript = (scriptText, iframeDoc) ->
 
 
 
-@Witness.SpecificationFile = class SpecificationFile extends Witness.ScriptFile
+@Witness.SpecificationFile = class SpecificationFile extends @Witness.ScriptFile
 
 	constructor: (manifest, @helpers = []) ->
 		super manifest.url
 		@name = manifest.name
-		@on.ready = new Witness.Event()
-		@on.running = new Witness.Event()
-		@on.passed = new Witness.Event()
-		@on.failed = new Witness.Event()
+		jQuery.extend @on, Event.define "ready", "running", "passed", "failed"
 		@specifications = []
 
 	scriptDownloaded: (script, done, fail) ->
@@ -100,7 +100,7 @@ addInlineScript = (scriptText, iframeDoc) ->
 				else
 					fail.apply this, args
 
-			dsl = new Witness.Dsl iframeWindow
+			dsl = new Dsl iframeWindow
 			dsl.activate()
 			
 			for helper in @helpers
@@ -112,15 +112,15 @@ addInlineScript = (scriptText, iframeDoc) ->
 			addScript "_witnessScriptCompleted();" if not failed
 
 	run: (context, done, fail) ->
-		Witness.messageBus.send "SpecificationFileRunning", this
+		messageBus.send "SpecificationFileRunning", this
 		@on.running.raise()
-		tryAll = new Witness.TryAll @specifications
+		tryAll = new TryAll @specifications
 		tryAll.run context,
 			=>
-				Witness.messageBus.send "SpecificationFilePassed", this
+				messageBus.send "SpecificationFilePassed", this
 				@on.passed.raise()
 				done()
 			(error) =>
-				Witness.messageBus.send "SpecificationFileFailed", this
+				messageBus.send "SpecificationFileFailed", this
 				@on.failed.raise(error)
 				fail(error)
