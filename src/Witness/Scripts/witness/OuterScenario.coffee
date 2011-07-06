@@ -3,10 +3,11 @@
 # reference "Event.coffee"
 # reference "TryAll.coffee"
 # reference "Sequence.coffee"
+# reference "Scenario.coffee"
 
-{ Event, TryAll, Sequence, messageBus } = @Witness
+{ Event, TryAll, Sequence, Scenario, messageBus } = @Witness
 
-@Witness.OuterScenario = class OuterScenario
+@Witness.OuterScenario = class OuterScenario extends Scenario
 
 	constructor: (parts, @innerScenarios, @id) ->
 		{@given, @dispose} = parts
@@ -23,7 +24,9 @@
 	run: (outerContext, done, fail) ->
 		messageBus.send "OuterScenarioRunning", this
 		@on.run.raise()
-		@action.run {},
+		context =
+			scenario: this
+		@action.run context,
 			=>
 				messageBus.send "OuterScenarioPassed", this
 				@on.done.raise()
