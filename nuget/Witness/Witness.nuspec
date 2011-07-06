@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Witness</id>
+        <version>0.1.0</version>
+        <authors>Andrew Davey</authors>
+        <owners>Equin Limited</owners>
+        <licenseUrl>https://raw.github.com/andrewdavey/witness/master/license.txt</licenseUrl>
+        <projectUrl>https://github.com/andrewdavey/witness</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Web application testing framework.</description>
+        <tags>web testing javascript</tags>
+        <dependencies>
+            <dependency id="WebActivator" version="1.4.1" />
+        </dependencies>
+    </metadata>
+</package>
