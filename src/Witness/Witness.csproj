@@ -127,6 +127,7 @@
     <EmbeddedResource Include="index.htm" />
     <None Include="scripts\lib\jquery-ui.js" />
     <None Include="scripts\lib\sizzle.js" />
+    <Content Include="scripts\lib\LAB.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
