@@ -1,0 +1,30 @@
+# Basics #
+
+For each control type:
+Given basic page HTML -> check correct UI is generated
+Try preseting values -> check generated display
+Switching between read-mode and edit-mode
+Edit value and cancel -> check UI resets
+Edit value and save -> check UI updates
+
+# Controls #
+
+Single text
+
+Multi text
+
+Multi text with limit
+
+Boolean
+
+Select (one)
+
+Select (many)
+
+Autocomplete
+
+Multi autocomplete
+
+Date picker
+
+CKEditor
