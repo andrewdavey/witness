@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG
+using System;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -9,6 +10,7 @@ using Knapsack;
 
 namespace Witness.RequestHandlers
 {
+
     public class GetDebugRunnerHandler : WitnessRequestHandlerBase
     {
         static readonly Knapsack.CoffeeScript.CoffeeScriptCompiler coffeeScriptCompiler = new Knapsack.CoffeeScript.CoffeeScriptCompiler(File.ReadAllText);
@@ -64,3 +66,4 @@ namespace Witness.RequestHandlers
         }
     }
 }
+#endif

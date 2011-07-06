@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -151,7 +151,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PreBuildEvent>"$(ProjectDir)..\..\tools\knapsack\knapsack.shell.exe" ..\..\scripts &gt; ..\..\obj\witness.js</PreBuildEvent>
+    <PreBuildEvent>"$(ProjectDir)..\..\tools\knapsack\knapsack.shell.exe" ..\scripts &gt; ..\obj\witness.js</PreBuildEvent>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
