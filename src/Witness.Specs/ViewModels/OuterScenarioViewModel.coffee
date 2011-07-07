@@ -30,9 +30,11 @@ describe "OuterScenarioViewModel",
 		scenario = new Witness.OuterScenario parts, []
 		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
 
-	"when it is run": ->
-		@viewModel.run {}, (->), (->)
-	
+	"when it is run": [
+		-> @viewModel.run()
+		wait 100
+	]
+
 	then:
 		viewModel: status: should.be "passed"
 },
@@ -48,8 +50,10 @@ describe "OuterScenarioViewModel",
 		scenario = new Witness.OuterScenario parts, [ new Witness.Scenario {} ]
 		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
 	
-	"when it is run": ->
-		@viewModel.run {}, (->), (->)
+	"when it is run": [
+		-> @viewModel.run()
+		wait 100
+	]
 
 	then:
 		viewModel: status: should.be "failed"

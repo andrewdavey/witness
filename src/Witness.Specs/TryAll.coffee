@@ -5,14 +5,16 @@
 describe "TryAll",
 {
 	"given a TryAll action where both actions complete": ->
-		@context = {};
+		@context = {}
 		@outerContext = outerContext = this
 		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
 		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	"when the action is run": ->
-		@tryAll.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
+	"when the action is run": async ->
+		@tryAll.run @context,
+			(=> @doneCallbackCalled = true; @done())
+			(=> @failCallbackCalled = true; @done())
 
 	then:
 		action0Called: should.be true
@@ -28,8 +30,10 @@ describe "TryAll",
 		action1 = new Witness.Action (=> @action1Called = true)
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	"when the action is run": ->
-		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
+	"when the action is run": async ->
+		@tryAll.run {},
+			(=> @doneCallbackCalled = true; @done())
+			((errors) => @errors = errors; @done())
 
 	then:
 		action1Called: should.be true
@@ -42,8 +46,10 @@ describe "TryAll",
 		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	"when the action is run": ->
-		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
+	"when the action is run": async ->
+		@tryAll.run {},
+			(=> @doneCallbackCalled = true; @done())
+			((errors) => @errors = errors; @done())
 
 	then:
 		action0Called: should.be true
@@ -56,8 +62,10 @@ describe "TryAll",
 		action1 = new Witness.Action (=> throw new Error "action-1 failed")
 		@tryAll = new Witness.TryAll [action0, action1]
 
-	"when the action is run": ->
-		@tryAll.run {}, (=> @doneCallbackCalled = true), ((errors) => @errors = errors)
+	"when the action is run": async ->
+		@tryAll.run {},
+			(=> @doneCallbackCalled = true; @done())
+			((errors) => @errors = errors; @done())
 
 	then:
 		doneCallbackCalled: should.be undefined
@@ -69,8 +77,12 @@ describe "TryAll",
 {
 	"given a TryAll with no actions": ->
 		@tryAll = new Witness.TryAll []
-	"when the action is run": ->
-		@tryAll.run {}, (=>@doneCallbackCalled = true), (->)
+
+	"when the action is run": async ->
+		@tryAll.run {},
+			(=> @doneCallbackCalled = true; @done())
+			(=> @done())
+
 	then:
 		doneCallbackCalled: should.be true
 }

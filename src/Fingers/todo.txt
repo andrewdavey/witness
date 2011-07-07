@@ -3,7 +3,7 @@
 For each control type:
 Given basic page HTML -> check correct UI is generated
 Try preseting values -> check generated display
-Switching between read-mode and edit-mode
+Test switching between read-mode and edit-mode
 Edit value and cancel -> check UI resets
 Edit value and save -> check UI updates
 
@@ -16,15 +16,19 @@ Multi text
 Multi text with limit
 
 Boolean
+    Use click event to check and uncheck
 
 Select (one)
+    Use jQuery to change the <select>'s value
 
 Select (many)
 
 Autocomplete
+    Mock ajax call to return list of items
 
 Multi autocomplete
 
 Date picker
 
 CKEditor
+    

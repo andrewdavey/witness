@@ -38,8 +38,10 @@ describe "OuterScenario",
 		]
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
 	
-	"when it is run": ->
-		@outerScenario.run {}, (=> @doneCalled = true), (->)
+	"when it is run": async ->
+		@outerScenario.run {},
+			(=> @doneCalled = true; @done())
+			(=> @done())
 	
 	"then":
 		outerGivenCalled: should.be 2
@@ -69,8 +71,10 @@ describe "OuterScenario",
 		@outerScenario.on.done.addHandler => @doneEventRaised = true
 		@outerScenario.on.fail.addHandler => @failEventRaised = true
 
-	"when it is run": ->
-		@outerScenario.run {}, (->), (->)
+	"when it is run": async ->
+		@outerScenario.run {},
+			(=> @done())
+			(=> @done())
 
 	then:
 		runEventRaised: should.be true
@@ -94,8 +98,10 @@ describe "OuterScenario",
 		@outerScenario.on.done.addHandler => @doneEventRaised = true
 		@outerScenario.on.fail.addHandler => @failEventRaised = true
 
-	"when it is run": ->
-		@outerScenario.run {}, (->), (->)
+	"when it is run": async ->
+		@outerScenario.run {},
+			(=> @done())
+			(=> @done())
 
 	then:
 		runEventRaised: should.be true
@@ -117,8 +123,10 @@ describe "OuterScenario",
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
 		@outerScenario.on.done.addHandler => @doneEventRaised = true
 
-	"when it is run": ->
-		@outerScenario.run {}, (->), (->)
+	"when it is run": async ->
+		@outerScenario.run {},
+			(=> @done()),
+			(=> @done())
 
 	"then the done event is raised":
 		doneEventRaised: should.be true

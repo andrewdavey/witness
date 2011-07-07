@@ -33,4 +33,4 @@ Mocking support
 
   @mock jQuery, { ajax: () -> ... }
 
-
+Load parent helpers when loading single file

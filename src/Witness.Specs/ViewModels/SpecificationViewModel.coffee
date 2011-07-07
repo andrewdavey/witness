@@ -25,8 +25,10 @@ describe "SpecificationViewModel",
 				@statuses = []
 				@viewModel.status.subscribe (status) => @statuses.push status
 
-			"when the underlying Specification is run": ->
-				@specification.run {}, (->), (->)
+			"when the underlying Specification is run": async ->
+				@specification.run {},
+					(=> @done())
+					(=> @done())
 
 			"then the status was running and then passed":
 				statuses: [ should.be("running"), should.be("passed") ]
