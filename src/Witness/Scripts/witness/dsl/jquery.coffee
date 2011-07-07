@@ -66,7 +66,7 @@ class JQueryActions
 					
 					@window.jQuery(element).keydown()
 				else
-					jQuery(element).val(text)
+					@window.jQuery(element).val(text)
 
 			sendKeyToElement = (element, keyCode) =>
 				# The target window's jQuery MUST be used to trigger events.

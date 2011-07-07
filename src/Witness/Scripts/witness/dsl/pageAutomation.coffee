@@ -77,10 +77,6 @@ defineActions
 
 		@scenario.setIFrameLoadCallback loaded, yes
 
-	input: (inputs) ->
-		for own selector, value of inputs
-			jQuery(selector, @document).val value
-
 	tab: ->
 		current = @document.activeElement
 		focusable = jQuery ":focusable", @document
