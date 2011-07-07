@@ -23,7 +23,8 @@ Dsl::defineAction = (name, func) ->
 
 
 Dsl::defineActions = (definitions) ->
-	@defineAction name, func for own name, func of definitions
+	for own name, func of definitions
+		Dsl::defineAction name, func 
 
 
 createActionDescription = (name, args) ->

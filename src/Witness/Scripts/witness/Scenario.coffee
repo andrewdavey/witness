@@ -61,6 +61,10 @@ createDescriptionFromFunction = (func) ->
 	getIFrame: ->
 		@iframe or @createAndCacheIFrame()
 
+	getNewIFrame: ->
+		@iframe.remove() if @iframe?
+		@createAndCacheIFrame()
+
 	setIFrameLoadCallback: (callback, callIfJustLoaded = no) ->
 		if @iframeJustLoaded and callIfJustLoaded
 			# Sometimes we need a callback to run just after the

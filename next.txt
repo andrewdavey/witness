@@ -21,8 +21,6 @@ URL to a specific specification/scenario
 
 Unify fail callback behavior. e.g. array of errors?
 
-nuget package
-
 Detect remote scripting classes by attribute
 
 Negate description and error messages in predicate action builder

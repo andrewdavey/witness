@@ -46,8 +46,8 @@ createScenario = (scenario, idGenerator) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
 		parts[name] = findPart name, scenario
-	for own key, value of parts
-		parts[key].actions = flattenArray createActions value.actions
+	for own name, value of parts
+		parts[name].actions = flattenArray createActions flattenArray value.actions
 	isOuter = scenario.inner?
 	if isOuter
 		idGenerator.push()

@@ -4,10 +4,10 @@
 # reference "should.coffee"
 # reference "../../lib/LAB.js"
 
-{ async } = @Witness.Dsl::
+{ async, defineActions } = @Witness.Dsl::
 Witness = @Witness
 
-@Witness.Dsl::defineActions
+defineActions
 	loadPage: async (url) ->
 		url = Witness.urlBase + url unless url.match /^\//
 
@@ -26,7 +26,7 @@ Witness = @Witness
 			iframe.attr "src", url
 
 	loadEmptyPage: ->
-		iframe = @scenario.getIFrame()
+		iframe = @scenario.getNewIFrame()
 		@document = iframe.contents()[0]
 		@document.write "<!doctype html><html><body></body></html>"
 		@body = jQuery "body", @document
@@ -34,7 +34,7 @@ Witness = @Witness
 	# The `html` action creates a new page with the body containing
 	# the given html content.
 	html: (htmlContent) ->
-		iframe = @scenario.getIFrame()
+		iframe = @scenario.getNewIFrame()
 		@document = iframe.contents()[0]
 		@document.write """
 		<!doctype html>
