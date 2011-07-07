@@ -1,66 +1,161 @@
-describe "Single text input",
+staticViewSelector = ".static-view"
+staticViewHasText = (expectedText) ->
+	obj = {}
+	obj[staticViewSelector] = should.haveText expectedText
+	obj
+clickStaticView = $(staticViewSelector).click()
+
+describe "Single text initial UI",
 {
-	"given a page containing a single text component":
-		loadPage("test.html")
+	"Given a single text component with empty default value":
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
 
-	"when a static view is clicked":
-		$("div.static-view.field:eq(0)").click()
-
-	"then an edit view should appear":
-		"div.static-view.field:eq(0)": shouldnot.beVisible(),
-		"input.edit-view-control.single-text": should.haveLength(1)
+	"Then it is in read mode with text 'Click to edit' displayed": [
+		{ "input": should.haveLength 1 }
+		{ "input": shouldnot.beVisible() }
+		staticViewHasText "Click to edit"
+	]
 },
 {
-	"given a page with an active edit view component": [
-		loadPage("test.html"),
-		$("div.static-view.field:eq(0)").click()
-	]
-
-	"when the edit view is blurred":
-		$("input.edit-view-control.single-text:eq(0)").blur()
+	"Given a single text component with a default value of HELLO":
+		createFingersUI """
+		<label for="test">Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="HELLO" />
+		"""
 	
-	"then the static view should reappear":
-		"div.static-view.field:eq(0)": should.beVisible()
+	"Then it is in read mode with text 'HELLO' displayed":
+		staticViewHasText "HELLO"
+}
+
+
+describe "Single text with default empty value",
+{
+	"Given a single text component with empty default value":
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
+
+	"When the displayed value is clicked":
+		clickStaticView
+
+	"Then the input UI is created":
+		".static-view": shouldnot.beVisible()
+		"input.edit-view-control:visible": should.haveLength 1
+		"input.edit-view-control": should.haveVal ""
 },
 {
-	"given a page with an active edit view component and text entered": [
-		loadPage('test.html'),
-		$('div.static-view.field:eq(0)').click(),
-		$('input.edit-view-control.single-text:eq(0)').val("TEST")
+	"Given a single text component in edit mode": [
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
+		clickStaticView
 	]
+
+	"When Escape key is pressed":
+		$("input.edit-view-control").type ESCAPE
 	
-	"when the edit view is blurred": [
-		$('input.edit-view-control.single-text:eq(0)').blur()
+	"Then it is returned to static view":
+		".static-view": should.beVisible()
+},
+{
+	"Given a single text component in edit mode": [
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
+		clickStaticView
 	]
+
+	"When some text is typed then Escape key is pressed":
+		$("input.edit-view-control").type "some text", ESCAPE
 	
-	"then the static view should show the entered text": {
-		'div.static-view.field:eq(0)': should.haveText("TEST")
-	}
+	"Then it is returned to static view with original value displayed":
+		staticViewHasText "Click to edit"
 },
 {
-	"given a page with an active edit view component that was empty, clicked and had text entered": [
-		loadPage('test.html'),
-		$('div.static-view.field:eq(0)').click(),
-		$('input.edit-view-control.single-text:eq(0)').type("TEST")
+	"Given a single text component in edit mode": [
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
+		clickStaticView
 	]
 
-	"when Escape key is pressed":
-		$("input.edit-view-control.single-text:eq(0)").type(ESCAPE)
-
-	"then the static view should be empty":
-		'div.static-view.field:eq(0)': should.haveText("Click to edit"),
-		"input.edit-view-control.single-text:eq(0)": shouldnot.beVisible()
+	"When some text is typed then Enter key is pressed":
+		$("input.edit-view-control").type "some text", ENTER
+	
+	"Then it is returned to static view with new value displayed":
+		staticViewHasText "some text"
 },
 {
-	"given a page with an active edit view component that was empty, clicked and had text entered": [
-		loadPage('test.html'),
-		$('div.static-view.field:eq(0)').click(),
-		$('input.edit-view-control.single-text:eq(0)').type("TEST")
+	"Given a single text component in edit mode": [
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="" />
+		"""
+		clickStaticView
 	]
 
-	"when Return key is pressed":
-		$("input.edit-view-control.single-text:eq(0)").type(ENTER)
+	"When some text is typed then input is blurred": [
+		$("input.edit-view-control").type "some text"
+		$("input.edit-view-control").blur()
+	]
 
-	"then the static view should be updated to equal the entered text":
-		'div.static-view.field:eq(0)': should.haveText("TEST")
+	"Then it is returned to static view with new value displayed":
+		staticViewHasText "some text"
+}
+
+describe "Single text component with default value",
+{
+	"Given a single text component with default value of HELLO":
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="HELLO" />
+		"""
+
+	"When the displayed value is clicked":
+		clickStaticView
+
+	"Then the edit view is created with the value HELLO":
+		".static-view": shouldnot.beVisible()
+		"input.edit-view-control:visible": should.haveLength 1
+		"input.edit-view-control": should.haveVal "HELLO"
+},
+{
+	"Given a single text component with default value of HELLO in edit mode": [
+		createFingersUI """
+		<label for="test">Empty Single Text</label>
+		<input type="text" name="test"
+		       class="editable view-single-text"
+		       value="HELLO" />
+		"""
+		clickStaticView
+	]
+
+	"When 'WORLD', Enter typed":
+		$("input.edit-view-control").type "WORLD", ENTER
+
+	"Then it is returned to static view with HELLOWORLD displayed":
+		staticViewHasText "HELLOWORLD"
 }
