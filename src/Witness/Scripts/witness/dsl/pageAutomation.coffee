@@ -9,7 +9,7 @@ Witness = @Witness
 
 defineActions
 	loadPage: async (url) ->
-		url = Witness.urlBase + url unless url.match /^\//
+		url = window.urlBase + url unless url.match /^\//
 
 		iframe = @scenario.getIFrame()
 		@scenario.setIFrameLoadCallback (iframeWindow) =>
@@ -40,7 +40,7 @@ defineActions
 		<!doctype html>
 		<html>
 		<head>
-			<base href="#{Witness.urlBase}"/>
+			<base href="#{window.urlBase}"/>
 		</head>
 		<body>
 			#{htmlContent}
@@ -59,7 +59,7 @@ defineActions
 		# TODO: if lab is undefined then inject LABjs ?
 		count = urls.length
 		for url in urls
-			@lab.script(Witness.urlBase + url).wait =>
+			@lab.script(window.urlBase + url).wait =>
 				count--
 				@done() if count == 0
 

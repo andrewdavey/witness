@@ -62,7 +62,7 @@
 			@status "Could not download manifest from #{@specsPath}"
 
 	createModelAndViewModelForManifest: (manifest) ->
-		Witness.urlBase = manifest.urlBase
+		Witness.Dsl::urlBase = manifest.urlBase
 		if manifest.file?
 			@createSpecificationFileFromManifest manifest.file
 		else

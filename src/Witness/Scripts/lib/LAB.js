@@ -372,4 +372,4 @@ window.installLAB = function (global) {
     })("addEventListener", "DOMContentLoaded");
 
     return global.$LAB;
-}
+};
