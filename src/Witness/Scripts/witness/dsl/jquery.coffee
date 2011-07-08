@@ -137,7 +137,7 @@ Dsl::extendShould jQueryPredicates
 		description: (selector, expected) ->
 			"#{selector} should have the text \"#{expected}\""
 		error: (selector, actual, expected) ->
-			"Expected #{selector} to have text \"#{expected}\", but was \"#{actual}\""
+			"Expected #{selector} to have text \"#{expected}\", but was \"#{actual.text()}\""
 
 	match:
 		test: (actual, expected) ->
@@ -145,7 +145,7 @@ Dsl::extendShould jQueryPredicates
 		description: (selector, expected) ->
 			"The selector #{selector} should match  \"#{expected}\" elements"
 		error: (selector, actual, expected) ->
-			"Expected #{selector} to have \"#{expected}\" elements, but matched \"#{actual}\" elements"
+			"Expected #{selector} to have \"#{expected}\" elements, but matched \"#{actual.length}\" elements"
 
 	haveClass:
 		test: (actual, expected) ->
@@ -161,7 +161,7 @@ Dsl::extendShould jQueryPredicates
 		description: (selector, expected) ->
 			"The selector #{selector} should match #{expected} element" + (if expected != 1 then "s" else "")
 		error: (selector, actual, expected) ->
-			"The selector \"#{selector}\" matched #{actual} element#{if actual != 1 then "s" else ""} instead of #{expected}"
+			"The selector \"#{selector}\" matched #{actual.length} element#{if actual != 1 then "s" else ""} instead of #{expected}"
 		
 	haveVal: 
 		test: (actual, expected) ->
@@ -169,7 +169,7 @@ Dsl::extendShould jQueryPredicates
 		description: (selector, expected) ->
 			"The element #{selector} should have the value \"#{expected}\""
 		error: (selector, actual, expected) ->
-			"Expected the element #{selector} to have the value \"#{expected}\", but was \"#{actual}\""
+			"Expected the element #{selector} to have the value \"#{expected}\", but was \"#{actual.val()}\""
 
 	beActive:
 		test: (actual) ->
