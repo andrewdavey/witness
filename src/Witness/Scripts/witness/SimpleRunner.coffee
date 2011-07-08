@@ -6,10 +6,11 @@
 # reference "Dsl.coffee"
 # reference "SpecificationFile.coffee"
 # reference "SpecificationDirectory.coffee"
+# reference "SpecificationHelper.coffee"
 # reference "ViewModels/SpecificationFileViewModel.coffee"
 # reference "ViewModels/SpecificationDirectoryViewModel.coffee"
 
-{ SpecificationFile, SpecificationDirectory, Dsl, messageBus } = @Witness
+{ SpecificationFile, SpecificationDirectory, SpecificationHelper, Dsl, AsyncAction, Sequence, messageBus } = @Witness
 { SpecificationFileViewModel, SpecificationDirectoryViewModel } = @Witness.ViewModels
 
 @Witness.SimpleRunner = class SimpleRunner
@@ -33,7 +34,7 @@
 		downloadManifest.done (manifest) =>
 			@status "Downloading specifications..."
 			isFile = manifest.url?
-			{model, viewModel} = @createModelAndViewModelForManifest manifest
+			{model, viewModel, helpers} = @createModelAndViewModelForManifest manifest
 			@directory.push viewModel
 			viewModel.isOpen true
 			model.on.passed.addHandler =>
@@ -45,7 +46,16 @@
 				@canRun true
 				Witness.messageBus.send "RunnerFinished"
 
-			model.download(
+			# Helpers from further up the directory tree must be downloaded here
+			# because SpecificationFile and SpecificationDirectory are not responsible for this.
+			helperDownloads = for helper in helpers
+				do (helper) ->
+					new AsyncAction -> helper.download (=> @done()), (=> @fail())
+
+			modelDownload = new AsyncAction -> model.download (=> @done()), (=> @fail())
+
+			downloadSequence = new Sequence helperDownloads.concat(modelDownload)
+			downloadSequence.run {},
 				(=>
 					@canRun true
 					@status "Ready to run"
@@ -56,17 +66,19 @@
 					@status "Download error."
 					Witness.messageBus.send "RunnerDownloadFailed"
 				)
-			)
 
 		downloadManifest.fail =>
 			@status "Could not download manifest from #{@specsPath}"
 
 	createModelAndViewModelForManifest: (manifest) ->
 		Witness.Dsl::urlBase = manifest.urlBase
-		if manifest.file?
-			@createSpecificationFileFromManifest manifest.file
+		helpers = (new SpecificationHelper helperUrl for helperUrl in manifest.helpers)
+		result = if manifest.file?
+			@createSpecificationFileFromManifest manifest.file, helpers
 		else
-			@createSpecificationDirectoryFromManifest manifest.directory
+			@createSpecificationDirectoryFromManifest manifest.directory, helpers
+		result.helpers = helpers
+		result
 
 	downloadSpecificationManifest: ->
 		$.ajax
@@ -74,12 +86,12 @@
 			data: { path: @specsPath }
 			cache: false
 
-	createSpecificationFileFromManifest: (manifest) ->
-		file = new SpecificationFile manifest
+	createSpecificationFileFromManifest: (manifest, helpers) ->
+		file = new SpecificationFile manifest, helpers
 		{ model: file, viewModel: new SpecificationFileViewModel file }
 
-	createSpecificationDirectoryFromManifest: (manifest) ->
-		dir = new SpecificationDirectory manifest
+	createSpecificationDirectoryFromManifest: (manifest, helpers) ->
+		dir = new SpecificationDirectory manifest, helpers
 		{ model: dir, viewModel: new SpecificationDirectoryViewModel dir }
 
 	downloadSpecification: (url) ->

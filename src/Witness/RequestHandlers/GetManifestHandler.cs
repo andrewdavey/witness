@@ -19,7 +19,8 @@ namespace Witness.RequestHandlers
 
             var manifest = new Manifest(context.HttpContext.Request.ApplicationPath);
             AssignDirectoryOrFile(manifest, fullPath, context);
-            
+            manifest.helpers = FindParentHelpers(fullPath, context).ToArray();
+
             var json = new JavaScriptSerializer().Serialize(manifest);
             context.HttpContext.Response.AddHeader("Cache-Control", "no-cache");
             context.HttpContext.Response.ContentType = "application/json";
@@ -43,6 +44,36 @@ namespace Witness.RequestHandlers
             else
             {
                 manifest.file = GetSpecificationFile(fullPath, context.HttpContext);
+            }
+        }
+
+        IEnumerable<string> FindParentHelpers(string fullPath, RequestContext context)
+        {
+            var root = context.HttpContext.Request.QueryString["root"] ?? "";
+            var rootPath = context.HttpContext.Server.MapPath("~/" + root).TrimEnd('\\', '/');
+            
+            DirectoryInfo directory;
+            if (Directory.Exists(fullPath))
+            {
+                directory = new DirectoryInfo(fullPath);
+            }
+            else
+            {
+                directory = new FileInfo(fullPath).Directory;
+            }
+            
+            while (directory.FullName.Equals(rootPath, StringComparison.OrdinalIgnoreCase) == false)
+            {
+                var files = directory.GetFiles().Where(
+                    file => IsScript(file.FullName) 
+                         && IsHelperFile(file.FullName)
+                );
+
+                foreach (var file in files)
+                {
+                    yield return GetFileUrl(file.FullName, context.HttpContext);
+                }
+                directory = directory.Parent;
             }
         }
 
@@ -106,6 +137,11 @@ namespace Witness.RequestHandlers
             // directory xor file:
             public SpecDir directory { get; set; }
             public SpecFile file { get; set; }
+
+            // Helpers from parent directories.
+            // Used when returning the manifest for a single file or sub-directory.
+            // We still need the helpers from higher up the tree.
+            public IEnumerable<string> helpers { get; set; }
 
             // So that `loadPage "foo.htm"` can reference the absolute URL:
             public string urlBase { get; set; }
