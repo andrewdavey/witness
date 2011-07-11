@@ -59,7 +59,8 @@ defineActions
 		# TODO: if lab is undefined then inject LABjs ?
 		count = urls.length
 		for url in urls
-			@lab.script(window.urlBase + url).wait =>
+			fullUrl = if url.match /^https?:/ then url else window.urlBase + url
+			@lab.script(fullUrl).wait =>
 				count--
 				@done() if count == 0
 
