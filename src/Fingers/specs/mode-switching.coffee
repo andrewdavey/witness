@@ -43,12 +43,18 @@ uiTypes = [
 	name: "bool (default false)"
 	html: '<input type="text" class="editable view-bool" value="false"/>'
 	staticDefault: "false"
-	blur: [ $(":input:visible:first").blur(), wait 250 ]
+	blur: [
+		$(":input:visible:first").blur()
+		wait 250
+	]
 ,
 	name: "bool (default true)"
 	html: '<input type="text" class="editable view-bool" value="true"/>'
 	staticDefault: "true"
-	blur: [ $(":input:visible:first").blur(), wait 250 ]
+	blur: [
+		$(":input:visible:first").blur()
+		wait 250
+	]
 ]
 
 specBuilders =
@@ -99,7 +105,7 @@ specBuilders =
 			createFingersUI ui.html
 			$(".static-view").click()
 		]
-		spec["when input blurred"] = $(":input:visible:first").type ENTER
+		spec["when Enter key pressed"] = $(":input:visible:first").type ENTER
 		spec["then static view displayed, input control hidden"] =
 			".static-view": should.beVisible()
 			":input:visible": should.match 0
