@@ -183,7 +183,13 @@ Dsl::extendShould jQueryPredicates
 		
 	haveVal: 
 		test: (actual, expected) ->
-			actual.val() == expected
+			if jQuery.isArray expected
+				actualArray = actual.val()
+				for expectedItem, index in expected
+					return false if actualArray[index] != expectedItem
+				return true
+			else
+				actual.val() == expected
 		description: (selector, expected) ->
 			"The element #{selector} should have the value \"#{expected}\""
 		error: (selector, actual, expected) ->
