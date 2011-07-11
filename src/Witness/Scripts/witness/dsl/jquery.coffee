@@ -118,6 +118,24 @@ class JQueryActions
 		new Action func, [], actionDescription 
 
 
+	selectCharacters: (start, end) ->
+		selector = @selector
+		func = ->
+			field = jQuery(selector, @document)[0]
+			if field.createTextRange
+				selRange = field.createTextRange()
+				selRange.collapse true
+				selRange.moveStart 'character', start
+				selRange.moveEnd 'character', end
+				selRange.select()
+			else if field.setSelectionRange
+				field.setSelectionRange start, end
+			else if field.selectionStart
+				field.selectionStart = start
+				field.selectionEnd = end
+			field.focus()
+		new Action func, [], "Select characters #{start} to #{end}"
+
 # Adding $ to the DSL makes it globally available in specification scripts
 # and overwrite the existing jQuery function.
 Dsl::$ = (selector) -> new JQueryActions(selector)
