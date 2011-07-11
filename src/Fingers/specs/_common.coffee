@@ -1,7 +1,8 @@
 fingersScripts = [
 	"lib/jquery.js"
 	"lib/arms-common.js"
-	"lib/jquery-ui/jquery-ui-1.8.7.custom.min.js"
+	#"lib/jquery-ui/jquery-ui-1.8.7.custom.min.js"
+	"http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.js"
 	"lib/ckeditor/ckeditor.js"
 	"lib/ckeditor/adapters/jquery.js"
 	"debug/fingers.js"

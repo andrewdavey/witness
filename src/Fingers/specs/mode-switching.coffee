@@ -55,6 +55,19 @@ uiTypes = [
 		$(":input:visible:first").blur()
 		wait 250
 	]
+,
+	name: "date picker"
+	html: '<input type="text" class="editable view-date-picker" />'
+	afterGiven: wait 250
+	afterWhen: wait 250
+	editingInputCount: 2
+	blur: [
+		->
+			input = @window.jQuery("input:visible", @document)
+			debugger
+			input.datepicker("hide")
+		wait 250
+	]
 ]
 
 specBuilders =
@@ -72,16 +85,22 @@ specBuilders =
 		spec["when static view clicked"] = $(".static-view").click()
 		spec["then static view hidden, input control displayed"] =
 			".static-view": shouldnot.beVisible()
-			":input:visible": should.match 1
+			":input:visible": should.match (ui.editingInputCount or 1)
 		spec
 
 	"Cancel edit": (ui) ->
 		spec = {}
-		spec["given #{ui.name} component in edit mode"] = [
+		givenActions = [
 			createFingersUI ui.html
 			$(".static-view").click()
 		]
-		spec["when Escape key pressed"] = $(":input:visible:first").type ESCAPE
+		if ui.afterGiven?
+			givenActions.push ui.afterGiven
+		spec["given #{ui.name} component in edit mode"] = givenActions 
+		whenActions = [ $(":input:visible:first").type ESCAPE ]
+		if ui.afterWhen?
+			whenActions.push ui.afterWhen
+		spec["when Escape key pressed"] = whenActions
 		spec["then static view displayed, input control hidden"] =
 			".static-view": should.beVisible()
 			":input:visible": should.match 0
@@ -89,10 +108,13 @@ specBuilders =
 
 	"Save edit by losing focus": (ui) ->
 		spec = {}
-		spec["given #{ui.name} component in edit mode"] = [
+		givenActions = [
 			createFingersUI ui.html
 			$(".static-view").click()
 		]
+		if ui.afterGiven?
+			givenActions.push ui.afterGiven
+		spec["given #{ui.name} component in edit mode"] = givenActions  
 		spec["when input blurred"] = ui.blur or $(":input:visible:first").blur()
 		spec["then static view displayed, input control hidden"] =
 			".static-view": should.beVisible()
@@ -101,11 +123,17 @@ specBuilders =
 
 	"Save edit by pressing Enter key": (ui) ->
 		spec = {}
-		spec["given #{ui.name} component in edit mode"] = [
+		givenActions = [
 			createFingersUI ui.html
 			$(".static-view").click()
 		]
-		spec["when Enter key pressed"] = $(":input:visible:first").type ENTER
+		if ui.afterGiven?
+			givenActions.push ui.afterGiven
+		spec["given #{ui.name} component in edit mode"] = givenActions
+		whenActions = [ $(":input:visible:first").type ENTER ]
+		if ui.afterWhen?
+			whenActions.push ui.afterWhen
+		spec["when Enter key pressed"] = whenActions
 		spec["then static view displayed, input control hidden"] =
 			".static-view": should.beVisible()
 			":input:visible": should.match 0
