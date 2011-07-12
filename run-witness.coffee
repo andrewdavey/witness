@@ -9,6 +9,7 @@ if not url? or not path?
 runnerUrl = "#{url}/_witness/runner.htm?path=#{path}&manualdownload=yes&autorun=yes"
 console.log "Loading #{runnerUrl}"
 
+startTime = +new Date()
 page = new WebPage()
 loaded = no
 page.open runnerUrl, (status) ->
@@ -18,6 +19,9 @@ page.open runnerUrl, (status) ->
 		loaded = yes
 		page.onConsoleMessage = (message) ->
 			if message == "!exit"
+				endTime = +new Date()
+				duration = endTime - startTime
+				console.log "Duration #{duration}ms"
 				phantom.exit()
 			else
 				console.log message
