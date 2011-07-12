@@ -19,7 +19,7 @@ namespace Witness.RequestHandlers
             AddRequestHeaders(context, targetRequest);
 
             var targetResponse = targetRequest.GetResponse();
-            AddResponseHeader(context, targetResponse);
+            AddResponseHeaders(context, targetResponse);
 
             using (var stream = targetResponse.GetResponseStream())
             {
@@ -44,7 +44,7 @@ namespace Witness.RequestHandlers
             targetRequest.Headers.Add(context.Request.Headers);
         }
 
-        void AddResponseHeader(HttpContextBase context, WebResponse targetResponse)
+        void AddResponseHeaders(HttpContextBase context, WebResponse targetResponse)
         {
             context.Response.Headers.Add(targetResponse.Headers);
         }
