@@ -53,6 +53,7 @@
 					new AsyncAction -> helper.download (=> @done()), (=> @fail())
 
 			modelDownload = new AsyncAction -> model.download (=> @done()), (=> @fail())
+			modelDownload.timeout = -1
 
 			downloadSequence = new Sequence helperDownloads.concat(modelDownload)
 			downloadSequence.run {},
