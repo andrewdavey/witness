@@ -64,10 +64,26 @@ uiTypes = [
 	blur: [
 		->
 			input = @window.jQuery("input:visible", @document)
-			debugger
 			input.datepicker("hide")
 		wait 250
 	]
+,
+	name: "ckeditor with no default content"
+	html: '<textarea class="editable view-ck-editor"></textarea>'
+	blur: [
+		wait 250
+		$("body").click()
+	]
+	ignore: { escape: true, enter: true } # leave these for now
+,
+	name: "ckeditor with default content"
+	html: '<textarea class="editable view-ck-editor"><p>This is some rich HTML content</p></textarea>'
+	staticDefault: "This is some rich HTML content"
+	blur: [
+		wait 250
+		$("body").click()
+	]
+	ignore: { escape: true, enter: true } # leave these for now
 ]
 
 specBuilders =
@@ -89,6 +105,7 @@ specBuilders =
 		spec
 
 	"Cancel edit": (ui) ->
+		return null if ui.ignore?.escape?
 		spec = {}
 		givenActions = [
 			createFingersUI ui.html
@@ -122,6 +139,8 @@ specBuilders =
 		spec
 
 	"Save edit by pressing Enter key": (ui) ->
+		return null if ui.ignore?.enter?
+
 		spec = {}
 		givenActions = [
 			createFingersUI ui.html
@@ -141,4 +160,5 @@ specBuilders =
 
 for own description, specBuilder of specBuilders
 	specs = (specBuilder uiType for own uiType in uiTypes)
+	specs = (spec for spec in specs when spec?)
 	describe description, specs...
