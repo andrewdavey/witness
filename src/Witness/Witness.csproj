@@ -33,16 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxMin">
+    <Reference Include="AjaxMin, Version=4.13.4076.28499, Culture=neutral, PublicKeyToken=24297a69a7eae424, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Knapsack.0.4.2\lib\net40\Jurassic.dll</HintPath>
+      <HintPath>..\packages\Jurassic.2.1.0\lib\net40\Jurassic.dll</HintPath>
     </Reference>
-    <Reference Include="Knapsack, Version=0.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Knapsack.0.4.2\lib\net40\Knapsack.dll</HintPath>
+    <Reference Include="Knapsack, Version=0.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Knapsack.0.4.3\lib\net40\Knapsack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,7 +82,9 @@
     <EmbeddedResource Include="styles\witness.css" />
     <EmbeddedResource Include="runner.htm" />
     <EmbeddedResource Include="styles\images\close.png" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="scripts\witness\Action.coffee" />
     <None Include="scripts\witness\actions\Remote.coffee" />
     <None Include="scripts\witness\Assertion.coffee" />
