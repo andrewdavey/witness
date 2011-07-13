@@ -17,6 +17,11 @@ namespace Witness
         {
             // Any URL starting "_witness" is mapped to a Witness controller.
             routes.MapRoute(
+                "Manifest",
+                "_witness/manifest",
+                new { controller = "Manifest", action = "Get" }
+            );
+            routes.MapRoute(
                 "Witness",
                 "_witness/{controller}/{action}"
             );
