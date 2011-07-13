@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = null;
+    Html.ReferenceScript("scripts/lib");
+    Html.ReferenceScript("scripts/witness");
+    Html.ReferenceStylesheet("styles");
+}
+<!DOCTYPE html>
 <html class="runner">
 <head>
 	<title>Witness Test Runner</title>
-    <link type="text/css" rel="stylesheet" href="styles/witness.css"/>
-    <script type="text/javascript" src="witness.js"></script>    
+    @Html.RenderStylesheetLinks();
+    @Html.RenderScripts();
 </head>
 <body>
     <div id="toolbar">

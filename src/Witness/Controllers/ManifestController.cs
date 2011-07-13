@@ -17,8 +17,8 @@ namespace Witness.Controllers
             EnsurePathExists(path, fullPath);
 
             var manifest = new Manifest(Request.ApplicationPath);
-            AssignDirectoryOrFile(manifest, fullPath, context);
-            manifest.helpers = FindParentHelpers(fullPath, context).ToArray();
+            AssignDirectoryOrFile(manifest, fullPath);
+            manifest.helpers = FindParentHelpers(fullPath).ToArray();
 
             Response.Cache.SetNoStore();
             return Json(manifest);
@@ -26,28 +26,28 @@ namespace Witness.Controllers
 
         void EnsurePathExists(string path, string fullPath)
         {
-            if (!Directory.Exists(fullPath) && !File.Exists(fullPath))
+            if (!Directory.Exists(fullPath) && !System.IO.File.Exists(fullPath))
             {
                 throw new HttpException(404, "Cannot find the path \"" + path + "\"");
             }
         }
 
-        void AssignDirectoryOrFile(Manifest manifest, string fullPath, RequestContext context)
+        void AssignDirectoryOrFile(Manifest manifest, string fullPath)
         {
-            if (File.GetAttributes(fullPath).HasFlag(FileAttributes.Directory))
+            if (System.IO.File.GetAttributes(fullPath).HasFlag(FileAttributes.Directory))
             {
-                manifest.directory = GetSpecificationDirectory(fullPath, context.HttpContext);
+                manifest.directory = GetSpecificationDirectory(fullPath);
             }
             else
             {
-                manifest.file = GetSpecificationFile(fullPath, context.HttpContext);
+                manifest.file = GetSpecificationFile(fullPath);
             }
         }
 
-        IEnumerable<string> FindParentHelpers(string fullPath, RequestContext context)
+        IEnumerable<string> FindParentHelpers(string fullPath)
         {
-            var root = context.HttpContext.Request.QueryString["root"] ?? "";
-            var rootPath = context.HttpContext.Server.MapPath("~/" + root).TrimEnd('\\', '/');
+            var root = Request.QueryString["root"] ?? "";
+            var rootPath = Server.MapPath("~/" + root).TrimEnd('\\', '/');
 
             DirectoryInfo directory;
             if (Directory.Exists(fullPath))
@@ -68,31 +68,31 @@ namespace Witness.Controllers
 
                 foreach (var file in files)
                 {
-                    yield return GetFileUrl(file.FullName, context.HttpContext);
+                    yield return GetFileUrl(file.FullName);
                 }
                 directory = directory.Parent;
             }
         }
 
-        SpecDir GetSpecificationDirectory(string rootPath, HttpContextBase context)
+        SpecDir GetSpecificationDirectory(string rootPath)
         {
             return new SpecDir
             {
                 name = Path.GetFileName(rootPath),
                 directories =
                     from path in Directory.EnumerateDirectories(rootPath)
-                    where File.GetAttributes(path).HasFlag(FileAttributes.Hidden) == false
-                    let directory = GetSpecificationDirectory(path, context)
+                    where System.IO.File.GetAttributes(path).HasFlag(FileAttributes.Hidden) == false
+                    let directory = GetSpecificationDirectory(path)
                     where directory.IsNotEmpty
                     select directory,
                 files =
                     from filename in Directory.EnumerateFiles(rootPath)
                     where IsScript(filename) && IsHelperFile(filename) == false
-                    select GetSpecificationFile(filename, context),
+                    select GetSpecificationFile(filename),
                 helpers =
                     from filename in Directory.EnumerateFiles(rootPath)
                     where IsScript(filename) && IsHelperFile(filename)
-                    select GetFileUrl(filename, context)
+                    select GetFileUrl(filename)
             };
         }
 
@@ -100,7 +100,7 @@ namespace Witness.Controllers
         {
             return (filename.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
                  || filename.EndsWith(".coffee", StringComparison.OrdinalIgnoreCase))
-                && File.GetAttributes(filename).HasFlag(FileAttributes.Hidden) == false;
+                && System.IO.File.GetAttributes(filename).HasFlag(FileAttributes.Hidden) == false;
         }
 
         bool IsHelperFile(string filename)
@@ -108,19 +108,19 @@ namespace Witness.Controllers
             return Path.GetFileName(filename).StartsWith("_");
         }
 
-        SpecFile GetSpecificationFile(string filename, HttpContextBase context)
+        SpecFile GetSpecificationFile(string filename)
         {
             return new SpecFile
             {
                 name = Path.GetFileName(filename),
-                url = GetFileUrl(filename, context)
+                url = GetFileUrl(filename)
             };
         }
 
-        string GetFileUrl(string filename, HttpContextBase context)
+        string GetFileUrl(string filename)
         {
-            var root = context.Request.ApplicationPath.TrimEnd('/');
-            return root + "/" + filename.Substring(context.Request.PhysicalApplicationPath.Length).Replace('\\', '/');
+            var root = Request.ApplicationPath.TrimEnd('/');
+            return root + "/" + filename.Substring(Request.PhysicalApplicationPath.Length).Replace('\\', '/');
         }
 
     }

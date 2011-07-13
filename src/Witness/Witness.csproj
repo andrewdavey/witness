@@ -7,7 +7,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Witness</RootNamespace>
@@ -63,80 +63,77 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Controllers\RunnerController.cs" />
+    <Compile Include="Controllers\SandboxController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Manifest.cs" />
+    <Compile Include="Models\SpecDir.cs" />
+    <Compile Include="Models\SpecFile.cs" />
     <Compile Include="RequestHandlers\ProxyHandler.cs" />
     <Compile Include="DotNetContext.cs" />
     <Compile Include="RemoteScriptableAttribute.cs" />
     <Compile Include="RequestHandlers\ExecuteScriptHandler.cs" />
-    <Compile Include="RequestHandlers\GetDebugRunnerHandler.cs" />
-    <Compile Include="RequestHandlers\GetManifestHandler.cs" />
-    <Compile Include="RequestHandlers\GetAssemblyResourceHandler.cs" />
     <Compile Include="RequestHandlers\IUseRequestContext.cs" />
-    <Compile Include="RequestHandlers\GetScriptResourceHandler.cs" />
     <Compile Include="RequestHandlers\WitnessRequestHandlerBase.cs" />
     <Compile Include="RequireWitnessCookieConstraint.cs" />
     <Compile Include="WitnessRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="styles\images\directory.png" />
-    <EmbeddedResource Include="styles\images\file.png" />
-    <EmbeddedResource Include="styles\images\open.png" />
-    <EmbeddedResource Include="styles\images\scenario-part-close.png" />
-    <EmbeddedResource Include="styles\images\scenario-part-open.png" />
-    <EmbeddedResource Include="styles\images\specification.png" />
-    <EmbeddedResource Include="styles\witness.css" />
-    <EmbeddedResource Include="runner.htm" />
-    <EmbeddedResource Include="styles\images\close.png" />
+    <Content Include="styles\images\directory.png" />
+    <Content Include="styles\images\file.png" />
+    <Content Include="styles\images\open.png" />
+    <Content Include="styles\images\scenario-part-close.png" />
+    <Content Include="styles\images\scenario-part-open.png" />
+    <Content Include="styles\images\specification.png" />
+    <Content Include="styles\witness.css" />
+    <Content Include="styles\images\close.png" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="scripts\witness\Action.coffee" />
-    <None Include="scripts\witness\actions\Remote.coffee" />
-    <None Include="scripts\witness\Assertion.coffee" />
-    <None Include="scripts\witness\AsyncAction.coffee" />
-    <None Include="scripts\witness\Dsl.coffee" />
-    <None Include="scripts\witness\dsl\async.coffee" />
-    <None Include="scripts\witness\dsl\defineActions.coffee" />
-    <None Include="scripts\witness\dsl\describe.coffee" />
-    <None Include="scripts\witness\dsl\jquery.coffee" />
-    <None Include="scripts\witness\dsl\mock.coffee" />
-    <None Include="scripts\witness\dsl\pageAutomation.coffee" />
-    <None Include="scripts\witness\dsl\should.coffee" />
-    <None Include="scripts\witness\dsl\wait.coffee" />
-    <None Include="scripts\witness\Event.coffee" />
-    <None Include="scripts\witness\helpers.coffee" />
-    <None Include="scripts\witness\Keys.coffee" />
-    <None Include="scripts\witness\MessageBus.coffee" />
-    <None Include="scripts\witness\OuterScenario.coffee" />
-    <None Include="scripts\witness\polyfill.coffee" />
-    <None Include="scripts\witness\RunnerPage.coffee" />
-    <None Include="scripts\witness\Scenario.coffee" />
-    <None Include="scripts\witness\ScriptFile.coffee" />
-    <None Include="scripts\witness\Sequence.coffee" />
-    <None Include="scripts\witness\SimpleRunner.coffee" />
-    <None Include="scripts\witness\Specification.coffee" />
-    <None Include="scripts\witness\SpecificationDirectory.coffee" />
-    <None Include="scripts\witness\SpecificationFile.coffee" />
-    <None Include="scripts\witness\SpecificationHelper.coffee" />
-    <None Include="scripts\witness\TimeoutError.coffee" />
-    <None Include="scripts\witness\TryAll.coffee" />
-    <None Include="scripts\witness\ViewModels\ActionWatcher.coffee" />
-    <None Include="scripts\witness\ViewModels\Helpers.coffee" />
-    <None Include="scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
-    <None Include="scripts\witness\ViewModels\ScenarioViewModel.coffee" />
-    <None Include="scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
-    <None Include="scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
-    <None Include="scripts\witness\ViewModels\SpecificationViewModel.coffee" />
-    <None Include="scripts\witness\ViewModels\ViewModels.coffee" />
-    <None Include="scripts\witness\Witness.coffee" />
-    <EmbeddedResource Include="index.htm" />
-    <None Include="scripts\lib\jquery-ui.js" />
-    <None Include="scripts\lib\sizzle.js" />
+    <Content Include="scripts\witness\Action.coffee" />
+    <Content Include="scripts\witness\actions\Remote.coffee" />
+    <Content Include="scripts\witness\Assertion.coffee" />
+    <Content Include="scripts\witness\AsyncAction.coffee" />
+    <Content Include="scripts\witness\Dsl.coffee" />
+    <Content Include="scripts\witness\dsl\async.coffee" />
+    <Content Include="scripts\witness\dsl\defineActions.coffee" />
+    <Content Include="scripts\witness\dsl\describe.coffee" />
+    <Content Include="scripts\witness\dsl\jquery.coffee" />
+    <Content Include="scripts\witness\dsl\mock.coffee" />
+    <Content Include="scripts\witness\dsl\pageAutomation.coffee" />
+    <Content Include="scripts\witness\dsl\should.coffee" />
+    <Content Include="scripts\witness\dsl\wait.coffee" />
+    <Content Include="scripts\witness\Event.coffee" />
+    <Content Include="scripts\witness\helpers.coffee" />
+    <Content Include="scripts\witness\Keys.coffee" />
+    <Content Include="scripts\witness\MessageBus.coffee" />
+    <Content Include="scripts\witness\OuterScenario.coffee" />
+    <Content Include="scripts\witness\polyfill.coffee" />
+    <Content Include="scripts\witness\RunnerPage.coffee" />
+    <Content Include="scripts\witness\Scenario.coffee" />
+    <Content Include="scripts\witness\ScriptFile.coffee" />
+    <Content Include="scripts\witness\Sequence.coffee" />
+    <Content Include="scripts\witness\SimpleRunner.coffee" />
+    <Content Include="scripts\witness\Specification.coffee" />
+    <Content Include="scripts\witness\SpecificationDirectory.coffee" />
+    <Content Include="scripts\witness\SpecificationFile.coffee" />
+    <Content Include="scripts\witness\SpecificationHelper.coffee" />
+    <Content Include="scripts\witness\TimeoutError.coffee" />
+    <Content Include="scripts\witness\TryAll.coffee" />
+    <Content Include="scripts\witness\ViewModels\ActionWatcher.coffee" />
+    <Content Include="scripts\witness\ViewModels\Helpers.coffee" />
+    <Content Include="scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
+    <Content Include="scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <Content Include="scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
+    <Content Include="scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
+    <Content Include="scripts\witness\ViewModels\SpecificationViewModel.coffee" />
+    <Content Include="scripts\witness\ViewModels\ViewModels.coffee" />
+    <Content Include="scripts\witness\Witness.coffee" />
+    <Content Include="scripts\lib\jquery-ui.js" />
     <Content Include="Global.asax" />
     <Content Include="scripts\lib\LAB.js" />
     <Content Include="Web.config" />
@@ -146,26 +143,20 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Runner\Index.cshtml" />
+    <Content Include="Views\Sandbox\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Script.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="sandbox.htm" />
-    <None Include="scripts\lib\coffee-script.js" />
-    <None Include="scripts\lib\jquery.js" />
-    <None Include="scripts\lib\jquery.tmpl.js" />
-    <None Include="scripts\lib\jslint.js" />
-    <None Include="scripts\lib\knockout.js" />
+    <Content Include="scripts\lib\coffee-script.js" />
+    <Content Include="scripts\lib\jquery.js" />
+    <Content Include="scripts\lib\jquery.tmpl.js" />
+    <Content Include="scripts\lib\jslint.js" />
+    <Content Include="scripts\lib\knockout.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PreBuildEvent>"$(ProjectDir)..\..\tools\knapsack\knapsack.shell.exe" ..\scripts &gt; ..\obj\witness.js</PreBuildEvent>
-  </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">

@@ -22,8 +22,14 @@ namespace Witness
                 new { controller = "Manifest", action = "Get" }
             );
             routes.MapRoute(
-                "Witness",
-                "_witness/{controller}/{action}"
+                "Manifest",
+                "_witness/sandbox.htm",
+                new { controller = "Sandbox", action = "Index" }
+            );
+            routes.MapRoute(
+                "Manifest",
+                "_witness",
+                new { controller = "Runner", action = "Index" }
             );
 
             // All other URLs are proxied to their original target.
@@ -33,7 +39,7 @@ namespace Witness
                 new Route(
                     "{*any}", // Match any URL
                     null, // No defaults required
-                    new { constraint = new RequireWitnessCookieConstraint() },
+                    new RouteValueDictionary(new { constraint = new RequireWitnessCookieConstraint() }),
                     new WitnessRouteHandler<ProxyHandler>()
                 )
             );
