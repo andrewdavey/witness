@@ -698,7 +698,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59595</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1337/fingers</IISUrl>
+          <IISUrl>http://localhost:8002</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

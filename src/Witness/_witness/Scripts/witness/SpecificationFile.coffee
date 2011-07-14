@@ -77,7 +77,7 @@ addInlineScript = (scriptText, iframeDoc) ->
 				fail error
 
 	executeSpecificationScript: (script, gotSpecifications, fail) ->
-		iframe = jQuery("<iframe src='sandbox.htm'/>").hide().appendTo("body")
+		iframe = jQuery("<iframe src='/_witness/sandbox.htm'/>").hide().appendTo("body")
 		iframe.load () =>
 			iframeWindow = iframe[0].contentWindow
 			iframeDoc = iframeWindow.document

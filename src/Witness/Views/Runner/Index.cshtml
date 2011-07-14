@@ -1,15 +1,18 @@
 ﻿@{
     Layout = null;
-    Html.ReferenceScript("scripts/lib");
-    Html.ReferenceScript("scripts/witness");
-    Html.ReferenceStylesheet("styles");
+    Html.ReferenceScript("_witness/scripts/lib");
+    Html.ReferenceScript("_witness/scripts/witness");
+    Html.ReferenceStylesheet("_witness/styles");
 }
 <!DOCTYPE html>
 <html class="runner">
 <head>
 	<title>Witness Test Runner</title>
-    @Html.RenderStylesheetLinks();
-    @Html.RenderScripts();
+    @Html.RenderStylesheetLinks()
+    <script type="text/javascript">
+    window.witnessPageData = { path: "@HttpUtility.JavaScriptStringEncode(ViewBag.Path)" };
+    </script>
+    @Html.RenderScripts()
 </head>
 <body>
     <div id="toolbar">

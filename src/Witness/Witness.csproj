@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,10 @@
     </Reference>
     <Reference Include="Knapsack, Version=0.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Knapsack.0.4.3\lib\net40\Knapsack.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedFusion.Rewriter, Version=3.5.36.0, Culture=neutral, PublicKeyToken=37fded21d1a8502d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ManagedFusion.Rewriter.3.5.36\lib\net35\ManagedFusion.Rewriter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,6 +71,7 @@
     <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Controllers\RunnerController.cs" />
     <Compile Include="Controllers\SandboxController.cs" />
+    <Compile Include="Controllers\SpecController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -79,64 +85,67 @@
     <Compile Include="RequestHandlers\IUseRequestContext.cs" />
     <Compile Include="RequestHandlers\WitnessRequestHandlerBase.cs" />
     <Compile Include="RequireWitnessCookieConstraint.cs" />
-    <Compile Include="WitnessRouteHandler.cs" />
+    <Compile Include="RequestHandlers\WitnessRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="styles\images\directory.png" />
-    <Content Include="styles\images\file.png" />
-    <Content Include="styles\images\open.png" />
-    <Content Include="styles\images\scenario-part-close.png" />
-    <Content Include="styles\images\scenario-part-open.png" />
-    <Content Include="styles\images\specification.png" />
-    <Content Include="styles\witness.css" />
-    <Content Include="styles\images\close.png" />
+    <Content Include="ManagedFusion.Rewriter.txt" />
+    <Content Include="_witness\styles\images\directory.png" />
+    <Content Include="_witness\styles\images\file.png" />
+    <Content Include="_witness\styles\images\open.png" />
+    <Content Include="_witness\styles\images\scenario-part-close.png" />
+    <Content Include="_witness\styles\images\scenario-part-open.png" />
+    <Content Include="_witness\styles\images\specification.png" />
+    <Content Include="_witness\styles\witness.css" />
+    <Content Include="_witness\styles\images\close.png" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="scripts\witness\Action.coffee" />
-    <Content Include="scripts\witness\actions\Remote.coffee" />
-    <Content Include="scripts\witness\Assertion.coffee" />
-    <Content Include="scripts\witness\AsyncAction.coffee" />
-    <Content Include="scripts\witness\Dsl.coffee" />
-    <Content Include="scripts\witness\dsl\async.coffee" />
-    <Content Include="scripts\witness\dsl\defineActions.coffee" />
-    <Content Include="scripts\witness\dsl\describe.coffee" />
-    <Content Include="scripts\witness\dsl\jquery.coffee" />
-    <Content Include="scripts\witness\dsl\mock.coffee" />
-    <Content Include="scripts\witness\dsl\pageAutomation.coffee" />
-    <Content Include="scripts\witness\dsl\should.coffee" />
-    <Content Include="scripts\witness\dsl\wait.coffee" />
-    <Content Include="scripts\witness\Event.coffee" />
-    <Content Include="scripts\witness\helpers.coffee" />
-    <Content Include="scripts\witness\Keys.coffee" />
-    <Content Include="scripts\witness\MessageBus.coffee" />
-    <Content Include="scripts\witness\OuterScenario.coffee" />
-    <Content Include="scripts\witness\polyfill.coffee" />
-    <Content Include="scripts\witness\RunnerPage.coffee" />
-    <Content Include="scripts\witness\Scenario.coffee" />
-    <Content Include="scripts\witness\ScriptFile.coffee" />
-    <Content Include="scripts\witness\Sequence.coffee" />
-    <Content Include="scripts\witness\SimpleRunner.coffee" />
-    <Content Include="scripts\witness\Specification.coffee" />
-    <Content Include="scripts\witness\SpecificationDirectory.coffee" />
-    <Content Include="scripts\witness\SpecificationFile.coffee" />
-    <Content Include="scripts\witness\SpecificationHelper.coffee" />
-    <Content Include="scripts\witness\TimeoutError.coffee" />
-    <Content Include="scripts\witness\TryAll.coffee" />
-    <Content Include="scripts\witness\ViewModels\ActionWatcher.coffee" />
-    <Content Include="scripts\witness\ViewModels\Helpers.coffee" />
-    <Content Include="scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
-    <Content Include="scripts\witness\ViewModels\ScenarioViewModel.coffee" />
-    <Content Include="scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
-    <Content Include="scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
-    <Content Include="scripts\witness\ViewModels\SpecificationViewModel.coffee" />
-    <Content Include="scripts\witness\ViewModels\ViewModels.coffee" />
-    <Content Include="scripts\witness\Witness.coffee" />
-    <Content Include="scripts\lib\jquery-ui.js" />
+    <Content Include="_witness\scripts\witness\Action.coffee" />
+    <Content Include="_witness\scripts\witness\actions\Remote.coffee" />
+    <Content Include="_witness\scripts\witness\Assertion.coffee" />
+    <Content Include="_witness\scripts\witness\AsyncAction.coffee" />
+    <Content Include="_witness\scripts\witness\Dsl.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\async.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\defineActions.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\describe.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\jquery.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\mock.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\pageAutomation.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\should.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\wait.coffee" />
+    <Content Include="_witness\scripts\witness\Event.coffee" />
+    <Content Include="_witness\scripts\witness\helpers.coffee" />
+    <Content Include="_witness\scripts\witness\Keys.coffee" />
+    <Content Include="_witness\scripts\witness\MessageBus.coffee" />
+    <Content Include="_witness\scripts\witness\OuterScenario.coffee" />
+    <Content Include="_witness\scripts\witness\polyfill.coffee" />
+    <Content Include="_witness\scripts\witness\RunnerPage.coffee" />
+    <Content Include="_witness\scripts\witness\Scenario.coffee" />
+    <Content Include="_witness\scripts\witness\ScriptFile.coffee" />
+    <Content Include="_witness\scripts\witness\Sequence.coffee" />
+    <Content Include="_witness\scripts\witness\SimpleRunner.coffee" />
+    <Content Include="_witness\scripts\witness\Specification.coffee" />
+    <Content Include="_witness\scripts\witness\SpecificationDirectory.coffee" />
+    <Content Include="_witness\scripts\witness\SpecificationFile.coffee" />
+    <Content Include="_witness\scripts\witness\SpecificationHelper.coffee" />
+    <Content Include="_witness\scripts\witness\TimeoutError.coffee" />
+    <Content Include="_witness\scripts\witness\TryAll.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\ActionWatcher.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\Helpers.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\OuterScenarioViewModel.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\ScenarioViewModel.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\SpecificationDirectoryViewModel.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\SpecificationFileViewModel.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\SpecificationViewModel.coffee" />
+    <Content Include="_witness\scripts\witness\ViewModels\ViewModels.coffee" />
+    <Content Include="_witness\scripts\witness\Witness.coffee" />
+    <Content Include="_witness\scripts\lib\jquery-ui.js" />
     <Content Include="Global.asax" />
-    <Content Include="scripts\lib\LAB.js" />
-    <Content Include="Web.config" />
+    <Content Include="_witness\scripts\lib\LAB.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -146,15 +155,15 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Runner\Index.cshtml" />
     <Content Include="Views\Sandbox\Index.cshtml" />
+    <Content Include="Views\Runner\Setup.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\lib\coffee-script.js" />
-    <Content Include="scripts\lib\jquery.js" />
-    <Content Include="scripts\lib\jquery.tmpl.js" />
-    <Content Include="scripts\lib\jslint.js" />
-    <Content Include="scripts\lib\knockout.js" />
+    <Content Include="_witness\scripts\lib\coffee-script.js" />
+    <Content Include="_witness\scripts\lib\jquery.js" />
+    <Content Include="_witness\scripts\lib\jquery.tmpl.js" />
+    <Content Include="_witness\scripts\lib\jslint.js" />
+    <Content Include="_witness\scripts\lib\knockout.js" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
@@ -165,7 +174,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1337</DevelopmentServerPort>
           <DevelopmentServerVPath>/witness</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1337/witness</IISUrl>
+          <IISUrl>http://localhost:8001/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -83,7 +83,7 @@
 
 	downloadSpecificationManifest: ->
 		$.ajax
-			url: "manifest"
+			url: "/_witness/manifest"
 			data: { path: @specsPath }
 			cache: false
 

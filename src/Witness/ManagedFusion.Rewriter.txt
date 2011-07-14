@@ -1,0 +1,13 @@
+RewriteEngine On
+#RewriteLog "log.txt"
+#RewriteLogLevel 9
+
+# You can find the rewrite commands and rules here http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html
+# You can also read more about the setup process here https://github.com/managedfusion/managedfusion-rewriter/blob/master/README.txt
+
+# Reverse proxy [P] any request where the URL doesn't start with "/_witness".
+# The target web server URL is in the "_witness_proxy" cookie.
+# [QSA] flag preserves the original query string in the rewritten URL.
+RewriteCond %{HTTP_COOKIE} ^_witness_proxy=(.+)\b
+RewriteCond %{REQUEST_URI} !^/_witness.*
+RewriteRule ^/(.*) %2/$1 [P,QSA]

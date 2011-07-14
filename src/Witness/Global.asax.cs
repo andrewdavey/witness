@@ -15,6 +15,8 @@ namespace Witness
 
         void MapRoutes(RouteCollection routes)
         {
+            routes.RouteExistingFiles = true;
+
             // Any URL starting "_witness" is mapped to a Witness controller.
             routes.MapRoute(
                 "Manifest",
@@ -22,34 +24,34 @@ namespace Witness
                 new { controller = "Manifest", action = "Get" }
             );
             routes.MapRoute(
-                "Manifest",
+                "Sandbox",
                 "_witness/sandbox.htm",
                 new { controller = "Sandbox", action = "Index" }
             );
             routes.MapRoute(
-                "Manifest",
+                "SpecFile",
+                "_witness/specs",
+                new { controller = "Spec", action = "Get" }
+            );
+            routes.MapRoute(
+                "RunnerSetup",
+                "_witness/setup", // The root URL.
+                new { controller = "Runner", action = "Setup" }
+            );
+            routes.MapRoute(
+                "RunnerIndex",
                 "_witness",
                 new { controller = "Runner", action = "Index" }
             );
 
-            // All other URLs are proxied to their original target.
-            // (If the Witness cookie has been set up.)
-            routes.Add(
-                "Proxy",
-                new Route(
-                    "{*any}", // Match any URL
-                    null, // No defaults required
-                    new RouteValueDictionary(new { constraint = new RequireWitnessCookieConstraint() }),
-                    new WitnessRouteHandler<ProxyHandler>()
-                )
-            );
+            routes.IgnoreRoute("_witness/knapsack.axd/{*any}");
 
             // When new browser session requests root URL they have no Witness cookie.
-            // So display the runner page.
+            // So display the runner setup page.
             routes.MapRoute(
-                "Init",
+                "InitialRoot",
                 "", // The root URL.
-                new { controller = "Runner", action = "Index" }
+                new { controller = "Runner", action = "Setup" }
             );
         }
     }
