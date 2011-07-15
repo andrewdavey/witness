@@ -1,0 +1,59 @@
+﻿/* Styles for the specification tree view */
+
+.tree {
+    font-size: 9pt;
+}
+
+.tree .node {
+    clear: left;
+}
+
+.tree .toggle {
+    width: 16px;
+    height: 20px;
+    display: block;
+    float: left;
+    background-image: url(images/open.png);
+    background-position: left center;
+}
+
+.tree .open > .toggle {
+    background-image: url(images/close.png);
+}
+
+.tree .node > .text {
+    float: left;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 20px; /* move over for the background-image */
+    height: 20px;
+    line-height: 20px;
+}
+
+.tree .node > .children {
+    clear: left; /* Because the toggle and text preceeding this are floated left. */
+    display: none;
+    padding-left: 10px;
+}
+
+.tree .node.open > .children {
+    display: block;
+}
+
+.tree .directory > .text {
+    background-image: url(images/directory.png);
+}
+
+.tree .specification > .text {
+    background-image: url(images/specification.png);
+}
+
+.tree .outer-scenario > .text {
+    background-image: url(images/scenario.png);
+}
+
+.tree .scenario > .text {
+    background-image: url(images/scenario.png);
+    margin-left: 16px; /* No toogle for leaf node. So move left to match the relative icon positions of parents. */
+}

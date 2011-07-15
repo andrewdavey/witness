@@ -1,11 +1,13 @@
 ﻿@{
     Layout = null;
     Html.ReferenceScript("_witness/scripts/witness-ui");
+    Html.ReferenceStylesheet("_witness/styles");
 }
 <!DOCTYPE html>
 <html>
 <head>
     <title>Witness</title>
+    @Html.RenderStylesheetLinks()
     @Html.RenderScripts()
 </head>
 <body>
@@ -44,29 +46,32 @@
         </div>
     </script>
     <script id="tree" type="text/html">
-        <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        <ul class="tree" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
     </script>
     <script id="directory" type="text/html">
-        <li class="directory-node">
-            <span>${ text }</span>
-            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        <li class="directory node" data-bind="css: { 'open': isOpen }">
+            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+            <span class="text">${ text }</span>
+            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
         </li>
     </script>
     <script id="specification" type="text/html">
-        <li class="specification-node">
-            <span>${ text }</span>
-            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        <li class="specification node" data-bind="css: { 'open': isOpen }">
+            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+            <span class="text">${ text }</span>
+            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
         </li>
     </script>
     <script id="outer-scenario" type="text/html">
-        <li class="outer-scenario-node">
-            <span>${ text }</span>
-            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        <li class="outer-scenario node" data-bind="css: { 'open': isOpen }">
+            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+            <span class="text">${ text }</span>
+            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
         </li>
     </script>
     <script id="scenario" type="text/html">
-        <li class="scenario-node">
-            <span>${ text }</span>
+        <li class="scenario node">
+            <span class="text">${ text }</span>
         </li>
     </script>
 </body>
