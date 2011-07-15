@@ -15,6 +15,7 @@ namespace Witness.Controllers
         public ActionResult Get(string path)
         {
             EnsurePathExists(path);
+            if (path[path.Length - 1] != Path.DirectorySeparatorChar) path += Path.DirectorySeparatorChar.ToString();
             basePath = path;
             var directory = GetSpecificationDirectory(path);
 
@@ -69,7 +70,8 @@ namespace Witness.Controllers
             return new SpecFile
             {
                 name = Path.GetFileName(filename),
-                url = GetFileUrl(filename)
+                url = GetFileUrl(filename),
+                path = filename.Substring(basePath.Length)
             };
         }
 
