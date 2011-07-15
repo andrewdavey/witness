@@ -10,19 +10,15 @@ namespace Witness.Controllers
     {
         // GET /
         [HttpGet]
-        public ActionResult Setup()
+        public ActionResult Root()
         {
-            return View();
+            return RedirectToAction("Index");
         }
 
-        // GET /_witness?url={app-url}&path={spec-path}
+        // GET /_witness
         [HttpGet]
-        public ActionResult Index(string url, string path)
+        public ActionResult Index()
         {
-            var cookie = new HttpCookie("_witness_proxy", url);
-            Response.Cookies.Add(cookie);
-
-            ViewBag.Path = path;
             return View();
         }
     }

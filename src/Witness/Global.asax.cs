@@ -49,9 +49,9 @@ namespace Witness
             // When new browser session requests root URL they have no Witness cookie.
             // So display the runner setup page.
             routes.MapRoute(
-                "InitialRoot",
+                "RunnerRoot",
                 "", // The root URL.
-                new { controller = "Runner", action = "Setup" }
+                new { controller = "Runner", action = "Root" }
             );
         }
     }
