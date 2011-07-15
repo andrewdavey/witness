@@ -37,10 +37,37 @@
     <script id="log-message" type="text/html">
         <p class="${ type }">${ message }</p>
     </script>
+
     <script id="runner" type="text/html">
         <div>
-        runner
+            <div data-bind="template: { name: 'tree', data: treeRoot }"></div>
         </div>
+    </script>
+    <script id="tree" type="text/html">
+        <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+    </script>
+    <script id="directory" type="text/html">
+        <li class="directory-node">
+            <span>${ text }</span>
+            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        </li>
+    </script>
+    <script id="specification" type="text/html">
+        <li class="specification-node">
+            <span>${ text }</span>
+            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        </li>
+    </script>
+    <script id="outer-scenario" type="text/html">
+        <li class="outer-scenario-node">
+            <span>${ text }</span>
+            <ul data-bind="template: { name: templateId, foreach: children }"></ul>
+        </li>
+    </script>
+    <script id="scenario" type="text/html">
+        <li class="scenario-node">
+            <span>${ text }</span>
+        </li>
     </script>
 </body>
 </html>

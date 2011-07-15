@@ -8,7 +8,7 @@
 
 @Witness.manifests.Manifest = class Manifest
 
-	constructor: (@specificationDirectory) ->
+	constructor: (@specificationPath) ->
 		@scripts = []
 		@statusChanged = new Event()
 		@error = new Event()
@@ -23,7 +23,7 @@
 		jQuery.ajax
 			type: "get"
 			url: "/_witness/manifest"
-			data: { path: @specificationDirectory }
+			data: { path: @specificationPath }
 			cache: no
 			success: (manifestData) =>
 				@downloadManifestSucceeded manifestData
@@ -154,8 +154,7 @@
 
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = =>
-				script.specifications = dsl.specifications or []
-				@evaluateScriptSucceeded script
+				@evaluateScriptSucceeded script, dsl.specifications or []
 			
 			# Global error handling function for the iframe window
 			iframeWindow._witnessScriptError = (error) =>
@@ -177,7 +176,8 @@
 			addScript wrapScript @scripts[script.url].source if not failed
 			addScript "_witnessScriptCompleted();" if not failed
 
-	evaluateScriptSucceeded: (script) ->
+	evaluateScriptSucceeded: (script, specifications) ->
+		script.specifications = specifications
 		@decrementPendingEvaluationCount()
 
 	evaluateScriptFailed: (script, error) ->

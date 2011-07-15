@@ -157,7 +157,19 @@
     <Content Include="Views\Runner\Setup.cshtml" />
     <Content Include="Views\Runner\Index.cshtml" />
     <None Include="_witness\scripts\witness-ui\PageViewModel.coffee" />
+    <None Include="_witness\scripts\witness-ui\RunnerViewModel.coffee">
+      <LastGenOutput>RunnerViewModel.js</LastGenOutput>
+    </None>
     <None Include="_witness\scripts\witness-ui\SetupViewModel.coffee" />
+    <None Include="_witness\scripts\witness-ui\SpecificationNode.coffee">
+      <LastGenOutput>SpecificationNode.js</LastGenOutput>
+    </None>
+    <None Include="_witness\scripts\witness-ui\TreeDirectory.coffee">
+      <LastGenOutput>TreeDirectory.js</LastGenOutput>
+    </None>
+    <None Include="_witness\scripts\witness-ui\TreeNode.coffee">
+      <LastGenOutput>TreeItem.js</LastGenOutput>
+    </None>
     <None Include="_witness\scripts\witness-ui\_namespace.coffee" />
   </ItemGroup>
   <ItemGroup>
