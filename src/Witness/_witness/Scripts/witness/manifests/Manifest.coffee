@@ -12,7 +12,8 @@
 		@scripts = []
 		@statusChanged = new Event()
 		@error = new Event()
-		@downloadFinished = new Event()
+		@downloadSucceeded = new Event()
+		@downloadFailed = new Event()
 
 	log: (message) ->
 		@statusChanged.raise message
@@ -51,7 +52,7 @@
 
 	downloadManifestFailed: (xhr) ->
 		@error.raise "Manifest download failed. " + xhr.responseText
-		@downloadFinished.raise()
+		@downloadFailed.raise()
 
 
 	downloadScripts: (urls) ->
@@ -88,14 +89,14 @@
 			# else the JavaScript parsed - continue to next.
 
 		if errors
-			@downloadFinished.raise()
+			@downloadFailed.raise()
 		else
 			@evaluateScripts()
 
 	downloadScriptsFailed: ->
 		for script in @scripts when script.error?
 			@error.raise "Download of #{script.url} failed: #{script.error}"
-		@downloadFinished.raise()
+		@downloadFailed.raise()
 
 
 	parseScript: (url, source) ->
@@ -123,7 +124,12 @@
 
 	evaluateScripts: ->
 		@log "Evaluating scripts"
-
+		countSpecificationScripts = (directory) ->
+			count = directory.files.length
+			for subDirectory in directory.directories
+				count += countSpecificationScripts subDirectory
+			count
+		@pendingEvaluationCount = countSpecificationScripts @rootDirectory
 		@evaluateDirectory @rootDirectory
 
 	evaluateDirectory: (directory, parentHelpers = []) ->
@@ -149,17 +155,16 @@
 			# Add a function to the iframe window that will be called when the script has finished running.
 			iframeWindow._witnessScriptCompleted = =>
 				script.specifications = dsl.specifications or []
-				@log "#{script.path}: #{script.specifications.length} specifications"
-
+				@evaluateScriptSucceeded script
+			
 			# Global error handling function for the iframe window
-			iframeWindow._witnessScriptError = (args...) =>
+			iframeWindow._witnessScriptError = (error) =>
 				failed = true
-				error = args[0]
-				if typeof error.stack == "string"
-					message = extractRuntimeErrorFromStack error.stack, currentHelper
-					@error.raise message
+				message = if typeof error.stack == "string"
+					extractRuntimeErrorFromStack error.stack, currentHelper
 				else
-					@error.raise error.message
+					error.message
+				@evaluateScriptFailed script, message
 
 			dsl = new Dsl iframeWindow
 			dsl.activate()
@@ -171,6 +176,24 @@
 			currentHelper = null
 			addScript wrapScript @scripts[script.url].source if not failed
 			addScript "_witnessScriptCompleted();" if not failed
+
+	evaluateScriptSucceeded: (script) ->
+		@decrementPendingEvaluationCount()
+
+	evaluateScriptFailed: (script, error) ->
+		script.error = message
+		@anyEvaluationErrors = yes
+		@decrementPendingEvaluationCount()
+		@error.raise message
+
+	decrementPendingEvaluationCount: ->
+		@pendingEvaluationCount--
+		return if @pendingEvaluationCount > 0
+		
+		if @anyEvaluationErrors
+			@downloadFailed.raise()
+		else
+			@downloadSucceeded.raise()
 
 # Wrapping a script in an anonymous function call prevents it accidently
 # leaking into global scope. The try..catch should catch any runtime errors.
