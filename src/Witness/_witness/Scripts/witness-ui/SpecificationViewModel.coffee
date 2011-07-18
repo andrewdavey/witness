@@ -3,6 +3,6 @@
 @Witness.ui.SpecificationViewModel = class SpecificationViewModel
 
 	constructor: (@specification) ->
-		@filename = @specification.filename
+		{ @filename, @url } = @specification
 
 	templateId: "specification"

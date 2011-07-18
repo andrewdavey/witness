@@ -1,0 +1,40 @@
+﻿#setup {
+    width: 400px;
+    margin: 0 auto;
+}
+
+#setup h1 {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+#setup .field {
+    margin-bottom: 10px;
+}
+
+#setup .field label {
+    display: block;
+    padding-bottom: 2px;
+}
+
+#setup .field input {
+    padding: 4px;
+    width: 380px;
+}
+
+#setup .field .hint {
+    font-size: 8pt;
+    color: #aaa;
+}
+
+#setup .log {
+    margin-top: 10px;
+}
+
+#setup .error {
+    color: #b00;
+}

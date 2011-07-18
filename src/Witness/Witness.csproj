@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ManagedFusion.Rewriter.txt" />
+    <Content Include="_witness\styles\images\setup.png" />
+    <Content Include="_witness\styles\images\run-all.png" />
+    <Content Include="_witness\styles\images\run-selected.png" />
     <Content Include="_witness\styles\images\directory.png" />
     <Content Include="_witness\styles\images\scenario.png" />
     <Content Include="_witness\styles\images\specification.png" />
@@ -96,6 +99,8 @@
     <Content Include="_witness\styles\images\scenario-part-close.png" />
     <Content Include="_witness\styles\images\scenario-part-open.png" />
     <Content Include="_witness\styles\reset.css" />
+    <Content Include="_witness\styles\runner.css" />
+    <Content Include="_witness\styles\setup.css" />
     <Content Include="_witness\styles\tree.css" />
     <Content Include="_witness\styles\witness.css" />
     <Content Include="_witness\styles\images\close.png" />

@@ -28,7 +28,12 @@ class PageViewModel
 		@bodyViewModel [ @setupViewModel ]
 
 	showRunner: (manifest) ->
-		@bodyViewModel [ new RunnerViewModel manifest ]
+		@runnerViewModel = new RunnerViewModel manifest
+		@runnerViewModel.setupInvoked.addHandler =>
+			@setupViewModel.reset()
+			@showSetup()
+
+		@bodyViewModel [ @runnerViewModel ]
 	
 	getPageArguments: ->
 		pairs = window.location.hash.substring(1).split /&/

@@ -25,6 +25,11 @@
 
 	templateId: "setup-screen"
 
+	reset: ->
+		@log.removeAll()
+		@canInput yes
+		@showLog no
+
 	download: ->
 		@log.removeAll()
 		@canInput no

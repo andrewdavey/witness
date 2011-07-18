@@ -180,6 +180,7 @@
 		script.specifications = specifications
 		for specification in specifications
 			specification.filename = script.name
+			specification.url = script.url
 		@decrementPendingEvaluationCount()
 
 	evaluateScriptFailed: (script, error) ->

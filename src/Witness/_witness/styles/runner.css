@@ -28,19 +28,13 @@
 }
 
 #active-item {
-    position: absolute;
-    height: 150px;
     width: 100%;
     border-bottom: 1px solid #ccc;
-    padding: 10px;
-    font-size: 9pt;
 }
 
 #iframe-container {
-    position: absolute;
-    top: 171px;
-    bottom: 0;
     width: 100%;
+    height: 100%;
 }
 
 #iframe-container iframe {
@@ -89,6 +83,15 @@
     background-image: url(images/run-selected.png);
 }
 
+.setup {
+    background-image: url(images/setup.png);
+}
+
 #runner td {
     vertical-align: top;
+}
+
+#active-item .scenario,
+#active-item .specification {
+    margin: 10px;
 }

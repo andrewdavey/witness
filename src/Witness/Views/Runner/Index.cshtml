@@ -18,21 +18,22 @@
     <script id="setup-screen" type="text/html">
         <div id="setup">
             <h1>Witness Setup</h1>
-            <div>
-                <div>
-                    <label>Specification Directory</label>
-                    <input type="text" data-bind="value: specificationDirectory, enable: canInput"/>
+            <form data-bind="submit: download">
+                <div class="field">
+                    <label for="setup-path">Specifications directory</label>
+                    <input id="setup-path" type="text" data-bind="value: specificationDirectory, enable: canInput" autofocus/>
+                    <p class="hint">Full file system path please.</p>
                 </div>
-                <div>
-                    <label>Application URL</label>
-                    <input type="text" data-bind="value: applicationUrl, enable: canInput"/>
+                <div class="field">
+                    <label for="setup-url">Website root URL</label>
+                    <input id="setup-url" type="text" data-bind="value: applicationUrl, enable: canInput"/>
+                    <p class="hint">Witness will reverse proxy requests here.</p>
                 </div>
                 <div>
                     <button data-bind="click: download, enable: canInput">Go</button>
                 </div>
-            </div>
-            <div data-bind="visible: showLog">
-                <h2>Downloading...</h2>
+            </form>
+            <div class="log" data-bind="visible: showLog">
                 <div data-bind="template: { name: 'log-message', foreach: log }"></div>
             </div>
         </div>
@@ -48,12 +49,23 @@
                 <div id="actions">
                     <button class="run-all" data-bind="enable: canRun, click: runAll">Run All</button>
                     <button class="run-selected" data-bind="enable: canRunSelected, click: runSelected">Run Selected</button>
+                    <button class="setup" data-bind="enable: canRun, click: setup">Setup</button>
                 </div>
             </div>
             <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
             <div id="content">
-                <div id="active-item" data-bind="template: { name: activeItemTemplateId, foreach: activeItem }"></div>
-                <div id="iframe-container" data-bind="iframes: iframeManager"></div>
+                <table style="width: 100%; height: 100%">
+                    <tr>
+                        <td style="width: 100%">
+                            <div id="active-item" data-bind="template: { name: activeItemTemplateId, foreach: activeItem }"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%; height: 100%">
+                            <div id="iframe-container" data-bind="iframes: iframeManager"></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </script>
@@ -96,11 +108,13 @@
     </script>
 
     <script id="specification" type="text/html">
-        <h2>Specification</h2>
-        <p>File name: ${ filename }</p>
+        <div class="specification">
+            <h2>Specification</h2>
+            <p>File name: <a href="${ url }" target="_blank">${ filename }</a></p>
+        </div>
     </script>
     <script id="scenario" type="text/html">
-        <table style="width: 100%">
+        <table class="scenario" style="width: 100%">
             <tr>
                 <td style="width: 50%">
                     <h2>Scenario</h2>

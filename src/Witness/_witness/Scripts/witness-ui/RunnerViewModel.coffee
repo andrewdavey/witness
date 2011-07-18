@@ -4,8 +4,9 @@
 # reference "SpecificationViewModel.coffee"
 # reference "IframeManager.coffee"
 # reference "../witness/TryAll.coffee"
+# reference "../witness/Event.coffee"
 
-{ TryAll } = @Witness
+{ TryAll, Event } = @Witness
 {
 	treeBuilder,
 	ScenarioNode,
@@ -24,6 +25,7 @@
 		@activeItem = ko.observableArray []
 		@iframeManager = new IframeManager()
 		@canRun = ko.observable yes
+		@setupInvoked = new Event()
 
 		@tree.map (node) =>
 			if node instanceof ScenarioNode
@@ -72,3 +74,6 @@
 
 	runSelected: ->
 		@run @activeItemModel
+
+	setup: ->
+		@setupInvoked.raise()

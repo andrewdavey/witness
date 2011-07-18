@@ -14,21 +14,23 @@ namespace Witness.Controllers
 
         public ActionResult Get(string path)
         {
-            EnsurePathExists(path);
+            if (!Path.IsPathRooted(path))
+            {
+                Response.StatusCode = 400;
+                return Content("Please provide an absolute directory path.", "text/plain");
+            }
+            if (!Directory.Exists(path))
+            {
+                Response.StatusCode = 404;
+                return Content("Cannot find the directory \"" + path + "\"", "text/plain");
+            }
+
             if (path[path.Length - 1] != Path.DirectorySeparatorChar) path += Path.DirectorySeparatorChar.ToString();
             basePath = path;
             var directory = GetSpecificationDirectory(path);
 
             Response.Cache.SetNoStore();
             return Json(directory, JsonRequestBehavior.AllowGet);
-        }
-
-        void EnsurePathExists(string fullPath)
-        {
-            if (!Directory.Exists(fullPath) && !System.IO.File.Exists(fullPath))
-            {
-                throw new HttpException(404, "Cannot find the path \"" + fullPath + "\"");
-            }
         }
 
         SpecDir GetSpecificationDirectory(string rootPath)
