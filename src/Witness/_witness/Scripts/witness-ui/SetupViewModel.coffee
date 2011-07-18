@@ -12,15 +12,18 @@
 
 @Witness.ui.SetupViewModel = class SetupViewModel
 
-	constructor: ->
-		@specificationDirectory = ko.observable ""
-		@applicationUrl = ko.observable ""
+	constructor: (pageArguments) ->
+		@specificationDirectory = ko.observable pageArguments.specs or ""
+		@applicationUrl = ko.observable pageArguments.url or ""
 		@canInput = ko.observable yes
 		@showLog = ko.observable no
 		@log = ko.observableArray []
 		@finished = new Event()
+		
+		if @specificationDirectory() and @applicationUrl()
+			@download()
 
-	templateId: "Setup"
+	templateId: "setup-screen"
 
 	download: ->
 		@log.removeAll()

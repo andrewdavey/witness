@@ -6,5 +6,6 @@
 
 ko.bindingHandlers['iframes'] =
 	init: (element, valueAccessor) ->
-		messageBus.addHandler "AppendIframe", (iframe) ->
-			jQuery(element).append(iframe)
+		iframeManager = ko.utils.unwrapObservable valueAccessor()
+		iframeManager.iframeAdded.addHandler (iframe) ->
+			jQuery(element).append iframe

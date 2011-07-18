@@ -6,7 +6,7 @@
 
 @Witness.ui.Tree = class Tree
 
-	constructor: ->
+	constructor: (@rootDirectory) ->
 		@nodes = ko.observableArray []
 		@selectedNode = ko.observable null
 
@@ -21,3 +21,6 @@
 		@selectedNode node
 		@nodeSelected.raise node
 		
+	map: (func) ->
+		for node in @nodes()
+			node.map func

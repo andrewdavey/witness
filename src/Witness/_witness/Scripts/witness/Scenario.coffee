@@ -13,9 +13,12 @@ createDescriptionFromFunction = (func) ->
 	return match[1] if match
 	return s
 
+nextUniqueId = 0
+
 @Witness.Scenario = class Scenario
 	
-	constructor: (@parts, @id) ->
+	constructor: (@parts) ->
+		@uniqueId = "scenario-" + (nextUniqueId++).toString()
 		@on = Event.define "running", "passed", "failed"
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
@@ -76,7 +79,7 @@ createDescriptionFromFunction = (func) ->
 
 	createAndCacheIFrame: ->
 		@iframe = $ "<iframe/>"
-		messageBus.send "AppendIframe", @iframe
+		messageBus.send "AppendIframe", @iframe, @uniqueId
 		@iframe.focus()
 		@iframe.bind "load", => @handleIFrameLoad()
 		@iframe

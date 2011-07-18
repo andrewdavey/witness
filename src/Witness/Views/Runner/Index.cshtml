@@ -9,12 +9,13 @@
     <title>Witness</title>
     @Html.RenderStylesheetLinks()
     @Html.RenderScripts()
+    <link href="http://fonts.googleapis.com/css?family=Shadows+Into+Light&v2" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <div data-bind="template: { name: bodyTemplateId, foreach: bodyViewModel }"></div>
 
     <!-- HTML Templates -->
-    <script id="Setup" type="text/html">
+    <script id="setup-screen" type="text/html">
         <div id="setup">
             <h1>Witness Setup</h1>
             <div>
@@ -40,12 +41,19 @@
         <p class="${ type }">${ message }</p>
     </script>
 
-    <script id="runner" type="text/html">
-        <div>
+    <script id="runner-screen" type="text/html">
+        <div id="runner">
+            <div id="header">
+                <h1>Witness</h1>
+                <div id="actions">
+                    <button class="run-all" data-bind="enable: canRun, click: runAll">Run All</button>
+                    <button class="run-selected" data-bind="enable: canRunSelected, click: runSelected">Run Selected</button>
+                </div>
+            </div>
             <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
             <div id="content">
                 <div id="active-item" data-bind="template: { name: activeItemTemplateId, foreach: activeItem }"></div>
-                <div id="iframe-container" data-bind="iframes: ''"></div>
+                <div id="iframe-container" data-bind="iframes: iframeManager"></div>
             </div>
         </div>
     </script>
@@ -87,20 +95,28 @@
         </li>
     </script>
 
-    <script id="no-active-item" type="text/html">
-        <div></div>
-    </script>
     <script id="specification" type="text/html">
-        <span>specification</span>
+        <h2>Specification</h2>
+        <p>File name: ${ filename }</p>
     </script>
     <script id="scenario" type="text/html">
-        <div>Given <span data-bind="text: givenDescription"></span>.</div>
-        <div>When <span data-bind="text: whenDescription"></span>.</div>
-        <div>Then <span data-bind="text: thenDescription"></span>.</div>
-        <div class="actions">
-            <a href="javascript:void(0)" data-bind="click: run">Run</a>
-        </div>
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 50%">
+                    <h2>Scenario</h2>
+                    <div data-bind="visible: givenDescription">Given <span data-bind="text: givenDescription"></span>.</div>
+                    <div data-bind="visible: whenDescription">When <span data-bind="text: whenDescription"></span>.</div>
+                    <div data-bind="visible: thenDescription">Then <span data-bind="text: thenDescription"></span>.</div>
+                </td>
+                <td style="width: 50%">
+                    <h2 data-bind="visible: errors().length > 0">Errors</h2>
+                    <ul data-bind="template: { name: 'error-message', foreach: errors }"></ul>
+                </td>
+            </tr>
+        </table>
     </script>
-
+    <script id="error-message" type="text/html">
+        <li class="error">${ message }</li>
+    </script>
 </body>
 </html>

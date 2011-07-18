@@ -1,18 +1,11 @@
-fingersScripts = [ "lib/jquery.js", "lib/arms-common.js", "lib/jquery-ui/jquery-ui-1.8.7.custom.min.js", "lib/ckeditor/ckeditor.js", "lib/ckeditor/adapters/jquery.js", "debug/fingers.js" ]
-createAutocompleteUI = [
-	html """
-		 <label for="test">Look up/Autocomplete</label>
-		 <input type="text" name="test" class="editable view-type-ahead" data-lookupUrl="/lookup/Publishers" />
-		 """
-	loadScripts fingersScripts
-	execute(-> fingers.controller())
-]
-editor = "input:eq(1)"
+editor = "input:visible"
 
 describe "Autocomplete",
 {
 	"given an autocomplete in edit mode": [
-		createAutocompleteUI
+		createFingersUI """
+		<input type="text" class="editable view-type-ahead" data-lookupurl="/lookup/publishers" />
+		"""
 		$("div.static-view.field").click()
 	]
 

@@ -14,7 +14,7 @@ class PageViewModel
 		# The body view model is the currently active view model of the page.
 		# (Using an array to work around strange KnockoutJS behavior.)
 		@bodyViewModel = ko.observableArray []
-		@setupViewModel = new SetupViewModel()
+		@setupViewModel = new SetupViewModel @getPageArguments()
 
 		@setupViewModel.finished.addHandler (manifest) =>
 			@showRunner manifest
@@ -30,5 +30,14 @@ class PageViewModel
 	showRunner: (manifest) ->
 		@bodyViewModel [ new RunnerViewModel manifest ]
 	
+	getPageArguments: ->
+		pairs = window.location.hash.substring(1).split /&/
+		args = {}
+		for pair in pairs
+			[ key, value ] = pair.split /\=/ 
+			args[key] = decodeURIComponent value
+		args
+
+
 # Bind the view model to the whole page.
 $ -> ko.applyBindings new PageViewModel()

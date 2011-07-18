@@ -4,7 +4,8 @@
 
 @Witness.ui.TreeNode = class TreeNode
 	
-	constructor: (@tree) ->
+	constructor: (@tree, @data) ->
+		# @data stores an underlying model object e.g. Scenario, Specificiation, etc
 		@text = ko.observable ""
 		@status = ko.observable ""
 		@children = ko.observableArray []
@@ -19,3 +20,8 @@
 
 	select: ->
 		@tree.selectNode this
+
+	map: (func) ->
+		func this
+		for child in @children()
+			child.map func

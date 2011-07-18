@@ -178,6 +178,8 @@
 
 	evaluateScriptSucceeded: (script, specifications) ->
 		script.specifications = specifications
+		for specification in specifications
+			specification.filename = script.name
 		@decrementPendingEvaluationCount()
 
 	evaluateScriptFailed: (script, error) ->
