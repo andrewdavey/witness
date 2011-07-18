@@ -42,37 +42,65 @@
 
     <script id="runner" type="text/html">
         <div>
-            <div data-bind="template: { name: 'tree', data: treeRoot }"></div>
+            <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
+            <div id="content">
+                <div id="active-item" data-bind="template: { name: activeItemTemplateId, foreach: activeItem }"></div>
+                <div id="iframe-container" data-bind="iframes: ''"></div>
+            </div>
         </div>
     </script>
     <script id="tree" type="text/html">
-        <ul class="tree" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
+        <ul class="tree" data-bind="template: { name: nodeTemplateId, foreach: nodes }"></ul>
     </script>
-    <script id="directory" type="text/html">
-        <li class="directory node" data-bind="css: { 'open': isOpen }">
-            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-            <span class="text">${ text }</span>
-            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
+    <script id="directory-node" type="text/html">
+        <li class="directory node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
+            <div class="header" data-bind="click: select">
+                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
+            </div>
+            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
         </li>
+    </script>
+    <script id="specification-node" type="text/html">
+        <li class="specification node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
+            <div class="header" data-bind="click: select">
+                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
+            </div>
+            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
+        </li>
+    </script>
+    <script id="outer-scenario-node" type="text/html">
+        <li class="outer-scenario node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
+            <div class="header" data-bind="click: select">
+                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
+            </div>
+            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
+        </li>
+    </script>
+    <script id="scenario-node" type="text/html">
+        <li class="scenario node" data-bind="css: { 'selected': isSelected }">
+            <div class="header" data-bind="click: select">
+                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
+            </div>
+        </li>
+    </script>
+
+    <script id="no-active-item" type="text/html">
+        <div></div>
     </script>
     <script id="specification" type="text/html">
-        <li class="specification node" data-bind="css: { 'open': isOpen }">
-            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-            <span class="text">${ text }</span>
-            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
-        </li>
-    </script>
-    <script id="outer-scenario" type="text/html">
-        <li class="outer-scenario node" data-bind="css: { 'open': isOpen }">
-            <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-            <span class="text">${ text }</span>
-            <ul class="children" data-bind="template: { name: childTemplateId, foreach: children }"></ul>
-        </li>
+        <span>specification</span>
     </script>
     <script id="scenario" type="text/html">
-        <li class="scenario node">
-            <span class="text">${ text }</span>
-        </li>
+        <div>Given <span data-bind="text: givenDescription"></span>.</div>
+        <div>When <span data-bind="text: whenDescription"></span>.</div>
+        <div>Then <span data-bind="text: thenDescription"></span>.</div>
+        <div class="actions">
+            <a href="javascript:void(0)" data-bind="click: run">Run</a>
+        </div>
     </script>
+
 </body>
 </html>

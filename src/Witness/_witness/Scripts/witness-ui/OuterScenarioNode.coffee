@@ -5,8 +5,8 @@
 
 @Witness.ui.OuterScenarioNode = class OuterScenarioNode extends TreeNode
 
-	constructor: (name) ->
-		super()
+	constructor: (name, tree) ->
+		super tree
 		@text name
 
-	templateId: "outer-scenario"
+	templateId: "outer-scenario-node"

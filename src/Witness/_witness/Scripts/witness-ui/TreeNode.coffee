@@ -1,16 +1,21 @@
 # reference "_namespace.coffee"
 # reference "../lib/knockout.js"
 
+
 @Witness.ui.TreeNode = class TreeNode
 	
-	constructor: ->
+	constructor: (@tree) ->
 		@text = ko.observable ""
-		@isOpen = ko.observable no
-		@selected = ko.observable no
+		@status = ko.observable ""
 		@children = ko.observableArray []
+		@isOpen = ko.observable no
+		@isSelected = ko.observable no
 
-	childTemplateId: (child) ->
-		child.templateId
+	nodeTemplateId: (node) ->
+		node.templateId
 
 	toggleOpen: ->
 		@isOpen not @isOpen()
+
+	select: ->
+		@tree.selectNode this

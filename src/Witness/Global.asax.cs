@@ -34,9 +34,9 @@ namespace Witness
                 new { controller = "Spec", action = "Get" }
             );
             routes.MapRoute(
-                "RunnerSetup",
-                "_witness/setup", // The root URL.
-                new { controller = "Runner", action = "Setup" }
+                "RunnerSetupProxy",
+                "_witness/setupproxy", // The root URL.
+                new { controller = "Runner", action = "SetupProxy" }
             );
             routes.MapRoute(
                 "RunnerIndex",

@@ -4,8 +4,8 @@
 
 @Witness.ui.DirectoryNode = class DirectoryNode extends TreeNode
 
-	constructor: (name) ->
-		super()
+	constructor: (name, tree) ->
+		super tree
 		@text name
 
-	templateId: "directory"
+	templateId: "directory-node"

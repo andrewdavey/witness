@@ -21,5 +21,12 @@ namespace Witness.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult SetupProxy(string url)
+        {
+            Response.Cookies.Add(new HttpCookie("_witness_proxy", url));
+            return new EmptyResult();
+        }
     }
 }

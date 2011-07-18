@@ -8,27 +8,46 @@
     clear: left;
 }
 
+.tree .header {
+    border: 1px solid #fff;
+    height: 18px;
+    cursor: pointer;
+}
+
+.tree .header:hover {
+    background-color: #E7F4FA;
+    border: 1px solid #939697;
+}
+
+.tree .node.selected > .header {
+    background-color: #B7DFF3;
+    border: 1px solid #576B75;
+}
+
 .tree .toggle {
     width: 16px;
-    height: 20px;
+    height: 18px;
     display: block;
     float: left;
     background-image: url(images/open.png);
     background-position: left center;
 }
 
-.tree .open > .toggle {
+.tree .open > .header > .toggle {
     background-image: url(images/close.png);
 }
 
-.tree .node > .text {
+.tree .node > .header > .text {
     float: left;
     display: block;
     background-repeat: no-repeat;
     background-position: left center;
     padding-left: 20px; /* move over for the background-image */
-    height: 20px;
-    line-height: 20px;
+    height: 18px;
+    line-height: 18px;
+    text-decoration: none;
+    color: #000;
+    padding-right: 2px;
 }
 
 .tree .node > .children {
@@ -41,19 +60,31 @@
     display: block;
 }
 
-.tree .directory > .text {
+.tree .directory > .header > .text {
     background-image: url(images/directory.png);
 }
 
-.tree .specification > .text {
+.tree .specification > .header > .text {
     background-image: url(images/specification.png);
 }
 
-.tree .outer-scenario > .text {
+.tree .outer-scenario > .header > .text {
     background-image: url(images/scenario.png);
 }
 
-.tree .scenario > .text {
+.tree .scenario > .header > .text {
     background-image: url(images/scenario.png);
     margin-left: 16px; /* No toogle for leaf node. So move left to match the relative icon positions of parents. */
+}
+
+.tree .node > .header > .text.running {
+    font-style: italic;
+}
+
+.tree .node > .header > .text.passed {
+    color: #080;
+}
+
+.tree .node > .header > .text.failed {
+    color: #c00;
 }

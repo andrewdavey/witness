@@ -9,8 +9,6 @@ Witness = @Witness
 
 defineActions
 	loadPage: async (url) ->
-		url = window.urlBase + url unless url.match /^\//
-
 		iframe = @scenario.getIFrame()
 		@scenario.setIFrameLoadCallback (iframeWindow) =>
 			# Store page objects in the context so other actions can access them
@@ -59,8 +57,7 @@ defineActions
 		# TODO: if lab is undefined then inject LABjs ?
 		count = urls.length
 		for url in urls
-			fullUrl = if url.match /^https?:/ then url else window.urlBase + url
-			@lab.script(fullUrl).wait =>
+			@lab.script(url).wait =>
 				count--
 				@done() if count == 0
 

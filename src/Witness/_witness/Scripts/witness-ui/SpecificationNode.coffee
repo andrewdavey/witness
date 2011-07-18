@@ -5,8 +5,8 @@
 
 @Witness.ui.SpecificationNode = class SpecificationNode extends TreeNode
 
-	constructor: (name) ->
-		super()
+	constructor: (name, @specification, tree) ->
+		super tree
 		@text name
 
-	templateId: "specification"
+	templateId: "specification-node"

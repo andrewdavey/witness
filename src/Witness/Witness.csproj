@@ -90,11 +90,13 @@
   <ItemGroup>
     <Content Include="ManagedFusion.Rewriter.txt" />
     <Content Include="_witness\styles\images\directory.png" />
-    <Content Include="_witness\styles\images\file.png" />
+    <Content Include="_witness\styles\images\scenario.png" />
+    <Content Include="_witness\styles\images\specification.png" />
     <Content Include="_witness\styles\images\open.png" />
     <Content Include="_witness\styles\images\scenario-part-close.png" />
     <Content Include="_witness\styles\images\scenario-part-open.png" />
-    <Content Include="_witness\styles\images\specification.png" />
+    <Content Include="_witness\styles\reset.css" />
+    <Content Include="_witness\styles\tree.css" />
     <Content Include="_witness\styles\witness.css" />
     <Content Include="_witness\styles\images\close.png" />
     <None Include="packages.config">
@@ -164,7 +166,7 @@
     <None Include="_witness\scripts\witness-ui\SpecificationNode.coffee">
       <LastGenOutput>SpecificationNode.js</LastGenOutput>
     </None>
-    <None Include="_witness\scripts\witness-ui\TreeDirectory.coffee">
+    <None Include="_witness\scripts\witness-ui\DirectoryNode.coffee">
       <LastGenOutput>TreeDirectory.js</LastGenOutput>
     </None>
     <None Include="_witness\scripts\witness-ui\TreeNode.coffee">

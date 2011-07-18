@@ -1,3 +1,29 @@
 ﻿body {
     font-family: Tahoma, Helvetica, sans-serif;
 }
+
+#tree {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    overflow: scroll;
+}
+
+#content {
+    position: absolute;
+    left: 400px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#active-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    font-size: 9pt;
+}
+
+#iframe-container {
+}

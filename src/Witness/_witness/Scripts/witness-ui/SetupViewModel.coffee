@@ -27,6 +27,8 @@
 		@canInput no
 		@showLog yes
 
+		jQuery.post "/_witness/setupproxy", { url: @applicationUrl }
+
 		manifest = new Manifest @specificationDirectory
 
 		manifest.statusChanged.addHandler (message) =>

@@ -1,34 +1,42 @@
 # reference "_namespace.coffee"
+# reference "Tree.coffee"
 # reference "DirectoryNode.coffee"
 # reference "SpecificationNode.coffee"
 # reference "ScenarioNode.coffee"
 # reference "OuterScenarioNode.coffee"
 
-{ DirectoryNode, SpecificationNode, ScenarioNode, OuterScenarioNode } = @Witness.ui
+{ Tree, DirectoryNode, SpecificationNode, ScenarioNode, OuterScenarioNode } = @Witness.ui
 
 @Witness.ui.treeBuilder =
-	buildDirectoryNode: (directory) ->
-		subDirectoryNodes = (@buildDirectoryNode d for d in directory.directories)
-		specificationNodes = (@buildSpecificationNode s for s in @getSpecificationNodes(directory))
+	buildTree: (directory) ->
+		tree = new Tree()
+		subDirectoryNodes = (@buildDirectoryNode d, tree for d in directory.directories)
+		specificationNodes = (@buildSpecificationNode s, tree for s in @getSpecificationNodes(directory))
+		tree.nodes subDirectoryNodes.concat specificationNodes
+		tree
+
+	buildDirectoryNode: (directory, tree) ->
+		subDirectoryNodes = (@buildDirectoryNode d, tree for d in directory.directories)
+		specificationNodes = (@buildSpecificationNode s, tree for s in @getSpecificationNodes(directory))
 		childNodes = subDirectoryNodes.concat specificationNodes
 
-		directoryNode = new DirectoryNode directory.name
+		directoryNode = new DirectoryNode directory.name, tree
 		directoryNode.children childNodes
 		directoryNode
 
-	buildSpecificationNode: (specification) ->
-		node = new SpecificationNode specification.description
-		scenarios = (@buildScenarioNode scenario, index for scenario, index in specification.scenarios)
+	buildSpecificationNode: (specification, tree) ->
+		node = new SpecificationNode specification.description, specification, tree
+		scenarios = (@buildScenarioNode scenario, index, tree for scenario, index in specification.scenarios)
 		node.children scenarios
 		node
 
-	buildScenarioNode: (scenario, index) ->
+	buildScenarioNode: (scenario, index, tree) ->
 		if scenario instanceof Witness.OuterScenario
-			node = new OuterScenarioNode scenario.given.description
-			node.children (@buildScenarioNode child, index for child, index in scenario.innerScenarios)
+			node = new OuterScenarioNode scenario.given.description, tree
+			node.children (@buildScenarioNode child, index, tree for child, index in scenario.innerScenarios)
 			node
 		else
-			new ScenarioNode "Scenario #{index + 1}"
+			new ScenarioNode "Scenario #{index + 1}", scenario, tree
 
 	getSpecificationNodes: (directoryData) ->
 		specs = []
