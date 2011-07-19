@@ -55,7 +55,6 @@
     <Content Include="debug\.placeholder.txt" />
     <Content Include="debug\fingers.js" />
     <Content Include="debug\intermojo.js" />
-    <Content Include="default.aspx" />
     <Content Include="dist\.placeholder.txt" />
     <Content Include="dist\fingers.min.js" />
     <Content Include="dist\intermojo.min.js" />
