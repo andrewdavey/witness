@@ -38,7 +38,6 @@
 }
 
 .tree .node > .header > .text {
-    float: left;
     display: block;
     background-repeat: no-repeat;
     background-position: left center;
@@ -48,16 +47,32 @@
     text-decoration: none;
     color: #000;
     padding-right: 2px;
+    overflow: hidden;
 }
 
 .tree .node > .children {
     clear: left; /* Because the toggle and text preceeding this are floated left. */
     display: none;
-    padding-left: 10px;
 }
 
 .tree .node.open > .children {
     display: block;
+}
+
+.tree ul > li > .header {
+    padding-left: 10px;
+}
+.tree ul ul > li > .header {
+    padding-left: 20px;
+}
+.tree ul ul ul > li > .header {
+    padding-left: 30px;
+}
+.tree ul ul ul ul > li > .header {
+    padding-left: 40px;
+}
+.tree ul ul ul ul ul > li > .header {
+    padding-left: 50px;
 }
 
 .tree .directory > .header > .text {
