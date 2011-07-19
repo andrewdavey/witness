@@ -1,4 +1,4 @@
-describe "Create date picker component UI",
+describe "Date picker component initial UI",
 {
 	"given date component":
 		createFingersUI """
@@ -18,7 +18,7 @@ describe "Create date picker component UI",
 		".static-view": should.haveText "01/01/2011"
 }
 
-describe "Start editing date picker component",
+describe "Date picker component entering edit mode",
 {
 	"given date component in edit mode": [
 		createFingersUI """
@@ -34,7 +34,7 @@ describe "Start editing date picker component",
 		"input[type=text]:visible": should.match 1
 }
 
-describe "Selecting a date on calendar",
+describe "Date picker component selecting a date on calendar",
 {
 	"given date component in edit mode, with default value of 01 Jan 2011": [
 		createFingersUI """
