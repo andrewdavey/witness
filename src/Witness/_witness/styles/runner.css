@@ -83,6 +83,10 @@
     background-image: url(images/run-selected.png);
 }
 
+.reload {
+    background-image: url(images/reload.png);
+}
+
 .setup {
     background-image: url(images/setup.png);
 }

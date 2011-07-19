@@ -72,5 +72,8 @@
 	runSelected: ->
 		@run @activeItemModel()
 
+	reloadSelected: ->
+		# TODO: implement reloading of directories and files
+
 	setup: ->
 		@setupInvoked.raise()
