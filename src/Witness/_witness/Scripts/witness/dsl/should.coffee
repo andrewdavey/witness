@@ -7,6 +7,9 @@ predicateActionBuilder = (options, negate) ->
 	(expected) -> (propertyNames...) ->
 		fullName = createFullName propertyNames
 		description = options.description fullName, expected
+		if negate
+			description = description.replace /\bshould\b/, "should not"
+
 		func = () ->
 			actual = if options.getActual?
 				options.getActual.call this, propertyNames

@@ -38,7 +38,6 @@ defineActions
 		<!doctype html>
 		<html>
 		<head>
-			<base href="#{window.urlBase}"/>
 		</head>
 		<body>
 			#{htmlContent}

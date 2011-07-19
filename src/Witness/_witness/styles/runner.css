@@ -105,3 +105,20 @@
 #active-item .specification {
     margin: 10px;
 }
+
+.scenario .actions {
+    display: none;
+    padding-left: 10px;
+}
+
+.show-scenario-actions .scenario .actions {
+    display: block;
+}
+
+.scenario .actions .passed {
+    color: #080;
+}
+
+.scenario .actions .failed {
+    color: #c00;
+}

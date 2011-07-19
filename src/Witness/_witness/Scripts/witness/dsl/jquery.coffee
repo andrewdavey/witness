@@ -111,10 +111,10 @@ class JQueryActions
 
 		valueDescriptions = for value in values
 			if typeof value == "string"
-				value
+				"'#{value}'"
 			else
 				keyNames[value] or ("key:" + value.toString())
-		actionDescription = "type #{valueDescriptions.join(', ')}"
+		actionDescription = "type #{valueDescriptions.join(', ')} into #{selector}"
 		new Action func, [], actionDescription 
 
 

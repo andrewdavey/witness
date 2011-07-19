@@ -43,7 +43,7 @@
     </script>
 
     <script id="runner-screen" type="text/html">
-        <div id="runner">
+        <div id="runner" data-bind="css: { 'show-scenario-actions': showScenarioActions }">
             <div id="header">
                 <h1>Witness</h1>
                 <div id="actions">
@@ -51,6 +51,7 @@
                     <button class="run-selected" data-bind="enable: canRunSelected, click: runSelected">Run</button>
                     <button class="reload" data-bind="enable: canRunSelected, click: reloadSelected">Reload</button>
                     <button class="setup" data-bind="enable: canRun, click: setup">Setup</button>
+                    <input type="checkbox" data-bind="checked: showScenarioActions" id="show-scenario-actions"/><label for="show-scenario-actions">Show scenario actions</label>
                 </div>
                 <div id="status" data-bind="text: status"></div>
             </div>
@@ -121,8 +122,11 @@
                 <td style="width: 50%">
                     <h2>Scenario</h2>
                     <div data-bind="visible: givenDescription">Given <span data-bind="text: givenDescription"></span>.</div>
+                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: givenActions }"></ul>
                     <div data-bind="visible: whenDescription">When <span data-bind="text: whenDescription"></span>.</div>
+                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: whenActions }"></ul>
                     <div data-bind="visible: thenDescription">Then <span data-bind="text: thenDescription"></span>.</div>
+                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: thenActions }"></ul>
                 </td>
                 <td style="width: 50%">
                     <h2 data-bind="visible: errors().length > 0">Errors</h2>
@@ -130,6 +134,9 @@
                 </td>
             </tr>
         </table>
+    </script>
+    <script id="scenario-action" type="text/html">
+        <li data-bind="attr: { 'class': status }">${ description }</li>
     </script>
     <script id="error-message" type="text/html">
         <li class="error">${ message }</li>

@@ -29,6 +29,7 @@
 		@canRun = ko.observable yes
 		@setupInvoked = new Event()
 		@status = ko.observable ""
+		@showScenarioActions = ko.observable no
 
 		@tree.map (node) =>
 			if node instanceof ScenarioNode
