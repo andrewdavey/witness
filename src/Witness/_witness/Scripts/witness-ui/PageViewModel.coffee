@@ -11,13 +11,16 @@
 class PageViewModel
 
 	constructor: ->
+		args = @getPageArguments()
 		# The body view model is the currently active view model of the page.
 		# (Using an array to work around strange KnockoutJS behavior.)
 		@bodyViewModel = ko.observableArray []
-		@setupViewModel = new SetupViewModel @getPageArguments()
+		@setupViewModel = new SetupViewModel args
 
 		@setupViewModel.finished.addHandler (manifest) =>
 			@showRunner manifest
+			if /yes|true|1/.test args.autorun
+				@runnerViewModel.runAll()
 
 		@showSetup()
 

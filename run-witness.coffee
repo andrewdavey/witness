@@ -1,12 +1,12 @@
-[url, path] = phantom.args
+[url, target, path] = phantom.args
 
-if not url? or not path?
+if not url? or not target? or not path?
 	console.log "Usage:"
-	console.log "phantomjs.exe run-witness.coffee application-URL spec-path"
+	console.log "phantomjs.exe run-witness.coffee witness-URL application-URL spec-path"
 	phantom.exit()
 	return
 
-runnerUrl = "#{url}/_witness/runner.htm?path=#{path}&manualdownload=yes&autorun=yes"
+runnerUrl = "#{url}/_witness#url=#{target}&specs=#{path}&autorun=yes"
 console.log "Loading #{runnerUrl}"
 
 startTime = +new Date()
@@ -93,19 +93,16 @@ page.open runnerUrl, (status) ->
 					console.log "##teamcity[testSuiteFinished name='Outer scenario #{outer.id}']"
 
 				ScenarioRunning: (scenario) ->
-					console.log "##teamcity[testStarted name='scenario-#{scenario.id}']"
+					console.log "##teamcity[testStarted name='#{scenario.uniqueId}']"
 				ScenarioPassed: (scenario) ->
 					passCount++
-					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
+					console.log "##teamcity[testFinished name='#{scenario.uniqueId}']"
 				ScenarioFailed: (scenario, error) ->
 					failCount++
 					message = flattenErrorMessage error
-					console.log "##teamcity[testFailed name='scenario-#{scenario.id}' message='#{message}']"
-					console.log "##teamcity[testFinished name='scenario-#{scenario.id}']"
+					console.log "##teamcity[testFailed name='#{scenario.uniqueId}' message='#{message}']"
+					console.log "##teamcity[testFinished name='#{scenario.uniqueId}']"
 				
-			Witness.runner.download()
-			# All specs are run once download has finished because
-			# autorun=yes in the runner page URL. 
 	else
 		console.log "Could not load Witness runner page."
 		phantom.exit()

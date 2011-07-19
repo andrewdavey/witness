@@ -52,6 +52,7 @@
                     <button class="reload" data-bind="enable: canRunSelected, click: reloadSelected">Reload</button>
                     <button class="setup" data-bind="enable: canRun, click: setup">Setup</button>
                 </div>
+                <div id="status" data-bind="text: status"></div>
             </div>
             <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
             <div id="content">

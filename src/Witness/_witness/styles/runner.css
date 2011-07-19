@@ -64,6 +64,12 @@
     padding-top: 2px;
 }
 
+#runner #status {
+    float: left;
+    line-height: 29px;
+    padding-left: 10px;
+}
+
 #runner #actions button {
     background-repeat: no-repeat;
     background-position: 2px center;

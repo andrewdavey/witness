@@ -5,8 +5,9 @@
 # reference "IframeManager.coffee"
 # reference "../witness/TryAll.coffee"
 # reference "../witness/Event.coffee"
+# reference "../witness/MessageBus.coffee"
 
-{ TryAll, Event } = @Witness
+{ TryAll, Event, messageBus } = @Witness
 {
 	treeBuilder,
 	ScenarioNode,
@@ -27,6 +28,7 @@
 		@iframeManager = new IframeManager()
 		@canRun = ko.observable yes
 		@setupInvoked = new Event()
+		@status = ko.observable ""
 
 		@tree.map (node) =>
 			if node instanceof ScenarioNode
@@ -62,8 +64,11 @@
 
 	run: (item) ->
 		@canRun no
+		@status "Running..."
 		passedOrFailed = =>
 			@canRun yes
+			@status ""
+			messageBus.send "RunnerFinished"
 		item.run {}, passedOrFailed, passedOrFailed
 
 	runAll: ->

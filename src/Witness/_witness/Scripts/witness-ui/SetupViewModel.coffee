@@ -1,9 +1,10 @@
 # reference "../lib/knockout.js"
 # reference "../witness/manifests/Manifest.coffee"
 # reference "../witness/Event.coffee"
+# reference "../witness/MessageBus.coffee"
 # reference "_namespace.coffee"
 
-{ Event } = @Witness
+{ Event, messageBus } = @Witness
 { Manifest } = @Witness.manifests
 
 # The setup view model allows the use to specify a specification 
@@ -14,7 +15,7 @@
 
 	constructor: (pageArguments) ->
 		@specificationDirectory = ko.observable pageArguments.specs or ""
-		@applicationUrl = ko.observable pageArguments.url or ""
+		@applicationUrl = ko.observable (pageArguments.url or "")
 		@canInput = ko.observable yes
 		@showLog = ko.observable no
 		@log = ko.observableArray []
@@ -35,7 +36,8 @@
 		@canInput no
 		@showLog yes
 
-		jQuery.post "/_witness/setupproxy", { url: @applicationUrl }
+		if @applicationUrl().length > 0
+			jQuery.post "/_witness/setupproxy", { url: @applicationUrl() }
 
 		manifest = new Manifest @specificationDirectory
 
@@ -47,6 +49,7 @@
 			@finished.raise manifest
 		manifest.downloadFailed.addHandler =>
 			@canInput yes
+			messageBus.send "RunnerDownloadFailed"
 
 		manifest.download()
 
