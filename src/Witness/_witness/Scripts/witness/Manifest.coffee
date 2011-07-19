@@ -1,14 +1,13 @@
-# reference "../../lib/jquery.js"
-# reference "../Event.coffee"
-# reference "../Dsl.coffee"
-# reference "../File.coffee"
-# reference "../Directory.coffee"
+# reference "../lib/jquery.js"
+# reference "Event.coffee"
+# reference "Dsl.coffee"
+# reference "File.coffee"
+# reference "Directory.coffee"
 
 { Event, Dsl, File, Directory } = @Witness
 
-@Witness.manifests = {}
 
-@Witness.manifests.Manifest = class Manifest
+@Witness.Manifest = class Manifest
 
 	constructor: (@specificationPath) ->
 		@scripts = []

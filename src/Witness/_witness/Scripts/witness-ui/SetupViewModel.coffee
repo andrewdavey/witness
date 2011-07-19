@@ -1,11 +1,10 @@
 # reference "../lib/knockout.js"
-# reference "../witness/manifests/Manifest.coffee"
+# reference "../witness/Manifest.coffee"
 # reference "../witness/Event.coffee"
 # reference "../witness/MessageBus.coffee"
 # reference "_namespace.coffee"
 
-{ Event, messageBus } = @Witness
-{ Manifest } = @Witness.manifests
+{ Manifest, Event, messageBus } = @Witness
 
 # The setup view model allows the use to specify a specification 
 # directory to download. The manifest is downloaded, scripts parsed
