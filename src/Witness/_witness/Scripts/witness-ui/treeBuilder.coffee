@@ -20,7 +20,7 @@
 		specificationNodes = (@buildSpecificationNode s, tree for s in @getSpecificationNodes(directory))
 		childNodes = subDirectoryNodes.concat specificationNodes
 
-		directoryNode = new DirectoryNode directory.name, tree
+		directoryNode = new DirectoryNode directory.name, directory, tree
 		directoryNode.children childNodes
 		directoryNode
 

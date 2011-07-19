@@ -1,8 +1,10 @@
 # reference "../../lib/jquery.js"
 # reference "../Event.coffee"
 # reference "../Dsl.coffee"
+# reference "../File.coffee"
+# reference "../Directory.coffee"
 
-{ Event, Dsl } = @Witness
+{ Event, Dsl, File, Directory } = @Witness
 
 @Witness.manifests = {}
 
@@ -32,7 +34,7 @@
 
 	downloadManifestSucceeded: (manifestData) ->
 		# manifestData is a directory object
-		# directory = { helpers: url string array: file array, directories: directory array }
+		# directory = { helpers: url string array, files: file array, directories: directory array }
 		# file = { url: string, name: string }
 
 		collectUrls = (directory, urls = []) ->
@@ -196,7 +198,13 @@
 		if @anyEvaluationErrors
 			@downloadFailed.raise()
 		else
+			@rootDirectory = buildDirectory @rootDirectory
 			@downloadSucceeded.raise()
+
+buildDirectory = (directory) ->
+	directories = (buildDirectory sub for sub in directory.directories)
+	files = (new File file.name, file.specifications for file in directory.files)
+	new Directory directory.name, directories, files
 
 # Wrapping a script in an anonymous function call prevents it accidently
 # leaking into global scope. The try..catch should catch any runtime errors.

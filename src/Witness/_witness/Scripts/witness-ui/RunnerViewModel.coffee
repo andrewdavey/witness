@@ -19,9 +19,10 @@
 @Witness.ui.RunnerViewModel = class RunnerViewModel
 
 	constructor: (manifest) ->
+		@rootDirectory = manifest.rootDirectory
 		@tree = treeBuilder.buildTree manifest.rootDirectory
 		@scenarioViewModels = {} # ID -> view model
-		@activeItemModel = null
+		@activeItemModel = ko.observable null
 		@activeItem = ko.observableArray []
 		@iframeManager = new IframeManager()
 		@canRun = ko.observable yes
@@ -32,7 +33,7 @@
 				@scenarioViewModels[node.data.uniqueId] = new ScenarioViewModel node.data
 
 		@canRunSelected = ko.dependentObservable =>
-			@canRun() and @activeItem().length > 0
+			@canRun() and @activeItemModel()?
 		@tree.nodeSelected.addHandler (node) =>
 			@treeNodeSelected node
 
@@ -46,18 +47,16 @@
 		@scenarioViewModels[id]
 
 	treeNodeSelected: (node) ->
+		@activeItemModel node.data
 		if node instanceof ScenarioNode
-			@activeItemModel = node.data
 			@activeItem [ @getScenarioViewModel node.data ]
 			@iframeManager.show node.data.uniqueId
 
 		else if node instanceof SpecificationNode
-			@activeItemModel = node.data
 			@activeItem [ new SpecificationViewModel node.data ]
 			@iframeManager.hideActive()
 
 		else
-			@activeItemModel = null
 			@activeItem.removeAll()
 			@iframeManager.hideActive()
 
@@ -68,12 +67,10 @@
 		item.run {}, passedOrFailed, passedOrFailed
 
 	runAll: ->
-		models = (node.data for node in @tree.nodes())
-		action = new TryAll models
-		@run action
+		@run @rootDirectory
 
 	runSelected: ->
-		@run @activeItemModel
+		@run @activeItemModel()
 
 	setup: ->
 		@setupInvoked.raise()
