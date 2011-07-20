@@ -3,12 +3,12 @@
 # reference "Event.coffee"
 # reference "Dsl.coffee"
 
-{ Event, Dsl, messageBus } = @Witness
+{ Event, Dsl, messageBus } = @witness
 
 # A ScriptFile represents either a JavaScript or CoffeeScript file that
 # is to be downloaded, parsed and executed.
 # It is an abstract base class. Subclasses must provide a scriptDownloaded function.
-@Witness.ScriptFile = class ScriptFile
+@witness.ScriptFile = class ScriptFile
 	
 	constructor: (@url) ->
 		@errors = []

@@ -4,10 +4,10 @@
 # reference "File.coffee"
 # reference "Directory.coffee"
 
-{ Event, Dsl, File, Directory } = @Witness
+{ Event, Dsl, File, Directory } = @witness
 
 
-@Witness.Manifest = class Manifest
+@witness.Manifest = class Manifest
 
 	constructor: (@specificationPath) ->
 		@scripts = []
@@ -161,7 +161,7 @@
 			iframeWindow._witnessScriptError = (error) =>
 				failed = true
 				message = if typeof error.stack == "string"
-					extractRuntimeErrorFromStack error.stack, currentHelper
+					extractRuntimeErrorFromStack error.stack, (currentHelper or script.url)
 				else
 					error.message
 				@evaluateScriptFailed script, message
@@ -184,7 +184,7 @@
 			specification.url = script.url
 		@decrementPendingEvaluationCount()
 
-	evaluateScriptFailed: (script, error) ->
+	evaluateScriptFailed: (script, message) ->
 		script.error = message
 		@anyEvaluationErrors = yes
 		@decrementPendingEvaluationCount()
@@ -224,17 +224,14 @@ wrapScript = (script) ->
 # In Chrome, error objects have a stack string property.
 # Parse this to get the error message and also the line and character
 # of the error. This makes for a more useful error message to display.
-extractRuntimeErrorFromStack = (stack, helper) ->
+extractRuntimeErrorFromStack = (stack, url) ->
 	firstLine = stack.match(/^(.*)(:?\r|\n|$)/)[1]
 	location = stack.match(/sandbox\.htm:(\d+):(\d+)/)
 	
 	if location? 
 		# line number was offset by 2 in the wrapScript function
 		line = parseInt(location[1], 10) - 2
-		if helper?
-			"#{firstLine}. #{helper.url} at line #{line}, character #{location[2]}."
-		else
-			"#{firstLine}. Line #{line}, character #{location[2]}."
+		"#{firstLine}. #{url} at line #{line}, character #{location[2]}."
 	else
 		firstLine
 

@@ -1,8 +1,8 @@
 # reference "TreeNode.coffee"
 
-{ TreeNode } = @Witness.ui
+{ TreeNode } = @witness.ui
 
-@Witness.ui.DirectoryNode = class DirectoryNode extends TreeNode
+@witness.ui.DirectoryNode = class DirectoryNode extends TreeNode
 
 	constructor: (name, directory, tree) ->
 		super tree, directory

@@ -1,7 +1,7 @@
 ﻿# reference "../Dsl.coffee"
 # reference "../Action.coffee"
 
-{ Action, Dsl } = @Witness
+{ Action, Dsl } = @witness
 
 predicateActionBuilder = (options, negate) ->
 	(expected) -> (propertyNames...) ->
@@ -20,7 +20,9 @@ predicateActionBuilder = (options, negate) ->
 			return if !negate and result
 			error = options.error.call this, fullName, actual, expected
 			if typeof error == "string"
-				throw new Error error
+				errorObject = new Error error
+				errorObject.fromAssertion = true
+				throw errorObject
 			else
 				throw error
 

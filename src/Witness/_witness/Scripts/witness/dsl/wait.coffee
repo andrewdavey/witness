@@ -2,8 +2,8 @@
 # reference "async.coffee"
 # reference "defineActions.coffee"
 
-{ async }= @Witness.Dsl::
+{ async }= @witness.Dsl::
 
-@Witness.Dsl::defineActions
+@witness.Dsl::defineActions
 	wait: async ((delay) ->
 		setTimeout @done, delay), -1

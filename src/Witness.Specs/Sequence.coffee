@@ -7,9 +7,9 @@ describe "Sequence",
 	"given a Sequence of two actions that complete": ->
 		@context = {}
 		@outerContext = outerContext = this
-		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
-		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
-		@sequence = new Witness.Sequence [action0, action1]
+		action0 = new witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
+		action1 = new witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
+		@sequence = new witness.Sequence [action0, action1]
 
 	"when the sequence is run": ->
 		@sequence.run @context, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
@@ -24,9 +24,9 @@ describe "Sequence",
 },
 {
 	"given a Sequence where the first action fails": ->
-		action0 = new Witness.Action (=> throw new Error "action-0 failed")
-		action1 = new Witness.Action (=> @action1Called = true)
-		@sequence = new Witness.Sequence [action0, action1]
+		action0 = new witness.Action (=> throw new Error "action-0 failed")
+		action1 = new witness.Action (=> @action1Called = true)
+		@sequence = new witness.Sequence [action0, action1]
 
 	"when the sequence is run": ->
 		@sequence.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)
@@ -38,9 +38,9 @@ describe "Sequence",
 },
 {
 	"given a Sequence where the second action fails": ->
-		action0 = new Witness.Action (=> @action0Called = true)
-		action1 = new Witness.Action (=> throw new Error "action-1 failed")
-		@sequence = new Witness.Sequence [action0, action1]
+		action0 = new witness.Action (=> @action0Called = true)
+		action1 = new witness.Action (=> throw new Error "action-1 failed")
+		@sequence = new witness.Sequence [action0, action1]
 
 	"when the sequence is run": ->
 		@sequence.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)

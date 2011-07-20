@@ -7,9 +7,9 @@ describe "TryAll",
 	"given a TryAll action where both actions complete": ->
 		@context = {}
 		@outerContext = outerContext = this
-		action0 = new Witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
-		action1 = new Witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
-		@tryAll = new Witness.TryAll [action0, action1]
+		action0 = new witness.Action (-> outerContext.action0Called = true; outerContext.action0Context = this)
+		action1 = new witness.Action (-> outerContext.action1Called = true; outerContext.action1Context = this)
+		@tryAll = new witness.TryAll [action0, action1]
 
 	"when the action is run": async ->
 		@tryAll.run @context,
@@ -26,9 +26,9 @@ describe "TryAll",
 },
 {
 	"given a TryAll action where the first action fails": ->
-		action0 = new Witness.Action (=> throw new Error "action-0 failed")
-		action1 = new Witness.Action (=> @action1Called = true)
-		@tryAll = new Witness.TryAll [action0, action1]
+		action0 = new witness.Action (=> throw new Error "action-0 failed")
+		action1 = new witness.Action (=> @action1Called = true)
+		@tryAll = new witness.TryAll [action0, action1]
 
 	"when the action is run": async ->
 		@tryAll.run {},
@@ -42,9 +42,9 @@ describe "TryAll",
 },
 {
 	"given a TryAll where the second action fails": ->
-		action0 = new Witness.Action (=> @action0Called = true)
-		action1 = new Witness.Action (=> throw new Error "action-1 failed")
-		@tryAll = new Witness.TryAll [action0, action1]
+		action0 = new witness.Action (=> @action0Called = true)
+		action1 = new witness.Action (=> throw new Error "action-1 failed")
+		@tryAll = new witness.TryAll [action0, action1]
 
 	"when the action is run": async ->
 		@tryAll.run {},
@@ -58,9 +58,9 @@ describe "TryAll",
 },
 {
 	"given a TryAll where both actions fail": ->
-		action0 = new Witness.Action (=> throw new Error "action-0 failed")
-		action1 = new Witness.Action (=> throw new Error "action-1 failed")
-		@tryAll = new Witness.TryAll [action0, action1]
+		action0 = new witness.Action (=> throw new Error "action-0 failed")
+		action1 = new witness.Action (=> throw new Error "action-1 failed")
+		@tryAll = new witness.TryAll [action0, action1]
 
 	"when the action is run": async ->
 		@tryAll.run {},
@@ -76,7 +76,7 @@ describe "TryAll",
 },
 {
 	"given a TryAll with no actions": ->
-		@tryAll = new Witness.TryAll []
+		@tryAll = new witness.TryAll []
 
 	"when the action is run": async ->
 		@tryAll.run {},

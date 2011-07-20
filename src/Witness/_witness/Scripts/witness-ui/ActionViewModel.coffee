@@ -5,7 +5,7 @@
 # The ActionViewModel handles these and maintains an observable status.
 # This means the action can remain stateless, while the watcher can be bound the UI.
 
-@Witness.ui.ActionViewModel = class ActionViewModel
+@witness.ui.ActionViewModel = class ActionViewModel
 
 	constructor: (@action) ->
 		@description = @action.description

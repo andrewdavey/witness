@@ -4,9 +4,9 @@
 describe "Specification",
 {
 	"given a Specification with two scenarios": ->
-		@specification = new Witness.Specification(
+		@specification = new witness.Specification(
 			"specification description"
-			[ new Witness.Scenario([],[],[],[]), new Witness.Scenario([],[],[],[]) ]
+			[ new witness.Scenario([],[],[],[]), new witness.Scenario([],[],[],[]) ]
 		)
 
 	then:

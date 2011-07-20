@@ -3,9 +3,9 @@
 # reference "ScenarioViewModel.coffee"
 # reference "OuterScenarioViewModel.coffee"
 
-{ OuterScenarioViewModel, createScenarioViewModel } = @Witness.ViewModels
+{ OuterScenarioViewModel, createScenarioViewModel } = @witness.ViewModels
 
-@Witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
+@witness.ViewModels.SpecificationViewModel = class SpecificationViewModel
 	constructor: (@specification) ->
 		@description = @specification.description
 		@scenarios = (createScenarioViewModel scenario for scenario in @specification.scenarios)

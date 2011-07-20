@@ -1,9 +1,9 @@
 # reference "_namespace.coffee"
 # reference "ActionViewModel.coffee"
 
-{ ActionViewModel } = @Witness.ui
+{ ActionViewModel } = @witness.ui
 
-@Witness.ui.ScenarioViewModel = class ScenarioViewModel
+@witness.ui.ScenarioViewModel = class ScenarioViewModel
 
 	constructor: (@scenario) ->
 		@givenDescription = @scenario.given.description
@@ -16,13 +16,14 @@
 
 		@scenario.on.failed.addHandler (errors) =>
 			if jQuery.isArray errors
-				for error in errors when not error.stack
+				for error in errors when not error.stack or error.fromAssertion
 					error.stack = ""
 				@errors errors
 			else
-				if not errors.stack
-					errors.stack = ""
-				@errors [ errors ]
+				error = errors
+				if not error.stack or error.fromAssertion
+					error.stack = ""
+				@errors [ error ]
 
 	templateId: "scenario"
 

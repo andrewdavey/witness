@@ -1,22 +1,22 @@
 describe "SpecificationViewModel",
 {
 	"given a Specification with a description and one scenario": ->
-		@specification = new Witness.Specification "example", [ new Witness.Scenario({}) ]
+		@specification = new witness.Specification "example", [ new witness.Scenario({}) ]
 
 	"when a SpecificationViewModel is created": ->
-		@viewModel = new Witness.ViewModels.SpecificationViewModel @specification
+		@viewModel = new witness.ViewModels.SpecificationViewModel @specification
 
 	then:
 		viewModel:
 			description: should.be "example"
-			scenarios: [ should.beInstanceof Witness.ViewModels.ScenarioViewModel ]
+			scenarios: [ should.beInstanceof witness.ViewModels.ScenarioViewModel ]
 			status: should.be "notrun"
 			isOpen: should.be false
 },
 {
 	"given a SpecificationViewModel": ->
-		@specification = new Witness.Specification "example", [ new Witness.Scenario {} ]
-		@viewModel = new Witness.ViewModels.SpecificationViewModel @specification
+		@specification = new witness.Specification "example", [ new witness.Scenario {} ]
+		@viewModel = new witness.ViewModels.SpecificationViewModel @specification
 	
 	inner: [
 		{

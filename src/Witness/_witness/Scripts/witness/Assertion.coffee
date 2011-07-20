@@ -1,7 +1,7 @@
 ﻿# reference "Witness.coffee"
 # reference "Event.coffee"
 
-{ Event } = @Witness
+{ Event } = @witness
 
 createDescriptionFromFunction = (func) ->
 	s = func.toString()
@@ -9,7 +9,7 @@ createDescriptionFromFunction = (func) ->
 	return match[1] if match
 	return s
 
-@Witness.Assertion = class Assertion
+@witness.Assertion = class Assertion
 	constructor: (@action) ->
 		if @action.description
 			@description = @action.description
@@ -30,6 +30,7 @@ createDescriptionFromFunction = (func) ->
 				assertionDone()
 			else
 				error = new Error "Assertion failed: " + @description
+				error.fromAssertion = true
 				@on.fail.raise error
 				assertionFail error
 

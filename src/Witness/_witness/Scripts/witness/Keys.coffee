@@ -1,6 +1,6 @@
 # reference "Dsl.coffee"
 
-jQuery.extend @Witness.Dsl::, {
+jQuery.extend @witness.Dsl::, {
 	ALT: 18
 	BACKSPACE: 8
 	CAPS_LOCK: 20
@@ -35,7 +35,7 @@ jQuery.extend @Witness.Dsl::, {
 	WINDOWS: 91 # COMMAND
 }
 
-@Witness.keyNames =
+@witness.keyNames =
 	18: "ALT"
 	8: "BACKSPACE"
 	20: "CAPS_LOCK"

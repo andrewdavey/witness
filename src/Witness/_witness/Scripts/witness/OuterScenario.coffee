@@ -5,9 +5,9 @@
 # reference "Sequence.coffee"
 # reference "Scenario.coffee"
 
-{ Event, TryAll, Sequence, Scenario, messageBus } = @Witness
+{ Event, TryAll, Sequence, Scenario, messageBus } = @witness
 
-@Witness.OuterScenario = class OuterScenario extends Scenario
+@witness.OuterScenario = class OuterScenario extends Scenario
 
 	constructor: (parts, @innerScenarios, @id) ->
 		{@given, @dispose} = parts

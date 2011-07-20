@@ -8,7 +8,7 @@ describe "SpecificationFile",
 			ajax: (options) ->
 				options.success ""
 		}
-		@file = new Witness.SpecificationFile manifest
+		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
 		@file.on.downloading.addHandler => @downloadingEventRaised = true
@@ -30,7 +30,7 @@ describe "SpecificationFile",
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success " { "
 		}
-		@file = new Witness.SpecificationFile manifest
+		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
 		@file.on.downloadFailed.addHandler => @done()
@@ -50,7 +50,7 @@ describe "SpecificationFile",
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success " { "
 		}
-		@file = new Witness.SpecificationFile manifest
+		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
 		@file.on.downloadFailed.addHandler => @done()
@@ -70,7 +70,7 @@ describe "SpecificationFile",
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success "should.callFunctionThatDoesNotExist();"
 		}
-		@file = new Witness.SpecificationFile manifest
+		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
 		@file.on.downloadFailed.addHandler => @done()

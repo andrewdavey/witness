@@ -10,10 +10,10 @@
 # reference "ViewModels/SpecificationFileViewModel.coffee"
 # reference "ViewModels/SpecificationDirectoryViewModel.coffee"
 
-{ SpecificationFile, SpecificationDirectory, SpecificationHelper, Dsl, AsyncAction, Sequence, messageBus } = @Witness
-{ SpecificationFileViewModel, SpecificationDirectoryViewModel } = @Witness.ViewModels
+{ SpecificationFile, SpecificationDirectory, SpecificationHelper, Dsl, AsyncAction, Sequence, messageBus } = @witness
+{ SpecificationFileViewModel, SpecificationDirectoryViewModel } = @witness.ViewModels
 
-@Witness.SimpleRunner = class SimpleRunner
+@witness.SimpleRunner = class SimpleRunner
 	constructor: (@specsPath, iframeContainer, @autoRun = no) ->
 		# Use an observable array, since knockout dislikes binding to a null object.
 		# Once loaded, the array will contain the single directory object.

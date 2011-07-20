@@ -51,7 +51,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -72,10 +71,13 @@
     <None Include="Assertion.coffee" />
     <None Include="AsyncAction.coffee" />
     <None Include="Dsl.coffee" />
+    <None Include="dsl\click.coffee" />
     <None Include="dsl\defineActions.coffee" />
     <None Include="dsl\describe.coffee" />
-    <None Include="dsl\pageAutomation.coffee" />
+    <None Include="dsl\haveText.coffee" />
+    <None Include="dsl\match.coffee" />
     <None Include="dsl\should.coffee" />
+    <None Include="dsl\type.coffee" />
     <None Include="dsl\wait.coffee" />
     <None Include="Event.coffee" />
     <None Include="OuterScenario.coffee" />

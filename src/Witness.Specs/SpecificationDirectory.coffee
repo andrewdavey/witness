@@ -7,7 +7,7 @@ describe "SpecificationDirectory constructor",
 			directories: []
 
 	"when a SpecificationDirectory is created with the manifest": ->
-		@directory = new Witness.SpecificationDirectory @manifest
+		@directory = new witness.SpecificationDirectory @manifest
 
 	then:
 		directory:
@@ -27,11 +27,11 @@ describe "SpecificationDirectory constructor",
 			directories: []
 
 	"when a SpecificationDirectory is created with the manifest": ->
-		@directory = new Witness.SpecificationDirectory @manifest
+		@directory = new witness.SpecificationDirectory @manifest
 
 	"then a SpecificationFile is created":
 		directory:
-			files: [ should.beInstanceof Witness.SpecificationFile ]
+			files: [ should.beInstanceof witness.SpecificationFile ]
 },
 {
 	"given a directory manifest with a sub-directory": ->
@@ -43,11 +43,11 @@ describe "SpecificationDirectory constructor",
 			]
 	
 	"when a SpecificationDirectory is created with the manifest": ->
-		@directory = new Witness.SpecificationDirectory @manifest
+		@directory = new witness.SpecificationDirectory @manifest
 	
 	"then a sub SpecificationDirectory is created":
 		directory:
-			directories: [ should.beInstanceof Witness.SpecificationDirectory ]
+			directories: [ should.beInstanceof witness.SpecificationDirectory ]
 },
 {
 	"given a directory manifest with helpers": ->
@@ -55,19 +55,19 @@ describe "SpecificationDirectory constructor",
 			helpers: [ "/example/_helper1.js", "/example/_helper2.js" ]
 
 	"when a SpecificationDirectory is created with the manifest": ->
-		@directory = new Witness.SpecificationDirectory @manifest
+		@directory = new witness.SpecificationDirectory @manifest
 	
 	"then helpers property is array of SpecificationHelpers":
 		directory: helpers: [
-			should.beInstanceof Witness.SpecificationHelper
-			should.beInstanceof Witness.SpecificationHelper
+			should.beInstanceof witness.SpecificationHelper
+			should.beInstanceof witness.SpecificationHelper
 		]
 }
 
 describe "SpecificationDirectory download",
 {
 	"given a SpecificationDirectory": ->
-		@directory = new Witness.SpecificationDirectory {
+		@directory = new witness.SpecificationDirectory {
 			name: "example"
 			files: []
 			directories: []
@@ -84,7 +84,7 @@ describe "SpecificationDirectory download",
 },
 {
 	"given a SpecificationDirectory with a file": ->
-		@directory = new Witness.SpecificationDirectory {
+		@directory = new witness.SpecificationDirectory {
 			name: "example"
 			files: [
 				{ name: "test.js", url: "example/test.js" }
@@ -104,7 +104,7 @@ describe "SpecificationDirectory download",
 },
 {
 	"given a SpecificationDirectory with a sub-directory": ->
-		@directory = new Witness.SpecificationDirectory {
+		@directory = new witness.SpecificationDirectory {
 			name: "example"
 			files: [],
 			directories: [

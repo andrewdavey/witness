@@ -1,4 +1,4 @@
 ﻿# reference "Witness.coffee"
 
-@Witness.TimeoutError = class TimeoutError
+@witness.TimeoutError = class TimeoutError
 	constructor: (@message) ->

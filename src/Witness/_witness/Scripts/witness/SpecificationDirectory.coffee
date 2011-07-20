@@ -6,9 +6,9 @@
 # reference "AsyncAction.coffee"
 # reference "Event.coffee"
 
-{ Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll, messageBus } = @Witness
+{ Event, SpecificationHelper, SpecificationFile, AsyncAction, Sequence, TryAll, messageBus } = @witness
 
-@Witness.SpecificationDirectory = class SpecificationDirectory
+@witness.SpecificationDirectory = class SpecificationDirectory
 	constructor: (manifest, parentHelpers = []) ->
 		@name = manifest.name
 		@on = Event.define "downloading", "downloaded", "downloadFailed", "running", "passed", "failed"

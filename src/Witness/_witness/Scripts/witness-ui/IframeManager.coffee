@@ -2,9 +2,9 @@
 # reference "../witness/MessageBus.coffee"
 # reference "_namespace.coffee"
 
-{ Event, messageBus } = @Witness
+{ Event, messageBus } = @witness
 
-@Witness.ui.IframeManager = class IframeManger
+@witness.ui.IframeManager = class IframeManger
 
 	constructor: ->
 		@iframes = {}

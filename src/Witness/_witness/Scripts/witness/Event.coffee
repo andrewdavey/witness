@@ -1,6 +1,6 @@
 ﻿# reference "Witness.coffee"
 
-@Witness.Event = class Event
+@witness.Event = class Event
 	constructor: ->
 		@handlers = []
 

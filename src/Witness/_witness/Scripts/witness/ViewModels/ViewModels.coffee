@@ -1,2 +1,2 @@
 ﻿# Create the namespace for ViewModels
-@Witness.ViewModels = {}
+@witness.ViewModels = {}

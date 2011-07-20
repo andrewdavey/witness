@@ -2,9 +2,9 @@
 # reference "../dsl/async.coffee"
 # reference "../dsl/defineActions.coffee"
 
-{ async } = @Witness.Dsl::
+{ async } = @witness.Dsl::
 
-@Witness.Dsl::defineActions
+@witness.Dsl::defineActions
 	remote: async (remotefunc) ->
 		$.ajax 
 			url:"execute-script"
@@ -13,6 +13,10 @@
 			success: (data) =>
 				@done data
 			error: (xhr, data) =>
-				@fail JSON.parse(xhr.responseText).error
+				contentType = xhr.getResponseHeader "Content-Type"
+				if contentType.match /application\/json/
+					@fail { message: JSON.parse(xhr.responseText).error }
+				else
+					@fail { message: xhr.responseText }
 			dataType: "json"
 

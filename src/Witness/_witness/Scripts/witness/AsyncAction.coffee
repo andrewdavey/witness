@@ -2,9 +2,9 @@
 # reference "Event.coffee"
 # reference "TimeoutError.coffee"
 
-{ Event, TimeoutError } = @Witness
+{ Event, TimeoutError } = @witness
 
-@Witness.AsyncAction = class AsyncAction
+@witness.AsyncAction = class AsyncAction
 	
 	constructor: (@func, @args = [], @description, @timeout = AsyncAction.defaultTimeout) ->
 		@on = Event.define "run", "done", "fail"

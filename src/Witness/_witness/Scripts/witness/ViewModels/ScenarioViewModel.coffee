@@ -4,11 +4,11 @@
 # reference "../helpers.coffee"
 # reference "../../lib/knockout.js"
 
-{ messageBus } = @Witness
-{ flattenArray } = @Witness.helpers
-{ ActionWatcher } = @Witness.ViewModels
+{ messageBus } = @witness
+{ flattenArray } = @witness.helpers
+{ ActionWatcher } = @witness.ViewModels
 
-@Witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
+@witness.ViewModels.ScenarioViewModel = class ScenarioViewModel
 	
 	constructor: (@scenario) ->
 		@status = ko.observable "notrun"

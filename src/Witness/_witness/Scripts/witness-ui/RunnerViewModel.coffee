@@ -7,7 +7,7 @@
 # reference "../witness/Event.coffee"
 # reference "../witness/MessageBus.coffee"
 
-{ TryAll, Event, messageBus } = @Witness
+{ TryAll, Event, messageBus } = @witness
 {
 	treeBuilder,
 	ScenarioNode,
@@ -15,9 +15,9 @@
 	ScenarioViewModel,
 	SpecificationViewModel,
 	IframeManager
-} = @Witness.ui
+} = @witness.ui
 
-@Witness.ui.RunnerViewModel = class RunnerViewModel
+@witness.ui.RunnerViewModel = class RunnerViewModel
 
 	constructor: (manifest) ->
 		@rootDirectory = manifest.rootDirectory

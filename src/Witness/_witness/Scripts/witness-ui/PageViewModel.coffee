@@ -4,7 +4,7 @@
 # reference "SetupViewModel.coffee"
 # reference "RunnerViewModel.coffee"
 
-{ SetupViewModel, RunnerViewModel } = @Witness.ui
+{ SetupViewModel, RunnerViewModel } = @witness.ui
 
 # PageViewModel is the root of the Witness page.
 # It contains all the nested view models and transition behavior.

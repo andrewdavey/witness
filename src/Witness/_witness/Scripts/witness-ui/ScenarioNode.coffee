@@ -1,9 +1,9 @@
 # reference "_namespace.coffee"
 # reference "TreeNode.coffee"
 
-{ TreeNode } = @Witness.ui
+{ TreeNode } = @witness.ui
 
-@Witness.ui.ScenarioNode = class ScenarioNode extends TreeNode
+@witness.ui.ScenarioNode = class ScenarioNode extends TreeNode
 	
 	constructor: (name, @scenario, tree) ->
 		super tree, @scenario

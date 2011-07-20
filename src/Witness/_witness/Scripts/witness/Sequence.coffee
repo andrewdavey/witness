@@ -1,6 +1,6 @@
 ﻿# reference "Witness.coffee"
 
-@Witness.Sequence = class Sequence
+@witness.Sequence = class Sequence
 
 	constructor: (@actions) ->
 

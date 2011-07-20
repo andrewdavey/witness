@@ -5,7 +5,7 @@ describe "AsyncAction",
 {
 	"given an AsyncAction where the function throws before going async": ->
 		functionThatThrowsBeforeAsync = -> throw new Error "failed"
-		@action = new Witness.AsyncAction functionThatThrowsBeforeAsync, []
+		@action = new witness.AsyncAction functionThatThrowsBeforeAsync, []
 
 	"when the action is run": async ->
 		testDone = @done
@@ -19,7 +19,7 @@ describe "AsyncAction",
 	"given an AsyncAction where the function does nothing and timeout is 10 milliseconds": ->
 		functionThatDoesNothing = (->)
 		timeToWait = 10 # milliseconds
-		@action = new Witness.AsyncAction functionThatDoesNothing, [], null, timeToWait
+		@action = new witness.AsyncAction functionThatDoesNothing, [], null, timeToWait
 
 	"when the action is run": async ->
 		testDone = @done
@@ -27,12 +27,12 @@ describe "AsyncAction",
 
 	then:
 		doneCalled: should.be undefined
-		error: should.beInstanceof Witness.TimeoutError
+		error: should.beInstanceof witness.TimeoutError
 },
 {
 	"given an AsyncAction where the function calls done after a 100 millisecond delay": ->
 		functionThatCallsDone = -> setTimeout (=> this.done()), 100
-		@action = new Witness.AsyncAction functionThatCallsDone
+		@action = new witness.AsyncAction functionThatCallsDone
 
 	"when the action is run": async ->
 		testDone = @done
@@ -45,7 +45,7 @@ describe "AsyncAction",
 {
 	"given an AsyncAction where the function calls fail": ->
 		functionThatCallsFail = -> setTimeout (=> this.fail "failed"), 10
-		@action = new Witness.AsyncAction functionThatCallsFail
+		@action = new witness.AsyncAction functionThatCallsFail
 
 	"when the action is run": async ->
 		testDone = @done
@@ -57,7 +57,7 @@ describe "AsyncAction",
 },
 {
 	"given an AsyncAction that requires a result": ->
-		@action = new Witness.AsyncAction -> @done(42)
+		@action = new witness.AsyncAction -> @done(42)
 		
 	"when the action is run": ->
 		@action.run {}, ((result)=>@result = result), (->)

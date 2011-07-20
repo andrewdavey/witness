@@ -6,37 +6,37 @@ describe "OuterScenario",
 		parts =
 			given:
 				description: "given"
-				actions: [ new Witness.Action (=> @outerGivenCalled++) ]
+				actions: [ new witness.Action (=> @outerGivenCalled++) ]
 
 			dispose:
 				description: "dispose"
-				actions: [ new Witness.Action (=> @outerDisposeCalled++) ]
+				actions: [ new witness.Action (=> @outerDisposeCalled++) ]
 
 		innerScenarios = [
-			new Witness.Scenario({
+			new witness.Scenario({
 				given:
 					description: "given"
-					actions: [ new Witness.Action (=> @inner0GivenCalled = true) ]
+					actions: [ new witness.Action (=> @inner0GivenCalled = true) ]
 				when:
 					description: "when"
-					actions: [ new Witness.Action (=> @inner0WhenCalled = true) ]
+					actions: [ new witness.Action (=> @inner0WhenCalled = true) ]
 				then:
 					description: "then"
-					actions: [ new Witness.Action (=> @inner0ThenCalled = true) ]
+					actions: [ new witness.Action (=> @inner0ThenCalled = true) ]
 			}),
-			new Witness.Scenario({
+			new witness.Scenario({
 				given:
 					description: "given"
-					actions: [ new Witness.Action (=> @inner1GivenCalled = true) ]
+					actions: [ new witness.Action (=> @inner1GivenCalled = true) ]
 				when:
 					description: "when"
-					actions: [ new Witness.Action (=> @inner1WhenCalled = true) ]
+					actions: [ new witness.Action (=> @inner1WhenCalled = true) ]
 				then:
 					description: "then"
-					actions: [ new Witness.Action (=> @inner1ThenCalled = true) ]
+					actions: [ new witness.Action (=> @inner1ThenCalled = true) ]
 			})
 		]
-		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		@outerScenario = new witness.OuterScenario parts, innerScenarios
 	
 	"when it is run": async ->
 		@outerScenario.run {},
@@ -66,7 +66,7 @@ describe "OuterScenario",
 				actions: []
 
 		innerScenarios = []
-		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		@outerScenario = new witness.OuterScenario parts, innerScenarios
 		@outerScenario.on.running.addHandler => @runningEventRaised = true
 		@outerScenario.on.passed.addHandler => @passedEventRaised = true
 		@outerScenario.on.failed.addHandler => @failedEventRaised = true
@@ -86,14 +86,14 @@ describe "OuterScenario",
 		parts =
 			given:
 				description: "given"
-				actions: [ new Witness.Action(-> throw new Error "failed") ]
+				actions: [ new witness.Action(-> throw new Error "failed") ]
 
 			dispose:
 				description: "dispose"
 				actions: []
 
-		innerScenarios = [ new Witness.Scenario {} ]
-		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		innerScenarios = [ new witness.Scenario {} ]
+		@outerScenario = new witness.OuterScenario parts, innerScenarios
 		@outerScenario.on.running.addHandler => @runningEventRaised = true
 		@outerScenario.on.passed.addHandler => @passedEventRaised = true
 		@outerScenario.on.failed.addHandler => @failedEventRaised = true
@@ -113,14 +113,14 @@ describe "OuterScenario",
 		parts =
 			given:
 				description: "given"
-				actions: [ new Witness.Action(-> throw new Error "failed") ]
+				actions: [ new witness.Action(-> throw new Error "failed") ]
 
 			dispose:
 				description: "dispose"
 				actions: []
 
 		innerScenarios = []
-		@outerScenario = new Witness.OuterScenario parts, innerScenarios
+		@outerScenario = new witness.OuterScenario parts, innerScenarios
 		@outerScenario.on.passed.addHandler => @passedEventRaised = true
 
 	"when it is run": async ->

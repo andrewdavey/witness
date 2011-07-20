@@ -3,9 +3,9 @@
 # reference "TryAll.coffee"
 # reference "Event.coffee"
 
-{ TryAll, Event, messageBus } = @Witness
+{ TryAll, Event, messageBus } = @witness
 
-@Witness.Specification = class Specification
+@witness.Specification = class Specification
 	constructor: (@description, @scenarios) ->
 		@all = new TryAll @scenarios
 		@on = Event.define "running", "passed", "failed"

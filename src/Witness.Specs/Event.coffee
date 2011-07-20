@@ -1,7 +1,7 @@
 describe "Event",
 {
 	"given an Event with a handler added": ->
-		@event = new Witness.Event()
+		@event = new witness.Event()
 		@event.addHandler ((args...) => @handlerCalled = true; @args = args)
 	
 	inner: [
@@ -23,10 +23,10 @@ describe "Event",
 },
 {
 	"when Event.define is called with event names": ->
-		@events = Witness.Event.define.call null, "started", "finished"
+		@events = witness.Event.define.call null, "started", "finished"
 	
 	"then Event objects are created":
 		events:
-			started: should.beInstanceof Witness.Event
-			finished: should.beInstanceof Witness.Event
+			started: should.beInstanceof witness.Event
+			finished: should.beInstanceof witness.Event
 }

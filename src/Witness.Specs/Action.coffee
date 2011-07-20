@@ -5,7 +5,7 @@ describe "Action",
 {
 	"given an action that does nothing": ->
 		@testContext = {}
-		@action = new Witness.Action (->)
+		@action = new witness.Action (->)
 		
 	"when the action is run": ->
 		testContext = @testContext
@@ -25,7 +25,7 @@ describe "Action",
 {
 	"given an action that throws an error": ->
 		@testContext = {}
-		@action = new Witness.Action (-> throw new Error "failed")
+		@action = new witness.Action (-> throw new Error "failed")
 		
 	"when the action is run": ->
 		testContext = @testContext
@@ -46,7 +46,7 @@ describe "Action",
 	"given an action that receives two arguments": ->
 		@argumentsToSend = [42, "test-arg"]
 		recordArguments = ((x,y) => @firstArg = x; @secondArg = y)
-		@action = new Witness.Action recordArguments, @argumentsToSend
+		@action = new witness.Action recordArguments, @argumentsToSend
 		
 	"when the action is run": ->
 		@action.run {}, (->), (->)

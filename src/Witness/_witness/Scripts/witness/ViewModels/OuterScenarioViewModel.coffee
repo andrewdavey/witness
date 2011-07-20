@@ -5,9 +5,9 @@
 # reference "Helpers.coffee"
 # reference "OuterScenarioViewModel.coffee"
 
-{ ActionWatcher, OuterScenarioViewModel, createScenarioViewModel } = @Witness.ViewModels
+{ ActionWatcher, OuterScenarioViewModel, createScenarioViewModel } = @witness.ViewModels
 
-@Witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
+@witness.ViewModels.OuterScenarioViewModel = class OuterScenarioViewModel
 
 	constructor: (@outerScenario) ->
 		@givenDescription = @outerScenario.given.description

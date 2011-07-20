@@ -4,7 +4,7 @@
 # reference "TryAll.coffee"
 # reference "MessageBus.coffee"
 
-{ Event, TryAll, Sequence, messageBus } = @Witness
+{ Event, TryAll, Sequence, messageBus } = @witness
 
 createDescriptionFromFunction = (func) ->
 	return "" if typeof func != "function"
@@ -15,7 +15,7 @@ createDescriptionFromFunction = (func) ->
 
 nextUniqueId = 0
 
-@Witness.Scenario = class Scenario
+@witness.Scenario = class Scenario
 	
 	constructor: (@parts) ->
 		@uniqueId = "scenario-" + (nextUniqueId++).toString()

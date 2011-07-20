@@ -1,6 +1,6 @@
 ﻿# reference "Witness.coffee"
 
-@Witness.Dsl = class Dsl
+@witness.Dsl = class Dsl
 	
 	# @target will usually be the global window object
 	constructor: (@target) ->

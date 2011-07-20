@@ -5,7 +5,7 @@
 # reference "defineActions.coffee"
 # reference "should.coffee"
 
-{ Action, Dsl, keyNames } = @Witness
+{ Action, Dsl, keyNames } = @witness
 
 # We want to allow natural, jQuery-style, actions in scenarios. For example:
 #   when: [ $("input").val("test"), $("button").click() ]

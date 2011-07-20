@@ -4,8 +4,8 @@
 # reference "should.coffee"
 # reference "../../lib/LAB.js"
 
-{ async, defineActions } = @Witness.Dsl::
-Witness = @Witness
+{ async, defineActions } = @witness.Dsl::
+Witness = @witness
 
 defineActions
 	loadPage: async (url) ->

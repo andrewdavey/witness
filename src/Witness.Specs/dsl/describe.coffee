@@ -2,7 +2,7 @@
 {
 	"given a DSL and target": ->
 		@target = {}
-		@dsl = new Witness.Dsl(@target)
+		@dsl = new witness.Dsl(@target)
 
 	inner: [
 		{
@@ -26,7 +26,7 @@
 			"given context has a property set to 42 and 'then' is an action factory reading the property name": ->
 				@context = { contextProperty: 42 }
 				textContext = this
-				actionFactory = (name) => new Witness.Action (-> textContext.value = @[name])
+				actionFactory = (name) => new witness.Action (-> textContext.value = @[name])
 				thenObject = { contextProperty: actionFactory }
 				@scenario = { given: [], when: [], then: thenObject }
 			
@@ -44,12 +44,12 @@
 				textContext = this
 				# actionFactory takes *two* arguments, one for each property name in the hirerachy
 				actionFactory = (name1, name2) =>
-					new Witness.Action (-> textContext.value = @[name1][name2]), []
+					new witness.Action (-> textContext.value = @[name1][name2]), []
 				thenObject = { outer: inner: actionFactory }
 				
 				@scenario = { given: [], when: [], then: thenObject }
 				@target = {}
-				@dsl = new Witness.Dsl(@target)
+				@dsl = new witness.Dsl(@target)
 			
 			"when the assertion is run": ->
 				spec = @dsl.describe.call @target, "specification-name", @scenario
@@ -77,7 +77,7 @@
 					]
 					dispose: (->)
 				@target = {}
-				@dsl = new Witness.Dsl(@target)
+				@dsl = new witness.Dsl(@target)
 
 			"when describe the scenario": ->
 				spec = @dsl.describe.call @target, "specification-name", @definition
@@ -85,11 +85,11 @@
 
 			"then":
 				scenario:
-					this: should.beInstanceof Witness.OuterScenario
+					this: should.beInstanceof witness.OuterScenario
 					innerScenarios:
 						length: should.be 2
-						0: should.beInstanceof Witness.Scenario
-						1: should.beInstanceof Witness.Scenario
+						0: should.beInstanceof witness.Scenario
+						1: should.beInstanceof witness.Scenario
 		}
 	]
 }

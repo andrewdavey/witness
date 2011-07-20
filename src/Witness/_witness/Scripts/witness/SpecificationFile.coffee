@@ -7,7 +7,7 @@
 # reference "MessageBus.coffee"
 # reference "ScriptFile.coffee"
 
-{ Dsl, Event, TryAll, ScriptFile, messageBus } = @Witness
+{ Dsl, Event, TryAll, ScriptFile, messageBus } = @witness
 
 # Wrapping a script in an anonymous function call prevents it accidently
 # leaking into global scope. The try..catch should catch any runtime errors.
@@ -57,7 +57,7 @@ addInlineScript = (scriptText, iframeDoc) ->
 
 
 
-@Witness.SpecificationFile = class SpecificationFile extends ScriptFile
+@witness.SpecificationFile = class SpecificationFile extends ScriptFile
 
 	constructor: (manifest, @helpers = []) ->
 		super manifest.url

@@ -4,10 +4,12 @@
 # reference "SpecificationNode.coffee"
 # reference "ScenarioNode.coffee"
 # reference "OuterScenarioNode.coffee"
+# reference "../witness/OuterScenario.coffee"
 
-{ Tree, DirectoryNode, SpecificationNode, ScenarioNode, OuterScenarioNode } = @Witness.ui
+{ OuterScenario } = @witness
+{ Tree, DirectoryNode, SpecificationNode, ScenarioNode, OuterScenarioNode } = @witness.ui
 
-@Witness.ui.treeBuilder =
+@witness.ui.treeBuilder =
 	buildTree: (directory) ->
 		tree = new Tree()
 		subDirectoryNodes = (@buildDirectoryNode d, tree for d in directory.directories)
@@ -31,7 +33,7 @@
 		node
 
 	buildScenarioNode: (scenario, index, tree) ->
-		if scenario instanceof Witness.OuterScenario
+		if scenario instanceof OuterScenario
 			node = new OuterScenarioNode scenario.given.description, scenario, tree
 			node.children (@buildScenarioNode child, index, tree for child, index in scenario.innerScenarios)
 			node

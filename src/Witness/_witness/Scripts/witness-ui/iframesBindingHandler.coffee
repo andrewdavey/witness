@@ -2,7 +2,7 @@
 # reference "../lib/jquery.js"
 # reference "../witness/MessageBus.coffee"
 
-{ messageBus } = @Witness
+{ messageBus } = @witness
 
 ko.bindingHandlers['iframes'] =
 	init: (element, valueAccessor) ->

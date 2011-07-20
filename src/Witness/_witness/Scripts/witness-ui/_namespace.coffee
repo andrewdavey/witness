@@ -1,3 +1,3 @@
 # reference "../witness/Witness.coffee"
 
-@Witness.ui = {}
+@witness.ui = {}

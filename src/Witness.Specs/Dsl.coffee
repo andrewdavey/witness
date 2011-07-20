@@ -2,7 +2,7 @@
 {
 	"given a DSL that will write into a target object": ->
 		@target = {}
-		@dsl = new Witness.Dsl @target
+		@dsl = new witness.Dsl @target
 
 	"when the DSL is activated": ->
 		@dsl.activate()

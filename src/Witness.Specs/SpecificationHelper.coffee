@@ -1,7 +1,7 @@
 describe "SpecificationHelper",
 {
 	"given a SpecificationHelper": ->
-		@helper = new Witness.SpecificationHelper "/exampe/url.js"
+		@helper = new witness.SpecificationHelper "/exampe/url.js"
 		@restorejQuery = mock jQuery, {
 			ajax: (options) ->
 				options.success ""

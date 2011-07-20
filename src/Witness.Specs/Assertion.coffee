@@ -1,13 +1,13 @@
 ﻿# reference "../witness/dsl/describe.coffee"
 # reference "../witness/Assertion.coffee"
 
-actionThatReturns = (result) -> new Witness.Action (-> result)
-actionThatThrows = new Witness.Action (-> throw new Error "custom error")
+actionThatReturns = (result) -> new witness.Action (-> result)
+actionThatThrows = new witness.Action (-> throw new Error "custom error")
 
 describe "Assertion",
 {
 	"given an assertion where the action returns true": ->
-		@assertion = new Witness.Assertion actionThatReturns true
+		@assertion = new witness.Assertion actionThatReturns true
 
 	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (-> @failCallbackCalled = true)
@@ -18,7 +18,7 @@ describe "Assertion",
 },
 {
 	"given an assertion where the action returns false": ->
-		@assertion = new Witness.Assertion actionThatReturns false
+		@assertion = new witness.Assertion actionThatReturns false
 
 	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), (=> @failCallbackCalled = true)
@@ -29,7 +29,7 @@ describe "Assertion",
 },
 {
 	"given an assertion where the action throws": ->
-		@assertion = new Witness.Assertion actionThatThrows
+		@assertion = new witness.Assertion actionThatThrows
 
 	"when the assertion is run": ->
 		@assertion.run {}, (=> @doneCallbackCalled = true), ((error) => @error = error)

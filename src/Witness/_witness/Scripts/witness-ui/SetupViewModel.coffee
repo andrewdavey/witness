@@ -4,13 +4,13 @@
 # reference "../witness/MessageBus.coffee"
 # reference "_namespace.coffee"
 
-{ Manifest, Event, messageBus } = @Witness
+{ Manifest, Event, messageBus } = @witness
 
 # The setup view model allows the use to specify a specification 
 # directory to download. The manifest is downloaded, scripts parsed
 # and evaluated to produce a tree of specifications.
 
-@Witness.ui.SetupViewModel = class SetupViewModel
+@witness.ui.SetupViewModel = class SetupViewModel
 
 	constructor: (pageArguments) ->
 		@specificationDirectory = ko.observable pageArguments.specs or ""

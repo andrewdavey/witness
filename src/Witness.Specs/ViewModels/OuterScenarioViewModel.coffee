@@ -8,8 +8,8 @@ describe "OuterScenarioViewModel",
 			dispose:
 				description: "dispose"
 				actions: []
-		scenario = new Witness.OuterScenario parts, []
-		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
+		scenario = new witness.OuterScenario parts, []
+		@viewModel = new witness.ViewModels.OuterScenarioViewModel scenario
 	
 	then:
 		viewModel:
@@ -27,8 +27,8 @@ describe "OuterScenarioViewModel",
 			dispose:
 				description: "dispose"
 				actions: []
-		scenario = new Witness.OuterScenario parts, []
-		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
+		scenario = new witness.OuterScenario parts, []
+		@viewModel = new witness.ViewModels.OuterScenarioViewModel scenario
 
 	"when it is run": [
 		-> @viewModel.run()
@@ -43,12 +43,12 @@ describe "OuterScenarioViewModel",
 		parts =
 			given:
 				description: "given"
-				actions: [ new Witness.Action (-> throw new Error "failed") ]
+				actions: [ new witness.Action (-> throw new Error "failed") ]
 			dispose:
 				description: "dispose"
 				actions: []
-		scenario = new Witness.OuterScenario parts, [ new Witness.Scenario {} ]
-		@viewModel = new Witness.ViewModels.OuterScenarioViewModel scenario
+		scenario = new witness.OuterScenario parts, [ new witness.Scenario {} ]
+		@viewModel = new witness.ViewModels.OuterScenarioViewModel scenario
 	
 	"when it is run": [
 		-> @viewModel.run()

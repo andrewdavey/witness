@@ -2,7 +2,7 @@
 # reference "../lib/knockout.js"
 
 
-@Witness.ui.TreeNode = class TreeNode
+@witness.ui.TreeNode = class TreeNode
 	
 	constructor: (@tree, @data) ->
 		# @data stores an underlying model object e.g. Scenario, Specificiation, etc

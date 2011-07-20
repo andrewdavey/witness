@@ -3,9 +3,9 @@
 # reference "TryAll.coffee"
 # reference "MessageBus.coffee"
 
-{ messageBus, Event, TryAll } = @Witness
+{ messageBus, Event, TryAll } = @witness
 
-@Witness.File = class File
+@witness.File = class File
 
 	constructor: (@name, @specifications) ->
 		@on = Event.define "running", "passed", "failed"

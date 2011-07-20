@@ -3,8 +3,8 @@
 # reference "../AsyncAction.coffee"
 # reference "../helpers.coffee"
 
-{ Action, AsyncAction, Dsl } = @Witness
-{ splitCasedString } = @Witness.helpers
+{ Action, AsyncAction, Dsl } = @witness
+{ splitCasedString } = @witness.helpers
 
 Dsl::defineAction = (name, func) ->
 	# An action factory is a function that captures its arguments

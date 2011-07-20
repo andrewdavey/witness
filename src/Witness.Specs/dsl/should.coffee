@@ -1,7 +1,7 @@
 ﻿describe "should.be",
 {
 	"given an action created from the should.be builder": ->
-		@actionFactory = Witness.Dsl::should.be 100
+		@actionFactory = witness.Dsl::should.be 100
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with the correct property in the context": ->
@@ -14,7 +14,7 @@
 },
 {
 	"given an action created from the should.be builder": ->
-		@actionFactory = Witness.Dsl::should.be 100
+		@actionFactory = witness.Dsl::should.be 100
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with the incorrect property in the context": ->
@@ -26,7 +26,7 @@
 },
 { # Scenario is equivalent to the above, but using should's instead
 	"given an action created from the should.be builder": ->
-		@actionFactory = Witness.Dsl::should.be 100
+		@actionFactory = witness.Dsl::should.be 100
 
 	"when the action is run with the correct property in the context": ->
 		@action = @actionFactory "theProperty"
@@ -39,7 +39,7 @@
 },
 {
 	"given an action created from the should.be builder": ->
-		@actionFactory = Witness.Dsl::should.be "a string value"
+		@actionFactory = witness.Dsl::should.be "a string value"
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with the incorrect property in the context": ->
@@ -53,7 +53,7 @@
 describe "should.notBe",
 {
 	"given an action is created from the should.notBe builder": ->
-		@actionFactory = Witness.Dsl::should.notBe 666
+		@actionFactory = witness.Dsl::should.notBe 666
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with a non-equal property value in the context": ->
@@ -66,7 +66,7 @@ describe "should.notBe",
 },
 {
 	"given an action is created from the should.notBe builder": ->
-		@actionFactory = Witness.Dsl::should.notBe 666
+		@actionFactory = witness.Dsl::should.notBe 666
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with a equal property value in the context": ->
@@ -80,7 +80,7 @@ describe "should.notBe",
 describe "should.beLessThen",
 {
 	"given the assertion: context property should.beLessThan 100": ->
-		@actionFactory = Witness.Dsl::should.beLessThan 100
+		@actionFactory = witness.Dsl::should.beLessThan 100
 		@action = @actionFactory "theProperty"
 	
 	inner: [
@@ -112,7 +112,7 @@ describe "should.beLessThen",
 describe "should.beGreaterThan",
 {
 	"given the assertion: context property should.beGreaterThan 100": ->
-		@actionFactory = Witness.Dsl::should.beGreaterThan 100
+		@actionFactory = witness.Dsl::should.beGreaterThan 100
 		@action = @actionFactory "theProperty"
 	
 	inner: [
@@ -144,7 +144,7 @@ describe "should.beGreaterThan",
 describe "should.beGreaterThanOrEqual",
 {
 	"given the assertion: context property should.beGreaterThanOrEqual 100": ->
-		@actionFactory = Witness.Dsl::should.beGreaterThanOrEqual 100
+		@actionFactory = witness.Dsl::should.beGreaterThanOrEqual 100
 		@action = @actionFactory "theProperty"
 	
 	inner: [
@@ -188,7 +188,7 @@ describe "should.beGreaterThanOrEqual",
 describe "should.beLessThanOrEqual",
 {
 	"given the assertion: context property should.beLessThanOrEqual 100": ->
-		@actionFactory = Witness.Dsl::should.beLessThanOrEqual 100
+		@actionFactory = witness.Dsl::should.beLessThanOrEqual 100
 		@action = @actionFactory "theProperty"
 	
 	inner: [

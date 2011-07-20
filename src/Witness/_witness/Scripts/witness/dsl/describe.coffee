@@ -8,10 +8,10 @@
 # reference "../Dsl.coffee"
 # reference "../helpers.coffee"
 
-{ Action, AsyncAction, Specification, Scenario, OuterScenario, Assertion } = @Witness
-{ flattenArray } = @Witness.helpers
+{ Action, AsyncAction, Specification, Scenario, OuterScenario, Assertion } = @witness
+{ flattenArray } = @witness.helpers
 
-@Witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
+@witness.Dsl::describe = (specificationName, scenariosDefinitions...) ->
 	idGenerator = new IdGenerator()
 	scenarios = (createScenario(scenario, idGenerator) for scenario in scenariosDefinitions)
 	specification = new Specification specificationName, scenarios

@@ -4,7 +4,7 @@
 # in the original order. setTimeout is used to queue the next action
 # after the previous completes. This avoid overflowing the stack when
 # a large number of actions are running.
-@Witness.TryAll = class TryAll
+@witness.TryAll = class TryAll
 	
 	constructor: (@actions) ->
 

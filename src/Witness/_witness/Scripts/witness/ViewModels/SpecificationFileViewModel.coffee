@@ -3,9 +3,9 @@
 # reference "SpecificationViewModel.coffee"
 # reference "OuterScenarioViewModel.coffee"
 
-{ SpecificationViewModel, OuterScenarioViewModel } = @Witness.ViewModels
+{ SpecificationViewModel, OuterScenarioViewModel } = @witness.ViewModels
 
-@Witness.ViewModels.SpecificationFileViewModel = class SpecificationFileViewModel
+@witness.ViewModels.SpecificationFileViewModel = class SpecificationFileViewModel
 
 	constructor: (@file) ->
 		@name = @file.name

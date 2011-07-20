@@ -2,9 +2,9 @@
 # reference "../lib/knockout.js"
 # reference "../witness/Event.coffee"
 
-{ Event } = @Witness
+{ Event } = @witness
 
-@Witness.ui.Tree = class Tree
+@witness.ui.Tree = class Tree
 
 	constructor: (@rootDirectory) ->
 		@nodes = ko.observableArray []

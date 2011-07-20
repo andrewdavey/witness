@@ -1,8 +1,8 @@
 ﻿describe "ActionWatcher with Action",
 {
 	"given an ActionWatcher of an Action with a description": ->
-		@action = new Witness.Action (->), [], "description"
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.Action (->), [], "description"
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	then:
 		watcher:
@@ -11,8 +11,8 @@
 },
 {
 	"given an ActionWatcher where the action throws an error": ->
-		@action = new Witness.Action (-> throw new Error "action failed")
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.Action (-> throw new Error "action failed")
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	"when it is run": ->
 		@action.run {}, (->), (->)
@@ -22,8 +22,8 @@
 },
 {
 	"given an ActionWatcher where the action passes": ->
-		@action = new Witness.Action (->)
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.Action (->)
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	"when it is run": ->
 		@action.run {}, (->), (->)
@@ -33,8 +33,8 @@
 },
 {
 	"given an ActionWatcher that has been run": ->
-		@action = new Witness.Action (->)
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.Action (->)
+		@watcher = new witness.ViewModels.ActionWatcher @action
 		@action.run {}, (->), (->)
 
 	"when it is reset": ->
@@ -47,8 +47,8 @@
 describe "ActionWatcher with AsyncAction",
 {
 	"given an ActionWatcher with an AsyncAction that calls done": ->
-		@action = new Witness.AsyncAction (-> @done()), [], "action-name"
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.AsyncAction (-> @done()), [], "action-name"
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	then:
 		watcher:
@@ -57,8 +57,8 @@ describe "ActionWatcher with AsyncAction",
 },
 {
 	"given an ActionWatcher with an AsyncAction that calls done": ->
-		@action = new Witness.AsyncAction (-> @done())
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.AsyncAction (-> @done())
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	"when it is run": ->
 		@action.run {}, (->), (->)
@@ -68,8 +68,8 @@ describe "ActionWatcher with AsyncAction",
 },
 {
 	"given an ActionWatcher with an AsyncAction that fails": ->
-		@action = new Witness.AsyncAction (-> @fail())
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.AsyncAction (-> @fail())
+		@watcher = new witness.ViewModels.ActionWatcher @action
 
 	"when is is run": ->
 		@action.run {}, (->), (->)
@@ -79,8 +79,8 @@ describe "ActionWatcher with AsyncAction",
 },
 {
 	"given an ActionWatcher with an AsyncAction and has been run": ->
-		@action = new Witness.AsyncAction (-> @done())
-		@watcher = new Witness.ViewModels.ActionWatcher @action
+		@action = new witness.AsyncAction (-> @done())
+		@watcher = new witness.ViewModels.ActionWatcher @action
 		@action.run {}, (->), (->)
 
 	"when it is reset": ->
