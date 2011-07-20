@@ -16,7 +16,7 @@
 # for each of the given names.
 # An object that needs events would typically have something like this
 # in its constructor:
-#   @on = Witness.Event.define "run", "done", "fail"
+#   @on = Witness.Event.define "running", "passed", "failed"
 Event.define = (names...) ->
 	events = {}
 	events[name] = new Event() for name in names

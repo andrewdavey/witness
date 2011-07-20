@@ -11,11 +11,12 @@
 		@description = @action.description
 		@errors = ko.observableArray []
 		@status = ko.observable "notrun"
-		@action.on.run.addHandler  =>
+		@action.on.running.addHandler  =>
 			@reset()
 			@status "running"
-		@action.on.done.addHandler => @status "passed"
-		@action.on.fail.addHandler (error) =>
+		@action.on.passed.addHandler =>
+			@status "passed"
+		@action.on.failed.addHandler (error) =>
 			@status "failed"
 			@errors.push error
 

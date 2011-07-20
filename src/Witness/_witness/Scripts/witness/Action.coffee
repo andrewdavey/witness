@@ -7,14 +7,14 @@
 
 	constructor: (@func, @args = [], @description) ->
 		throw new TypeError("The func parameter of Witness.Action must be a function.") if typeof @func != "function"
-		@on = Event.define "run", "done", "fail"
+		@on = Event.define "running", "passed", "failed"
 
 	run: (context, done, fail) ->
-		@on.run.raise()
+		@on.running.raise()
 		try
 			result = @func.apply context, @args
-			@on.done.raise()
+			@on.passed.raise()
 			done result
 		catch error
-			@on.fail.raise error
+			@on.failed.raise error
 			fail error

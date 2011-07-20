@@ -16,26 +16,26 @@ createDescriptionFromFunction = (func) ->
 		else
 			@description = createDescriptionFromFunction @action.func
 
-		@on = Event.define "run", "done", "fail"
+		@on = Event.define "running", "passed", "failed"
 
 	run: (context, assertionDone, assertionFail) ->
-		@on.run.raise()
+		@on.running.raise()
 
 		done = (result) =>
 			if typeof result == "undefined" # no error thrown, so treat as success
-				@on.done.raise()
+				@on.passed.raise()
 				assertionDone()
 			else if result == true
-				@on.done.raise()
+				@on.passed.raise()
 				assertionDone()
 			else
 				error = new Error "Assertion failed: " + @description
 				error.fromAssertion = true
-				@on.fail.raise error
+				@on.failed.raise error
 				assertionFail error
 
 		@action.run context,
 			done
 			(error) =>
-				@on.fail.raise error
+				@on.failed.raise error
 				assertionFail error
