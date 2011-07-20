@@ -164,10 +164,16 @@
     <Content Include="Views\Sandbox\Index.cshtml" />
     <Content Include="Views\Runner\Setup.cshtml" />
     <Content Include="Views\Runner\Index.cshtml" />
+    <None Include="_witness\scripts\witness-ui\ActionViewModel.coffee" />
+    <None Include="_witness\scripts\witness-ui\IframeManager.coffee" />
+    <None Include="_witness\scripts\witness-ui\iframesBindingHandler.coffee" />
+    <None Include="_witness\scripts\witness-ui\OuterScenarioNode.coffee" />
     <None Include="_witness\scripts\witness-ui\PageViewModel.coffee" />
     <None Include="_witness\scripts\witness-ui\RunnerViewModel.coffee">
       <LastGenOutput>RunnerViewModel.js</LastGenOutput>
     </None>
+    <None Include="_witness\scripts\witness-ui\ScenarioNode.coffee" />
+    <None Include="_witness\scripts\witness-ui\ScenarioViewModel.coffee" />
     <None Include="_witness\scripts\witness-ui\SetupViewModel.coffee" />
     <None Include="_witness\scripts\witness-ui\SpecificationNode.coffee">
       <LastGenOutput>SpecificationNode.js</LastGenOutput>
@@ -175,10 +181,16 @@
     <None Include="_witness\scripts\witness-ui\DirectoryNode.coffee">
       <LastGenOutput>TreeDirectory.js</LastGenOutput>
     </None>
+    <None Include="_witness\scripts\witness-ui\SpecificationViewModel.coffee" />
+    <None Include="_witness\scripts\witness-ui\Tree.coffee" />
+    <None Include="_witness\scripts\witness-ui\treeBuilder.coffee" />
     <None Include="_witness\scripts\witness-ui\TreeNode.coffee">
       <LastGenOutput>TreeItem.js</LastGenOutput>
     </None>
     <None Include="_witness\scripts\witness-ui\_namespace.coffee" />
+    <None Include="_witness\scripts\witness\Directory.coffee" />
+    <None Include="_witness\scripts\witness\File.coffee" />
+    <None Include="_witness\scripts\witness\Manifest.coffee" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="_witness\scripts\lib\coffee-script.js" />
