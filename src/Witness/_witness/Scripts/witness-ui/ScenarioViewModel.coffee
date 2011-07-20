@@ -15,7 +15,10 @@
 		@errors = ko.observableArray []
 
 		@scenario.on.failed.addHandler (errors) =>
-			@errors errors
+			if jQuery.isArray errors
+				@errors errors
+			else
+				@errors [ errors ]
 
 	templateId: "scenario"
 
