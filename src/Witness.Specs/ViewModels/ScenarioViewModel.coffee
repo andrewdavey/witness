@@ -12,7 +12,9 @@
 	then:
 		viewModel:
 			status: should.be "notrun"
-			givens: [ should.beInstanceof witness.ViewModels.ActionWatcher ]
+			givens: arrayShouldBe [
+				should.beInstanceof witness.ViewModels.ActionWatcher
+			]
 },
 {
 	"given a ScenarioViewModel with no parts": ->

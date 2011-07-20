@@ -116,9 +116,12 @@ createActionsFromObject = (object, parentNames = []) ->
 			parentNames = parentNames[0...parentNames.length - 1]
 		object.apply(null, parentNames)
 	else if jQuery.isArray object
-		(createActionsFromObject(value, parentNames.concat(i)) for value, i in object)
+		(createActionsFromObject(value, parentNames) for value, i in object)
 	else if typeof object == "object"
-		(createActionsFromObject(value, parentNames.concat(key)) for own key, value of object)
+		if object._witnessArrayAssertion
+			(createActionsFromObject(value, parentNames.concat(i)) for value, i in object.array)
+		else
+			(createActionsFromObject(value, parentNames.concat(key)) for own key, value of object)
 	else
 		throw new TypeError "Input must be a Function, Array or Object."
 

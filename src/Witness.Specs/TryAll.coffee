@@ -38,7 +38,9 @@ describe "TryAll",
 	then:
 		action1Called: should.be true
 		doneCallbackCalled: should.be undefined
-		errors: [ message: should.be "action-0 failed" ]
+		errors: arrayShouldBe [
+			message: should.be "action-0 failed"
+		]
 },
 {
 	"given a TryAll where the second action fails": ->
@@ -54,7 +56,9 @@ describe "TryAll",
 	then:
 		action0Called: should.be true
 		doneCallbackCalled: should.be undefined
-		errors: [ message: should.be "action-1 failed" ]
+		errors: arrayShouldBe [
+			message: should.be "action-1 failed"
+		]
 },
 {
 	"given a TryAll where both actions fail": ->
@@ -69,8 +73,8 @@ describe "TryAll",
 
 	then:
 		doneCallbackCalled: should.be undefined
-		errors: [
-			{ message: should.be "action-0 failed" },
+		errors: arrayShouldBe [
+			{ message: should.be "action-0 failed" }
 			{ message: should.be "action-1 failed" }
 		]
 },

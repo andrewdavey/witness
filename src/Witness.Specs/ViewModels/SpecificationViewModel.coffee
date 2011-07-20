@@ -9,7 +9,9 @@ describe "SpecificationViewModel",
 	then:
 		viewModel:
 			description: should.be "example"
-			scenarios: [ should.beInstanceof witness.ViewModels.ScenarioViewModel ]
+			scenarios: arrayShouldBe [
+				should.beInstanceof witness.ViewModels.ScenarioViewModel
+			]
 			status: should.be "notrun"
 			isOpen: should.be false
 },
@@ -31,7 +33,10 @@ describe "SpecificationViewModel",
 					(=> @done())
 
 			"then the status was running and then passed":
-				statuses: [ should.be("running"), should.be("passed") ]
+				statuses: arrayShouldBe [
+					should.be("running")
+					should.be("passed")
+				]
 		},
 		{
 			when: ->

@@ -70,6 +70,8 @@ Dsl::extendShould = (object) ->
 		@should[name] = predicateActionBuilder options
 		@shouldnot[name] = predicateActionBuilder options,true
 
+Dsl::arrayShouldBe = (array) ->
+	{ _witnessArrayAssertion: true, array: array }
 
 builtIn =
 	be:
@@ -85,6 +87,21 @@ builtIn =
 			actual = printableValue should.unwrapActual actual
 			expected = printableValue expected
 			"Expected #{fullName} to be #{expected} but was #{actual}"
+
+	arrayEqual:
+		test: (actual, expected) ->
+			actual = should.unwrapActual actual
+			return no if actual.length != expected.length
+			for item, i in expected
+				return no if item != actual[i]
+			return yes
+		description: (fullName, expected) ->
+			expecteds = (printableValue item for item in expected).join(", ")
+			"#{fullName} should be [ #{expecteds} ]"
+		error: (fullName, actual, expected) ->
+			actuals = (printableValue item for item in actuals).join(", ")
+			expecteds = (printableValue item for item in expected).join(", ")
+			"Expected #{fullName} to be [ #{expecteds} ] but was [ #{actuals} ]"
 
 	notBe:
 		test: (actual, expected) ->

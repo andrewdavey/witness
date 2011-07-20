@@ -17,7 +17,7 @@ describe "Event",
 				@event.raise "arg"
 
 			then:
-				args: [ should.be "arg" ]
+				args: should.arrayEqual [ "arg" ]
 		}
 	]
 },

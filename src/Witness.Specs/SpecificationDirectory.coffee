@@ -31,7 +31,9 @@ describe "SpecificationDirectory constructor",
 
 	"then a SpecificationFile is created":
 		directory:
-			files: [ should.beInstanceof witness.SpecificationFile ]
+			files: arrayShouldBe [
+				should.beInstanceof witness.SpecificationFile
+			]
 },
 {
 	"given a directory manifest with a sub-directory": ->
@@ -47,7 +49,9 @@ describe "SpecificationDirectory constructor",
 	
 	"then a sub SpecificationDirectory is created":
 		directory:
-			directories: [ should.beInstanceof witness.SpecificationDirectory ]
+			directories: arrayShouldBe [
+				should.beInstanceof witness.SpecificationDirectory
+			]
 },
 {
 	"given a directory manifest with helpers": ->
@@ -58,7 +62,7 @@ describe "SpecificationDirectory constructor",
 		@directory = new witness.SpecificationDirectory @manifest
 	
 	"then helpers property is array of SpecificationHelpers":
-		directory: helpers: [
+		directory: helpers: arrayShouldBe [
 			should.beInstanceof witness.SpecificationHelper
 			should.beInstanceof witness.SpecificationHelper
 		]

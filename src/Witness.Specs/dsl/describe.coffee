@@ -60,6 +60,28 @@
 				value: should.be 42
 		},
 		{
+			"given the 'then' object contains an array property": ->
+				@context = { foo: 1 }
+				@scenario =
+					given: []
+					when: []
+					then:
+						foo: [
+							should.be 1
+							should.beGreaterThan 0
+						]
+				@target = {}
+				@dsl = new witness.Dsl @target
+
+			"when the assertion is run": ->
+				spec = @dsl.describe.call @target, "specification-name", @scenario
+				@assertion = spec.scenarios[0].then.actions[0]
+				@assertion.run @context, (=> @passed = true), (->)
+
+			"then it should pass":
+				passed: should.be true
+		}
+		{
 			"given a nested scenario definition": ->
 				@definition = 
 					"given this is the outer scenario": -> @outerProperty = 1

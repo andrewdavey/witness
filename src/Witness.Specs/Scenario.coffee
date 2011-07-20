@@ -36,5 +36,7 @@ describe "Scenario",
 		whenCalled: should.be undefined
 		thenCalled: should.be undefined
 		disposeCalled: should.be true
-		errors: [ message: should.be "given failed" ]
+		errors: arrayShouldBe [
+			message: should.be "given failed"
+		]
 }

@@ -50,8 +50,10 @@ describe "Single text with default empty value",
 
 	"Then the input UI is created":
 		".static-view": shouldnot.beVisible()
-		"input.edit-view-control:visible": should.haveLength 1
-		"input.edit-view-control": should.haveVal ""
+		"input.edit-view-control:visible": [
+			should.haveLength 1
+			should.haveVal ""
+		]
 },
 {
 	"Given a single text component in edit mode": [
@@ -139,8 +141,10 @@ describe "Single text component with default value",
 
 	"Then the edit view is created with the value HELLO":
 		".static-view": shouldnot.beVisible()
-		"input.edit-view-control:visible": should.haveLength 1
-		"input.edit-view-control": should.haveVal "HELLO"
+		"input.edit-view-control:visible": [
+			should.haveLength 1
+			should.haveVal "HELLO"
+		]
 },
 {
 	"Given a single text component with default value of HELLO in edit mode": [
