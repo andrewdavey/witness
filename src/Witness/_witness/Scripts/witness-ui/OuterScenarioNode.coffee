@@ -12,5 +12,4 @@
 		outerScenario.on.passed.addHandler => @status "passed"
 		outerScenario.on.failed.addHandler => @status "failed"
 
-
 	templateId: "outer-scenario-node"

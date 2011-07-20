@@ -67,9 +67,9 @@ describe "OuterScenario",
 
 		innerScenarios = []
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
-		@outerScenario.on.run.addHandler => @runEventRaised = true
-		@outerScenario.on.done.addHandler => @doneEventRaised = true
-		@outerScenario.on.fail.addHandler => @failEventRaised = true
+		@outerScenario.on.running.addHandler => @runningEventRaised = true
+		@outerScenario.on.passed.addHandler => @passedEventRaised = true
+		@outerScenario.on.failed.addHandler => @failedEventRaised = true
 
 	"when it is run": async ->
 		@outerScenario.run {},
@@ -77,9 +77,9 @@ describe "OuterScenario",
 			(=> @done())
 
 	then:
-		runEventRaised: should.be true
-		doneEventRaised: should.be true
-		failEventRaised: should.be undefined
+		runningEventRaised: should.be true
+		passedEventRaised: should.be true
+		failedEventRaised: should.be undefined
 },
 {
 	"given an OuterScenario that fails with an inner Scenario and event handlers added": ->
@@ -94,9 +94,9 @@ describe "OuterScenario",
 
 		innerScenarios = [ new Witness.Scenario {} ]
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
-		@outerScenario.on.run.addHandler => @runEventRaised = true
-		@outerScenario.on.done.addHandler => @doneEventRaised = true
-		@outerScenario.on.fail.addHandler => @failEventRaised = true
+		@outerScenario.on.running.addHandler => @runningEventRaised = true
+		@outerScenario.on.passed.addHandler => @passedEventRaised = true
+		@outerScenario.on.failed.addHandler => @failedEventRaised = true
 
 	"when it is run": async ->
 		@outerScenario.run {},
@@ -104,9 +104,9 @@ describe "OuterScenario",
 			(=> @done())
 
 	then:
-		runEventRaised: should.be true
-		doneEventRaised: should.be undefined
-		failEventRaised: should.be true
+		runningEventRaised: should.be true
+		passedEventRaised: should.be undefined
+		failedEventRaised: should.be true
 },
 {
 	"given an OuterScenario that fails but has no inner Scenarios": ->
@@ -121,7 +121,7 @@ describe "OuterScenario",
 
 		innerScenarios = []
 		@outerScenario = new Witness.OuterScenario parts, innerScenarios
-		@outerScenario.on.done.addHandler => @doneEventRaised = true
+		@outerScenario.on.passed.addHandler => @passedEventRaised = true
 
 	"when it is run": async ->
 		@outerScenario.run {},
@@ -129,7 +129,7 @@ describe "OuterScenario",
 			(=> @done())
 
 	"then the done event is raised":
-		doneEventRaised: should.be true
+		passedEventRaised: should.be true
 # The outer Given and Dispose run for each inner scenario.
 # So when there are none, technically they should never run.
 # However, we can't just stall the action execution, so we simply

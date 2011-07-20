@@ -60,7 +60,7 @@
                 <table style="width: 100%; height: 100%">
                     <tr>
                         <td style="width: 100%">
-                            <div id="active-item" data-bind="template: { name: activeItemTemplateId, foreach: activeItem }"></div>
+                            <div id="active-item" data-bind="visible: activeItem().length > 0, template: { name: activeItemTemplateId, foreach: activeItem }"></div>
                         </td>
                     </tr>
                     <tr>
@@ -139,7 +139,7 @@
         <li data-bind="attr: { 'class': status }">${ description }</li>
     </script>
     <script id="error-message" type="text/html">
-        <li class="error">${ message }</li>
+        <li class="error">${ message } <br/> ${ stack }</li>
     </script>
 </body>
 </html>

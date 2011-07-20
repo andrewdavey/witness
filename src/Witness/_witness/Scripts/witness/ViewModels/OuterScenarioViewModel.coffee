@@ -16,9 +16,9 @@
 		@innerScenarios = (createScenarioViewModel scenario for scenario in @outerScenario.innerScenarios)
 		@status = ko.observable "notrun"
 		@isOpen = ko.observable true
-		@outerScenario.on.run.addHandler => @status "running"
-		@outerScenario.on.done.addHandler => @status "passed"
-		@outerScenario.on.fail.addHandler (error) => @status "failed"
+		@outerScenario.on.running.addHandler => @status "running"
+		@outerScenario.on.passed.addHandler => @status "passed"
+		@outerScenario.on.failed.addHandler (error) => @status "failed"
 
 	run: ->
 		@outerScenario.run {}, (->), (->)

@@ -16,8 +16,12 @@
 
 		@scenario.on.failed.addHandler (errors) =>
 			if jQuery.isArray errors
+				for error in errors when not error.stack
+					error.stack = ""
 				@errors errors
 			else
+				if not errors.stack
+					errors.stack = ""
 				@errors [ errors ]
 
 	templateId: "scenario"
