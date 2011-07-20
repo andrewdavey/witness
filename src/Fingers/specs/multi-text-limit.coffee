@@ -53,12 +53,12 @@ describe "Multi text component, limit 5, in edit mode",
 		<input type="text" class="editable view-multi-text-limit-5" />
 		"""
 		$(".static-view").click()
+		wait 250 # fingers hooks up a click handler after a delay
 	]
 	
 	"when type values into first 2 inputs and then presses Enter key": [
 		$("input:visible:eq(0)").type "value1"
 		$("input:visible:eq(1)").type "value2", ENTER
-		$("body").click()
 	]
 
 	"then the static view displays 'value1, value2'":
