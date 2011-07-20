@@ -28,7 +28,7 @@
 }
 
 #active-item {
-    width: 100%;
+    padding: 10px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -101,14 +101,13 @@
     vertical-align: top;
 }
 
-#active-item .scenario,
-#active-item .specification {
-    margin: 10px;
-}
-
 .scenario .actions {
     display: none;
     padding-left: 10px;
+}
+
+.scenario .actions li {
+    margin-bottom: 4px;
 }
 
 .show-scenario-actions .scenario .actions {

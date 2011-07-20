@@ -11,7 +11,7 @@
 
 	constructor: (parts, @innerScenarios, @id) ->
 		{@given, @dispose} = parts
-		@on = Event.define "run", "done", "fail"
+		@on = Event.define "running", "passed", "failed"
 		
 		buildChildSequence = (child) =>
 			new TryAll [].concat(
@@ -23,15 +23,15 @@
 
 	run: (outerContext, done, fail) ->
 		messageBus.send "OuterScenarioRunning", this
-		@on.run.raise()
+		@on.running.raise()
 		context =
 			scenario: this
 		@action.run context,
 			=>
 				messageBus.send "OuterScenarioPassed", this
-				@on.done.raise()
+				@on.passed.raise()
 				done()
 			(error) =>
 				messageBus.send "OuterScenarioFailed", this
-				@on.fail.raise(error)
+				@on.failed.raise(error)
 				fail(error)
