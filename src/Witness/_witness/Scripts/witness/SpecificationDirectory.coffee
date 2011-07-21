@@ -19,17 +19,23 @@
 
 	download: ->
 		@on.downloading.raise()
+		# Important to download the helpers before the files
+		# because evaluating a file can depend on the helpers.
+		@downloadChildren @helpers, (ok) =>
+			if ok
+				@downloadChildren @files, (ok) =>
+					if ok
+						@downloadChildren @directories, (ok) =>
+							if ok
+								@on.downloaded.raise()
+							else
+								@on.downloadFailed.raise()
+					else
+						@on.downloadFailed.raise()
+			else
+				@on.downloadFailed.raise()
 
-		# Download all the helpers, sub-directories and files
-		@listenToChildDownloadEvents()
-		for child in @allChildren()
-			child.download()
-
-	allChildren: ->
-		[].concat @helpers, @directories, @files
-
-	listenToChildDownloadEvents: ->
-		children = @allChildren()
+	downloadChildren: (children, callback) ->
 		childFailed = no
 		childDownloadCount = 0
 
@@ -38,10 +44,7 @@
 			return if ++childDownloadCount < children.length
 
 			unbindChildEvents()
-			if childFailed
-				@on.downloadFailed.raise()
-			else
-				@on.downloaded.raise()
+			callback childFailed == no
 
 		childDownloadFailed = ->
 			childFailed = yes
@@ -55,6 +58,10 @@
 		for child in children
 			child.on.downloaded.addHandler childDownloadFinished
 			child.on.downloadFailed.addHandler childDownloadFailed
+			child.download()
+
+		if children.length == 0
+			childDownloadFinished()
 
 	run: (context, done, fail) ->
 		messageBus.send "SpecificationDirectoryRunning", this

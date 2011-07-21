@@ -7,7 +7,3 @@
 
 	constructor: (manifest) ->
 		super manifest
-
-	scriptDownloaded: (script) ->
-		@script = script
-		super()

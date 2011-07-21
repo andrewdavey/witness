@@ -4,6 +4,7 @@ describe "SpecificationFile",
 		manifest =
 			name: "test.coffee"
 			url: "/specs/test.coffee"
+			path: "test.coffee"
 		@restorejQuery = mock jQuery, {
 			ajax: (options) ->
 				options.success ""
@@ -27,17 +28,18 @@ describe "SpecificationFile",
 		manifest =
 			name: "test.coffee"
 			url: "/specs/test.coffee"
+			path: "test.coffee"
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success " { "
 		}
 		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloadFailed.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @failed = yes; @done()
 		@file.download()
 
 	then:
-		file: errors: length: should.be 1
+		failed: should.be yes
 
 	dispose: ->
 		@restorejQuery()
@@ -47,17 +49,18 @@ describe "SpecificationFile",
 		manifest =
 			name: "test.js"
 			url: "/specs/test.js"
+			path: "test.coffee"
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success " { "
 		}
 		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloadFailed.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @failed = yes; @done()
 		@file.download()
 
 	then:
-		file: errors: length: should.be 1
+		failed: should.be yes
 
 	dispose: ->
 		@restorejQuery()
@@ -67,17 +70,18 @@ describe "SpecificationFile",
 		manifest =
 			name: "test.js"
 			url: "/specs/test.js"
+			path: "test.coffee"
 		@restorejQuery = mock jQuery, {
 			ajax: (options) -> options.success "should.callFunctionThatDoesNotExist();"
 		}
 		@file = new witness.SpecificationFile manifest
 
 	"when the file is downloaded": async ->
-		@file.on.downloadFailed.addHandler => @done()
+		@file.on.downloadFailed.addHandler => @failed = yes; @done()
 		@file.download()
 
 	then:
-		file: errors: length: should.be 1
+		failed: should.be yes
 
 	dispose: ->
 		@restorejQuery()
