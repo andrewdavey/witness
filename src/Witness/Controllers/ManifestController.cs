@@ -51,7 +51,7 @@ namespace Witness.Controllers
                 helpers =
                     from filename in Directory.EnumerateFiles(rootPath)
                     where IsScript(filename) && IsHelperFile(filename)
-                    select GetFileUrl(filename)
+                    select GetHelperFile(filename)
             };
         }
 
@@ -72,6 +72,15 @@ namespace Witness.Controllers
             return new SpecFile
             {
                 name = Path.GetFileName(filename),
+                url = GetFileUrl(filename),
+                path = filename.Substring(basePath.Length)
+            };
+        }
+
+        SpecHelper GetHelperFile(string filename)
+        {
+            return new SpecHelper
+            {
                 url = GetFileUrl(filename),
                 path = filename.Substring(basePath.Length)
             };

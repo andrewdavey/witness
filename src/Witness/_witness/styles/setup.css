@@ -38,3 +38,24 @@
 #setup .error {
     color: #b00;
 }
+
+#setup .busy {
+    background-image: url(images/busy.gif);
+    background-repeat: no-repeat;
+    background-position: 4px center;
+    padding: 4px 4px 4px 24px;
+    border: 1px solid #ff7;
+    background-color: #ffd;
+    margin-top: 10px;
+}
+
+#setup .main-error {
+    background-image: url(images/error.png);
+    background-repeat: no-repeat;
+    background-position: 4px center;
+    padding: 4px 4px 4px 24px;
+    border: 1px solid #f77;
+    background-color: #fdd;
+    color: #c00;
+    margin-top: 10px;
+}

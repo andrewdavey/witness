@@ -8,7 +8,7 @@ namespace Witness.Models
         public string name { get; set; }
         public IEnumerable<SpecDir> directories { get; set; }
         public IEnumerable<SpecFile> files { get; set; }
-        public IEnumerable<string> helpers { get; set; }
+        public IEnumerable<SpecHelper> helpers { get; set; }
 
         public bool IsNotEmpty
         {

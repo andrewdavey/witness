@@ -5,8 +5,8 @@
 
 @witness.SpecificationHelper = class SpecificationHelper extends ScriptFile
 
-	constructor: (url) ->
-		super url
+	constructor: (manifest) ->
+		super manifest
 
 	scriptDownloaded: (script) ->
 		@script = script

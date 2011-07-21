@@ -33,6 +33,12 @@
                     <button data-bind="click: download, enable: canInput">Go</button>
                 </div>
             </form>
+            <div class="busy" data-bind="visible: !canInput()">
+                Downloading. Please wait...
+            </div>
+            <div class="main-error" data-bind="visible: hasErrors">
+                Download error. Please see the error messages below.
+            </div>
             <div class="log" data-bind="visible: showLog">
                 <div data-bind="template: { name: 'log-message', foreach: log }"></div>
             </div>

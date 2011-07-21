@@ -18,6 +18,7 @@
 		@canInput = ko.observable yes
 		@showLog = ko.observable no
 		@log = ko.observableArray []
+		@hasErrors = ko.observable no
 		@finished = new Event()
 		
 		if @specificationDirectory() and @applicationUrl()
@@ -29,11 +30,13 @@
 		@log.removeAll()
 		@canInput yes
 		@showLog no
+		@hasErrors no
 
 	download: ->
 		@log.removeAll()
 		@canInput no
 		@showLog yes
+		@hasErrors no
 
 		if @applicationUrl().length > 0
 			jQuery.post "/_witness/setupproxy", { url: @applicationUrl() }
@@ -42,9 +45,11 @@
 
 		manifest.on.downloaded.addHandler (rootDirectory) =>
 			rootDirectory.on.downloaded.addHandler =>
-				@finished.raise rootDirectory
+				#@finished.raise rootDirectory
 			rootDirectory.on.downloadFailed.addHandler =>
+				@hasErrors yes
 				@canInput yes
+			@bindDirectoryDownloadEventsToLog rootDirectory
 			rootDirectory.download()
 
 		manifest.on.downloadFailed.addHandler =>
@@ -53,4 +58,32 @@
 
 		manifest.download()
 
+	logInfo: (message) ->
+		@log.push { message: message, type: "info" }
+
+	logError: (message) ->
+		@log.push { message: message, type: "error" }
 	
+	bindDirectoryDownloadEventsToLog: (directory) ->
+		directory.on.downloading.addHandler =>
+			@logInfo "Downloading #{directory.name}"
+
+		directory.on.downloaded.addHandler =>
+			@logInfo "Downloaded #{directory.name}"
+
+		for subDirectory in directory.directories
+			@bindDirectoryDownloadEventsToLog subDirectory
+		for file in directory.files.concat(directory.helpers)
+			@bindFileDownloadEventsToLog file
+	
+	bindFileDownloadEventsToLog: (file) ->
+		file.on.downloading.addHandler =>
+			@logInfo "Downloading #{file.path}"
+
+		file.on.downloaded.addHandler =>
+			@logInfo "Downloaded #{file.path}"
+
+		file.on.downloadFailed.addHandler (errors) =>
+			@logError "Download error #{file.path}"
+			for error in errors
+				@logError error.message

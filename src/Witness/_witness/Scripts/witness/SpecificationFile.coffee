@@ -12,20 +12,21 @@
 @witness.SpecificationFile = class SpecificationFile extends ScriptFile
 
 	constructor: (manifest, @helpers = []) ->
-		super manifest.url
-		@name = manifest.name
+		super manifest
+		{ @name } = manifest
 		jQuery.extend @on, Event.define "running", "passed", "failed"
 		@specifications = []
 
-	scriptDownloaded: (script) ->
-		@executeSpecificationScript script,
+	scriptDownloaded: ->
+		@executeSpecificationScript(
 			(specs) =>
 				@specifications.push spec for spec in specs
 				@on.downloaded.raise()
 			(error) =>
 				@on.downloadFailed.raise [ error ]
+		)
 
-	executeSpecificationScript: (script, gotSpecifications, fail) ->
+	executeSpecificationScript: (gotSpecifications, fail) ->
 		iframe = jQuery("<iframe src='/_witness/sandbox.htm'/>").hide().appendTo("body")
 		iframe.load () =>
 			iframeWindow = iframe[0].contentWindow
@@ -41,11 +42,14 @@
 				gotSpecifications dsl.specifications or []
 
 			# Global error handling function for the iframe window
-			iframeWindow._witnessScriptError = (args...) ->
+			iframeWindow._witnessScriptError = (args...) =>
 				failed = true
 				error = args[0]
 				if typeof error.stack == "string"
-					message = extractRuntimeErrorFromStack error.stack, currentHelper?.url or script.url
+					if currentHelper?
+						message = extractRuntimeErrorFromStack error.stack, currentHelper
+					else
+						message = extractRuntimeErrorFromStack error.stack, @script
 					fail.call this, new Error message
 				else
 					fail.apply this, args
@@ -55,10 +59,10 @@
 			
 			for helper in @helpers
 				currentHelper = helper
-				addScript wrapScript helper.script
+				addScript helper.getWrappedScript "_witnessScriptError"
 				break if failed
 			currentHelper = null
-			addScript wrapScript script if not failed
+			addScript @getWrappedScript "_witnessScriptError" if not failed
 			addScript "_witnessScriptCompleted();" if not failed
 
 	run: (context, done, fail) ->
@@ -80,12 +84,19 @@
 # For example, calling a function that does not exist.
 # The global function _witnessScriptError is added to the window executing
 # the script by SpecificationFile below.
-wrapScript = (script) ->
-	"""
-	try {
+wrapScript = (script, addFunctionWrap) ->
+	script = if addFunctionWrap
+		"""
 		(function() {
 		#{script}
 		}());
+		"""
+	else
+		script
+
+	"""
+	try {
+		#{script}
 	} catch (e) {
 		_witnessScriptError(e);
 	}
@@ -94,14 +105,15 @@ wrapScript = (script) ->
 # In Chrome, error objects have a stack string property.
 # Parse this to get the error message and also the line and character
 # of the error. This makes for a more useful error message to display.
-extractRuntimeErrorFromStack = (stack, url) ->
+extractRuntimeErrorFromStack = (stack, file) ->
 	firstLine = stack.match(/^(.*)(:?\r|\n|$)/)[1]
 	location = stack.match(/sandbox\.htm:(\d+):(\d+)/)
 	
 	if location? 
-		# line number was offset by 2 in the wrapScript function
-		line = parseInt(location[1], 10) - 2
-		"#{firstLine}. #{url} at line #{line}, character #{location[2]}."
+		line = parseInt(location[1], 10)
+		# In JS, line number was offset by 2 in the wrapScript function
+		line -= 2 if file.type == "js"
+		"#{firstLine}. #{file.path} at line #{line}, character #{location[2]}."
 	else
 		firstLine
 

@@ -77,6 +77,7 @@
     </Compile>
     <Compile Include="Models\SpecDir.cs" />
     <Compile Include="Models\SpecFile.cs" />
+    <Compile Include="Models\SpecHelper.cs" />
     <Compile Include="RequestHandlers\ProxyHandler.cs" />
     <Compile Include="DotNetContext.cs" />
     <Compile Include="RemoteScriptableAttribute.cs" />
@@ -89,6 +90,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ManagedFusion.Rewriter.txt" />
+    <Content Include="_witness\styles\images\busy.gif" />
+    <Content Include="_witness\styles\images\error.png" />
     <Content Include="_witness\styles\images\reload.png" />
     <Content Include="_witness\styles\images\setup.png" />
     <Content Include="_witness\styles\images\run-all.png" />
