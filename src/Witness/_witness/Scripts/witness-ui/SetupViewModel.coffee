@@ -45,31 +45,35 @@
 
 		manifest.on.downloaded.addHandler (rootDirectory) =>
 			rootDirectory.on.downloaded.addHandler =>
-				#@finished.raise rootDirectory
+				@finished.raise rootDirectory
 			rootDirectory.on.downloadFailed.addHandler =>
 				@hasErrors yes
 				@canInput yes
 			@bindDirectoryDownloadEventsToLog rootDirectory
 			rootDirectory.download()
 
-		manifest.on.downloadFailed.addHandler =>
+		manifest.on.downloadFailed.addHandler (error) =>
+			@hasErrors yes
 			@canInput yes
-			messageBus.send "RunnerDownloadFailed"
+			@startLog error, "error"
+			messageBus.send "RunnerDownloadFailed", error
 
 		manifest.download()
 
-	logInfo: (message) ->
-		@log.push { message: message, type: "info" }
+	startLog: (message, status) ->
+		logItem = new LogItem message
+		logItem.status status if status?
+		@log.push logItem
+		logItem
 
-	logError: (message) ->
-		@log.push { message: message, type: "error" }
-	
 	bindDirectoryDownloadEventsToLog: (directory) ->
+		logItem = null
 		directory.on.downloading.addHandler =>
-			@logInfo "Downloading #{directory.name}"
-
-		directory.on.downloaded.addHandler =>
-			@logInfo "Downloaded #{directory.name}"
+			logItem = @startLog "Downloading #{directory.name}..."
+		directory.on.downloaded.addHandler ->
+			logItem.appendMessage " done."
+		directory.on.downloadFailed.addHandler ->
+			logItem.appendMessage " failed."
 
 		for subDirectory in directory.directories
 			@bindDirectoryDownloadEventsToLog subDirectory
@@ -77,13 +81,26 @@
 			@bindFileDownloadEventsToLog file
 	
 	bindFileDownloadEventsToLog: (file) ->
+		logItem = null
 		file.on.downloading.addHandler =>
-			@logInfo "Downloading #{file.path}"
-
+			logItem = @startLog "Downloading #{file.path}..."
 		file.on.downloaded.addHandler =>
-			@logInfo "Downloaded #{file.path}"
-
+			logItem.appendMessage " done."
 		file.on.downloadFailed.addHandler (errors) =>
-			@logError "Download error #{file.path}"
+			logItem.status "error"
+			logItem.appendMessage " failed."
 			for error in errors
-				@logError error.message
+				logItem.addDetail error.message
+
+class LogItem
+
+	constructor: (message) ->
+		@status = ko.observable ""
+		@message = ko.observable message
+		@details = ko.observableArray []
+
+	appendMessage: (message) ->
+		@message(@message() + message)
+
+	addDetail: (detail) ->
+		@details.push detail

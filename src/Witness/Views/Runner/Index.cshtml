@@ -40,12 +40,18 @@
                 Download error. Please see the error messages below.
             </div>
             <div class="log" data-bind="visible: showLog">
-                <div data-bind="template: { name: 'log-message', foreach: log }"></div>
+                <ul data-bind="template: { name: 'log-message', foreach: log }"></ul>
             </div>
         </div>
     </script>
     <script id="log-message" type="text/html">
-        <p class="${ type }">${ message }</p>
+        <li data-bind="attr: { 'class': status }">
+            <p data-bind="text: message"></p>
+            <ul data-bind="template: { name: 'log-detail', foreach: details }"></ul>
+        </li>
+    </script>
+    <script id="log-detail" type="text/html">
+        <li>${ $data }</li>
     </script>
 
     <script id="runner-screen" type="text/html">

@@ -20,5 +20,5 @@
 			success: (manifestData) =>
 				@on.downloaded.raise new SpecificationDirectory manifestData
 			error: (xhr) => 
-				error = xhr.getResponseText()
-				@on.downloadFailed.raise [ error ]
+				error = xhr.responseText
+				@on.downloadFailed.raise error
