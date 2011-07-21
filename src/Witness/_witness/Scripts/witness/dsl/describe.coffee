@@ -45,9 +45,8 @@ class IdGenerator
 createScenario = (scenario, idGenerator) ->
 	parts = {}
 	for name in ["given","when","then","dispose"]
-		parts[name] = findPart name, scenario
-	for own name, value of parts
-		parts[name].actions = flattenArray createActions flattenArray value.actions
+		parts[name] = findParts name, scenario
+
 	isOuter = scenario.inner?
 	if isOuter
 		idGenerator.push()
@@ -55,23 +54,20 @@ createScenario = (scenario, idGenerator) ->
 		idGenerator.pop()
 		new OuterScenario parts, children, idGenerator.getNext()
 	else
-		parts.then.actions = (new Assertion action for action in parts.then.actions)
 		new Scenario parts, idGenerator.getNext()
 
-findPart = (name, scenario) ->
+findParts = (name, scenario) ->
 	startsWith = new RegExp "^#{name}", "i"
 	for own key, value of scenario
-		match = key.match startsWith
-		if match
-			return {
-				description: key
-				actions: value
-			}
-
-	return {
-		description: name 
-		actions: []
-	}
+		isMatch = key.match startsWith
+		continue unless isMatch
+		actions = flattenArray createActions flattenArray value
+		if key == "then"
+			actions = (new Assertion action for action in actions)
+		{
+			description: key
+			actions: actions
+		}
 
 createActions = (input) ->
 	(createAction definition for definition in ensureArray input)

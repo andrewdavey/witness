@@ -7,12 +7,7 @@
 
 	constructor: (@scenario) ->
 		{ @path, @url } = @scenario.parentSpecification.parentFile
-		@givenDescription = @scenario.given.description
-		@givenActions = actionsViewModel @scenario.given.actions
-		@whenDescription = @scenario.when.description
-		@whenActions = actionsViewModel @scenario.when.actions
-		@thenDescription = @scenario.then.description
-		@thenActions = actionsViewModel @scenario.then.actions
+		@parts = [].concat @scenario.given, @scenario.when, @scenario.then
 		@errors = ko.observableArray []
 
 		@scenario.on.failed.addHandler (errors) =>

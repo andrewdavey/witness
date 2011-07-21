@@ -112,6 +112,23 @@
 						length: should.be 2
 						0: should.beInstanceof witness.Scenario
 						1: should.beInstanceof witness.Scenario
+		},
+		{
+			"given a scenario definition with two 'then' clauses": ->
+				@definition = 
+					given: []
+					when: []
+					"then it is foo": {}
+					"then it is bar": {}
+				@target = {}
+				@dsl = new witness.Dsl @target
+
+			"when describe the scenario": ->
+				spec = @dsl.describe.call @target, "specification-name", @definition
+				@scenario = spec.scenarios[0]
+
+			then:
+				scenario: then: actions: length: should.be 2
 		}
 	]
 }

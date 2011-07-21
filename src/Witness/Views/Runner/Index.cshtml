@@ -134,12 +134,7 @@
                 <td style="width: 50%">
                     <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
                     <h2>Scenario</h2>
-                    <div data-bind="visible: givenDescription">Given <span data-bind="text: givenDescription"></span>.</div>
-                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: givenActions }"></ul>
-                    <div data-bind="visible: whenDescription">When <span data-bind="text: whenDescription"></span>.</div>
-                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: whenActions }"></ul>
-                    <div data-bind="visible: thenDescription">Then <span data-bind="text: thenDescription"></span>.</div>
-                    <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: thenActions }"></ul>
+                    <div data-bind="template: { name: 'scenario-part', foreach: parts }"></div>
                 </td>
                 <td style="width: 50%">
                     <h2 data-bind="visible: errors().length > 0">Errors</h2>
@@ -147,6 +142,10 @@
                 </td>
             </tr>
         </table>
+    </script>
+    <script id="scenario-part" type="text/html">
+        <p data-bind="text: description"></p>
+        <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: actions }"></ul>
     </script>
     <script id="scenario-action" type="text/html">
         <li data-bind="attr: { 'class': status }">${ description }</li>

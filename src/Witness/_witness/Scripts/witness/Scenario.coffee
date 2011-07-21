@@ -5,6 +5,7 @@
 # reference "MessageBus.coffee"
 
 { Event, TryAll, Sequence, messageBus } = @witness
+{ flattenArray } = @witness.helpers
 
 createDescriptionFromFunction = (func) ->
 	return "" if typeof func != "function"
@@ -23,18 +24,16 @@ nextUniqueId = 0
 		{@given, @when, @then, @dispose} = @parts
 		for name in ["given","when","then","dispose"]
 			part = @[name]
-			if part?
-				part.description = part.description.split(' ').slice(1).join(' ')
-			else
-				@[name] = { description: "", actions: [] }
-			
+			if not part?
+				@[name] = [ { description: "", actions: [] } ]
 	
-		tryAllAssertions = new TryAll @then.actions
-		sequence = new Sequence [].concat @given.actions, @when.actions, tryAllAssertions
+		getActions = (part) -> flattenArray (item.actions for item in part)
+		tryAllAssertions = new TryAll getActions @then
+		sequence = new Sequence [].concat getActions(@given), getActions(@when), tryAllAssertions
 		# The disposes must *always* run, even if the previous sequence fails.
 		# So combine them using a TryAll.
-		if @dispose.actions.length > 0
-			@aggregateAction = new TryAll [].concat sequence, @dispose.actions
+		if @dispose.length > 0
+			@aggregateAction = new TryAll [].concat sequence, getActions(@dispose)
 		else
 			@aggregateAction = sequence
 
