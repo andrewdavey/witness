@@ -38,6 +38,9 @@ nextUniqueId = 0
 		else
 			@aggregateAction = sequence
 
+	setParentSpecification: (parent) ->
+		@parentSpecification = parent
+
 	run: (outerContext, done, fail) ->
 		# We want the context for the scenario run to inherit
 		# anything defined in the outer context. This means the 

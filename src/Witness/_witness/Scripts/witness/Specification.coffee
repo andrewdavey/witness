@@ -10,6 +10,11 @@
 		@all = new TryAll @scenarios
 		@on = Event.define "running", "passed", "failed"
 
+		# Useful to assign the parent of each scenario so the UI can display
+		# information such as spec file path.
+		for scenario in @scenarios
+			scenario.setParentSpecification this
+
 	run: (context, done, fail) ->
 		@on.running.raise()
 		messageBus.send "SpecificationRunning", this

@@ -21,6 +21,11 @@
 
 		@action = new TryAll (buildChildSequence child for child in @innerScenarios)
 
+	setParentSpecification: (parent) ->
+		super parent
+		for child in @innerScenarios
+			child.setParentSpecification parent
+
 	run: (outerContext, done, fail) ->
 		messageBus.send "OuterScenarioRunning", this
 		@on.running.raise()

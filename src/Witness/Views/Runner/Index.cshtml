@@ -125,13 +125,14 @@
     <script id="specification" type="text/html">
         <div class="specification">
             <h2>Specification</h2>
-            <p>File name: <a href="${ url }" target="_blank">${ path }</a></p>
+            <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
         </div>
     </script>
     <script id="scenario" type="text/html">
         <table class="scenario" style="width: 100%">
             <tr>
                 <td style="width: 50%">
+                    <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
                     <h2>Scenario</h2>
                     <div data-bind="visible: givenDescription">Given <span data-bind="text: givenDescription"></span>.</div>
                     <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: givenActions }"></ul>

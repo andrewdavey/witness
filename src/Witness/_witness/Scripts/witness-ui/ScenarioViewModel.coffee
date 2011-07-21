@@ -6,6 +6,7 @@
 @witness.ui.ScenarioViewModel = class ScenarioViewModel
 
 	constructor: (@scenario) ->
+		{ @path, @url } = @scenario.parentSpecification.parentFile
 		@givenDescription = @scenario.given.description
 		@givenActions = actionsViewModel @scenario.given.actions
 		@whenDescription = @scenario.when.description
