@@ -17,8 +17,8 @@ class PageViewModel
 		@bodyViewModel = ko.observableArray []
 		@setupViewModel = new SetupViewModel args
 
-		@setupViewModel.finished.addHandler (manifest) =>
-			@showRunner manifest
+		@setupViewModel.finished.addHandler (rootDirectory) =>
+			@showRunner rootDirectory
 			if /yes|true|1/.test args.autorun
 				@runnerViewModel.runAll()
 
@@ -30,8 +30,8 @@ class PageViewModel
 	showSetup: ->
 		@bodyViewModel [ @setupViewModel ]
 
-	showRunner: (manifest) ->
-		@runnerViewModel = new RunnerViewModel manifest
+	showRunner: (rootDirectory) ->
+		@runnerViewModel = new RunnerViewModel rootDirectory
 		@runnerViewModel.setupInvoked.addHandler =>
 			@setupViewModel.reset()
 			@showSetup()

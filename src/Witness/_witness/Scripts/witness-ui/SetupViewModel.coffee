@@ -40,13 +40,14 @@
 
 		manifest = new Manifest @specificationDirectory
 
-		manifest.statusChanged.addHandler (message) =>
-			@log.push { message: message, type: "message" }
-		manifest.error.addHandler (message) =>
-			@log.push { message: message, type: "error" }
-		manifest.downloadSucceeded.addHandler =>
-			@finished.raise manifest
-		manifest.downloadFailed.addHandler =>
+		manifest.on.downloaded.addHandler (rootDirectory) =>
+			rootDirectory.on.downloaded.addHandler =>
+				@finished.raise rootDirectory
+			rootDirectory.on.downloadFailed.addHandler =>
+				@canInput yes
+			rootDirectory.download()
+
+		manifest.on.downloadFailed.addHandler =>
 			@canInput yes
 			messageBus.send "RunnerDownloadFailed"
 

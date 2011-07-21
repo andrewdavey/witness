@@ -11,50 +11,48 @@
 @witness.ScriptFile = class ScriptFile
 	
 	constructor: (@url) ->
-		@errors = []
 		@on = Event.define "downloading", "downloaded", "downloadFailed"
 
-	download: (done = (->), fail = (->)) ->
+	download: ->
 		@on.downloading.raise()
-		@errors = []
 		jQuery.ajax
 			url: @url
 			cache: false
 			dataType: 'text' # Must be 'text' else jQuery tries to execute the script for us!
 			success: (script) =>
 				messageBus.send "ScriptDownloading", this
-				script = @parseScript script
-				if not script
-					messageBus.send "ScriptDownloadError", this, @errors
-					@on.downloadFailed.raise @errors
-					fail @errors
+				{ script, errors} = @parseScript script
+				if errors?
+					messageBus.send "ScriptDownloadError", this, errors
+					@on.downloadFailed.raise errors
 					return
 
 				messageBus.send "ScriptDownloaded", this
-				@on.downloaded.raise()
-				@scriptDownloaded script, done, fail
+				@scriptDownloaded script
 
 			error: =>
 				errorMessage = "Could not download #{@url}"
-				@errors.push errorMessage
-				messageBus.send "ScriptDownloadError", this, @errors
-				@on.downloadFailed.raise @errors
-				fail @errors
+				messageBus.send "ScriptDownloadError", this, [ errorMessage ]
+				@on.downloadFailed.raise [ errorMessage ]
+
+	scriptDownloaded: (script) ->
+		@on.downloaded.raise()
 
 	parseScript: (script) ->
 		if @url.match(/.coffee$/)
 			try
 				script = CoffeeScript.compile(script)
 			catch error
-				@errors.push error
-				return null
+				return script: null, errors: [ error ]
 		else
 			predef = (name for own name of Dsl::)
 			predef.push "dsl"
 			if not JSLINT script, { predef: predef, white: true }
-				@errors.push {message: "#{@url} Line #{error.line}, character #{error.character}: #{error.reason}"} for error in JSLINT.errors when error?
-				return null
+				buildError = (error) -> { message: "#{@url} Line #{error.line}, character #{error.character}: #{error.reason}" }
+				errors = (buildError error for error in JSLINT.errors when error?)
+				return script: null, errors: errors
+		
 		# If we get here, then the script is okay.
-		script
+		return script: script
 
 

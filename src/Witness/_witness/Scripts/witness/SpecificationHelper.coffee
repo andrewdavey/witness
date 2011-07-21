@@ -8,7 +8,6 @@
 	constructor: (url) ->
 		super url
 
-	scriptDownloaded: (script, done, fail) ->
+	scriptDownloaded: (script) ->
 		@script = script
-		done()
-
+		super()

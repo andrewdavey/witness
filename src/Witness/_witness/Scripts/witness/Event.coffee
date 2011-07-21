@@ -7,6 +7,9 @@
 	addHandler: (handler) ->
 		@handlers.push handler
 
+	removeHandler: (handler) ->
+		@handlers = (h for h in @handlers when h isnt handler)
+
 	raise: (args...) ->
 		for handler in @handlers
 			handler.apply null, args

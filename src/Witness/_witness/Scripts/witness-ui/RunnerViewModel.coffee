@@ -19,9 +19,9 @@
 
 @witness.ui.RunnerViewModel = class RunnerViewModel
 
-	constructor: (manifest) ->
-		@rootDirectory = manifest.rootDirectory
-		@tree = treeBuilder.buildTree manifest.rootDirectory
+	constructor: (rootDirectory) ->
+		@rootDirectory = rootDirectory
+		@tree = treeBuilder.buildTree rootDirectory
 		@scenarioViewModels = {} # ID -> view model
 		@activeItemModel = ko.observable null
 		@activeItem = ko.observableArray []

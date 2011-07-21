@@ -17,26 +17,44 @@
 		@directories = (new SpecificationDirectory(directory, allHelpers) for directory in manifest.directories or [])
 		@files = (new SpecificationFile(file, allHelpers) for file in manifest.files or [])
 
-	download: (done = (->), fail = (->)) ->
+	download: ->
 		@on.downloading.raise()
 
 		# Download all the helpers, sub-directories and files
-		items = [].concat @helpers, @directories, @files
-		downloadActions = for item in items
-			do (item) ->
-				action = new AsyncAction (-> item.download @done, @fail)
-				action.timeout = 10000 # 10 seconds
-				action
+		@listenToChildDownloadEvents()
+		for child in @allChildren()
+			child.download()
 
-		sequence = new Sequence downloadActions
-		sequence.run {},
-			=> # all done
+	allChildren: ->
+		[].concat @helpers, @directories, @files
+
+	listenToChildDownloadEvents: ->
+		children = @allChildren()
+		childFailed = no
+		childDownloadCount = 0
+
+		childDownloadFinished = =>
+			# Have they all finished?
+			return if ++childDownloadCount < children.length
+
+			unbindChildEvents()
+			if childFailed
+				@on.downloadFailed.raise()
+			else
 				@on.downloaded.raise()
-				done()
-			(args...) => # something failed
-				@on.downloadFailed.raise args...
-				fail.apply null, args
 
+		childDownloadFailed = ->
+			childFailed = yes
+			childDownloadFinished()
+
+		unbindChildEvents = ->
+			for child in children
+				child.on.downloaded.removeHandler childDownloadFinished
+				child.on.downloadFailed.removeHandler childDownloadFailed
+
+		for child in children
+			child.on.downloaded.addHandler childDownloadFinished
+			child.on.downloadFailed.addHandler childDownloadFailed
 
 	run: (context, done, fail) ->
 		messageBus.send "SpecificationDirectoryRunning", this
