@@ -163,9 +163,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Runner\OldIndex.cshtml" />
     <Content Include="Views\Sandbox\Index.cshtml" />
-    <Content Include="Views\Runner\Setup.cshtml" />
     <Content Include="Views\Runner\Index.cshtml" />
     <Content Include="_witness\scripts\witness-ui\ActionViewModel.coffee" />
     <Content Include="_witness\scripts\witness-ui\IframeManager.coffee" />
