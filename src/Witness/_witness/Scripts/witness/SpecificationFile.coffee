@@ -20,7 +20,9 @@
 	scriptDownloaded: ->
 		@executeSpecificationScript(
 			(specs) =>
-				@specifications.push spec for spec in specs
+				for spec in specs
+					spec.parentFile = this
+					@specifications.push spec
 				@on.downloaded.raise()
 			(error) =>
 				@on.downloadFailed.raise [ error ]

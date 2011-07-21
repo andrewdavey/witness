@@ -3,6 +3,6 @@
 @witness.ui.SpecificationViewModel = class SpecificationViewModel
 
 	constructor: (@specification) ->
-		{ @filename, @url } = @specification
+		{ @path, @url } = @specification.parentFile
 
 	templateId: "specification"
