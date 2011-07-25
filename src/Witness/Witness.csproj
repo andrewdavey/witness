@@ -198,6 +198,7 @@
     <Content Include="_witness\scripts\witness-ui\_namespace.coffee" />
     <Content Include="_witness\scripts\witness\Manifest.coffee" />
     <Content Include="_witness\scripts\witness-ui\PartViewModel.coffee" />
+    <Content Include="run.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="_witness\scripts\lib\coffee-script.js" />
