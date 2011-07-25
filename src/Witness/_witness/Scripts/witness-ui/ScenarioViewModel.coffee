@@ -1,13 +1,13 @@
 # reference "_namespace.coffee"
-# reference "ActionViewModel.coffee"
+# reference "PartViewModel.coffee"
 
-{ ActionViewModel } = @witness.ui
+{ PartViewModel } = @witness.ui
 
 @witness.ui.ScenarioViewModel = class ScenarioViewModel
 
 	constructor: (@scenario) ->
 		{ @path, @url } = @scenario.parentSpecification.parentFile
-		@parts = [].concat @scenario.given, @scenario.when, @scenario.then
+		@parts = (new PartViewModel part for part in [].concat @scenario.given, @scenario.when, @scenario.then)
 		@errors = ko.observableArray []
 
 		@scenario.on.failed.addHandler (errors) =>
@@ -22,6 +22,3 @@
 				@errors [ error ]
 
 	templateId: "scenario"
-
-actionsViewModel = (actions) ->
-	(new ActionViewModel action for action in actions)
