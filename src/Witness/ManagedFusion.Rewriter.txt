@@ -8,6 +8,6 @@ RewriteEngine On
 # Reverse proxy [P] any request where the URL doesn't start with "/_witness".
 # The target web server URL is in the "_witness_proxy" cookie.
 # [QSA] flag preserves the original query string in the rewritten URL.
-RewriteCond %{HTTP_COOKIE} ^_witness_proxy=(.+)\b
+RewriteCond %{HTTP_COOKIE} \b_witness_proxy=(.+)\b
 RewriteCond %{REQUEST_URI} !^/_witness.*
 RewriteRule ^/(.*) %2/$1 [P,QSA]
