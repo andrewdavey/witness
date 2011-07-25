@@ -6,10 +6,10 @@ describe "Scenario",
 {
 	"given a scenario with given, when, then and dispose": ->
 		@scenario = new witness.Scenario
-			given:   { description: "given", actions: [ (new witness.Action (=> @givenCalled = true), []) ] }
-			when:    { description: "when", actions: [ (new witness.Action (=> @whenCalled = true), []) ] }
-			then:    { description: "then", actions: [ new witness.Assertion (new witness.Action (=> @thenCalled = true), []) ] }
-			dispose: { description: "dispose", actions: [ (new witness.Action (=> @disposeCalled = true), []) ] }
+			given:   [ { description: "given", actions: [ (new witness.Action (=> @givenCalled = true), []) ] } ]
+			when:    [ { description: "when", actions: [ (new witness.Action (=> @whenCalled = true), []) ] } ]
+			then:    [ { description: "then", actions: [ new witness.Assertion (new witness.Action (=> @thenCalled = true), []) ] } ]
+			dispose: [ { description: "dispose", actions: [ (new witness.Action (=> @disposeCalled = true), []) ] } ]
 
 	"when scenario is run": ->
 		@scenario.run {}, (->), (->)
@@ -23,10 +23,10 @@ describe "Scenario",
 {
 	"given a scenario where the `given` action throws an error": ->
 		@scenario = new witness.Scenario 
-			given:   { description: "given", actions: [ (new witness.Action (-> throw new Error "given failed"), []) ] }
-			when:    { description: "when", actions: [ (new witness.Action (=> @whenCalled = true), []) ] }
-			then:    { description: "then", actions: [ new witness.Assertion (new witness.Action (=> @thenCalled = true), []) ] }
-			dispose: { description: "dispose", actions: [ (new witness.Action (=> @disposeCalled = true), []) ] }
+			given:   [ { description: "given", actions: [ (new witness.Action (-> throw new Error "given failed"), []) ] } ]
+			when:    [ { description: "when", actions: [ (new witness.Action (=> @whenCalled = true), []) ] } ]
+			then:    [ { description: "then", actions: [ new witness.Assertion (new witness.Action (=> @thenCalled = true), []) ] } ]
+			dispose: [ { description: "dispose", actions: [ (new witness.Action (=> @disposeCalled = true), []) ] } ]
 
 
 	"when scenarion is run": ->

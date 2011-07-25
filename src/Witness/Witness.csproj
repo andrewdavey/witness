@@ -38,12 +38,10 @@
       <HintPath>..\packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
     </Reference>
     <Reference Include="Cassette, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.0.5.1\lib\net40\Cassette.dll</HintPath>
+      <HintPath>..\packages\Cassette.0.5.2\lib\net40\Cassette.dll</HintPath>
     </Reference>
     <Reference Include="Cassette.Web, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cassette.Web.0.5.1\lib\net40\Cassette.Web.dll</HintPath>
+      <HintPath>..\packages\Cassette.Web.0.5.2\lib\net40\Cassette.Web.dll</HintPath>
     </Reference>
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jurassic.2.1.0\lib\net40\Jurassic.dll</HintPath>
@@ -106,10 +104,10 @@
     <Content Include="HtmlTemplates\Runner\specification.htm" />
     <Content Include="HtmlTemplates\Runner\tree.htm" />
     <Content Include="ManagedFusion.Rewriter.txt" />
-    <Content Include="Resources\less.js" />
     <Content Include="HtmlTemplates\Runner\error-message.htm" />
     <Content Include="HtmlTemplates\Runner\scenario-action.htm" />
     <Content Include="HtmlTemplates\Runner\scenario-part.htm" />
+    <Content Include="Resources\less.js" />
     <Content Include="_witness\styles\images\busy.gif" />
     <Content Include="_witness\styles\images\error.png" />
     <Content Include="_witness\styles\images\reload.png" />

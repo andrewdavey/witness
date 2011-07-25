@@ -4,36 +4,44 @@ describe "OuterScenario",
 		@outerGivenCalled = 0
 		@outerDisposeCalled = 0
 		parts =
-			given:
+			given: [ {
 				description: "given"
 				actions: [ new witness.Action (=> @outerGivenCalled++) ]
+			} ]
 
-			dispose:
+			dispose: [ {
 				description: "dispose"
 				actions: [ new witness.Action (=> @outerDisposeCalled++) ]
+			} ]
 
 		innerScenarios = [
 			new witness.Scenario({
-				given:
+				given: [ {
 					description: "given"
 					actions: [ new witness.Action (=> @inner0GivenCalled = true) ]
-				when:
+				} ]
+				when: [ {
 					description: "when"
 					actions: [ new witness.Action (=> @inner0WhenCalled = true) ]
-				then:
+				} ]
+				then: [ {
 					description: "then"
 					actions: [ new witness.Action (=> @inner0ThenCalled = true) ]
+				} ]
 			}),
 			new witness.Scenario({
-				given:
+				given: [ {
 					description: "given"
 					actions: [ new witness.Action (=> @inner1GivenCalled = true) ]
-				when:
+				} ]
+				when: [ {
 					description: "when"
 					actions: [ new witness.Action (=> @inner1WhenCalled = true) ]
-				then:
+				} ]
+				then: [ {
 					description: "then"
 					actions: [ new witness.Action (=> @inner1ThenCalled = true) ]
+				} ]
 			})
 		]
 		@outerScenario = new witness.OuterScenario parts, innerScenarios
@@ -57,13 +65,15 @@ describe "OuterScenario",
 {
 	"given an OuterScenario with event handlers added": ->
 		parts =
-			given:
+			given: [ {
 				description: "given"
 				actions: []
+			} ]
 
-			dispose:
+			dispose: [ {
 				description: "dispose"
 				actions: []
+			} ]
 
 		innerScenarios = []
 		@outerScenario = new witness.OuterScenario parts, innerScenarios
@@ -84,13 +94,15 @@ describe "OuterScenario",
 {
 	"given an OuterScenario that fails with an inner Scenario and event handlers added": ->
 		parts =
-			given:
+			given: [ {
 				description: "given"
 				actions: [ new witness.Action(-> throw new Error "failed") ]
+			} ]
 
-			dispose:
+			dispose: [ {
 				description: "dispose"
 				actions: []
+			} ]
 
 		innerScenarios = [ new witness.Scenario {} ]
 		@outerScenario = new witness.OuterScenario parts, innerScenarios
@@ -111,13 +123,15 @@ describe "OuterScenario",
 {
 	"given an OuterScenario that fails but has no inner Scenarios": ->
 		parts =
-			given:
+			given: [ {
 				description: "given"
 				actions: [ new witness.Action(-> throw new Error "failed") ]
+			} ]
 
-			dispose:
+			dispose: [ {
 				description: "dispose"
 				actions: []
+			} ]
 
 		innerScenarios = []
 		@outerScenario = new witness.OuterScenario parts, innerScenarios

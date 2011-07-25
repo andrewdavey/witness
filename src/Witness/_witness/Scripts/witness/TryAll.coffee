@@ -29,7 +29,7 @@
 			else
 				done()
 
-		# User setTimeout to avoid blowing up the stack when lots of 
+		# Use setTimeout to avoid blowing up the stack when lots of 
 		# actions are to be run.
 		queueNext = -> setTimeout runNext, 1
 

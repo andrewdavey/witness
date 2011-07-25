@@ -7,7 +7,7 @@
 	inner: [
 		{
 			"given a scenario definition": ->
-				@scenario = { given: (->), when: wait(10), then: [] }
+				@scenario = { given: (->), when: wait(10), then: [], dispose: [] }
 
 			"when describing the scenario": ->
 				spec = @dsl.describe.call @target, "specification-name", @scenario
@@ -16,10 +16,10 @@
 			then: [
 				-> @target.specifications.length == 1
 				-> @target.specifications[0].scenarios.length == 1
-				-> jQuery.isArray @given.actions
-				-> jQuery.isArray @when.actions
-				-> jQuery.isArray @then.actions
-				-> jQuery.isArray @dispose.actions
+				-> jQuery.isArray @given[0].actions
+				-> jQuery.isArray @when[0].actions
+				-> jQuery.isArray @then[0].actions
+				-> jQuery.isArray @dispose[0].actions
 			]
 		},
 		{
@@ -32,7 +32,7 @@
 			
 			"when the assertion is run": ->
 				spec = @dsl.describe.call @target, "specification-name", @scenario
-				@assertion = spec.scenarios[0].then.actions[0]
+				@assertion = spec.scenarios[0].then[0].actions[0]
 				@assertion.run @context, (->), (->)
 
 			then:
@@ -53,7 +53,7 @@
 			
 			"when the assertion is run": ->
 				spec = @dsl.describe.call @target, "specification-name", @scenario
-				@assertion = spec.scenarios[0].then.actions[0]
+				@assertion = spec.scenarios[0].then[0].actions[0]
 				@assertion.run @context, (->), (->)
 
 			then:
@@ -75,7 +75,7 @@
 
 			"when the assertion is run": ->
 				spec = @dsl.describe.call @target, "specification-name", @scenario
-				@assertion = spec.scenarios[0].then.actions[0]
+				@assertion = spec.scenarios[0].then[0].actions[0]
 				@assertion.run @context, (=> @passed = true), (->)
 
 			"then it should pass":
@@ -127,8 +127,8 @@
 				spec = @dsl.describe.call @target, "specification-name", @definition
 				@scenario = spec.scenarios[0]
 
-			then:
-				scenario: then: actions: length: should.be 2
+			"then scenario has two 'then' parts":
+				scenario: then: length: should.be 2
 		}
 	]
 }
