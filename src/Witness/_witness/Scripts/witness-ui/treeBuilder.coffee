@@ -34,7 +34,7 @@
 
 	buildScenarioNode: (scenario, index, tree) ->
 		if scenario instanceof OuterScenario
-			node = new OuterScenarioNode scenario.given.description, scenario, tree
+			node = new OuterScenarioNode scenario.given[0].description, scenario, tree
 			node.children (@buildScenarioNode child, index, tree for child, index in scenario.innerScenarios)
 			node
 		else
