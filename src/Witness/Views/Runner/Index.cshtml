@@ -1,157 +1,19 @@
 ﻿@{
     Layout = null;
-    Html.ReferenceScript("_witness/scripts/witness-ui");
-    Html.ReferenceStylesheet("_witness/styles");
+    Assets.Scripts.Reference("_witness/scripts/witness-ui");
+    Assets.Stylesheets.Reference("_witness/styles");
+    Assets.HtmlTemplates.Reference("HtmlTemplates/Runner");
 }
 <!DOCTYPE html>
 <html>
 <head>
     <title>Witness</title>
-    @Html.RenderStylesheetLinks()
-    @Html.RenderScripts()
+    @Assets.Stylesheets.Render()
     <link href="http://fonts.googleapis.com/css?family=Shadows+Into+Light&v2" rel="stylesheet" type="text/css"/>
+    @Assets.Scripts.Render()
 </head>
 <body>
     <div data-bind="template: { name: bodyTemplateId, foreach: bodyViewModel }"></div>
-
-    <!-- HTML Templates -->
-    <script id="setup-screen" type="text/html">
-        <div id="setup">
-            <h1>Witness Setup</h1>
-            <form data-bind="submit: download">
-                <div class="field">
-                    <label for="setup-path">Specifications directory</label>
-                    <input id="setup-path" type="text" data-bind="value: specificationDirectory, enable: canInput" autofocus/>
-                    <p class="hint">Full file system path please.</p>
-                </div>
-                <div class="field">
-                    <label for="setup-url">Website root URL</label>
-                    <input id="setup-url" type="text" data-bind="value: applicationUrl, enable: canInput"/>
-                    <p class="hint">Witness will reverse proxy requests here.</p>
-                </div>
-                <div>
-                    <button data-bind="click: download, enable: canInput">Go</button>
-                </div>
-            </form>
-            <div class="busy" data-bind="visible: !canInput()">
-                Downloading. Please wait...
-            </div>
-            <div class="main-error" data-bind="visible: hasErrors">
-                Download error. Please see the error messages below.
-            </div>
-            <div class="log" data-bind="visible: showLog">
-                <ul data-bind="template: { name: 'log-message', foreach: log }"></ul>
-            </div>
-        </div>
-    </script>
-    <script id="log-message" type="text/html">
-        <li data-bind="attr: { 'class': status }">
-            <p data-bind="text: message"></p>
-            <ul data-bind="template: { name: 'log-detail', foreach: details }"></ul>
-        </li>
-    </script>
-    <script id="log-detail" type="text/html">
-        <li>${ $data }</li>
-    </script>
-
-    <script id="runner-screen" type="text/html">
-        <div id="runner" data-bind="css: { 'show-scenario-actions': showScenarioActions }">
-            <div id="header">
-                <h1>Witness</h1>
-                <div id="actions">
-                    <button class="run-all" data-bind="enable: canRun, click: runAll">Run All</button>
-                    <button class="run-selected" data-bind="enable: canRunSelected, click: runSelected">Run</button>
-                    <button class="reload" data-bind="enable: canRunSelected, click: reloadSelected">Reload</button>
-                    <button class="setup" data-bind="enable: canRun, click: setup">Setup</button>
-                    <input type="checkbox" data-bind="checked: showScenarioActions" id="show-scenario-actions"/><label for="show-scenario-actions">Show scenario actions</label>
-                </div>
-                <div id="status" data-bind="text: status"></div>
-            </div>
-            <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
-            <div id="content">
-                <table style="width: 100%; height: 100%">
-                    <tr>
-                        <td style="width: 100%">
-                            <div id="active-item" data-bind="visible: activeItem().length > 0, template: { name: activeItemTemplateId, foreach: activeItem }"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 100%; height: 100%">
-                            <div id="iframe-container" data-bind="iframes: iframeManager"></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </script>
-    <script id="tree" type="text/html">
-        <ul class="tree" data-bind="template: { name: nodeTemplateId, foreach: nodes }"></ul>
-    </script>
-    <script id="directory-node" type="text/html">
-        <li class="directory node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
-            <div class="header" data-bind="click: select">
-                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
-            </div>
-            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
-        </li>
-    </script>
-    <script id="specification-node" type="text/html">
-        <li class="specification node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
-            <div class="header" data-bind="click: select">
-                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
-            </div>
-            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
-        </li>
-    </script>
-    <script id="outer-scenario-node" type="text/html">
-        <li class="outer-scenario node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
-            <div class="header" data-bind="click: select">
-                <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
-                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
-            </div>
-            <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
-        </li>
-    </script>
-    <script id="scenario-node" type="text/html">
-        <li class="scenario node" data-bind="css: { 'selected': isSelected }">
-            <div class="header" data-bind="click: select">
-                <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
-            </div>
-        </li>
-    </script>
-
-    <script id="specification" type="text/html">
-        <div class="specification">
-            <h2>Specification</h2>
-            <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
-        </div>
-    </script>
-    <script id="scenario" type="text/html">
-        <table class="scenario" style="width: 100%">
-            <tr>
-                <td style="width: 50%">
-                    <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
-                    <h2>Scenario</h2>
-                    <div data-bind="template: { name: 'scenario-part', foreach: parts }"></div>
-                </td>
-                <td style="width: 50%">
-                    <h2 data-bind="visible: errors().length > 0">Errors</h2>
-                    <ul data-bind="template: { name: 'error-message', foreach: errors }"></ul>
-                </td>
-            </tr>
-        </table>
-    </script>
-    <script id="scenario-part" type="text/html">
-        <p data-bind="text: description"></p>
-        <ul class="actions" data-bind="template: { name: 'scenario-action', foreach: actions }"></ul>
-    </script>
-    <script id="scenario-action" type="text/html">
-        <li data-bind="attr: { 'class': status }">${ description }</li>
-    </script>
-    <script id="error-message" type="text/html">
-        <li class="error">${ message } <br/> ${ stack }</li>
-    </script>
+    @Assets.HtmlTemplates.Render()
 </body>
 </html>

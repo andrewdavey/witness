@@ -1,0 +1,28 @@
+﻿<div id="runner" data-bind="css: { 'show-scenario-actions': showScenarioActions }">
+    <div id="header">
+        <h1>Witness</h1>
+        <div id="actions">
+            <button class="run-all" data-bind="enable: canRun, click: runAll">Run All</button>
+            <button class="run-selected" data-bind="enable: canRunSelected, click: runSelected">Run</button>
+            <button class="reload" data-bind="enable: canRunSelected, click: reloadSelected">Reload</button>
+            <button class="setup" data-bind="enable: canRun, click: setup">Setup</button>
+            <input type="checkbox" data-bind="checked: showScenarioActions" id="show-scenario-actions"/><label for="show-scenario-actions">Show scenario actions</label>
+        </div>
+        <div id="status" data-bind="text: status"></div>
+    </div>
+    <div id="tree" data-bind="template: { name: 'tree', data: tree }"></div>
+    <div id="content">
+        <table style="width: 100%; height: 100%">
+            <tr>
+                <td style="width: 100%">
+                    <div id="active-item" data-bind="visible: activeItem().length > 0, template: { name: activeItemTemplateId, foreach: activeItem }"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%; height: 100%">
+                    <div id="iframe-container" data-bind="iframes: iframeManager"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

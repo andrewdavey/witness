@@ -37,11 +37,16 @@
     <Reference Include="AjaxMin, Version=4.13.4076.28499, Culture=neutral, PublicKeyToken=24297a69a7eae424, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxMin.4.13.4076.28499\lib\AjaxMin.dll</HintPath>
     </Reference>
+    <Reference Include="Cassette, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cassette.0.5.1\lib\net40\Cassette.dll</HintPath>
+    </Reference>
+    <Reference Include="Cassette.Web, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Cassette.Web.0.5.1\lib\net40\Cassette.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jurassic.2.1.0\lib\net40\Jurassic.dll</HintPath>
-    </Reference>
-    <Reference Include="Knapsack, Version=0.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Knapsack.0.4.3\lib\net40\Knapsack.dll</HintPath>
     </Reference>
     <Reference Include="ManagedFusion.Rewriter, Version=3.5.36.0, Culture=neutral, PublicKeyToken=37fded21d1a8502d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -89,7 +94,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HtmlTemplates\Runner\directory-node.htm" />
+    <Content Include="HtmlTemplates\Runner\log-detail.htm" />
+    <Content Include="HtmlTemplates\Runner\log-message.htm" />
+    <Content Include="HtmlTemplates\Runner\outer-scenario-node.htm" />
+    <Content Include="HtmlTemplates\Runner\runner-screen.htm" />
+    <Content Include="HtmlTemplates\Runner\scenario-node.htm" />
+    <Content Include="HtmlTemplates\Runner\scenario.htm" />
+    <Content Include="HtmlTemplates\Runner\setup-screen.htm" />
+    <Content Include="HtmlTemplates\Runner\specification-node.htm" />
+    <Content Include="HtmlTemplates\Runner\specification.htm" />
+    <Content Include="HtmlTemplates\Runner\tree.htm" />
     <Content Include="ManagedFusion.Rewriter.txt" />
+    <Content Include="Resources\less.js" />
+    <Content Include="Views\Runner\error-message.htm" />
+    <Content Include="Views\Runner\scenario-action.htm" />
+    <Content Include="Views\Runner\scenario-part.htm" />
     <Content Include="_witness\styles\images\busy.gif" />
     <Content Include="_witness\styles\images\error.png" />
     <Content Include="_witness\styles\images\reload.png" />

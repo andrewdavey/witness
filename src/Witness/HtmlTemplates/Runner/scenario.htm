@@ -1,0 +1,13 @@
+﻿<table class="scenario" style="width: 100%">
+    <tr>
+        <td style="width: 50%">
+            <p>File: <a href="${ url }" target="_blank">${ path }</a></p>
+            <h2>Scenario</h2>
+            <div data-bind="template: { name: 'scenario-part', foreach: parts }"></div>
+        </td>
+        <td style="width: 50%">
+            <h2 data-bind="visible: errors().length > 0">Errors</h2>
+            <ul data-bind="template: { name: 'error-message', foreach: errors }"></ul>
+        </td>
+    </tr>
+</table>

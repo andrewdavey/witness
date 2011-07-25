@@ -1,13 +1,13 @@
 ﻿@{
     Layout = null;
-    Html.ReferenceScript("_witness/scripts/lib");
-    Html.ReferenceScript("_witness/scripts/witness");
+    Assets.Scripts.Reference("_witness/scripts/lib");
+    Assets.Scripts.Reference("_witness/scripts/witness");
 }
 <!DOCTYPE html>
 <html>
 <head>
     <title>Witness Script Execution Sandbox</title>
-    @Html.RenderScripts()
+    @Assets.Scripts.Render()
 </head>
 <body>
 </body>

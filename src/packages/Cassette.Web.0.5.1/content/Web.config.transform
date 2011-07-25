@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
     <configSections>
-        <section name="knapsack" type="Knapsack.Configuration.KnapsackSection, Knapsack"/>
+        <section name="cassette" type="Cassette.Configuration.CassetteSection, Cassette"/>
     </configSections>
 
-    <knapsack moduleMode="OffInDebug">
+    <cassette moduleMode="OffInDebug">
         <!-- moduleMode options:
                 OffInDebug => Modules are used when web application is not in debug mode
                 On => Modules are always used
                 Off => Modules are not used
         -->
         <scripts>
-            <!-- By default a module is created for each folder in "~/scripts/"
+            <!-- By default a module is created for each sub-folder of "scripts"
                  i.e. <add path="scripts/*"/>
             
                  Individual modules can be specified if required:
@@ -23,28 +23,31 @@
         <styles>
             <!-- If empty, this convention is used: <add path="styles/*" />-->
         </styles>
-    </knapsack>
+        <htmlTemplates>
+            <!-- If empty, this convention is used: <add path="htmlTemplates/*" />-->
+        </htmlTemplates>
+    </cassette>
     
     <system.web>
         <httpModules>
-            <add name="Knapsack"
-                 type="Knapsack.Web.KnapsackHttpModule, Knapsack"/>
+            <add name="Cassette"
+                 type="Cassette.Web.CassetteHttpModule, Cassette.Web"/>
         </httpModules>
         <httpHandlers>
-            <add verb="GET" path="knapsack.axd"
-                 type="Knapsack.Web.KnapsackHttpHandler, Knapsack"/>
+            <add verb="GET" path="cassette.axd"
+                 type="Cassette.Web.CassetteHttpHandlerFactory, Cassette.Web"/>
         </httpHandlers>
     </system.web>
 
     <system.webServer>
         <modules>
-            <add name="Knapsack"
-                 type="Knapsack.Web.KnapsackHttpModule, Knapsack"
+            <add name="Cassette"
+                 type="Cassette.Web.CassetteHttpModule, Cassette.Web"
                  preCondition="managedHandler"/>
         </modules>
         <handlers>
-            <add name="Knapsack" verb="GET" path="knapsack.axd"
-                 type="Knapsack.Web.KnapsackHttpHandler, Knapsack"/>
+            <add name="Cassette" verb="GET" path="cassette.axd"
+                 type="Cassette.Web.CassetteHttpHandlerFactory, Cassette.Web"/>
         </handlers>
     </system.webServer>
 

@@ -1,0 +1,27 @@
+﻿<div id="setup">
+    <h1>Witness Setup</h1>
+    <form data-bind="submit: download">
+        <div class="field">
+            <label for="setup-path">Specifications directory</label>
+            <input id="setup-path" type="text" data-bind="value: specificationDirectory, enable: canInput" autofocus/>
+            <p class="hint">Full file system path please.</p>
+        </div>
+        <div class="field">
+            <label for="setup-url">Website root URL</label>
+            <input id="setup-url" type="text" data-bind="value: applicationUrl, enable: canInput"/>
+            <p class="hint">Witness will reverse proxy requests here.</p>
+        </div>
+        <div>
+            <button data-bind="click: download, enable: canInput">Go</button>
+        </div>
+    </form>
+    <div class="busy" data-bind="visible: !canInput()">
+        Downloading. Please wait...
+    </div>
+    <div class="main-error" data-bind="visible: hasErrors">
+        Download error. Please see the error messages below.
+    </div>
+    <div class="log" data-bind="visible: showLog">
+        <ul data-bind="template: { name: 'log-message', foreach: log }"></ul>
+    </div>
+</div>

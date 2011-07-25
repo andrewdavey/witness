@@ -1,0 +1,7 @@
+﻿<li class="outer-scenario node" data-bind="css: { 'open': isOpen, 'selected': isSelected }">
+    <div class="header" data-bind="click: select">
+        <a href="#" class="toggle" data-bind="click: toggleOpen"></a>
+        <a href="javascript:void(0)" data-bind="click: select, attr: { 'class': 'text ' + status() }">${ text }</a>
+    </div>
+    <ul class="children" data-bind="template: { name: nodeTemplateId, foreach: children }"></ul>
+</li>
