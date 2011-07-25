@@ -107,9 +107,9 @@
     <Content Include="HtmlTemplates\Runner\tree.htm" />
     <Content Include="ManagedFusion.Rewriter.txt" />
     <Content Include="Resources\less.js" />
-    <Content Include="Views\Runner\error-message.htm" />
-    <Content Include="Views\Runner\scenario-action.htm" />
-    <Content Include="Views\Runner\scenario-part.htm" />
+    <Content Include="HtmlTemplates\Runner\error-message.htm" />
+    <Content Include="HtmlTemplates\Runner\scenario-action.htm" />
+    <Content Include="HtmlTemplates\Runner\scenario-part.htm" />
     <Content Include="_witness\styles\images\busy.gif" />
     <Content Include="_witness\styles\images\error.png" />
     <Content Include="_witness\styles\images\reload.png" />
