@@ -50,8 +50,10 @@ describe "Bool component entering edit mode",
 	"Then it is in edit mode": [
 		{ ".static-view": shouldnot.beVisible() }
 		{ "input[type=checkbox]": should.beVisible() }
-		{ "input[type=checkbox]:checked": should.match 1 }
 	]
+
+	"Then the checkbox is checked":
+		"input[type=checkbox]:checked": should.match 1
 },
 {
 	"Given a bool component with default value `false`":
@@ -68,8 +70,10 @@ describe "Bool component entering edit mode",
 	"Then it is in edit mode": [
 		{ ".static-view": shouldnot.beVisible() }
 		{ "input[type=checkbox]": should.beVisible() }
-		{ "input[type=checkbox]:checked": should.match 0 }
 	]
+
+	"Then the checkbox is unchecked":
+		"input[type=checkbox]:checked": should.match 0
 }
 
 describe "Bool component in edit mode",
