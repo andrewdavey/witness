@@ -12,10 +12,11 @@ class PageViewModel
 
 	constructor: ->
 		args = @getPageArguments()
+		cookie = @getCookieValues()
 		# The body view model is the currently active view model of the page.
 		# (Using an array to work around strange KnockoutJS behavior.)
 		@bodyViewModel = ko.observableArray []
-		@setupViewModel = new SetupViewModel args
+		@setupViewModel = new SetupViewModel args, cookie
 
 		@setupViewModel.finished.addHandler (rootDirectory) =>
 			@showRunner rootDirectory
@@ -46,6 +47,13 @@ class PageViewModel
 			args[key] = decodeURIComponent value
 		args
 
+	getCookieValues: ->
+		parts = document.cookie.split /; /
+		obj = {}
+		for part in parts
+			[key,value] = part.split /=/
+			obj[key] = value
+		obj
 
 # Bind the view model to the whole page.
 $ -> ko.applyBindings new PageViewModel()

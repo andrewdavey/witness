@@ -12,9 +12,9 @@
 
 @witness.ui.SetupViewModel = class SetupViewModel
 
-	constructor: (pageArguments) ->
-		@specificationDirectory = ko.observable pageArguments.specs or ""
-		@applicationUrl = ko.observable (pageArguments.url or "")
+	constructor: (pageArguments, cookieData) ->
+		@specificationDirectory = ko.observable pageArguments.specs or cookieData["_witness_path"] or ""
+		@applicationUrl = ko.observable (pageArguments.url or cookieData["_witness_proxy"] or "")
 		@canInput = ko.observable yes
 		@showLog = ko.observable no
 		@log = ko.observableArray []
@@ -39,7 +39,10 @@
 		@hasErrors no
 
 		if @applicationUrl().length > 0
-			jQuery.post "/_witness/setupproxy", { url: @applicationUrl() }
+			jQuery.post "/_witness/setupproxy", {
+				url: @applicationUrl(),
+				path: @specificationDirectory()
+			}
 
 		manifest = new Manifest @specificationDirectory
 

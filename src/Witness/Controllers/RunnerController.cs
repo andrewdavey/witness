@@ -23,8 +23,9 @@ namespace Witness.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetupProxy(string url)
+        public ActionResult SetupProxy(string path, string url)
         {
+            Response.Cookies.Add(new HttpCookie("_witness_path", path));
             Response.Cookies.Add(new HttpCookie("_witness_proxy", url));
             return new EmptyResult();
         }
