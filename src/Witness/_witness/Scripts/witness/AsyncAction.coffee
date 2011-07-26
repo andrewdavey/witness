@@ -41,4 +41,4 @@
 			@on.failed.raise e
 
 
-AsyncAction.defaultTimeout = 1000 # milliseconds
+AsyncAction.defaultTimeout = 10000 # milliseconds
