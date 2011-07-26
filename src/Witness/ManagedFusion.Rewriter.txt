@@ -1,6 +1,6 @@
 RewriteEngine On
-RewriteLog "log.txt"
-RewriteLogLevel 9
+#RewriteLog "log.txt"
+#RewriteLogLevel 9
 
 # You can find the rewrite commands and rules here http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html
 # You can also read more about the setup process here https://github.com/managedfusion/managedfusion-rewriter/blob/master/README.txt
@@ -10,4 +10,4 @@ RewriteLogLevel 9
 # [QSA] flag preserves the original query string in the rewritten URL.
 RewriteCond %{HTTP_COOKIE} \b_witness_proxy=(.+?)(;|$)
 RewriteCond %{REQUEST_URI} !^/_witness.*
-RewriteRule ^/(.*) %2/$1 [P,QSA]
+RewriteRule ^(/.*) %2$1 [P,QSA]
