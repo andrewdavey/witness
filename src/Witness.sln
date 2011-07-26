@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness", "Witness\Witness.csproj", "{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.Specs", "Witness.Specs\Witness.Specs.csproj", "{84F6D7FE-CD08-4B94-A21C-2C2042BF0838}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{EDE216DD-8EA5-4D8D-B878-EE83DC457A20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.Tests", "Witness.Tests\Witness.Tests.csproj", "{5F46C713-D497-492D-BA7F-958071786E2C}"
@@ -21,10 +19,6 @@ Global
 		{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D7460A-C02D-4F83-ABC6-D7C2508F59E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84F6D7FE-CD08-4B94-A21C-2C2042BF0838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84F6D7FE-CD08-4B94-A21C-2C2042BF0838}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84F6D7FE-CD08-4B94-A21C-2C2042BF0838}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84F6D7FE-CD08-4B94-A21C-2C2042BF0838}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDE216DD-8EA5-4D8D-B878-EE83DC457A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDE216DD-8EA5-4D8D-B878-EE83DC457A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDE216DD-8EA5-4D8D-B878-EE83DC457A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
