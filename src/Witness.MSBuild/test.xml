@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Simple test file to run with MSBuild. -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="bin\debug\Witness.MSBuild.targets"/>
     
@@ -7,5 +8,13 @@
                     Website="..\Fingers" 
                     Witness="..\Witness"
                     PhantomJS="..\..\tools\phantomjs\phantomjs.exe"/>
+        
+        <!--
+        In real use, the Witness web application and PhantomJS will be in folders next to Witness.MSBuild.dll.
+        So the task can be called like this:
+        
+        <RunWitness Specifications="c:\path\to\specs"
+                    Website="c:\path\to\website\under\test" />
+        -->
     </Target>
 </Project>

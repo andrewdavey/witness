@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- This '.targets' file must live next to 'Witness.MSBuild.dll' -->
     <UsingTask TaskName="Witness.MSBuild.RunWitness"
                AssemblyFile="Witness.MSBuild.dll" />
 </Project>
