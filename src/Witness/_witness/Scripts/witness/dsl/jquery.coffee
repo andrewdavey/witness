@@ -199,6 +199,14 @@ Dsl::extendShould jQueryPredicates
 		test: (actual) ->
 			actual.length > 0 and actual[0] == @document.activeElement
 		description: (selector) ->
-			selector + " should be active"
+			"#{selector} should be active"
 		error: (selector) ->
 			"#{selector} was not active"
+
+	beVisible:
+		test: (actual) ->
+			actual.is ":visible"
+		description: (selector) ->
+			"#{selector} should be visible"
+		error: (selector) ->
+			"#{selector} is not visible"
