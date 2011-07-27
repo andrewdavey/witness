@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="bin\debug\Witness.MSBuild.targets"/>
+    
+    <Target Name="Test">
+        <RunWitness Specifications="C:\Users\Andrew Davey\projects\opensource\witness\src\Fingers\specs"
+                    Website="C:\Users\Andrew Davey\projects\opensource\witness\src\Fingers" 
+                    Witness="C:\Users\Andrew Davey\projects\opensource\witness\src\Witness"
+                    PhantomJS="C:\Users\Andrew Davey\projects\opensource\witness\tools\phantomjs\phantomjs.exe"/>
+    </Target>
+</Project>
