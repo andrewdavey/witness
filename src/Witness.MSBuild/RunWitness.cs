@@ -7,29 +7,48 @@ using System.Net;
 using System.Net.NetworkInformation;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using System.Linq.Expressions;
 
 namespace Witness.MSBuild
 {
     public class RunWitness : Task
     {
+        /// <summary>
+        /// Path to the specifications directory.
+        /// </summary>
         [Required]
         public string Specifications { get; set; }
 
+        /// <summary>
+        /// File system path to the website under test.
+        /// </summary>
         [Required]
         public string Website { get; set; }
 
+        /// <summary>
+        /// Optional TCP port to run the website under test on.
+        /// </summary>
         public int WebsitePort { get; set; }
 
+        /// <summary>
+        /// File system path to the Witness application root.
+        /// </summary>
         [Required]
         public string Witness { get; set; }
 
+        /// <summary>
+        /// Optional TCP port to run Witness on.
+        /// </summary>
         public int WitnessPort { get; set; }
 
+        /// <summary>
+        /// Path to the PhantomJS executable.
+        /// </summary>
         public string PhantomJS { get; set; }
 
         public override bool Execute()
         {
-            AssignPropertyDefaultsIfEmpty();
+            ExpandPropertyValues();
 
             var website = StartIISExpress(Website, WebsitePort);
             var witness = StartIISExpress(Witness, WitnessPort);
@@ -45,25 +64,28 @@ namespace Witness.MSBuild
             return true;
         }
 
-        void AssignPropertyDefaultsIfEmpty()
+        void ExpandPropertyValues()
         {
-            if (WitnessPort == 0) WitnessPort = GetFreeTcpPort(9000);
-            if (WebsitePort == 0) WebsitePort = GetFreeTcpPort(WitnessPort + 1);
+            if (WitnessPort == 0) WitnessPort = TcpHelpers.GetFreeTcpPort(9000);
+            if (WebsitePort == 0) WebsitePort = TcpHelpers.GetFreeTcpPort(WitnessPort + 1);
+
+            EnsureAbsolutePath(() => Witness);
+            EnsureAbsolutePath(() => Website);
+            EnsureAbsolutePath(() => Specifications);
         }
 
-        int GetFreeTcpPort(int startPort)
+        void EnsureAbsolutePath(Expression<Func<string>> property)
         {
-            var ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            var endPoints = ipGlobalProperties.GetActiveTcpListeners();
-            var portsInUse = new HashSet<int>(endPoints.Select(e => e.Port));
-            for (int port = startPort; port <= IPEndPoint.MaxPort; port++)
-            {
-                if (portsInUse.Contains(port) == false)
-                {
-                    return port;
-                }
-            }
-            throw new Exception("Cannot find a free TCP port.");
+            var path = property.Compile()();
+            if (Directory.Exists(path) == false) throw new DirectoryNotFoundException("Directory not found: " + path);
+            if (Path.IsPathRooted(path)) return;
+            
+            path = Path.GetFullPath(path);
+
+            // Create the path assignment statement.
+            var assignment = Expression.Assign(property.Body, Expression.Constant(path, typeof(string)));
+            var action = Expression.Lambda<Action>(assignment).Compile();
+            action();
         }
 
         Process StartIISExpress(string websitePath, int port)

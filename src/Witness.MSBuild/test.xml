@@ -3,9 +3,9 @@
     <Import Project="bin\debug\Witness.MSBuild.targets"/>
     
     <Target Name="Test">
-        <RunWitness Specifications="C:\Users\Andrew Davey\projects\opensource\witness\src\Fingers\specs"
-                    Website="C:\Users\Andrew Davey\projects\opensource\witness\src\Fingers" 
-                    Witness="C:\Users\Andrew Davey\projects\opensource\witness\src\Witness"
-                    PhantomJS="C:\Users\Andrew Davey\projects\opensource\witness\tools\phantomjs\phantomjs.exe"/>
+        <RunWitness Specifications="..\Fingers\specs"
+                    Website="..\Fingers" 
+                    Witness="..\Witness"
+                    PhantomJS="..\..\tools\phantomjs\phantomjs.exe"/>
     </Target>
 </Project>
