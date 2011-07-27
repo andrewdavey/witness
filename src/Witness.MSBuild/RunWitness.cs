@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -14,16 +18,22 @@ namespace Witness.MSBuild
         [Required]
         public string Website { get; set; }
 
+        public int WebsitePort { get; set; }
+
         [Required]
         public string Witness { get; set; }
+
+        public int WitnessPort { get; set; }
 
         public string PhantomJS { get; set; }
 
         public override bool Execute()
         {
-            var website = StartIISExpress(Website, 9000);
-            var witness = StartIISExpress(Witness, 9001);
-            var phantomjs = StartPhantomJS(PhantomJS, Specifications, 9001, 9000);
+            AssignPropertyDefaultsIfEmpty();
+
+            var website = StartIISExpress(Website, WebsitePort);
+            var witness = StartIISExpress(Witness, WitnessPort);
+            var phantomjs = StartPhantomJS();
 
             phantomjs.WaitForExit();
 
@@ -33,6 +43,27 @@ namespace Witness.MSBuild
             website.WaitForExit();
             
             return true;
+        }
+
+        void AssignPropertyDefaultsIfEmpty()
+        {
+            if (WitnessPort == 0) WitnessPort = GetFreeTcpPort(9000);
+            if (WebsitePort == 0) WebsitePort = GetFreeTcpPort(WitnessPort + 1);
+        }
+
+        int GetFreeTcpPort(int startPort)
+        {
+            var ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+            var endPoints = ipGlobalProperties.GetActiveTcpListeners();
+            var portsInUse = new HashSet<int>(endPoints.Select(e => e.Port));
+            for (int port = startPort; port <= IPEndPoint.MaxPort; port++)
+            {
+                if (portsInUse.Contains(port) == false)
+                {
+                    return port;
+                }
+            }
+            throw new Exception("Cannot find a free TCP port.");
         }
 
         Process StartIISExpress(string websitePath, int port)
@@ -86,12 +117,12 @@ namespace Witness.MSBuild
             return string.Format("/path:\"{0}\" /port:{1}", websitePath, port);
         }
 
-        Process StartPhantomJS(string phantomJS, string specsPath, int witnessPort, int websitePort)
+        Process StartPhantomJS()
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = phantomJS,
-                Arguments = GetPhantomJSArguments(specsPath, witnessPort, websitePort),
+                FileName = PhantomJS,
+                Arguments = GetPhantomJSArguments(Specifications, WitnessPort, WebsitePort),
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
