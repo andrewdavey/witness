@@ -155,8 +155,10 @@ namespace Witness.MSBuild
 
         string GetPhantomJSArguments(string specsPath, int witnessPort, int websitePort)
         {
+            var runnerScript = Path.Combine(witnessRootDirectory, "run-witness.coffee");
             return string.Format(
-                "--disk-cache=yes run-witness.coffee http://localhost:{0} http://localhost:{1} \"{2}\"",
+                "--disk-cache=yes \"{0}\" http://localhost:{1} http://localhost:{2} \"{3}\"",
+                runnerScript,
                 witnessPort,
                 websitePort,
                 specsPath
