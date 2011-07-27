@@ -10,6 +10,9 @@
 		@parts = (new PartViewModel part for part in [].concat @scenario.given, @scenario.when, @scenario.then)
 		@errors = ko.observableArray []
 
+		@scenario.on.running.addHandler =>
+			@errors.removeAll()
+
 		@scenario.on.failed.addHandler (errors) =>
 			if jQuery.isArray errors
 				for error in errors when not error.stack or error.fromAssertion
