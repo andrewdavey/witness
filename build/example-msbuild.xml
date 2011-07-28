@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!--
+    To integrate Witness into your MSBuild project, Import the following targets file.
+    -->
+    <Import Project="Witness.MSBuild.targets"/>
+    
+    <Target Name="Test">
+        <!--
+        The RunWitness task starts IIS Express to host your website and runs the specifications.
+        -->
+        <RunWitness Specifications="c:\path\to\specs"
+                    Website="c:\path\to\website\under\test" />
+        
+    </Target>
+</Project>

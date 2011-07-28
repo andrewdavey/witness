@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+    <PropertyGroup>
+        <Dest>$(MSBuildThisFileDirectory)\output</Dest>
+    </PropertyGroup>
+    
+    <Target Name="Clean">
+        <RemoveDir Directories="$(Dest)" />
+    </Target>
+    
+    <Target Name="Build" DependsOnTargets="Clean">
+        <MSBuild Projects="..\src\Witness.MSBuild\Witness.MSBuild.csproj"
+                 Properties="Configuration=Release;OutputPath=$(Dest)"/>
+        
+        <MSBuild Projects="..\src\Witness\Witness.csproj"
+                 Targets="PublishToFileSystem"
+                 Properties="Configuration=Release;PublishDestination=$(Dest)\web"/>
+
+        <ItemGroup>
+            <PhantomJS Include="..\tools\phantomjs\**\*.*"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(PhantomJS)" DestinationFolder="$(Dest)\phantomjs\%(RecursiveDir)" />
+
+        <Copy SourceFiles="start-witness.cmd" DestinationFolder="$(Dest)"/>
+        <Copy SourceFiles="example-msbuild.xml" DestinationFolder="$(Dest)"/>
+        <Copy SourceFiles="..\license.txt" DestinationFolder="$(Dest)"/>
+    </Target>
+    
+</Project>
