@@ -10,6 +10,7 @@ namespace Witness.Controllers
     {
         public ActionResult Index()
         {
+            Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(1));
             return View();
         }
     }
