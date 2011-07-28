@@ -22,6 +22,13 @@ namespace Witness.Controllers
             return View();
         }
 
+        // GET /_witness/phantomjs
+        [HttpGet]
+        public ActionResult PhantomJS()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult SetupProxy(string path, string url)
         {
