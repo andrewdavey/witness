@@ -105,3 +105,5 @@ nextUniqueId = 0
 	forceReloadIFrame: ->
 		@iframe[0].contentWindow.document.location.reload true # force reload
 
+	download: ->
+		@parentSpecification.parentFile.download()
