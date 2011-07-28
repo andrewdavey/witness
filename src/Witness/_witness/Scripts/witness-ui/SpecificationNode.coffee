@@ -17,6 +17,9 @@
 
 		# When our parent file is downloaded again, remove this node.
 		# The directory will create a new node once it's downloaded.
-		@specification.parentFile.on.downloading.addHandler => @remove()
+		@specification.parentFile.on.downloading.addHandler =>
+			@tree.isReloading true
+		@specification.parentFile.on.downloaded.addHandler => 
+			@tree.rebuild()
 
 	templateId: "specification-node"

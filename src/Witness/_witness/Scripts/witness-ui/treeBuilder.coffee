@@ -13,14 +13,21 @@
 	buildTree: (directory) ->
 		tree = new Tree directory
 		subDirectoryNodes = (@buildDirectoryNode d, tree, tree for d in directory.directories)
-		specificationNodes = (@buildSpecificationNode s, tree, tree for s in @getSpecificationNodes(directory))
+		specificationNodes = (@buildSpecificationNode s, tree, tree for s in @getSpecifications(directory))
 		tree.children subDirectoryNodes.concat specificationNodes
 		tree
+
+	rebuildTree: (tree) ->
+		subDirectoryNodes = for d in tree.data.directories
+			@buildDirectoryNode d, tree, tree
+		specificationNodes = for s in @getSpecifications tree.data
+			@buildSpecificationNode s, tree, tree
+		tree.children subDirectoryNodes.concat specificationNodes
 
 	buildDirectoryNode: (directory, tree, parentNode) ->
 		directoryNode = new DirectoryNode directory.name, directory, tree, parentNode
 		subDirectoryNodes = (@buildDirectoryNode d, tree, directoryNode for d in directory.directories)
-		specificationNodes = (@buildSpecificationNode s, tree, directoryNode for s in @getSpecificationNodes(directory))
+		specificationNodes = (@buildSpecificationNode s, tree, directoryNode for s in @getSpecifications(directory))
 		childNodes = subDirectoryNodes.concat specificationNodes
 
 		directoryNode.children childNodes
@@ -40,7 +47,7 @@
 		else
 			new ScenarioNode "Scenario #{index + 1}", scenario, tree, parentNode
 
-	getSpecificationNodes: (directoryData) ->
+	getSpecifications: (directoryData) ->
 		specs = []
 		for file in directoryData.files
 			for spec in file.specifications

@@ -103,3 +103,18 @@
 .tree .node > .header > .text.failed {
     color: #c00;
 }
+
+.tree-reloading {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+    opacity: .75;
+}
+.tree-reloading div {
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    top: 50%;
+}

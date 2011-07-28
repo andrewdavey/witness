@@ -31,9 +31,12 @@
 		@status = ko.observable ""
 		@showScenarioActions = ko.observable no
 
-		@tree.map (node) =>
-			if node instanceof ScenarioNode
-				@scenarioViewModels[node.data.uniqueId] = new ScenarioViewModel node.data
+		createScenarioViewModels = =>
+			@tree.map (node) =>
+				if node instanceof ScenarioNode
+					@scenarioViewModels[node.data.uniqueId] = new ScenarioViewModel node.data
+		createScenarioViewModels()
+		@tree.rebuilt.addHandler -> createScenarioViewModels()
 
 		@canRunSelected = ko.dependentObservable =>
 			@canRun() and @activeItemModel()?
@@ -47,7 +50,10 @@
 		
 	getScenarioViewModel: (scenario) ->
 		id = scenario.uniqueId
-		@scenarioViewModels[id]
+		if id of @scenarioViewModels
+			@scenarioViewModels[id]
+		else
+			throw new Error "A scenario view model does not exist for scenario #{id}."
 
 	treeNodeSelected: (node) ->
 		@activeItemModel node.data

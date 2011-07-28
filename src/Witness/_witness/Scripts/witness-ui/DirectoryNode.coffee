@@ -15,14 +15,4 @@ ui = @witness.ui
 		directory.on.failed.addHandler =>
 			@status "failed"
 
-		for file in directory.files
-			do (file) =>
-				file.on.downloaded.addHandler => @fileDownloaded file
-
 	templateId: "directory-node"
-
-	fileDownloaded: (file) ->
-		for spec in file.specifications
-			specNode = ui.treeBuilder.buildSpecificationNode spec, @tree, this
-			@children.push specNode
-
