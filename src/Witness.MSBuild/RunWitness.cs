@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
+using System.Xml.Linq;
 
 namespace Witness.MSBuild
 {
@@ -60,17 +61,26 @@ namespace Witness.MSBuild
         {
             ExpandPropertyValues();
 
-            var website = StartIISExpress(Website, WebsitePort);
-            var witness = StartIISExpress(Witness, WitnessPort);
-            var phantomjs = StartPhantomJS();
+            using (var iisConfig = new IisConfiguration(witnessRootDirectory, Witness, WitnessPort, Website, WebsitePort))
+            {
+                var websites = iisConfig.StartWebsites();
+                foreach (var website in websites)
+                {
+                    PipeProcessToLog(website);
+                }
 
-            phantomjs.WaitForExit();
+                var phantomjs = StartPhantomJS();
+                phantomjs.WaitForExit();
 
-            witness.Kill();
-            website.Kill();
-            witness.WaitForExit();
-            website.WaitForExit();
-            
+                foreach (var website in websites)
+                {
+                    if (website.HasExited) continue;
+                    Log.LogMessage("Stopping IIS Express.");
+                    website.Kill();
+                    website.WaitForExit();
+                }
+            }
+
             return true;
         }
 
@@ -121,31 +131,6 @@ namespace Witness.MSBuild
             {
                 throw new FileNotFoundException("PhantomJS executable not found at " + PhantomJS);
             }
-        }
-
-        Process StartIISExpress(string websitePath, int port)
-        {
-            return StartProcessThatPipesToLog(GetIISExpressExePath(), CreateIISArguments(websitePath, port));
-        }
-
-        string GetIISExpressExePath()
-        {
-            string root;
-            if (Environment.Is64BitOperatingSystem)
-            {
-                root = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-            }
-            else
-            {
-                root = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            }
-
-            return Path.Combine(root, "IIS Express", "iisexpress.exe");
-        }
-
-        string CreateIISArguments(string websitePath, int port)
-        {
-            return string.Format("/path:\"{0}\" /port:{1}", websitePath, port);
         }
 
         Process StartPhantomJS()
