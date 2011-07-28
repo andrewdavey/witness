@@ -17,6 +17,10 @@
 		jQuery.extend @on, Event.define "running", "passed", "failed"
 		@specifications = []
 
+	onDownloading: ->
+		@specifications = []
+		super()
+
 	scriptDownloaded: ->
 		@executeSpecificationScript(
 			(specs) =>

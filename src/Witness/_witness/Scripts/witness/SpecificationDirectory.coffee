@@ -13,9 +13,9 @@
 		@name = manifest.name
 		@on = Event.define "downloading", "downloaded", "downloadFailed", "running", "passed", "failed"
 		@helpers = (new SpecificationHelper helper for helper in manifest.helpers or [])
-		allHelpers = parentHelpers.concat @helpers
-		@directories = (new SpecificationDirectory(directory, allHelpers) for directory in manifest.directories or [])
-		@files = (new SpecificationFile(file, allHelpers) for file in manifest.files or [])
+		@allHelpers = parentHelpers.concat @helpers
+		@directories = (new SpecificationDirectory(directory, @allHelpers) for directory in manifest.directories or [])
+		@files = (new SpecificationFile(file, @allHelpers) for file in manifest.files or [])
 
 	download: ->
 		@on.downloading.raise()

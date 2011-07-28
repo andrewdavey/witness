@@ -15,8 +15,11 @@
 		@type = if @path.match /\.coffee$/ then "coffee" else "js"
 		@on = Event.define "downloading", "downloaded", "downloadFailed"
 
-	download: ->
+	onDownloading: ->
 		@on.downloading.raise()
+
+	download: ->
+		@onDownloading()
 		jQuery.ajax
 			url: @url
 			cache: false

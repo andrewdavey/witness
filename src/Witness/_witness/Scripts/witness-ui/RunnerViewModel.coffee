@@ -79,7 +79,7 @@
 		@run @activeItemModel()
 
 	reloadSelected: ->
-		# TODO: implement reloading of directories and files
+		@activeItemModel()?.download()
 
 	setup: ->
 		@setupInvoked.raise()

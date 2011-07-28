@@ -27,3 +27,6 @@
 				@on.failed.raise()
 				messageBus.send "SpecificationFailed", this
 				fail()
+
+	download: ->
+		@parentFile.download()
