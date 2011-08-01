@@ -141,11 +141,11 @@ namespace Witness.MSBuild
         {
             var runnerScript = Path.Combine(witnessRootDirectory, "run-witness.coffee");
             return string.Format(
-                "--disk-cache=yes \"{0}\" http://localhost:{1} http://localhost:{2} \"{3}\"",
+                "--disk-cache=yes \"{0}\" http://localhost:{1} \"{2}\" http://localhost:{3}",
                 runnerScript,
                 witnessPort,
-                websitePort,
-                specsPath
+                specsPath,
+                websitePort
             );
         }
 
