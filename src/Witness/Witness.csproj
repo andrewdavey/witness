@@ -198,7 +198,7 @@
     <Content Include="_witness\scripts\witness-ui\_namespace.coffee" />
     <Content Include="_witness\scripts\witness\Manifest.coffee" />
     <Content Include="_witness\scripts\witness-ui\PartViewModel.coffee" />
-    <Content Include="run.cmd" />
+    <None Include="run.cmd" />
     <Content Include="Views\Runner\PhantomJS.cshtml" />
     <Content Include="_witness\scripts\witness-no-ui\page.coffee">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
