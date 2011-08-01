@@ -49,10 +49,16 @@ namespace Witness.MSBuild
         void CreateConfigFile(string witnessRootDirectory, string witnessPath, int witnessPort, string websitePath, int websitePort)
         {
             var xml = LoadTemplateConfigXml(witnessRootDirectory);
-            var witnessElement = SiteElement(1, "Witness", witnessPath, witnessPort);
-            var websiteElement = SiteElement(2, "Website Under Test", websitePath, websitePort);
             var sitesElement = xml.Root.Element("system.applicationHost").Element("sites");
-            sitesElement.AddFirst(witnessElement, websiteElement);
+            var witnessElement = SiteElement(1, "Witness", witnessPath, witnessPort);
+            sitesElement.Add(witnessElement);
+
+            if (string.IsNullOrEmpty(websitePath) == false)
+            {
+                var websiteElement = SiteElement(2, "Website Under Test", websitePath, websitePort);
+                sitesElement.Add(websiteElement);
+            }
+
             xml.Save(filename);
         }
 

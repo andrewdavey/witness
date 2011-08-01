@@ -4,6 +4,7 @@
     <Import Project="bin\debug\Witness.MSBuild.targets"/>
     
     <Target Name="Test">
+
         <RunWitness Specifications="..\Fingers\specs"
                     Website="..\Fingers" 
                     Witness="..\Witness"
@@ -16,5 +17,15 @@
         <RunWitness Specifications="c:\path\to\specs"
                     Website="c:\path\to\website\under\test" />
         -->
+
+        <!--
+        The "Website" attribute is optional. It can be omitted for specifications that
+        don't test a website. Only the Specifications attribute is required.
+        
+        <RunWitness Specifications="..\Witness.Specs"
+                    Witness="..\Witness"
+                    PhantomJS="..\..\tools\phantomjs\phantomjs.exe"/>
+        -->
+
     </Target>
 </Project>

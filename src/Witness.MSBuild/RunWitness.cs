@@ -31,9 +31,8 @@ namespace Witness.MSBuild
         public string Specifications { get; set; }
 
         /// <summary>
-        /// File system path to the website under test.
+        /// Optional file system path to the website under test.
         /// </summary>
-        [Required]
         public string Website { get; set; }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace Witness.MSBuild
         public int WebsitePort { get; set; }
 
         /// <summary>
-        /// File system path to the Witness application root.
+        /// Optional file system path to the Witness application root.
         /// </summary>
         public string Witness { get; set; }
 
@@ -94,16 +93,21 @@ namespace Witness.MSBuild
             }
 
             EnsureAbsolutePath(() => Witness);
-            EnsureAbsolutePath(() => Website);
             EnsureAbsolutePath(() => Specifications);
+            EnsureAbsolutePath(() => Website, optional: true);
 
             EnsurePhantomJS();
         }
 
-        void EnsureAbsolutePath(Expression<Func<string>> property)
+        void EnsureAbsolutePath(Expression<Func<string>> property, bool optional = false)
         {
             var path = property.Compile()();
-            if (Directory.Exists(path) == false) throw new DirectoryNotFoundException("Directory not found: " + path);
+            var exists = Directory.Exists(path);
+            if (!exists)
+            {
+                if (optional) return;
+                throw new DirectoryNotFoundException("Directory not found: " + path);
+            }
             if (Path.IsPathRooted(path)) return;
             
             path = Path.GetFullPath(path);
