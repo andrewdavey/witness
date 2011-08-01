@@ -39,6 +39,11 @@ namespace Witness
                 new { controller = "Runner", action = "SetupProxy" }
             );
             routes.MapRoute(
+                "PhantomJSPage",
+                "_witness/phantomjs",
+                new { controller = "Runner", action = "PhantomJS" }
+            );
+            routes.MapRoute(
                 "RunnerIndex",
                 "_witness",
                 new { controller = "Runner", action = "Index" }

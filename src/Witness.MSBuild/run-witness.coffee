@@ -1,12 +1,16 @@
-[url, target, path] = phantom.args
+[url, path, target] = phantom.args
 
-if not url? or not target? or not path?
+if not url? or not path?
 	console.log "Usage:"
-	console.log "phantomjs.exe run-witness.coffee witness-URL application-URL spec-path"
+	console.log "phantomjs.exe run-witness.coffee witness-URL spec-path application-URL"
 	phantom.exit()
 	return
 
-runnerUrl = "#{url}/_witness#url=#{target}&specs=#{path}&autorun=yes"
+if target?
+	runnerUrl = "#{url}/_witness/phantomjs#url=#{target}&specs=#{path}&autorun=yes"
+else
+	runnerUrl = "#{url}/_witness/phantomjs#specs=#{path}&autorun=yes"
+
 console.log "Loading #{runnerUrl}"
 
 startTime = +new Date()

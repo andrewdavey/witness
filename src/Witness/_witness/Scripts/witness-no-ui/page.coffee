@@ -12,16 +12,22 @@ $ ->
 			path: specs
 		}
 
+	body = $("body")
+	messageBus.addHandler "AppendIframe", (iframe) => body.append iframe
+
 	manifest = new Manifest specs
 
-	manifest.on.downloaded.addHandler (directory) =>
-		directory.run {},
-			-> messageBus.send "RunnerFinished"
-			-> messageBus.send "RunnerFinished"
-
-	manifest.on.downloadFailed.addHandler =>
+	sendFinishedMessage = ->
 		messageBus.send "RunnerFinished"
 
+	manifest.on.downloaded.addHandler (directory) =>
+		directory.on.downloaded.addHandler =>
+			directory.run {},
+				sendFinishedMessage,
+				sendFinishedMessage
+		directory.on.downloadFailed.addHandler sendFinishedMessage
+		directory.download()
+	manifest.on.downloadFailed.addHandler sendFinishedMessage
 	manifest.download()
 
 pageArguments = ->
@@ -30,5 +36,5 @@ pageArguments = ->
 	args = {}
 	for item in items
 		[key, value] = item.split /=/
-		args[key] = value
+		args[key] = decodeURIComponent value
 	args
