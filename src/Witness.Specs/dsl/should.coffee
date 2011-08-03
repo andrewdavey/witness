@@ -228,3 +228,19 @@ describe "should.beLessThanOrEqual",
 		}
 	]
 }
+
+describe "should.beBetween",
+{
+	"given the assertion: context property should.beBetween 100, 200": ->
+		@actionFactory = witness.Dsl::should.beBetween 100, 200
+		@action = @actionFactory "theProperty"
+	
+	inner: [
+		"given the context property is 150": ->
+			@context = { theProperty: 150 }
+		"when the action is run": ->
+			@action.run @context, (=> @done = true), (->)
+		"then it passes":
+			done: should.be true
+	]
+}

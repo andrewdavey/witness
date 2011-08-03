@@ -4,9 +4,9 @@
 { Action, Dsl } = @witness
 
 predicateActionBuilder = (options, negate) ->
-	(expected) -> (propertyNames...) ->
+	(expected...) -> (propertyNames...) ->
 		fullName = createFullName propertyNames
-		description = options.description fullName, expected
+		description = options.description fullName, expected...
 		if negate
 			description = description.replace /\bshould\b/, "should not"
 
@@ -15,10 +15,10 @@ predicateActionBuilder = (options, negate) ->
 				options.getActual.call this, propertyNames
 			else
 				decendPropertiesToValue this, propertyNames
-			result =  options.test.call this, actual, expected
+			result =  options.test.call this, actual, expected...
 			return if negate and !result
 			return if !negate and result
-			error = options.error.call this, fullName, actual, expected
+			error = options.error.call this, fullName, actual, expected...
 			if typeof error == "string"
 				errorObject = new Error error
 				errorObject.fromAssertion = true
@@ -157,4 +157,13 @@ builtIn =
 		error: (fullName, actual, expected) ->
 			"Expected #{fullName} to be instance of #{expected}"
 
+	beBetween:
+		test: (actual, lower, upper) ->
+			actual = should.unwrapActual actual
+			lower < actual and actual < upper
+		description: (fullName, lower, upper) ->
+			"#{fullName} should be between #{lower} and #{upper}"
+		error: (fullName, lower, upper) ->
+			"Expected #{fullName} to be between #{lower} and #{upper}"
+			
 Dsl::extendShould builtIn
