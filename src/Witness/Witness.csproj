@@ -83,11 +83,9 @@
     <Compile Include="Models\SpecHelper.cs" />
     <Compile Include="RequestHandlers\ProxyHandler.cs" />
     <Compile Include="DotNetContext.cs" />
-    <Compile Include="RemoteScriptableAttribute.cs" />
     <Compile Include="RequestHandlers\ExecuteScriptHandler.cs" />
     <Compile Include="RequestHandlers\IUseRequestContext.cs" />
     <Compile Include="RequestHandlers\WitnessRequestHandlerBase.cs" />
-    <Compile Include="RequireWitnessCookieConstraint.cs" />
     <Compile Include="RequestHandlers\WitnessRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
