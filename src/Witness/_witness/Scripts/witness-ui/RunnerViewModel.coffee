@@ -7,7 +7,7 @@
 # reference "../witness/Event.coffee"
 # reference "../witness/MessageBus.coffee"
 
-{ TryAll, Event, messageBus } = @witness
+{ TryAll, Event, Dsl, messageBus } = @witness
 {
 	treeBuilder,
 	ScenarioNode,
@@ -76,7 +76,9 @@
 			@canRun yes
 			@status ""
 			messageBus.send "RunnerFinished"
-		item.run {}, passedOrFailed, passedOrFailed
+		Dsl::beforeAll.reset()
+		action = Dsl::beforeAll.putBefore item
+		action.run {}, passedOrFailed, passedOrFailed
 
 	runAll: ->
 		@run @rootDirectory

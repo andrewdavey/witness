@@ -1,7 +1,7 @@
 # reference "../witness/Manifest.coffee"
 # reference "../lib/jquery.js"
 
-{ Manifest, messageBus } = @witness
+{ Manifest, Dsl, messageBus } = @witness
 
 $ ->
 	{ specs, url } = pageArguments()
@@ -20,14 +20,13 @@ $ ->
 	sendFinishedMessage = ->
 		messageBus.send "RunnerFinished"
 
-	manifest.on.downloaded.addHandler (directory) =>
-		directory.on.downloaded.addHandler =>
-			directory.run {},
-				sendFinishedMessage,
-				sendFinishedMessage
-		directory.on.downloadFailed.addHandler sendFinishedMessage
-		directory.download()
 	manifest.on.downloadFailed.addHandler sendFinishedMessage
+	manifest.on.downloaded.addHandler (directory) =>
+		directory.on.downloadFailed.addHandler sendFinishedMessage
+		directory.on.downloaded.addHandler =>
+			action = Dsl::beforeAll.putBefore directory
+			action.run {}, sendFinishedMessage, sendFinishedMessage
+		directory.download()
 	manifest.download()
 
 pageArguments = ->
