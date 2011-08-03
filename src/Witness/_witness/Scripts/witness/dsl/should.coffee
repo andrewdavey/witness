@@ -68,7 +68,7 @@ Dsl::shouldnot = shouldnot =
 Dsl::extendShould = (object) ->
 	for own name, options of object
 		@should[name] = predicateActionBuilder options
-		@shouldnot[name] = predicateActionBuilder options,true
+		@shouldnot[name] = @shouldNot[name] = predicateActionBuilder options,true
 
 Dsl::arrayShouldBe = (array) ->
 	{ _witnessArrayAssertion: true, array: array }
