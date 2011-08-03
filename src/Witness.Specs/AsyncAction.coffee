@@ -69,8 +69,8 @@ describe "AsyncAction",
 	"given an AsyncAction": ->
 		@action = new witness.AsyncAction -> @done()
 
-	"when setTimeout called": ->
-		@result = @action.setTimeout 666
+	"when withTimeout called": ->
+		@result = @action.withTimeout 666
 
 	"then timeout property assigned":
 		action: timeout: should.be 666
