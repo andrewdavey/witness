@@ -9,6 +9,10 @@
 	constructor: (@func, @args = [], @description, @timeout = AsyncAction.defaultTimeout) ->
 		@on = Event.define "running", "passed", "failed"
 
+	setTimeout: (timeout) ->
+		@timeout = timeout
+		return this
+
 	run: (context, done, fail) ->
 		@on.running.raise()
 

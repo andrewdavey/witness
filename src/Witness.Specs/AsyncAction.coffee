@@ -64,5 +64,17 @@ describe "AsyncAction",
 		
 	"then the result is passed to the done callback":
 		result: should.be 42
-   
+},
+{
+	"given an AsyncAction": ->
+		@action = new witness.AsyncAction -> @done()
+
+	"when setTimeout called": ->
+		@result = @action.setTimeout 666
+
+	"then timeout property assigned":
+		action: timeout: should.be 666
+
+	"then the action is returned to allow chaining":
+		-> @result == @action
 }
