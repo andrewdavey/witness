@@ -50,10 +50,10 @@
 			description: should.be "theProperty should be \"a string value\""
 }
 
-describe "should.notBe",
+describe "shouldNot.be",
 {
 	"given an action is created from the should.notBe builder": ->
-		@actionFactory = witness.Dsl::should.notBe 666
+		@actionFactory = witness.Dsl::shouldNot.be 666
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with a non-equal property value in the context": ->
@@ -66,7 +66,7 @@ describe "should.notBe",
 },
 {
 	"given an action is created from the should.notBe builder": ->
-		@actionFactory = witness.Dsl::should.notBe 666
+		@actionFactory = witness.Dsl::shouldNot.be 666
 		@action = @actionFactory "theProperty"
 
 	"when the action is run with a equal property value in the context": ->

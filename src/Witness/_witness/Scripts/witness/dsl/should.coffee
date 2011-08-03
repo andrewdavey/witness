@@ -62,7 +62,7 @@ Dsl::predicateActionBuilder = predicateActionBuilder
 Dsl::should = should =
 	unwrapActual: (actual) -> actual
 
-Dsl::shouldnot = shouldnot =
+Dsl::shouldNot = Dsl::shouldnot = shouldnot =
 	unwrapActual: (actual) -> actual
 
 Dsl::extendShould = (object) ->
@@ -102,20 +102,7 @@ builtIn =
 			actuals = (printableValue item for item in actuals).join(", ")
 			expecteds = (printableValue item for item in expected).join(", ")
 			"Expected #{fullName} to be [ #{expecteds} ] but was [ #{actuals} ]"
-
-	notBe:
-		test: (actual, expected) ->
-			actual = should.unwrapActual actual
-			if typeof expected == "function"
-				expected = expected.call this	
-			actual != expected
-		description: (fullName, expected) ->
-			expected = printableValue expected
-			"#{fullName} should not be #{expected}"
-		error: (fullName, actual, expected) ->
-			expected = printableValue expected
-			"Expected #{fullName} to not be #{expected}"
-
+	
 	beLessThan:
 		test: (actual, expected) ->
 			should.unwrapActual(actual) < expected
@@ -165,5 +152,8 @@ builtIn =
 			"#{fullName} should be between #{lower} and #{upper}"
 		error: (fullName, lower, upper) ->
 			"Expected #{fullName} to be between #{lower} and #{upper}"
-			
+
+# Common sense alias
+builtIn.equal = builtIn.be
+
 Dsl::extendShould builtIn
