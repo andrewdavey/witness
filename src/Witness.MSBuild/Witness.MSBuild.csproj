@@ -49,7 +49,9 @@
     <Compile Include="TcpHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="test.xml" />
+    <None Include="test.xml">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Witness.MSBuild.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.Tests", "Witness.Tests\Witness.Tests.csproj", "{5F46C713-D497-492D-BA7F-958071786E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingers", "Fingers\Fingers.csproj", "{0B497622-1CE5-4CCA-BA25-7718EC44794F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.MSBuild", "Witness.MSBuild\Witness.MSBuild.csproj", "{EDD7C6FC-9FE7-4F46-9F94-4957537CAF94}"
 EndProject
 Global
@@ -29,10 +27,6 @@ Global
 		{5F46C713-D497-492D-BA7F-958071786E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F46C713-D497-492D-BA7F-958071786E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F46C713-D497-492D-BA7F-958071786E2C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B497622-1CE5-4CCA-BA25-7718EC44794F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B497622-1CE5-4CCA-BA25-7718EC44794F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B497622-1CE5-4CCA-BA25-7718EC44794F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B497622-1CE5-4CCA-BA25-7718EC44794F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDD7C6FC-9FE7-4F46-9F94-4957537CAF94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDD7C6FC-9FE7-4F46-9F94-4957537CAF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDD7C6FC-9FE7-4F46-9F94-4957537CAF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
