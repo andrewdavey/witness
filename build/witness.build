@@ -25,6 +25,7 @@
         <Copy SourceFiles="start-witness.cmd" DestinationFolder="$(Dest)"/>
         <Copy SourceFiles="example-msbuild.xml" DestinationFolder="$(Dest)"/>
         <Copy SourceFiles="..\license.txt" DestinationFolder="$(Dest)"/>
+        <MakeDir Directories="$(Dest)\web\plugins" />
     </Target>
     
 </Project>
