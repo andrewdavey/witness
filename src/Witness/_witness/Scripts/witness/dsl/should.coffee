@@ -150,8 +150,16 @@ builtIn =
 			lower < actual and actual < upper
 		description: (fullName, lower, upper) ->
 			"#{fullName} should be between #{lower} and #{upper}"
-		error: (fullName, lower, upper) ->
-			"Expected #{fullName} to be between #{lower} and #{upper}"
+		error: (fullName, actual, lower, upper) ->
+			"Expected #{fullName} to be between #{lower} and #{upper}, but it was #{value}"
+
+	matchRegExp:
+		test: (value, regexp) ->
+			regexp.test value
+		description: (fullName, regexp) ->
+			"#{fullName} should match the regular expression #{regexp.toString()}"
+		error: (fullName, actual, regexp) ->
+			"Expected #{fullName} to be matched by #{regexp.toString()}, but it was #{actual}."
 
 # Common sense alias
 builtIn.equal = builtIn.be

@@ -6,3 +6,4 @@
 *.swp
 _Resharper*
 build/output
+src/Witness/plugins/*.dll

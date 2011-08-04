@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Witness.RequestHandlers;
 
 namespace Witness
 {
@@ -37,6 +36,11 @@ namespace Witness
                 "RunnerSetupProxy",
                 "_witness/setupproxy", // The root URL.
                 new { controller = "Runner", action = "SetupProxy" }
+            );
+            routes.MapRoute(
+                "RemoteScriptExecute",
+                "_witness/execute-script",
+                new { controller = "RemoteScript", action = "Execute" }
             );
             routes.MapRoute(
                 "PhantomJSPage",

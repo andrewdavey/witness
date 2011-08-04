@@ -51,6 +51,7 @@
       <HintPath>..\packages\ManagedFusion.Rewriter.3.5.36\lib\net35\ManagedFusion.Rewriter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -72,21 +73,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ManifestController.cs" />
+    <Compile Include="Controllers\RemoteScriptController.cs" />
     <Compile Include="Controllers\RunnerController.cs" />
     <Compile Include="Controllers\SandboxController.cs" />
     <Compile Include="Controllers\SpecController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IConfigureScriptEngine.cs" />
     <Compile Include="Models\SpecDir.cs" />
     <Compile Include="Models\SpecFile.cs" />
     <Compile Include="Models\SpecHelper.cs" />
-    <Compile Include="RequestHandlers\ProxyHandler.cs" />
-    <Compile Include="DotNetContext.cs" />
-    <Compile Include="RequestHandlers\ExecuteScriptHandler.cs" />
-    <Compile Include="RequestHandlers\IUseRequestContext.cs" />
-    <Compile Include="RequestHandlers\WitnessRequestHandlerBase.cs" />
-    <Compile Include="RequestHandlers\WitnessRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +205,9 @@
     <Content Include="_witness\scripts\lib\jquery.tmpl.js" />
     <Content Include="_witness\scripts\lib\jslint.js" />
     <Content Include="_witness\scripts\lib\knockout.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
