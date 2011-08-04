@@ -4,7 +4,7 @@
 		@target = {}
 		@dsl = new witness.Dsl(@target)
 
-	inner: [
+	"for each": [
 		{
 			"given a scenario definition": ->
 				@scenario = { given: (->), when: wait(10), then: [], dispose: [] }
@@ -85,7 +85,7 @@
 			"given a nested scenario definition": ->
 				@definition = 
 					"given this is the outer scenario": -> @outerProperty = 1
-					inner: [
+					"for each": [
 						{
 							"given this is the inner scenario": -> @innerProperty = 2
 							when: (->)

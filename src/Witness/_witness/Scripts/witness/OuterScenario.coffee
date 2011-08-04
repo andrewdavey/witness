@@ -10,18 +10,30 @@
 
 @witness.OuterScenario = class OuterScenario extends Scenario
 
-	constructor: (parts, @innerScenarios, @id) ->
+	constructor: (parts, mode, @innerScenarios, @id) ->
 		{@given, @dispose} = parts
 		@on = Event.define "running", "passed", "failed"
 		
 		getActions = (part) -> flattenArray (item.actions for item in part)
-		buildChildSequence = (child) =>
-			new TryAll [].concat(
-				(new Sequence [].concat(getActions(@given), child)),
-				getActions(@dispose)
-			)
 
-		@action = new TryAll (buildChildSequence child for child in @innerScenarios)
+		if mode == "each"
+			buildChildSequence = (child) =>
+				new TryAll [].concat(
+					(new Sequence [].concat(getActions(@given), child)),
+					getActions(@dispose)
+				)
+
+			@action = new TryAll (buildChildSequence child for child in @innerScenarios)
+		else
+			givenActions = new Sequence getActions @given
+			disposeActions = new Sequence getActions @dispose
+			@action = new TryAll [ # Using TryAll to make sure the dispose always runs.
+				new Sequence [
+					givenActions
+					new TryAll @innerScenarios
+				]
+				disposeActions
+			]
 
 	setParentSpecification: (parent) ->
 		super parent

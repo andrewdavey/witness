@@ -47,12 +47,13 @@ createScenario = (scenario, idGenerator) ->
 	for name in ["given","when","then","dispose"]
 		parts[name] = findParts name, scenario
 
-	isOuter = scenario.inner?
-	if isOuter
+	inner = scenario["for each"] or scenario["for all"]
+	if inner?
 		idGenerator.push()
-		children = (createScenario item, idGenerator for item in scenario.inner)
+		children = (createScenario item, idGenerator for item in inner)
 		idGenerator.pop()
-		new OuterScenario parts, children, idGenerator.getNext()
+		mode = if scenario["for each"]? then "each" else "all"
+		new OuterScenario parts, mode, children, idGenerator.getNext()
 	else
 		new Scenario parts, idGenerator.getNext()
 
