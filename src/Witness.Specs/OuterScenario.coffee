@@ -126,6 +126,53 @@ describe "OuterScenario",
 		doneCalled: should.be true
 },
 {
+	"given an OuterScenario in 'do all' mode, with two inner scenarios": ->
+		testContext = this
+		parts =
+			given: [ {
+				description: "given"
+				actions: [ new witness.Action (-> testContext.outerContext = this) ]
+			} ]
+
+			dispose: []
+
+		innerScenarios = [
+			new witness.Scenario({
+				given: [ {
+					description: "given"
+					actions: [ new witness.Action (-> testContext.innerContext1 = this) ]
+				} ]
+				when: []
+				then: []
+			}),
+			new witness.Scenario({
+				given: [ {
+					description: "given"
+					actions: [ new witness.Action (-> testContext.innerContext2 = this) ]
+				} ]
+				when: []
+				then: []
+			})
+		]
+		@outerScenario = new witness.OuterScenario parts, "all", innerScenarios
+	
+	"when it is run": async ->
+		@outerScenario.run {},
+			(=> @done())
+			(=> @done())
+	
+	"then outer and inner contexts are different objects": ->
+		@outerContext != @innerContext1 and
+		@outerContext != @innerContext2 and
+		@innerContext1 != @innerContext2
+
+	"then outer context is prototype of inner context 1": ->
+		@innerContext1.prototype == @outerContext
+
+	"then outer context is prototype of inner context 2": ->
+		@innerContext2.prototype == @outerContext
+},
+{
 	"given an OuterScenario with event handlers added": ->
 		parts =
 			given: [ {
