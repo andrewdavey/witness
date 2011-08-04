@@ -83,7 +83,7 @@ describe "should.beLessThen",
 		@actionFactory = witness.Dsl::should.beLessThan 100
 		@action = @actionFactory "theProperty"
 	
-	inner: [
+	"for each": [
 		{
 			"given the context property is 50": ->
 				@context = { theProperty: 50 }
@@ -115,7 +115,7 @@ describe "should.beGreaterThan",
 		@actionFactory = witness.Dsl::should.beGreaterThan 100
 		@action = @actionFactory "theProperty"
 	
-	inner: [
+	"for each": [
 		{
 			"given the context property is 101": ->
 				@context = { theProperty: 101 }
@@ -147,7 +147,7 @@ describe "should.beGreaterThanOrEqual",
 		@actionFactory = witness.Dsl::should.beGreaterThanOrEqual 100
 		@action = @actionFactory "theProperty"
 	
-	inner: [
+	"for each": [
 		{
 			"given the context property is 101": ->
 				@context = { theProperty: 101 }
@@ -191,7 +191,7 @@ describe "should.beLessThanOrEqual",
 		@actionFactory = witness.Dsl::should.beLessThanOrEqual 100
 		@action = @actionFactory "theProperty"
 	
-	inner: [
+	"for each": [
 		{
 			"given the context property is 99": ->
 				@context = { theProperty: 99 }
@@ -235,7 +235,7 @@ describe "should.beBetween",
 		@actionFactory = witness.Dsl::should.beBetween 100, 200
 		@action = @actionFactory "theProperty"
 	
-	inner: [
+	"for each": [
 		"given the context property is 150": ->
 			@context = { theProperty: 150 }
 		"when the action is run": ->

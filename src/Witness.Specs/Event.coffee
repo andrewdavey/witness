@@ -4,7 +4,7 @@ describe "Event",
 		@event = new witness.Event()
 		@event.addHandler ((args...) => @handlerCalled = true; @args = args)
 	
-	inner: [
+	"for each": [
 		{
 			"when it is raised": ->
 				@event.raise()
