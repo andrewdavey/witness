@@ -6,6 +6,8 @@ describe "loadResource",
 	"then it should return ok":
 		status_code: should.be 200
 		errored: should.be false
+		response:
+			li.error: should.be '${ message } <br/> ${ stack }'
 }
 ,{
 	"when parsing good json": loadResource
@@ -26,12 +28,27 @@ describe "loadResource",
 		errored: should.be true
 }
 ,{
-	"with no data type but accepts": loadResource
-		url: '/htmltemplates/error-message.htm'
+	"when no data type but accepts set": loadResource
+		url: '/htmltemplates/runner/error-message.htm'
 		accepts: 'application/atom+xml'
 	"then it should do something unexpected":
 		status_code: should.be 200
 		errored: should.be false
 }
-
+,{
+	"when no data type or accepts set": loadResource
+		url: '/htmltemplates/runner/error-message.htm'
+	"then it should do something unexpected":
+		status_code: should.be 200
+		errored: should.be false
+}
+,{
+	"when no data type but accepts set": loadResource
+		url: '/htmltemplates/runner/error-message.htm'
+		accepts: 'text/html'
+		dataType: 'html'
+	"then it should do something unexpected":
+		status_code: should.be 200
+		errored: should.be false
+}
 
