@@ -199,7 +199,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="_witness\scripts\witness\dsl\beforeAll.coffee" />
-    <Content Include="_witness\scripts\witness\dsl\ajax.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\ajax_request.coffee" />
     <Content Include="_witness\scripts\witness\dsl\loadResource.coffee" />
   </ItemGroup>
   <ItemGroup>

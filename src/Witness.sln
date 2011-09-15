@@ -9,6 +9,42 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.MSBuild", "Witness.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Witness.Specs.Remote", "Witness.Specs.Remote\Witness.Specs.Remote.csproj", "{7400640D-9977-4EC6-B9DE-631CA7FE3476}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Witness.Specs", "Witness.Specs", "{3AC14461-8DA1-4F62-88D3-6C1D291E5DB1}"
+	ProjectSection(SolutionItems) = preProject
+		Witness.Specs\Action.coffee = Witness.Specs\Action.coffee
+		Witness.Specs\Assertion.coffee = Witness.Specs\Assertion.coffee
+		Witness.Specs\AsyncAction.coffee = Witness.Specs\AsyncAction.coffee
+		Witness.Specs\Dsl.coffee = Witness.Specs\Dsl.coffee
+		Witness.Specs\Event.coffee = Witness.Specs\Event.coffee
+		Witness.Specs\LoadResource.coffee = Witness.Specs\LoadResource.coffee
+		Witness.Specs\OuterScenario.coffee = Witness.Specs\OuterScenario.coffee
+		Witness.Specs\Scenario.coffee = Witness.Specs\Scenario.coffee
+		Witness.Specs\Sequence.coffee = Witness.Specs\Sequence.coffee
+		Witness.Specs\Specification.coffee = Witness.Specs\Specification.coffee
+		Witness.Specs\SpecificationDirectory.coffee = Witness.Specs\SpecificationDirectory.coffee
+		Witness.Specs\SpecificationFile.coffee = Witness.Specs\SpecificationFile.coffee
+		Witness.Specs\SpecificationHelper.coffee = Witness.Specs\SpecificationHelper.coffee
+		Witness.Specs\TryAll.coffee = Witness.Specs\TryAll.coffee
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{3912C513-A9B2-4870-B7E4-71EC917024C2}"
+	ProjectSection(SolutionItems) = preProject
+		Witness.Specs\actions\Remote.coffee = Witness.Specs\actions\Remote.coffee
+		Witness.Specs\actions\RemoteAssertion.coffee = Witness.Specs\actions\RemoteAssertion.coffee
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dsl", "dsl", "{FCA0D308-3DB9-4246-AD8E-DD7AD209B354}"
+	ProjectSection(SolutionItems) = preProject
+		Witness.Specs\dsl\click.coffee = Witness.Specs\dsl\click.coffee
+		Witness.Specs\dsl\defineActions.coffee = Witness.Specs\dsl\defineActions.coffee
+		Witness.Specs\dsl\describe.coffee = Witness.Specs\dsl\describe.coffee
+		Witness.Specs\dsl\haveText.coffee = Witness.Specs\dsl\haveText.coffee
+		Witness.Specs\dsl\match.coffee = Witness.Specs\dsl\match.coffee
+		Witness.Specs\dsl\should.coffee = Witness.Specs\dsl\should.coffee
+		Witness.Specs\dsl\type.coffee = Witness.Specs\dsl\type.coffee
+		Witness.Specs\dsl\wait.coffee = Witness.Specs\dsl\wait.coffee
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +70,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3912C513-A9B2-4870-B7E4-71EC917024C2} = {3AC14461-8DA1-4F62-88D3-6C1D291E5DB1}
+		{FCA0D308-3DB9-4246-AD8E-DD7AD209B354} = {3AC14461-8DA1-4F62-88D3-6C1D291E5DB1}
 	EndGlobalSection
 EndGlobal
