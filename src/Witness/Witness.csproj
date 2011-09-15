@@ -120,6 +120,8 @@
     <Content Include="_witness\styles\tree.css" />
     <Content Include="_witness\styles\witness.css" />
     <Content Include="_witness\styles\images\close.png" />
+    <Content Include="HtmlTemplates\bad-json.json" />
+    <Content Include="HtmlTemplates\good-json.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
