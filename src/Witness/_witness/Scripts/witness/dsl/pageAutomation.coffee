@@ -9,7 +9,6 @@ Witness = @witness
 
 defineActions
 	loadPage: async (url) ->
-		console.log 'hello2'
 		iframe = @scenario.getIFrame()
 		@scenario.setIFrameLoadCallback (iframeWindow) =>
 			# Store page objects in the context so other actions can access them

@@ -122,6 +122,7 @@
     <Content Include="_witness\styles\images\close.png" />
     <Content Include="HtmlTemplates\bad-json.json" />
     <Content Include="HtmlTemplates\good-json.json" />
+    <Content Include="HtmlTemplates\good-xml.xml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -203,6 +204,7 @@
     <Content Include="_witness\scripts\witness\dsl\beforeAll.coffee" />
     <Content Include="_witness\scripts\witness\dsl\ajax_request.coffee" />
     <Content Include="_witness\scripts\witness\dsl\loadResource.coffee" />
+    <Content Include="_witness\scripts\witness\dsl\xml.coffee" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="_witness\scripts\lib\coffee-script.js" />

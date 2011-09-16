@@ -1,0 +1,7 @@
+﻿<xmlRoot>
+  <xmlChild>child element value</xmlChild>
+  <anotherChild>
+    <subChild>a</subChild>
+    <subChild>b</subChild>
+  </anotherChild>
+</xmlRoot>

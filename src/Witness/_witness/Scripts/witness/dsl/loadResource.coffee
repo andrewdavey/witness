@@ -2,6 +2,7 @@
 # reference "async.coffee"
 # reference "defineActions.coffee"
 # reference "ajax_request.coffee"
+# reference "xml.coffee"
 
 { async, defineActions, ajax_request } = @witness.Dsl::
 
