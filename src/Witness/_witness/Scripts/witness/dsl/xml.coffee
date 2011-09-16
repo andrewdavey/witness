@@ -8,7 +8,7 @@ xmlPredicates =
 		description: (fullname, expected) -> 
 			"The document should have the root element <#{expected}>"
 		error: (fullname, actual, expected) ->
-			if actual? then "but it was actually <#{@actual_node}>" else "but the document was null"
+			if actual? and actual[0]? then "but it was actually <#{actual[0].tagName}>" else "but the document was null"
 
 	haveElement:
 		test: (actual, expected) ->
