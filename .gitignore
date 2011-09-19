@@ -5,5 +5,8 @@
 *.cache
 *.swp
 _Resharper*
+_ReSharper.*
+*.resharper.user
+*.ReSharper.user
 build/output
 src/Witness/plugins/*.dll
