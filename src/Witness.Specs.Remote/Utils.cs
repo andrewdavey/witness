@@ -1,4 +1,5 @@
 ﻿using System;
+using Jurassic;
 using Jurassic.Library;
 
 namespace Witness.Specs.Remote
