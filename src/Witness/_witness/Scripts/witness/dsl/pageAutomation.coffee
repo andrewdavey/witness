@@ -8,7 +8,7 @@
 Witness = @witness
 
 defineActions
-	loadPage: async (url) ->
+	loadPage: async (url, force) ->
 		iframe = @scenario.getIFrame()
 		@scenario.setIFrameLoadCallback (iframeWindow) =>
 			# Store page objects in the context so other actions can access them
@@ -17,10 +17,14 @@ defineActions
 			# Continue with the next action
 			@done()
 
-		pageAlreadyLoaded = iframe.attr("src") == url
+		currentUrl = iframe.contents()[0]?.location?.pathname
+		pageAlreadyLoaded = currentUrl == url
 		if pageAlreadyLoaded
 			@scenario.forceReloadIFrame()
 		else
+			if force
+				url += (if url.indexOf '?' < 0 then '?' else '&') + (+new Date())
+				
 			iframe.attr "src", url
 
 	loadEmptyPage: ->

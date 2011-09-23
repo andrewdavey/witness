@@ -15,6 +15,7 @@
 			result = @func.apply context, @args
 			@on.passed.raise()
 			done result
+			result
 		catch error
 			@on.failed.raise error
 			fail error
