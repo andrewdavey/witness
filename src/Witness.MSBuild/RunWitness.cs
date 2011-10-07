@@ -41,6 +41,11 @@ namespace Witness.MSBuild
         public int WebsitePort { get; set; }
 
         /// <summary>
+        /// Optional hostname port to run the website under test on.
+        /// </summary>
+        public string WebsiteHostname { get; set; }
+
+        /// <summary>
         /// Optional file system path to the Witness application root.
         /// </summary>
         public string Witness { get; set; }
@@ -50,6 +55,12 @@ namespace Witness.MSBuild
         /// </summary>
         public int WitnessPort { get; set; }
 
+
+        /// <summary>
+        /// Optional hostname port to run Witness on.
+        /// </summary>
+        public string WitnessHostname { get; set; }
+
         /// <summary>
         /// Path to the PhantomJS executable.
         /// </summary>
@@ -58,8 +69,14 @@ namespace Witness.MSBuild
         public override bool Execute()
         {
             ExpandPropertyValues();
-
-            using (var iisConfig = new IisConfiguration(witnessRootDirectory, Witness, WitnessPort, Website, WebsitePort))
+            Log.LogMessage(witnessRootDirectory);
+            Log.LogMessage(Witness);
+            Log.LogMessage(WitnessHostname);
+            Log.LogMessage(WitnessPort.ToString());
+            Log.LogMessage(Website);
+            Log.LogMessage(WebsiteHostname);
+            Log.LogMessage(WebsitePort.ToString());
+            using (var iisConfig = new IisConfiguration(witnessRootDirectory, Witness, WitnessHostname, WitnessPort, Website, WebsiteHostname, WebsitePort))
             {
                 var websites = iisConfig.StartWebsites();
                 foreach (var website in websites)
@@ -90,6 +107,17 @@ namespace Witness.MSBuild
             if (string.IsNullOrEmpty(Witness))
             {
                 Witness = Path.Combine(witnessRootDirectory, "web");
+            }
+
+
+            if (string.IsNullOrEmpty(WitnessHostname))
+            {
+                WitnessHostname = "localhost";
+            }
+
+            if (string.IsNullOrEmpty(WebsiteHostname))
+            {
+                WebsiteHostname = "localhost";
             }
 
             EnsureAbsolutePath(() => Witness);
@@ -138,17 +166,19 @@ namespace Witness.MSBuild
 
         Process StartPhantomJS()
         {
-            return StartProcessThatPipesToLog(PhantomJS, GetPhantomJSArguments(Specifications, WitnessPort, WebsitePort));
+            return StartProcessThatPipesToLog(PhantomJS, GetPhantomJSArguments(Specifications, WitnessHostname, WitnessPort, WebsiteHostname, WebsitePort));
         }
 
-        string GetPhantomJSArguments(string specsPath, int witnessPort, int websitePort)
+        string GetPhantomJSArguments(string specsPath, string witnessHostname, int witnessPort, string websiteHostname, int websitePort)
         {
             var runnerScript = Path.Combine(witnessRootDirectory, "run-witness.coffee");
             return string.Format(
-                "--disk-cache=yes \"{0}\" http://localhost:{1} \"{2}\" http://localhost:{3}",
+                "--disk-cache=yes \"{0}\" http://{1}:{2} \"{3}\" http://{4}:{5}",
                 runnerScript,
+                witnessHostname,
                 witnessPort,
                 specsPath,
+                websiteHostname,
                 websitePort
             );
         }

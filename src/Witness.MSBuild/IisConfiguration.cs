@@ -13,11 +13,11 @@ namespace Witness.MSBuild
     /// </summary>
     class IisConfiguration : IDisposable
     {
-        public IisConfiguration(string witnessRootDirectory, string witnessPath, int witnessPort, string websitePath, int websitePort)
+        public IisConfiguration(string witnessRootDirectory, string witnessPath, string witnessHostName, int witnessPort, string websitePath, string websiteHostName, int websitePort)
         {
             iisExpressExeFilename = GetIISExpressExePath();
             filename = UniqueConfigFilename(witnessRootDirectory);
-            CreateConfigFile(witnessRootDirectory, witnessPath, witnessPort, websitePath, websitePort);
+            CreateConfigFile(witnessRootDirectory, witnessPath, witnessHostName, witnessPort, websitePath, websiteHostName, websitePort);
         }
 
         readonly string filename;
@@ -46,16 +46,16 @@ namespace Witness.MSBuild
             if (File.Exists(filename)) File.Delete(filename);
         }
 
-        void CreateConfigFile(string witnessRootDirectory, string witnessPath, int witnessPort, string websitePath, int websitePort)
+        void CreateConfigFile(string witnessRootDirectory, string witnessPath, string witnessHostName, int witnessPort, string websitePath, string websiteHostName, int websitePort)
         {
             var xml = LoadTemplateConfigXml(witnessRootDirectory);
             var sitesElement = xml.Root.Element("system.applicationHost").Element("sites");
-            var witnessElement = SiteElement(1, "Witness", witnessPath, witnessPort);
+            var witnessElement = SiteElement(1, "Witness", witnessPath,witnessHostName, witnessPort);
             sitesElement.Add(witnessElement);
 
             if (string.IsNullOrEmpty(websitePath) == false)
             {
-                var websiteElement = SiteElement(2, "Website Under Test", websitePath, websitePort);
+                var websiteElement = SiteElement(2, "Website Under Test", websitePath, websiteHostName, websitePort);
                 sitesElement.Add(websiteElement);
             }
 
@@ -91,7 +91,7 @@ namespace Witness.MSBuild
             }
         }
 
-        XElement SiteElement(int id, string name, string physicalPath, int port)
+        XElement SiteElement(int id, string name, string physicalPath, string hostname, int port)
         {
             return new XElement("site",
                 new XAttribute("name", name),
@@ -110,7 +110,7 @@ namespace Witness.MSBuild
                 new XElement("bindings",
                     new XElement("binding",
                         new XAttribute("protocol", "http"),
-                        new XAttribute("bindingInformation", ":" + port + ":localhost")
+                        new XAttribute("bindingInformation", ":" + port + ":" + hostname)
                     )
                 )
             );
